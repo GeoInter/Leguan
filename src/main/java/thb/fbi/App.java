@@ -8,9 +8,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-//TODO: final and desc
 //TODO: dependabot
-//TODO: doc interfaces
 
 /**
  * \brief JavaFX App

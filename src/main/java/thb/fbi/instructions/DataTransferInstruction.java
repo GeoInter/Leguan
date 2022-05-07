@@ -12,13 +12,13 @@ public class DataTransferInstruction extends Instruction {
     }
 
     @Override
-    public String getOpcode() {
+    public String getMnemonic() {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public void setOpcode(String opcode) {
+    public void setMnemonic(String opcode) {
         // TODO Auto-generated method stub
         
     }

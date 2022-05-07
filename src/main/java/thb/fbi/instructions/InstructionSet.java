@@ -10,6 +10,7 @@ import thb.fbi.Register;
  *
  */
 public class InstructionSet {
+    /** unique List of all usable instructions */
     private HashSet<Instruction> instructionList;
 
     public InstructionSet() {
@@ -50,9 +51,9 @@ public class InstructionSet {
         );
     }
 
-    public Instruction findInstructionByOpcode (String opcode) {
+    public Instruction findInstructionByMnemonic (String mnemonic) {
         for (Instruction instruction : instructionList) {
-            if(instruction.getOpcode().equalsIgnoreCase(opcode)) {
+            if(instruction.getMnemonic().equalsIgnoreCase(mnemonic)) {
                 return instruction;
             }
         }

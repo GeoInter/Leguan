@@ -13,7 +13,7 @@ public class ImmediateInstruction extends Instruction {
     }
 
     public ImmediateInstruction(String opcode, IImmediateCode iImmediateCode) {
-        setOpcode(opcode);
+        setMnemonic(opcode);
         setImmediateCode(immediateCode);
     }
 

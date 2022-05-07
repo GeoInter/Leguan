@@ -9,7 +9,7 @@ public class ArithmeticInstruction extends Instruction {
     private IArithmeticCode arithmeticCode;
 
     public ArithmeticInstruction(String opcode, IArithmeticCode arithmeticCode) {
-        setOpcode(opcode);
+        setMnemonic(opcode);
         setArithmeticCode(arithmeticCode);
     }
 

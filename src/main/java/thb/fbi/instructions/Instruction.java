@@ -4,15 +4,16 @@ package thb.fbi.instructions;
  * Superclass for defining an instruction
  */
 public abstract class Instruction {
-    protected String opcode;
+    /** mnemonic of instruction/ name of the instruction  */
+    protected String mnemonic;
+    /** brief description of the instruction */
+    protected String description;
 
-    //TODO: add description 
-
-    public String getOpcode() {
-        return this.opcode;
+    public String getMnemonic() {
+        return this.mnemonic;
     }
-    public void setOpcode(String opcode) {
-        this.opcode = opcode;
+    public void setMnemonic(String mnemonic) {
+        this.mnemonic = mnemonic;
     }
 
     public abstract void simulate(ProgramStatement argument);
@@ -21,7 +22,7 @@ public abstract class Instruction {
     public int hashCode() {
         final int prime = 67;
         int result = 1;
-        result = prime * result + opcode.hashCode();
+        result = prime * result + mnemonic.hashCode();
         return result;
     }
 
@@ -34,7 +35,7 @@ public abstract class Instruction {
         if (getClass() != obj.getClass())
             return false;
         Instruction other = (Instruction) obj;
-        if (this.opcode.equals(other.opcode)) 
+        if (this.mnemonic.equals(other.mnemonic)) 
             return true;
         return false;
     }
