@@ -18,7 +18,7 @@
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>13</version>
+            <version>18.0.1</version>
         </dependency>
         <dependency>
             <groupId>org.fxmisc.richtext</groupId>
