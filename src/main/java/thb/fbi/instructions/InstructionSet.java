@@ -1,6 +1,6 @@
 package thb.fbi.instructions;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 
 import thb.fbi.Register;
 
@@ -10,10 +10,10 @@ import thb.fbi.Register;
  *
  */
 public class InstructionSet {
-    private ArrayList<Instruction> instructionList;
+    private HashSet<Instruction> instructionList;
 
     public InstructionSet() {
-        instructionList = new ArrayList<Instruction>();
+        instructionList = new HashSet<Instruction>();
     }
 
     public void populate() {
@@ -29,7 +29,9 @@ public class InstructionSet {
                     @Override
                     public void simulate(Register Rm, int shamt, Register Rn, Register Rd) {
                         // simple addition
-                        Rd.setValue(Rm.getValue() + Rn.getValue());
+                        long op1 = Rm.getValue();
+                        long op2 = Rn.getValue();
+                        Rd.setValue(op1 + op2);
                     }
                 })
         );
@@ -39,8 +41,10 @@ public class InstructionSet {
                 new IArithmeticCode() {
                     @Override
                     public void simulate(Register Rm, int shamt, Register Rn, Register Rd) {
-                        // simple addition
-                        Rd.setValue(Rn.getValue() - Rm.getValue());
+                        // simple subtraction
+                        long op1 = Rn.getValue();
+                        long op2 = Rm.getValue();
+                        Rd.setValue(op1 - op2);
                     }
                 })
         );
