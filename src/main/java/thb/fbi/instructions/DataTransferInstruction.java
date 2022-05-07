@@ -1,25 +1,34 @@
 package thb.fbi.instructions;
 
+import thb.fbi.Register;
+
 /**
  * Subclass for datatransfer instructions.
  */
 public class DataTransferInstruction extends Instruction {
+    private IDataTransferCode dataTransferCode;
+
+    public DataTransferInstruction(String mnemonic, String description, IDataTransferCode dataTransferCode) {
+        setMnemonic(mnemonic);
+        setDescription(description);
+        setDataTransferCode(dataTransferCode);
+    }
 
     @Override
     public void simulate(ProgramStatement argument) {
-        // TODO Auto-generated method stub
-        
+        // TODO: figure out what datatype opcode2 is
+        int dt_address = argument.getDt_Address();
+        String opcode2 = "";
+        Register Rn = argument.getRn();
+        Register Rt = argument.getRt();
+        this.dataTransferCode.simulate(dt_address, opcode2, Rn, Rt);
     }
 
-    @Override
-    public String getMnemonic() {
-        // TODO Auto-generated method stub
-        return null;
+    public IDataTransferCode getDataTransferCode() {
+        return dataTransferCode;
     }
 
-    @Override
-    public void setMnemonic(String opcode) {
-        // TODO Auto-generated method stub
-        
+    private void setDataTransferCode(IDataTransferCode dataTransferCode) {
+        this.dataTransferCode = dataTransferCode;
     }
 }

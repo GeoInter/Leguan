@@ -8,8 +8,9 @@ import thb.fbi.Register;
 public class ArithmeticInstruction extends Instruction {
     private IArithmeticCode arithmeticCode;
 
-    public ArithmeticInstruction(String opcode, IArithmeticCode arithmeticCode) {
+    public ArithmeticInstruction(String opcode, String description, IArithmeticCode arithmeticCode) {
         setMnemonic(opcode);
+        setDescription(description);
         setArithmeticCode(arithmeticCode);
     }
 
@@ -26,7 +27,7 @@ public class ArithmeticInstruction extends Instruction {
         return arithmeticCode;
     }
 
-    public void setArithmeticCode(IArithmeticCode arithmeticCode) {
+    private void setArithmeticCode(IArithmeticCode arithmeticCode) {
         this.arithmeticCode = arithmeticCode;
     }
 }

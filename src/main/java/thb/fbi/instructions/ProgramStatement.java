@@ -12,7 +12,10 @@ public class ProgramStatement {
     private Register Rn;
     private Register Rd;
     private Register Rt;
-    private int shamt;
+    private int shamt; // 6bit
+    private int alu_immediate; // 12bit
+    private int dt_address; // 9bit
+
 
     public ProgramStatement() {
         Rm = null;
@@ -42,6 +45,14 @@ public class ProgramStatement {
         return shamt;
     }
 
+    public int getAlu_Immediate() {
+        return alu_immediate;
+    }
+
+    public int getDt_Address() {
+        return dt_address;
+    }
+
     public void setRn(Register rn) {
         this.Rn = rn;
     }
@@ -60,5 +71,13 @@ public class ProgramStatement {
 
     public void setShamt(int shamt) {
         this.shamt = shamt;
+    }
+
+    public void setAlu_Immediate(int alu_immediate) {
+        this.alu_immediate = alu_immediate;
+    }
+
+    public void setDt_Address(int dt_address) {
+        this.dt_address = dt_address;
     }
 }

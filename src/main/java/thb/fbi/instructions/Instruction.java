@@ -12,8 +12,14 @@ public abstract class Instruction {
     public String getMnemonic() {
         return this.mnemonic;
     }
-    public void setMnemonic(String mnemonic) {
+    protected void setMnemonic(String mnemonic) {
         this.mnemonic = mnemonic;
+    }
+    public String getDescription() {
+        return this.description;
+    }
+    protected void setDescription(String description) {
+        this.description = description;
     }
 
     public abstract void simulate(ProgramStatement argument);
