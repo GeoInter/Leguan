@@ -4,6 +4,10 @@ import thb.fbi.instructions.Instruction;
 import thb.fbi.instructions.ProgramStatement;
 import thb.fbi.instructions.InstructionSet;
 
+/** 
+ * class for simulating a processor and instruction execution
+ * defines an instructionset and registers
+ */
 public class Simulator {
     private InstructionSet instructionSet = new InstructionSet();
     private Register[] registers = new Register[16];

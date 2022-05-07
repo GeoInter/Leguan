@@ -1,3 +1,8 @@
+# maven
 /target
+
+# doxygen documentation
 /doc
+
+# vs code specific
 workspace.code-workspace

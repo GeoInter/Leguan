@@ -4,6 +4,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 
+/**
+ * UI Controller of the app
+ * includes all UI controls
+ * 
+ * TODO: Spli up in more controller classes and fxml files
+ */
 public class SimulatorController {
 
     @FXML

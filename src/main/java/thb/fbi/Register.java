@@ -4,14 +4,16 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 /**
- * Class for defining a register
+ * \brief class reprenting a register
+ * 
+ * class for representing a register for the simulation as well a model for UI
  */
 public class Register {
     /** name of the register */
     private String name;
     /** value in the register, Property instead of primitive for easier updating UI */
     private long value;
-    /** Property for indicating if register is in use or can be grayed out in UI*/
+    /** Property for indicating if register is in use or can be grayed out in UI */
     private SimpleBooleanProperty isUsed = new SimpleBooleanProperty(true);
     /** value and format as to be seen in UI */
     private SimpleStringProperty shownValue = new SimpleStringProperty("0");

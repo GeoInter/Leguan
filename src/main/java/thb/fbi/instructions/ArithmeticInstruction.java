@@ -17,8 +17,8 @@ public class ArithmeticInstruction extends Instruction {
     public void simulate(ProgramStatement argument) {
         Register Rm = argument.getRm();
         int shamt = argument.getShamt();
-        Register Rn = argument.getRn();;
-        Register Rd = argument.getRd();;
+        Register Rn = argument.getRn();
+        Register Rd = argument.getRd();
         this.arithmeticCode.simulate(Rm, shamt, Rn, Rd);
     }
 
