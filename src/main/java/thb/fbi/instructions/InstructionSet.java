@@ -2,6 +2,7 @@ package thb.fbi.instructions;
 
 import java.util.HashSet;
 
+import thb.fbi.FlagRegister;
 import thb.fbi.Register;
 
 /**
@@ -30,7 +31,7 @@ public class InstructionSet {
                 "Adds value of Registers Rm and Rn and puts result in Rd without flags",
                 new IArithmeticCode() {
                     @Override
-                    public void simulate(Register Rm, int shamt, Register Rn, Register Rd) {
+                    public void simulate(Register Rm, int shamt, Register Rn, Register Rd, FlagRegister F) {
                         // simple addition
                         long op1 = Rm.getValue();
                         long op2 = Rn.getValue();
@@ -45,7 +46,7 @@ public class InstructionSet {
                 "Adds value of Registers Rm and a constant and puts result in Rd without flags",
                 new IImmediateCode() {
                     @Override
-                    public void simulate(int alu_immediate, Register Rn, Register Rd) {
+                    public void simulate(int alu_immediate, Register Rn, Register Rd, FlagRegister F) {
                         long op1 = Rn.getValue();
                         long result = op1 + alu_immediate;
                         Rd.setValue(result);
@@ -62,6 +63,7 @@ public class InstructionSet {
                     // TODO: access memory address to load its content into target register
                     long op1 = Rn.getValue();
                     long address = op1 + dt_address;
+                    System.out.println("Not yet implemented but address is: " + address);
                     //Rt.setValue(0);
                 }
             })
@@ -72,7 +74,7 @@ public class InstructionSet {
                 "Subtracts value of Registers Rm and Rn and puts result in Rd without flags",
                 new IArithmeticCode() {
                     @Override
-                    public void simulate(Register Rm, int shamt, Register Rn, Register Rd) {
+                    public void simulate(Register Rm, int shamt, Register Rn, Register Rd, FlagRegister F) {
                         // simple subtraction
                         long op1 = Rn.getValue();
                         long op2 = Rm.getValue();
@@ -86,7 +88,7 @@ public class InstructionSet {
                 "Subtracts value of Registers Rm and a constant and puts result in Rd without flags",
                 new IImmediateCode() {
                     @Override
-                    public void simulate(int alu_immediate, Register Rn, Register Rd) {
+                    public void simulate(int alu_immediate, Register Rn, Register Rd, FlagRegister F) {
                         long op1 = Rn.getValue();
                         long result = op1 - alu_immediate;
                         Rd.setValue(result);

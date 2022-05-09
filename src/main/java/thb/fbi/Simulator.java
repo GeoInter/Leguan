@@ -9,8 +9,14 @@ import thb.fbi.instructions.InstructionSet;
  * defines an instructionset and registers
  */
 public class Simulator {
+    /** used set of instruction for this simulator instance */
     private InstructionSet instructionSet = new InstructionSet();
+    /** accessible regsiters */
     private Register[] registers = new Register[16];
+    /** programm counter */
+    private long pc = 0;
+    /** register of processor flags */
+    private FlagRegister flagRegister = new FlagRegister();
 
     public Simulator() {
         instructionSet.populate();
@@ -33,7 +39,7 @@ public class Simulator {
         argument.setRn(registers[2]);
         // argument.setRd(registers[0]);
         argument.setRd(registers[2]);
-        instruction.simulate(argument);
+        instruction.simulate(argument, flagRegister, pc);
         System.out.println("--------------");
         System.out.println("R0: " + registers[0].getValue());
         System.out.println("R1: " + registers[1].getValue());
@@ -50,7 +56,7 @@ public class Simulator {
         argument.setRn(registers[2]);
         // argument.setRd(registers[0]);
         argument.setRd(registers[2]);
-        instruction.simulate(argument);
+        instruction.simulate(argument, flagRegister, pc);
         System.out.println("--------------");
         System.out.println("R0: " + registers[0].getValue());
         System.out.println("R1: " + registers[1].getValue());

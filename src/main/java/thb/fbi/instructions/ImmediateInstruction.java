@@ -1,5 +1,6 @@
 package thb.fbi.instructions;
 
+import thb.fbi.FlagRegister;
 import thb.fbi.Register;
 
 /**
@@ -15,11 +16,11 @@ public class ImmediateInstruction extends Instruction {
     }
 
     @Override
-    public void simulate(ProgramStatement argument) {
+    public void simulate(ProgramStatement argument, FlagRegister F, long pc) {
         int alu_immediate = argument.getAlu_Immediate();
         Register Rn = argument.getRn();
         Register Rd = argument.getRd();
-        this.immediateCode.simulate(alu_immediate, Rn, Rd);
+        this.immediateCode.simulate(alu_immediate, Rn, Rd, F);
     }
 
     public IImmediateCode getImmediateCode() {

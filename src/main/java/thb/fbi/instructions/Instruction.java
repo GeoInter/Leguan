@@ -1,5 +1,7 @@
 package thb.fbi.instructions;
 
+import thb.fbi.FlagRegister;
+
 /**
  * Superclass for defining an instruction
  */
@@ -22,7 +24,7 @@ public abstract class Instruction {
         this.description = description;
     }
 
-    public abstract void simulate(ProgramStatement argument);
+    public abstract void simulate(ProgramStatement argument, FlagRegister F, long pc);
 
     @Override
     public int hashCode() {
