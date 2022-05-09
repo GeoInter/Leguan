@@ -1,6 +1,6 @@
 package thb.fbi.instructions;
 
-import thb.fbi.Register;
+import thb.fbi.simulation.Register;
 
 /**
  * Interface for definining and executing code of DataTransfer instructions

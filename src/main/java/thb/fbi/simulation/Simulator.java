@@ -1,7 +1,6 @@
-package thb.fbi;
+package thb.fbi.simulation;
 
 import thb.fbi.instructions.Instruction;
-import thb.fbi.instructions.ProgramStatement;
 import thb.fbi.instructions.InstructionSet;
 
 /** 

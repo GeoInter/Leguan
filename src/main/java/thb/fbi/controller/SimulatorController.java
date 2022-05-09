@@ -1,8 +1,10 @@
-package thb.fbi;
+package thb.fbi.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
+import thb.fbi.simulation.Base;
+import thb.fbi.simulation.Simulator;
 
 /**
  * UI Controller of the app
@@ -12,25 +14,24 @@ import javafx.scene.layout.StackPane;
  */
 public class SimulatorController {
 
-    @FXML
-    StackPane codeStackPane;
-    @FXML
-    Label register0Label;
-    @FXML
-    Label register1Label;
-    @FXML
-    Label register2Label;
+    @FXML RegisterPaneController registerPaneController;
+    @FXML StackPane codeStackPane;
+
+    @FXML Label register0Label;
+    @FXML Label register1Label;
+    @FXML Label register2Label;
 
     Simulator simulator = new Simulator();
 
     @FXML
     public void initialize() {
+        registerPaneController.setSimulator(simulator);
+
         register0Label.textProperty().bind(simulator.getRegisters()[0].getShownValue());
         register1Label.textProperty().bind(simulator.getRegisters()[1].getShownValue());
         register2Label.textProperty().bind(simulator.getRegisters()[2].getShownValue());
 
         // CodeArea codeArea = new CodeArea();
-
         // codeStackPane.getChildren().addAll(codeArea);
     }
 

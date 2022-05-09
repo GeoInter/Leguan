@@ -1,4 +1,4 @@
-package thb.fbi;
+package thb.fbi.simulation;
 
 /** 
  * \brief class for reprenting possible numberformats

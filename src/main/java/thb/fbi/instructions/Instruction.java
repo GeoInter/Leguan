@@ -1,6 +1,7 @@
 package thb.fbi.instructions;
 
-import thb.fbi.FlagRegister;
+import thb.fbi.simulation.FlagRegister;
+import thb.fbi.simulation.ProgramStatement;
 
 /**
  * Superclass for defining an instruction

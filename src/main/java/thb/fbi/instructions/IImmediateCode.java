@@ -1,7 +1,7 @@
 package thb.fbi.instructions;
 
-import thb.fbi.FlagRegister;
-import thb.fbi.Register;
+import thb.fbi.simulation.FlagRegister;
+import thb.fbi.simulation.Register;
 
 /**
  * Interface for definining and executing code of immediate instructions

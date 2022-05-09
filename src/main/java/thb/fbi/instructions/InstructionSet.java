@@ -2,8 +2,8 @@ package thb.fbi.instructions;
 
 import java.util.HashSet;
 
-import thb.fbi.FlagRegister;
-import thb.fbi.Register;
+import thb.fbi.simulation.FlagRegister;
+import thb.fbi.simulation.Register;
 
 /**
  * List of usable ARMv8 Thumb Instructions.

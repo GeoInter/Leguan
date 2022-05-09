@@ -1,6 +1,4 @@
-package thb.fbi.instructions;
-
-import thb.fbi.Register;
+package thb.fbi.simulation;
 
 /**
  * Class for holding all kinds of arguments for all instruction formats.

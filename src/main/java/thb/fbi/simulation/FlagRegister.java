@@ -1,4 +1,4 @@
-package thb.fbi;
+package thb.fbi.simulation;
 
 import javafx.beans.property.SimpleBooleanProperty;
 
