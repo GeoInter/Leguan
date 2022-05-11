@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import org.fxmisc.richtext.CodeArea?>
 
-<VBox prefHeight="650.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="thb.fbi.SimulatorController">
+<VBox prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="thb.fbi.controller.SimulatorController">
    <children>
       <MenuBar>
         <menus>
@@ -109,7 +109,7 @@
                <children>
                   <VBox>
                      <children>
-                        <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="35.0" prefWidth="522.0">
+                        <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" minHeight="-Infinity">
                            <children>
                               <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Reset to continue editing code" HBox.hgrow="ALWAYS">
                                  <padding>
@@ -135,193 +135,8 @@
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <VBox>
-                     <children>
-                        <ScrollPane hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" maxWidth="500.0" minWidth="200.0" prefHeight="560.0" prefWidth="385.0" vbarPolicy="ALWAYS" VBox.vgrow="ALWAYS">
-                           <padding>
-                              <Insets left="10.0" right="10.0" top="10.0" />
-                           </padding>
-                           <content>
-                              <VBox prefHeight="200.0" prefWidth="100.0">
-                                 <children>
-                                    <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
-                                       <children>
-                                          <Label maxHeight="1.7976931348623157E308" prefHeight="26.0" prefWidth="46.0" text="PC" />
-                                          <Label maxHeight="1.7976931348623157E308" prefHeight="26.0" prefWidth="160.0" text="Label" />
-                                          <Button mnemonicParsing="false" prefWidth="46.0" text="Dec" />
-                                          <Button mnemonicParsing="false" prefWidth="46.0" text="Bin" />
-                                          <Button mnemonicParsing="false" prefWidth="46.0" text="Hex" />
-                                       </children>
-                                    </HBox>
-                                    <Label text="&gt; Arguments/ Results" underline="true">
-                                       <padding>
-                                          <Insets left="10.0" top="10.0" />
-                                       </padding>
-                                    </Label>
-                                    <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
-                                       <children>
-                                          <Label maxHeight="1.7976931348623157E308" prefHeight="26.0" prefWidth="46.0" text="X0" />
-                                          <Label fx:id="register0Label" maxHeight="1.7976931348623157E308" prefHeight="26.0" prefWidth="160.0" text="0" />
-                                          <Button mnemonicParsing="false" onAction="#reg0Dec" prefWidth="46.0" text="Dec" />
-                                          <Button mnemonicParsing="false" onAction="#reg0Bin" prefWidth="46.0" text="Bin" />
-                                          <Button mnemonicParsing="false" onAction="#reg0Hex" prefWidth="46.0" text="Hex" />
-                                       </children>
-                                    </HBox>
-                                    <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
-                                       <children>
-                                          <Label maxHeight="1.7976931348623157E308" prefHeight="26.0" prefWidth="46.0" text="X1" />
-                                          <Label fx:id="register1Label" maxHeight="1.7976931348623157E308" prefHeight="26.0" prefWidth="160.0" text="0" />
-                                          <Button mnemonicParsing="false" onAction="#reg1Dec" prefWidth="46.0" text="Dec" />
-                                          <Button mnemonicParsing="false" onAction="#reg1Bin" prefWidth="46.0" text="Bin" />
-                                          <Button mnemonicParsing="false" onAction="#reg1Hex" prefWidth="46.0" text="Hex" />
-                                       </children>
-                                    </HBox>
-                                    <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
-                                       <children>
-                                          <Label maxHeight="1.7976931348623157E308" prefHeight="26.0" prefWidth="46.0" text="X2" />
-                                          <Label fx:id="register2Label" maxHeight="1.7976931348623157E308" prefHeight="26.0" prefWidth="160.0" text="0" />
-                                          <Button mnemonicParsing="false" onAction="#reg2Dec" prefWidth="46.0" text="Dec" />
-                                          <Button mnemonicParsing="false" onAction="#reg2Bin" prefWidth="46.0" text="Bin" />
-                                          <Button mnemonicParsing="false" onAction="#reg2Hex" prefWidth="46.0" text="Hex" />
-                                       </children>
-                                    </HBox>
-                                    <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
-                                       <children>
-                                          <Label maxHeight="1.7976931348623157E308" prefHeight="26.0" prefWidth="46.0" text="X3" />
-                                          <Label maxHeight="1.7976931348623157E308" prefHeight="26.0" prefWidth="160.0" text="0" />
-                                          <Button mnemonicParsing="false" prefWidth="46.0" text="Dec" />
-                                          <Button mnemonicParsing="false" prefWidth="46.0" text="Bin" />
-                                          <Button mnemonicParsing="false" prefWidth="46.0" text="Hex" />
-                                       </children>
-                                    </HBox>
-                                    <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
-                                       <children>
-                                          <Label maxHeight="1.7976931348623157E308" prefHeight="26.0" prefWidth="46.0" text="X4" />
-                                          <Label maxHeight="1.7976931348623157E308" prefHeight="26.0" prefWidth="160.0" text="0" />
-                                          <Button mnemonicParsing="false" prefWidth="46.0" text="Dec" />
-                                          <Button mnemonicParsing="false" prefWidth="46.0" text="Bin" />
-                                          <Button mnemonicParsing="false" prefWidth="46.0" text="Hex" />
-                                       </children>
-                                    </HBox>
-                                    <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
-                                       <children>
-                                          <Label maxHeight="1.7976931348623157E308" prefHeight="26.0" prefWidth="46.0" text="X5" />
-                                          <Label maxHeight="1.7976931348623157E308" prefHeight="26.0" prefWidth="160.0" text="0" />
-                                          <Button mnemonicParsing="false" prefWidth="46.0" text="Dec" />
-                                          <Button mnemonicParsing="false" prefWidth="46.0" text="Bin" />
-                                          <Button mnemonicParsing="false" prefWidth="46.0" text="Hex" />
-                                       </children>
-                                    </HBox>
-                                    <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
-                                       <children>
-                                          <Label maxHeight="1.7976931348623157E308" prefHeight="26.0" prefWidth="46.0" text="X6" />
-                                          <Label maxHeight="1.7976931348623157E308" prefHeight="26.0" prefWidth="160.0" text="0" />
-                                          <Button mnemonicParsing="false" prefWidth="46.0" text="Dec" />
-                                          <Button mnemonicParsing="false" prefWidth="46.0" text="Bin" />
-                                          <Button mnemonicParsing="false" prefWidth="46.0" text="Hex" />
-                                       </children>
-                                    </HBox>
-                                    <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
-                                       <children>
-                                          <Label maxHeight="1.7976931348623157E308" prefHeight="26.0" prefWidth="46.0" text="X7" />
-                                          <Label maxHeight="1.7976931348623157E308" prefHeight="26.0" prefWidth="160.0" text="0" />
-                                          <Button mnemonicParsing="false" prefWidth="46.0" text="Dec" />
-                                          <Button mnemonicParsing="false" prefWidth="46.0" text="Bin" />
-                                          <Button mnemonicParsing="false" prefWidth="46.0" text="Hex" />
-                                       </children>
-                                    </HBox>
-                                    <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
-                                       <children>
-                                          <Label maxHeight="1.7976931348623157E308" prefHeight="26.0" prefWidth="46.0" text="X8" />
-                                          <Label maxHeight="1.7976931348623157E308" prefHeight="26.0" prefWidth="160.0" text="0" />
-                                          <Button mnemonicParsing="false" prefWidth="46.0" text="Dec" />
-                                          <Button mnemonicParsing="false" prefWidth="46.0" text="Bin" />
-                                          <Button mnemonicParsing="false" prefWidth="46.0" text="Hex" />
-                                       </children>
-                                    </HBox>
-                                    <Label text="&gt; Temporaries" underline="true">
-                                       <padding>
-                                          <Insets left="10.0" top="10.0" />
-                                       </padding>
-                                    </Label>
-                                    <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
-                                       <children>
-                                          <Label maxHeight="1.7976931348623157E308" prefHeight="26.0" prefWidth="46.0" text="X9" />
-                                          <Label maxHeight="1.7976931348623157E308" prefHeight="26.0" prefWidth="160.0" text="0" />
-                                          <Button mnemonicParsing="false" prefWidth="46.0" text="Dec" />
-                                          <Button mnemonicParsing="false" prefWidth="46.0" text="Bin" />
-                                          <Button mnemonicParsing="false" prefWidth="46.0" text="Hex" />
-                                       </children>
-                                    </HBox>
-                                    <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
-                                       <children>
-                                          <Label maxHeight="1.7976931348623157E308" prefHeight="26.0" prefWidth="46.0" text="X10" />
-                                          <Label maxHeight="1.7976931348623157E308" prefHeight="26.0" prefWidth="160.0" text="0" />
-                                          <Button mnemonicParsing="false" prefWidth="46.0" text="Dec" />
-                                          <Button mnemonicParsing="false" prefWidth="46.0" text="Bin" />
-                                          <Button mnemonicParsing="false" prefWidth="46.0" text="Hex" />
-                                       </children>
-                                    </HBox>
-                                    <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
-                                       <children>
-                                          <Label maxHeight="1.7976931348623157E308" prefHeight="26.0" prefWidth="46.0" text="X11" />
-                                          <Label maxHeight="1.7976931348623157E308" prefHeight="26.0" prefWidth="160.0" text="0" />
-                                          <Button mnemonicParsing="false" prefWidth="46.0" text="Dec" />
-                                          <Button mnemonicParsing="false" prefWidth="46.0" text="Bin" />
-                                          <Button mnemonicParsing="false" prefWidth="46.0" text="Hex" />
-                                       </children>
-                                    </HBox>
-                                    <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
-                                       <children>
-                                          <Label maxHeight="1.7976931348623157E308" prefHeight="26.0" prefWidth="46.0" text="X12" />
-                                          <Label maxHeight="1.7976931348623157E308" prefHeight="26.0" prefWidth="160.0" text="0" />
-                                          <Button mnemonicParsing="false" prefWidth="46.0" text="Dec" />
-                                          <Button mnemonicParsing="false" prefWidth="46.0" text="Bin" />
-                                          <Button mnemonicParsing="false" prefWidth="46.0" text="Hex" />
-                                       </children>
-                                    </HBox>
-                                    <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
-                                       <children>
-                                          <Label maxHeight="1.7976931348623157E308" prefHeight="26.0" prefWidth="46.0" text="X13" />
-                                          <Label maxHeight="1.7976931348623157E308" prefHeight="26.0" prefWidth="160.0" text="0" />
-                                          <Button mnemonicParsing="false" prefWidth="46.0" text="Dec" />
-                                          <Button mnemonicParsing="false" prefWidth="46.0" text="Bin" />
-                                          <Button mnemonicParsing="false" prefWidth="46.0" text="Hex" />
-                                       </children>
-                                    </HBox>
-                                    <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
-                                       <children>
-                                          <Label maxHeight="1.7976931348623157E308" prefHeight="26.0" prefWidth="46.0" text="X14" />
-                                          <Label maxHeight="1.7976931348623157E308" prefHeight="26.0" prefWidth="160.0" text="0" />
-                                          <Button mnemonicParsing="false" prefWidth="46.0" text="Dec" />
-                                          <Button mnemonicParsing="false" prefWidth="46.0" text="Bin" />
-                                          <Button mnemonicParsing="false" prefWidth="46.0" text="Hex" />
-                                       </children>
-                                    </HBox>
-                                    <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
-                                       <children>
-                                          <Label maxHeight="1.7976931348623157E308" prefHeight="26.0" prefWidth="46.0" text="X15" />
-                                          <Label maxHeight="1.7976931348623157E308" prefHeight="26.0" prefWidth="160.0" text="0" />
-                                          <Button mnemonicParsing="false" prefWidth="46.0" text="Dec" />
-                                          <Button mnemonicParsing="false" prefWidth="46.0" text="Bin" />
-                                          <Button mnemonicParsing="false" prefWidth="46.0" text="Hex" />
-                                       </children>
-                                    </HBox>
-                                    <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
-                                       <children>
-                                          <Label maxHeight="1.7976931348623157E308" prefHeight="26.0" prefWidth="46.0" text="X16" />
-                                          <Label maxHeight="1.7976931348623157E308" prefHeight="26.0" prefWidth="160.0" text="0" />
-                                          <Button mnemonicParsing="false" prefWidth="46.0" text="Dec" />
-                                          <Button mnemonicParsing="false" prefWidth="46.0" text="Bin" />
-                                          <Button mnemonicParsing="false" prefWidth="46.0" text="Hex" />
-                                       </children>
-                                    </HBox>
-                                 </children>
-                              </VBox>
-                           </content>
-                        </ScrollPane>
-                     </children>
-                  </VBox>
+                   <!-- content from RegisterPane.fxml included here -->
+                  <fx:include fx:id="registerPane" source="RegisterPane.fxml" />              
                </children>
             </AnchorPane>
         </items>

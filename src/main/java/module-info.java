@@ -5,6 +5,6 @@ module thb.fbi {
     requires org.fxmisc.richtext;
     requires org.fxmisc.flowless;
 
-    opens thb.fbi to javafx.fxml;
+    opens thb.fbi.controller to javafx.fxml;
     exports thb.fbi;
 }

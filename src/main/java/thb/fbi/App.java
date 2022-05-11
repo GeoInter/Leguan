@@ -8,8 +8,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-//TODO: dependabot
-
 /**
  * \brief JavaFX App
  * 
@@ -24,6 +22,7 @@ public class App extends Application {
         scene = new Scene(loadFXML("simulator"), 640, 480);
         stage.setScene(scene);
         stage.show();
+        stage.setTitle("ARMv8 Thumb Simulator");
         stage.setMaximized(true);
     }
 

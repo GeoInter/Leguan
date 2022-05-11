@@ -62,10 +62,19 @@ public class Simulator {
         System.out.println("R2: " + registers[2].getValue());
     }
 
+    /**
+     * changes the numberformat of a specified register
+     * @param format numberformat to be displayed
+     * @param index index of the register to change its numberformat
+     */
     public void UpdateRegisterValueFormat(Base format, int index) {
         this.registers[index].setNumberFormat(format);
     }
 
+    /**
+     * gets the list of all registers (R0 - R31)
+     * @return List of registers
+     */
     public Register[] getRegisters() {
         return this.registers;
     }
