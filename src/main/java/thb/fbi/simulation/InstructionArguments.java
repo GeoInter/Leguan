@@ -24,7 +24,6 @@ public class InstructionArguments {
         Rn = null;
         Rd = null;
         Rt = null;
-        shamt = 0;
     }
 
     public Register getRm() {

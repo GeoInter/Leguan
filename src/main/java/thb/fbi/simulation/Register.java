@@ -11,6 +11,8 @@ import javafx.beans.property.SimpleStringProperty;
 public class Register {
     /** name of the register */
     private String name;
+    /** number/ id/ index of the register */
+    private int id;
     /** value in the register, Property instead of primitive for easier updating UI */
     private long value;
     /** Property for indicating if register is in use or can be grayed out in UI */
@@ -20,9 +22,10 @@ public class Register {
     /** format of value to be shown can be either binary, decimal or hexadecimal */
     private Base numberFormat = Base.DEC;
 
-    public Register(String name, long value) {
+    public Register(String name, long value, int id) {
         this.name = name;
         this.value = value;
+        this.id = id;
     }
 
     public void updateShownValue() {

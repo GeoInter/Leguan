@@ -10,7 +10,7 @@ import thb.fbi.simulation.Register;
 public class ImmediateInstruction extends Instruction {
     private IImmediateCode immediateCode;
 
-    public ImmediateInstruction(String opcode, String description, IImmediateCode iImmediateCode) {
+    public ImmediateInstruction(String opcode, String description, IImmediateCode immediateCode) {
         setMnemonic(opcode);
         setDescription(description);
         setImmediateCode(immediateCode);

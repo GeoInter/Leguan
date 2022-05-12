@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import org.fxmisc.richtext.CodeArea?>
 
-<VBox prefHeight="800.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="thb.fbi.controller.SimulatorController">
+<VBox xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="thb.fbi.controller.SimulatorController">
    <children>
       <MenuBar>
         <menus>
@@ -103,7 +103,7 @@
             </HBox>
          </children>
       </VBox>
-      <SplitPane dividerPositions="0.62" VBox.vgrow="ALWAYS">
+      <SplitPane dividerPositions="0.62" prefWidth="1920.0" VBox.vgrow="ALWAYS">
         <items>
           <AnchorPane>
                <children>
@@ -125,7 +125,7 @@
                            <children>
                               <ScrollPane prefHeight="400.0" prefWidth="618.0" vbarPolicy="ALWAYS" StackPane.alignment="CENTER">
                                  <content>
-                                    <CodeArea lineHighlighterOn="true" prefHeight="397.0" prefWidth="601.0" />
+                                    <CodeArea autoHeight="true" lineHighlighterOn="true" prefHeight="397.0" prefWidth="601.0" />
                                  </content>
                               </ScrollPane>
                            </children></StackPane>
@@ -141,6 +141,5 @@
             </AnchorPane>
         </items>
       </SplitPane>
-      <CodeArea />
    </children>
 </VBox>

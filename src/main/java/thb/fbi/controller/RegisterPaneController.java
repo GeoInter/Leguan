@@ -18,6 +18,11 @@ public class RegisterPaneController {
     @FXML Label register1Value;
     @FXML Label register2Value;
 
+    @FXML Label NFlagValue;
+    @FXML Label ZFlagValue;
+    @FXML Label CFlagValue;
+    @FXML Label VFlagValue;
+
     @FXML Button r1DecButton;
     @FXML Button r1BinButton;
     @FXML Button r1HexButton;
@@ -35,6 +40,11 @@ public class RegisterPaneController {
         r1DecButton.setOnAction(event -> UpdateRegisterValueFormat(Base.DEC, 1));
         r1BinButton.setOnAction(event -> UpdateRegisterValueFormat(Base.BIN, 1));
         r1HexButton.setOnAction(event -> UpdateRegisterValueFormat(Base.HEX, 1));
+
+        NFlagValue.textProperty().bind(simulator.getFlagRegister().getNFlagProperty().asString());
+        ZFlagValue.textProperty().bind(simulator.getFlagRegister().getZFlagProperty().asString());
+        CFlagValue.textProperty().bind(simulator.getFlagRegister().getCFlagProperty().asString());
+        VFlagValue.textProperty().bind(simulator.getFlagRegister().getVFlagProperty().asString());
     }
 
     private void UpdateRegisterValueFormat(Base format, int index) {
