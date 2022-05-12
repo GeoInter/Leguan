@@ -28,12 +28,22 @@ public class Simulator {
         registers[2].setValue(16);;
     }
 
+    public void simulate() {
+        // get first statement
+        InstructionArguments statement = null;
+        while(statement != null) {
+
+            pc += Instruction.INSTRUCTION_LENGTH;
+            // get next statement, pointed by pc 
+        }
+    }
+
     public void testAdd() {
         System.out.println("R0: " + registers[0].getValue());
         System.out.println("R1: " + registers[1].getValue());
         System.out.println("R2: " + registers[2].getValue());
         Instruction instruction = instructionSet.findInstructionByMnemonic("ADD");
-        ProgramStatement argument = new ProgramStatement();
+        InstructionArguments argument = new InstructionArguments();
         argument.setRm(registers[1]);
         argument.setRn(registers[2]);
         // argument.setRd(registers[0]);
@@ -50,7 +60,7 @@ public class Simulator {
         System.out.println("R1: " + registers[1].getValue());
         System.out.println("R2: " + registers[2].getValue());
         Instruction instruction = instructionSet.findInstructionByMnemonic("SUB");
-        ProgramStatement argument = new ProgramStatement();
+        InstructionArguments argument = new InstructionArguments();
         argument.setRm(registers[1]);
         argument.setRn(registers[2]);
         // argument.setRd(registers[0]);

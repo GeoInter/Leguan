@@ -4,7 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.layout.StackPane;
 import thb.fbi.simulation.Simulator;
-import thb.fbi.simulation.SimulatorFactory;
+import thb.fbi.simulation.SimulatorSingleton;
 
 /**
  * UI Controller of the app
@@ -18,7 +18,7 @@ public class SimulatorController {
 
     @FXML StackPane codeStackPane;
 
-    Simulator simulator = SimulatorFactory.getSimulator();
+    Simulator simulator = SimulatorSingleton.getSimulator();
 
     @FXML
     public void initialize() {

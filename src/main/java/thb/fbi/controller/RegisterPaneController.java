@@ -6,7 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import thb.fbi.simulation.Base;
 import thb.fbi.simulation.Simulator;
-import thb.fbi.simulation.SimulatorFactory;
+import thb.fbi.simulation.SimulatorSingleton;
 
 /**
  * UI Controller for the Register Sidepanel
@@ -22,7 +22,7 @@ public class RegisterPaneController {
     @FXML Button r1BinButton;
     @FXML Button r1HexButton;
 
-    private Simulator simulator = SimulatorFactory.getSimulator();
+    private Simulator simulator = SimulatorSingleton.getSimulator();
 
     @FXML
     public void initialize() {

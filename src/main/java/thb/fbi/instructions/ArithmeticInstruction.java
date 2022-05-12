@@ -1,7 +1,7 @@
 package thb.fbi.instructions;
 
 import thb.fbi.simulation.FlagRegister;
-import thb.fbi.simulation.ProgramStatement;
+import thb.fbi.simulation.InstructionArguments;
 import thb.fbi.simulation.Register;
 
 /**
@@ -17,7 +17,7 @@ public class ArithmeticInstruction extends Instruction {
     }
 
     @Override
-    public void simulate(ProgramStatement argument, FlagRegister F, long pc) {
+    public void simulate(InstructionArguments argument, FlagRegister F, long pc) {
         Register Rm = argument.getRm();
         int shamt = argument.getShamt();
         Register Rn = argument.getRn();

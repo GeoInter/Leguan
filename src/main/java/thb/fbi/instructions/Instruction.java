@@ -1,7 +1,7 @@
 package thb.fbi.instructions;
 
 import thb.fbi.simulation.FlagRegister;
-import thb.fbi.simulation.ProgramStatement;
+import thb.fbi.simulation.InstructionArguments;
 
 /**
  * Superclass for defining an instruction
@@ -11,6 +11,8 @@ public abstract class Instruction {
     protected String mnemonic;
     /** brief description of the instruction */
     protected String description;
+
+    public static final short INSTRUCTION_LENGTH = 2;
 
     public String getMnemonic() {
         return this.mnemonic;
@@ -25,7 +27,7 @@ public abstract class Instruction {
         this.description = description;
     }
 
-    public abstract void simulate(ProgramStatement argument, FlagRegister F, long pc);
+    public abstract void simulate(InstructionArguments argument, FlagRegister F, long pc);
 
     @Override
     public int hashCode() {

@@ -4,11 +4,11 @@ package thb.fbi.simulation;
  * class for UI - all controller access the same controller
  * implements the singleton pattern
  */
-public class SimulatorFactory {
+public class SimulatorSingleton {
 
     private static Simulator simulator;
 
-    private SimulatorFactory() {}
+    private SimulatorSingleton() {}
 
     /**
      * gets the current used simulator instance for the whole app
