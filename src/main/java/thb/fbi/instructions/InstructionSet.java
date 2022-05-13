@@ -65,7 +65,7 @@ public class InstructionSet {
                         
                         // Carry: add both operands then shift 64 bits right
                         // TODO: check if correct (should this only work for unsigned numbers?)
-                        //boolean carry = 0 < (op1 + alu_immediate)>>64;
+                        //boolean carry = 0 < (op1 + alu_immediate)>>64; // <-- works only for even bigger datatypes (+ need to fill higher bits with same value)
                         //F.setCFlag(carry);
                         
                         // check for overflow
@@ -73,6 +73,28 @@ public class InstructionSet {
                         if(op1 > 0 && alu_immediate > 0 && result < 0) {
                             F.setVFlag(true);
                         } else if (op1 < 0 && alu_immediate < 0 && result > 0) {
+                            F.setVFlag(true);
+                        }
+
+                        Rd.setValue(result);
+                    }
+                })
+        );
+
+        instructionSet.add(
+            new ArithmeticInstruction("ADDS",
+                "Adds value of Registers Rm and Rn and puts result in Rd with flags",
+                new IArithmeticCode() {
+                    @Override
+                    public void simulate(Register Rm, int shamt, Register Rn, Register Rd, FlagRegister F) {
+                        // simple addition
+                        long op1 = Rm.getValue();
+                        long op2 = Rn.getValue();
+                        long result = op1 + op2;
+
+                        if(op1 > 0 && op2 > 0 && result < 0) {
+                            F.setVFlag(true);
+                        } else if (op1 < 0 && op2 < 0 && result > 0) {
                             F.setVFlag(true);
                         }
 

@@ -14,4 +14,43 @@ public class ProgramStatement {
     private String source;
     /** line number of the source code */
     private int sourceLine;
+
+    public ProgramStatement(Instruction instruction, InstructionArguments arguments, String source, int sourceLine) {
+        this.setInstruction(instruction);
+        this.setArguments(arguments);
+        this.setSource(source);
+        this.setSourceLine(sourceLine);
+    }
+
+    public int getSourceLine() {
+        return sourceLine;
+    }
+
+    public void setSourceLine(int sourceLine) {
+        this.sourceLine = sourceLine;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
+    public InstructionArguments getArguments() {
+        return arguments;
+    }
+
+    public void setArguments(InstructionArguments arguments) {
+        this.arguments = arguments;
+    }
+
+    public Instruction getInstruction() {
+        return instruction;
+    }
+
+    public void setInstruction(Instruction instruction) {
+        this.instruction = instruction;
+    }
 }
