@@ -11,14 +11,21 @@ public class ARMProgram {
     private String fileName;
     private ArrayList<ProgramStatement> statements;
 
-    public ARMProgram() {
+    public ARMProgram(String fileName) {
+        this.fileName = fileName;
         statements = Parser.getStatements();
     }
 
-    public ProgramStatement getProgramStatement(int index) {
-        if(index >= statements.size()) 
+    public ProgramStatement getProgramStatement(int address) {
+        //TODO: figure out how to do it
+        // 1) convert parameter to index (4000000 + parameter)
+        // 2) start pc at start of address space of the code
+        try {
+            return statements.get(address);
+        } catch (IndexOutOfBoundsException e) {
             return null;
-        return statements.get(index);
+        }
+        
     }
 
     public void addStatement(ProgramStatement statement) {

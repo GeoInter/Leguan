@@ -36,7 +36,7 @@ public class Simulator {
      * executes the program
      */
     public void simulate() {
-        this.program = new ARMProgram();
+        this.program = new ARMProgram("Simple Test");
 
         System.out.println("R0: " + registers[0].getValue());
         System.out.println("R1: " + registers[1].getValue());
@@ -47,7 +47,7 @@ public class Simulator {
         // get first statement
         ProgramStatement statement = program.getProgramStatement((int)pc / 2);
         while(statement != null) {
-            System.out.println("pc: " + pc + " - line " + statement.getSourceLine());
+            System.out.println("* pc: " + pc + " - line " + statement.getSourceLine());
             Instruction instruction = statement.getInstruction();
             instruction.simulate(statement.getArguments(), flagRegister, pc);
 
@@ -60,9 +60,6 @@ public class Simulator {
             pc += Instruction.INSTRUCTION_LENGTH;
             // get next statement, pointed by pc 
             statement = program.getProgramStatement((int)pc / 2);
-
-            if(pc >= 10)
-                statement = null;
         }
     }
 

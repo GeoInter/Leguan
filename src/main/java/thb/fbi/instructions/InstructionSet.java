@@ -62,20 +62,10 @@ public class InstructionSet {
                     public void simulate(int alu_immediate, Register Rn, Register Rd, FlagRegister F) {
                         long op1 = Rn.getValue();
                         long result = op1 + alu_immediate;
-                        
-                        // Carry: add both operands then shift 64 bits right
-                        // TODO: check if correct (should this only work for unsigned numbers?)
-                        //boolean carry = 0 < (op1 + alu_immediate)>>64; // <-- works only for even bigger datatypes (+ need to fill higher bits with same value)
-                        //F.setCFlag(carry);
-                        
-                        // check for overflow
-                        // if a and b are positive and result is negativ or vice versa an overflow occured
-                        if(op1 > 0 && alu_immediate > 0 && result < 0) {
-                            F.setVFlag(true);
-                        } else if (op1 < 0 && alu_immediate < 0 && result > 0) {
-                            F.setVFlag(true);
-                        }
 
+                        // overflow check
+                        F.checkAndSetVFlag(op1, alu_immediate, result);
+                        
                         Rd.setValue(result);
                     }
                 })

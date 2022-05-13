@@ -14,12 +14,22 @@ public class ProgramStatement {
     private String source;
     /** line number of the source code */
     private int sourceLine;
+    /** address of the statement in memory */
+    private int address;
 
     public ProgramStatement(Instruction instruction, InstructionArguments arguments, String source, int sourceLine) {
         this.setInstruction(instruction);
         this.setArguments(arguments);
         this.setSource(source);
         this.setSourceLine(sourceLine);
+    }
+
+    public int getAddress() {
+        return address;
+    }
+
+    public void setAddress(int address) {
+        this.address = address;
     }
 
     public int getSourceLine() {
