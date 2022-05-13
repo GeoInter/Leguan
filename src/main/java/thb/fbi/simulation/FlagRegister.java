@@ -107,9 +107,44 @@ public class FlagRegister {
         this.z.set(value == 0);
     }
 
-    public void checkAndSetCFlag() {
-        //TODO: add check for carry flag
-        // zuerst unteren 16 bit, dann obere -> Übertrag aufaddieren
+    /**
+     * checks if addition/ subtraction of two values would result
+     * in a carry over and sets carry flag accordingly
+     * @param op1 first operand
+     * @param op2 second operand
+     */
+    public void checkAndSetCFlag(long op1, long op2) {
+        long op1Lower = (int) op1;// op1 << 32;
+        long op2Lower = (int) op2;// op2 << 32;
+        
+        op1Lower &= 0xFFFFFFFFL;
+        op2Lower &= 0xFFFFFFFFL;
+        System.out.println("op1lower: " + Long.toBinaryString(op1Lower));
+        System.out.println("op2lower: " + Long.toBinaryString(op2Lower));
+        
+        boolean carryLower = 0 < (op1Lower + op2Lower)>>32;
+        System.out.println("lower carry: " + carryLower);
+        System.out.println((op1Lower + op2Lower)>>32);
+        System.out.println("---------------------");
+
+        
+        long op1Higher = op1 >> 32; // does not included sign bit
+        long op2Higher = op2 >> 32;
+        op1Higher &= 0xFFFFFFFFL;
+        op2Higher &= 0xFFFFFFFFL;
+        System.out.println("op1higher: " + Long.toBinaryString(op1Higher) + "                        " + op1Higher);
+        System.out.println("op2higher: " + Long.toBinaryString(op2Higher));
+        System.out.println("carryLower: " + Long.toBinaryString((carryLower ? 1 : 0)) + "                                    " + (carryLower ? 1 : 0));
+
+        // include previous carry from lower half
+        // shift is less because of signed bit not being included
+        boolean carryHigher = 0 < (op1Higher + op2Higher + (carryLower ? 1 : 0))>>31;
+        System.out.println("higher carry: " + carryHigher);
+        System.out.println(Long.toBinaryString(op1Higher + op2Higher + (carryLower ? 1 : 0)));
+        System.out.println(((op1Higher + op2Higher + (carryLower ? 1 : 0))>>31));
+
+        // set value to carryHigher (carryLower just as helper, when lower half carry can affect upper half)
+        this.c.set(carryHigher);
     }
 
     /**

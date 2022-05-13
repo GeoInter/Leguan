@@ -82,11 +82,11 @@ public class InstructionSet {
                         long op2 = Rn.getValue();
                         long result = op1 + op2;
 
-                        if(op1 > 0 && op2 > 0 && result < 0) {
-                            F.setVFlag(true);
-                        } else if (op1 < 0 && op2 < 0 && result > 0) {
-                            F.setVFlag(true);
-                        }
+                        // carry check
+                        F.checkAndSetCFlag(op1, op2);
+
+                        // overflow check
+                        F.checkAndSetVFlag(op1, op2, result);
 
                         Rd.setValue(result);
                     }
@@ -130,6 +130,28 @@ public class InstructionSet {
                     public void simulate(int alu_immediate, Register Rn, Register Rd, FlagRegister F) {
                         long op1 = Rn.getValue();
                         long result = op1 - alu_immediate;
+                        Rd.setValue(result);
+                    }
+                })
+        );
+
+        instructionSet.add(
+            new ArithmeticInstruction("SUBS",
+                "Subtracts value of Registers Rm and Rn and puts result in Rd with flags",
+                new IArithmeticCode() {
+                    @Override
+                    public void simulate(Register Rm, int shamt, Register Rn, Register Rd, FlagRegister F) {
+                        // simple subtraction
+                        long op1 = Rn.getValue();
+                        long op2 = Rm.getValue();
+                        long result = op1 - op2;
+
+                        // carry check
+                        F.checkAndSetCFlag(op1, -1*op2); // the only difference to ADDS
+
+                        // overflow check
+                        F.checkAndSetVFlag(op1, op2, result);
+
                         Rd.setValue(result);
                     }
                 })
