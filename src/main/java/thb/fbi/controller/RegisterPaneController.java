@@ -1,8 +1,10 @@
 package thb.fbi.controller;
 
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import thb.fbi.simulation.Base;
 import thb.fbi.simulation.Simulator;
@@ -12,6 +14,9 @@ import thb.fbi.simulation.SimulatorSingleton;
  * UI Controller for the Register Sidepanel
  */
 public class RegisterPaneController {
+
+    /** boolean if checkbox is checked to show all registers */
+    public static SimpleBooleanProperty showAllRegisters = new SimpleBooleanProperty();
 
     @FXML VBox RegisterPane;
     @FXML Label register0Value;
@@ -37,8 +42,17 @@ public class RegisterPaneController {
     @FXML Button r3BinButton;
     @FXML Button r3HexButton;
 
+    @FXML HBox r4Box;
+    @FXML HBox r5Box;
+    @FXML HBox r6Box;
+    @FXML HBox r7Box;
+    @FXML HBox r8Box;
+
     private Simulator simulator = SimulatorSingleton.getSimulator();
 
+    /**
+     * initializes all UI components and binds values of the register side pane
+     */
     @FXML
     public void initialize() {
         register0Value.textProperty().bind(simulator.getRegisters()[0].getShownValue());
@@ -61,12 +75,32 @@ public class RegisterPaneController {
         r3BinButton.setOnAction(event -> UpdateRegisterValueFormat(Base.BIN, 3));
         r3HexButton.setOnAction(event -> UpdateRegisterValueFormat(Base.HEX, 3));
 
+        // bind value of flags to flag labels
         NFlagValue.textProperty().bind(simulator.getFlagRegister().getNFlagProperty().asString());
         ZFlagValue.textProperty().bind(simulator.getFlagRegister().getZFlagProperty().asString());
         CFlagValue.textProperty().bind(simulator.getFlagRegister().getCFlagProperty().asString());
         VFlagValue.textProperty().bind(simulator.getFlagRegister().getVFlagProperty().asString());
+
+        /**** this are bindings for making the register boxes invisible ****/ 
+        // make the boxes invisble so they do not appear when not used
+        // make the boxes unmanaged so the sidepanel resizes making room for the rest
+        r4Box.visibleProperty().bind(showAllRegisters.or(simulator.getRegisters()[4].getIsUsed()));
+        r4Box.managedProperty().bind(showAllRegisters.or(simulator.getRegisters()[4].getIsUsed()));
+        r5Box.visibleProperty().bind(showAllRegisters.or(simulator.getRegisters()[5].getIsUsed()));
+        r5Box.managedProperty().bind(showAllRegisters.or(simulator.getRegisters()[5].getIsUsed()));
+        r6Box.visibleProperty().bind(showAllRegisters.or(simulator.getRegisters()[6].getIsUsed()));
+        r6Box.managedProperty().bind(showAllRegisters.or(simulator.getRegisters()[6].getIsUsed()));
+        r7Box.visibleProperty().bind(showAllRegisters.or(simulator.getRegisters()[7].getIsUsed()));
+        r7Box.managedProperty().bind(showAllRegisters.or(simulator.getRegisters()[7].getIsUsed()));
+        r8Box.visibleProperty().bind(showAllRegisters.or(simulator.getRegisters()[8].getIsUsed()));
+        r8Box.managedProperty().bind(showAllRegisters.or(simulator.getRegisters()[8].getIsUsed()));
     }
 
+    /**
+     * 
+     * @param format numberformat 
+     * @param index index of the register in array 
+     */
     private void UpdateRegisterValueFormat(Base format, int index) {
         simulator.UpdateRegisterValueFormat(format, index);
     }

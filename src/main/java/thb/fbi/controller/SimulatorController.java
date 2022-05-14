@@ -2,6 +2,7 @@ package thb.fbi.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
+import javafx.scene.control.CheckBox;
 import javafx.scene.layout.StackPane;
 import thb.fbi.simulation.Simulator;
 import thb.fbi.simulation.SimulatorSingleton;
@@ -18,12 +19,14 @@ public class SimulatorController {
 
     @FXML StackPane codeStackPane;
 
+    @FXML CheckBox showUnusedRegisterButton;
+
     Simulator simulator = SimulatorSingleton.getSimulator();
 
     @FXML
     public void initialize() {
         
-
+        showUnusedRegisterButton.selectedProperty().bindBidirectional(RegisterPaneController.showAllRegisters);
         // CodeArea codeArea = new CodeArea();
         // codeStackPane.getChildren().addAll(codeArea);
     }

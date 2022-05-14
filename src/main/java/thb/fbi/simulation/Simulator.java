@@ -37,6 +37,7 @@ public class Simulator {
      */
     public void simulate() {
         this.program = new ARMProgram("Simple Test");
+        updateShownRegisters();
 
         System.out.println("R0: " + registers[0].getValue());
         System.out.println("R1: " + registers[1].getValue());
@@ -63,8 +64,23 @@ public class Simulator {
         }
     }
 
+    /**
+     * updates the isUsed Property foreach Register
+     * set register which not appear in program usedRegister list to false
+     */
+    public void updateShownRegisters() {
+        for (Register r : registers) {
+            if(! program.getUsedRegisters().contains(r)) {
+                r.setIsUsed(false);
+            } else {
+                r.setIsUsed(true);
+            }
+        }
+    }
+
     public void testAdd() {
-        
+        this.program = new ARMProgram("Simple Test");
+        updateShownRegisters();
         
         Instruction instruction = instructionSet.findInstructionByMnemonic("ADDS");
         InstructionArguments argument = new InstructionArguments();

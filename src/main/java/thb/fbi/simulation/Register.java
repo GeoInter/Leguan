@@ -46,6 +46,10 @@ public class Register {
         return name;
     }
 
+    public int getID() {
+        return id;
+    }
+
     public long getValue() {
         return value;
     }
@@ -72,8 +76,8 @@ public class Register {
         this.name = name;
     }
 
-    public void setIsUsed(SimpleBooleanProperty isUsed) {
-        this.isUsed = isUsed;
+    public void setIsUsed(Boolean isUsed) {
+        this.isUsed.set(isUsed);
     }
 
     public void setShownValue(SimpleStringProperty shownValue) {

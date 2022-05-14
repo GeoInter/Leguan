@@ -64,7 +64,7 @@
                         <Button fx:id="r3HexButton" mnemonicParsing="false" prefWidth="46.0" text="Hex" />
                      </children>
                   </HBox>
-                  <HBox>
+                  <HBox fx:id="r4Box">
                      <children>
                         <Label alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="30.0" text="R4" />
                         <Label alignment="CENTER" prefHeight="26.0" prefWidth="160.0" text="0" />
@@ -73,7 +73,7 @@
                         <Button mnemonicParsing="false" prefWidth="46.0" text="Hex" />
                      </children>
                   </HBox>
-                  <HBox>
+                  <HBox fx:id="r5Box">
                      <children>
                         <Label alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="30.0" text="R5" />
                         <Label alignment="CENTER" prefHeight="26.0" prefWidth="160.0" text="0" />
@@ -82,7 +82,7 @@
                         <Button mnemonicParsing="false" prefWidth="46.0" text="Hex" />
                      </children>
                   </HBox>
-                  <HBox>
+                  <HBox fx:id="r6Box">
                      <children>
                         <Label alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="30.0" text="R6" />
                         <Label alignment="CENTER" prefHeight="26.0" prefWidth="160.0" text="0" />
@@ -91,7 +91,7 @@
                         <Button mnemonicParsing="false" prefWidth="46.0" text="Hex" />
                      </children>
                   </HBox>
-                  <HBox>
+                  <HBox fx:id="r7Box">
                      <children>
                         <Label alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="30.0" text="R7" />
                         <Label alignment="CENTER" prefHeight="26.0" prefWidth="160.0" text="0" />
@@ -100,7 +100,7 @@
                         <Button mnemonicParsing="false" prefWidth="46.0" text="Hex" />
                      </children>
                   </HBox>
-                  <HBox>
+                  <HBox fx:id="r8Box">
                      <children>
                         <Label alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="30.0" text="R8" />
                         <Label alignment="CENTER" prefHeight="26.0" prefWidth="160.0" text="0" />
