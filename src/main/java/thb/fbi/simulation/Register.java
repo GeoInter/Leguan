@@ -29,15 +29,27 @@ public class Register {
     }
 
     public void updateShownValue() {
+        StringBuilder str;
         switch(numberFormat) {
-            case BIN: // binary
-                this.shownValue.set("0b" + Long.toBinaryString(this.value));
+            case BIN: // binary (space delimited in pairs of 4)
+                String bin = "0b" + Long.toBinaryString(this.value);
+                str = new StringBuilder(bin);
+                for(int i = bin.length()-4; i > 2; i-= 4) {
+                    str.insert(i, " ");
+                }
+                this.shownValue.set(str.toString());
+                break;
+            case HEX: // hexadecimal (space delimited in pairs of 4)
+                String hex = "0x" + Long.toHexString(this.value).toUpperCase();
+                str = new StringBuilder(hex);
+                for(int i = hex.length()-4; i > 2; i-= 4) {
+                    str.insert(i, " ");
+                }
+                this.shownValue.set(str.toString());
                 break;
             case DEC: // decimal
+            default:
                 this.shownValue.set("" + this.value);
-                break;
-            case HEX: // hexadecimal
-                this.shownValue.set("0x" + Long.toHexString(this.value));
                 break;
         }
     }

@@ -23,7 +23,12 @@ public class InstructionSet {
         instructionSet.add(
             new ArithmeticInstruction("NULL", 
                 "it is just empty",
-                null)
+                new IArithmeticCode() {
+                    @Override
+                    public void simulate(Register Rm, int shamt, Register Rn, Register Rd, FlagRegister F) {
+                        System.out.println("I'm Error - nice to meet you");
+                    }
+                })
         );
 
         instructionSet.add(
@@ -164,7 +169,8 @@ public class InstructionSet {
                 return instruction;
             }
         }
-        return null;
+        // get the 'NULL' Instruction, prevents critical runtime error
+        return (Instruction) instructionSet.toArray()[0];
     }
     
 }
