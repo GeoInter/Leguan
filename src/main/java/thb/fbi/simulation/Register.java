@@ -1,5 +1,7 @@
 package thb.fbi.simulation;
 
+import java.text.NumberFormat;
+
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 
@@ -32,24 +34,27 @@ public class Register {
         StringBuilder str;
         switch(numberFormat) {
             case BIN: // binary (space delimited in pairs of 4)
-                String bin = "0b" + Long.toBinaryString(this.value);
+                String bin = Long.toBinaryString(this.value);
                 str = new StringBuilder(bin);
-                for(int i = bin.length()-4; i > 2; i-= 4) {
+                for(int i = bin.length()-4; i > 0; i-= 4) {
                     str.insert(i, " ");
                 }
+                str.insert(0, "0b");
                 this.shownValue.set(str.toString());
                 break;
             case HEX: // hexadecimal (space delimited in pairs of 4)
-                String hex = "0x" + Long.toHexString(this.value).toUpperCase();
+                String hex = Long.toHexString(this.value).toUpperCase();
                 str = new StringBuilder(hex);
-                for(int i = hex.length()-4; i > 2; i-= 4) {
+                for(int i = hex.length()-4; i > 0; i-= 4) {
                     str.insert(i, " ");
                 }
+                str.insert(0, "0x");
                 this.shownValue.set(str.toString());
                 break;
             case DEC: // decimal
             default:
-                this.shownValue.set("" + this.value);
+                NumberFormat nf = NumberFormat.getInstance();
+                this.shownValue.set("" + nf.format(this.value));
                 break;
         }
     }
