@@ -25,11 +25,9 @@ public class Simulator {
             registers[i] = new Register("R"+i, 0, i);
             registers[i].setNumberFormat(Base.DEC);
         }
-        registers[0].setValue(Long.MAX_VALUE);
-        registers[1].setValue(1);
+        registers[0].setValue(-8);
+        registers[1].setValue(4);
         registers[2].setValue(2058766);
-
-
     }
 
     /** 
@@ -88,27 +86,18 @@ public class Simulator {
         argument.setRm(registers[1]);
         argument.setRd(registers[2]);
         instruction.simulate(argument, flagRegister, pc);
-        
-        // simulate();
-
-        System.out.println("=== done ===");
     }
 
     public void testSub() {
-        System.out.println("R0: " + registers[0].getValue());
-        System.out.println("R1: " + registers[1].getValue());
-        System.out.println("R2: " + registers[2].getValue());
-        Instruction instruction = instructionSet.findInstructionByMnemonic("SUB");
+        this.program = new ARMProgram("Simple Test");
+        updateShownRegisters();
+        
+        Instruction instruction = instructionSet.findInstructionByMnemonic("SUBS");
         InstructionArguments argument = new InstructionArguments();
+        argument.setRn(registers[0]);
         argument.setRm(registers[1]);
-        argument.setRn(registers[2]);
-        // argument.setRd(registers[0]);
         argument.setRd(registers[2]);
         instruction.simulate(argument, flagRegister, pc);
-        System.out.println("--------------");
-        System.out.println("R0: " + registers[0].getValue());
-        System.out.println("R1: " + registers[1].getValue());
-        System.out.println("R2: " + registers[2].getValue());
     }
 
     /**

@@ -110,6 +110,7 @@ public class FlagRegister {
     /**
      * checks if addition/ subtraction of two values would result
      * in a carry over and sets carry flag accordingly
+     * Splits long value into two int values and then check carry for each half
      * @param op1 first operand
      * @param op2 second operand
      */
@@ -119,32 +120,22 @@ public class FlagRegister {
         
         op1Lower &= 0xFFFFFFFFL;
         op2Lower &= 0xFFFFFFFFL;
-        System.out.println("op1lower: " + Long.toBinaryString(op1Lower));
-        System.out.println("op2lower: " + Long.toBinaryString(op2Lower));
         
         boolean carryLower = 0 < (op1Lower + op2Lower)>>32;
-        System.out.println("lower carry: " + carryLower);
-        System.out.println((op1Lower + op2Lower)>>32);
-        System.out.println("---------------------");
 
-        
-        long op1Higher = op1 >> 32; // does not included sign bit
-        long op2Higher = op2 >> 32;
-        op1Higher &= 0xFFFFFFFFL;
-        op2Higher &= 0xFFFFFFFFL;
-        System.out.println("op1higher: " + Long.toBinaryString(op1Higher) + "                        " + op1Higher);
-        System.out.println("op2higher: " + Long.toBinaryString(op2Higher));
-        System.out.println("carryLower: " + Long.toBinaryString((carryLower ? 1 : 0)) + "                                    " + (carryLower ? 1 : 0));
+        if(carryLower) { // if there is no carry for the lower half, no need to check upper half
+            long op1Higher = (int) (op1 >> 32); // does not included sign bit
+            long op2Higher = (int) (op2 >> 32);
+            op1Higher &= 0xFFFFFFFFL;
+            op2Higher &= 0xFFFFFFFFL;
 
-        // include previous carry from lower half
-        // shift is less because of signed bit not being included
-        boolean carryHigher = 0 < (op1Higher + op2Higher + (carryLower ? 1 : 0))>>31;
-        System.out.println("higher carry: " + carryHigher);
-        System.out.println(Long.toBinaryString(op1Higher + op2Higher + (carryLower ? 1 : 0)));
-        System.out.println(((op1Higher + op2Higher + (carryLower ? 1 : 0))>>31));
-
-        // set value to carryHigher (carryLower just as helper, when lower half carry can affect upper half)
-        this.c.set(carryHigher);
+            // include previous carry from lower half (carryLower just as helper, when lower half carry can affect upper half)
+            boolean carryHigher = 0 < (op1Higher + op2Higher + (carryLower ? 1 : 0))>>32;
+ 
+            this.c.set(carryHigher);
+        } else {
+            this.c.set(carryLower);
+        }
     }
 
     /**

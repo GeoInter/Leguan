@@ -30,6 +30,11 @@ public class Register {
         this.id = id;
     }
 
+    /**
+     * Updates the shown value in UI
+     * delimites binary and hex number in pairs of 4
+     * formats decimal with set Locale (points/ commas)
+     */
     public void updateShownValue() {
         StringBuilder str;
         switch(numberFormat) {
