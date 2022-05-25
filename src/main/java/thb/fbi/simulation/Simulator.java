@@ -11,7 +11,7 @@ public class Simulator {
     /** used set of instruction for this simulator instance */
     private InstructionSet instructionSet = new InstructionSet();
     /** accessible regsiters */
-    private Register[] registers = new Register[16];
+    private Register[] registers = new Register[32];
     /** programm counter */
     private long pc = 0;
     /** register of processor flags */
@@ -119,6 +119,10 @@ public class Simulator {
 
     public FlagRegister getFlagRegister() {
         return this.flagRegister;
+    }
+
+    public long getPC() {
+        return this.pc;
     }
 
     public InstructionSet getInstructionSet() {
