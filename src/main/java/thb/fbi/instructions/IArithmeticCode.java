@@ -1,12 +1,10 @@
 package thb.fbi.instructions;
 
-import thb.fbi.simulation.FlagRegister;
 import thb.fbi.simulation.Register;
 
 /**
  * Interface for definining and executing code of arithmetic instructions
  */
 public interface IArithmeticCode {
-    public abstract void simulate(Register Rm, int shamt, Register Rn, Register Rd, 
-        FlagRegister F);
+    public abstract void simulate(Register Rm, int shamt, Register Rn, Register Rd);
 }

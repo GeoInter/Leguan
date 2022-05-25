@@ -25,7 +25,7 @@ public class InstructionSet {
                 "it is just empty",
                 new IArithmeticCode() {
                     @Override
-                    public void simulate(Register Rm, int shamt, Register Rn, Register Rd, FlagRegister F) {
+                    public void simulate(Register Rm, int shamt, Register Rn, Register Rd) {
                         System.out.println("I'm Error - nice to meet you");
                     }
                 })
@@ -36,7 +36,7 @@ public class InstructionSet {
                 "Adds value of Registers Rm and Rn and puts result in Rd without flags",
                 new IArithmeticCode() {
                     @Override
-                    public void simulate(Register Rm, int shamt, Register Rn, Register Rd, FlagRegister F) {
+                    public void simulate(Register Rm, int shamt, Register Rn, Register Rd) {
                         // simple addition
                         long op1 = Rm.getValue();
                         long op2 = Rn.getValue();
@@ -51,7 +51,7 @@ public class InstructionSet {
                 "Adds value of Registers Rm and a constant and puts result in Rd without flags",
                 new IImmediateCode() {
                     @Override
-                    public void simulate(int alu_immediate, Register Rn, Register Rd, FlagRegister F) {
+                    public void simulate(int alu_immediate, Register Rn, Register Rd) {
                         long op1 = Rn.getValue();
                         long result = op1 + alu_immediate;
                         Rd.setValue(result);
@@ -64,12 +64,12 @@ public class InstructionSet {
                 "Adds value of Registers Rm and a constant and puts result in Rd with flags",
                 new IImmediateCode() {
                     @Override
-                    public void simulate(int alu_immediate, Register Rn, Register Rd, FlagRegister F) {
+                    public void simulate(int alu_immediate, Register Rn, Register Rd) {
                         long op1 = Rn.getValue();
                         long result = op1 + alu_immediate;
 
                         // overflow check
-                        F.checkAndSetVFlag(op1, alu_immediate, result);
+                        FlagRegister.checkAndSetVFlag(op1, alu_immediate, result);
                         
                         Rd.setValue(result);
                     }
@@ -81,17 +81,17 @@ public class InstructionSet {
                 "Adds value of Registers Rm and Rn and puts result in Rd with flags",
                 new IArithmeticCode() {
                     @Override
-                    public void simulate(Register Rm, int shamt, Register Rn, Register Rd, FlagRegister F) {
+                    public void simulate(Register Rm, int shamt, Register Rn, Register Rd) {
                         // simple addition
                         long op1 = Rm.getValue();
                         long op2 = Rn.getValue();
                         long result = op1 + op2;
 
                         // carry check
-                        F.checkAndSetCFlag(op1, op2);
+                        FlagRegister.checkAndSetCFlag(op1, op2);
 
                         // overflow check
-                        F.checkAndSetVFlag(op1, op2, result);
+                        FlagRegister.checkAndSetVFlag(op1, op2, result);
 
                         Rd.setValue(result);
                     }
@@ -118,7 +118,7 @@ public class InstructionSet {
                 "Subtracts value of Registers Rm and Rn and puts result in Rd without flags",
                 new IArithmeticCode() {
                     @Override
-                    public void simulate(Register Rm, int shamt, Register Rn, Register Rd, FlagRegister F) {
+                    public void simulate(Register Rm, int shamt, Register Rn, Register Rd) {
                         // simple subtraction
                         long op1 = Rn.getValue();
                         long op2 = Rm.getValue();
@@ -132,7 +132,7 @@ public class InstructionSet {
                 "Subtracts value of Registers Rm and a constant and puts result in Rd without flags",
                 new IImmediateCode() {
                     @Override
-                    public void simulate(int alu_immediate, Register Rn, Register Rd, FlagRegister F) {
+                    public void simulate(int alu_immediate, Register Rn, Register Rd) {
                         long op1 = Rn.getValue();
                         long result = op1 - alu_immediate;
                         Rd.setValue(result);
@@ -145,17 +145,17 @@ public class InstructionSet {
                 "Subtracts value of Registers Rm and Rn and puts result in Rd with flags",
                 new IArithmeticCode() {
                     @Override
-                    public void simulate(Register Rm, int shamt, Register Rn, Register Rd, FlagRegister F) {
+                    public void simulate(Register Rm, int shamt, Register Rn, Register Rd) {
                         // simple subtraction
                         long op1 = Rn.getValue();
                         long op2 = Rm.getValue();
                         long result = op1 - op2;
 
                         // carry check
-                        F.checkAndSetCFlag(op1, -1*op2); // the only difference to ADDS
+                        FlagRegister.checkAndSetCFlag(op1, -1*op2); // the only difference to ADDS
 
                         // overflow check
-                        F.checkAndSetVFlag(op1, op2, result);
+                        FlagRegister.checkAndSetVFlag(op1, op2, result);
 
                         Rd.setValue(result);
                     }

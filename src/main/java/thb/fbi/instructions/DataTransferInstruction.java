@@ -1,6 +1,5 @@
 package thb.fbi.instructions;
 
-import thb.fbi.simulation.FlagRegister;
 import thb.fbi.simulation.InstructionArguments;
 import thb.fbi.simulation.Register;
 
@@ -17,7 +16,7 @@ public class DataTransferInstruction extends Instruction {
     }
 
     @Override
-    public void simulate(InstructionArguments argument, FlagRegister F, long pc) {
+    public void simulate(InstructionArguments argument, long pc) {
         // TODO: figure out what datatype opcode2 is
         int dt_address = argument.getDt_Address();
         String opcode2 = "";

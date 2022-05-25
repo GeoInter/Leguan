@@ -1,6 +1,5 @@
 package thb.fbi.instructions;
 
-import thb.fbi.simulation.FlagRegister;
 import thb.fbi.simulation.InstructionArguments;
 
 /**
@@ -27,7 +26,7 @@ public abstract class Instruction {
         this.description = description;
     }
 
-    public abstract void simulate(InstructionArguments argument, FlagRegister F, long pc);
+    public abstract void simulate(InstructionArguments argument, long pc);
 
     @Override
     public int hashCode() {

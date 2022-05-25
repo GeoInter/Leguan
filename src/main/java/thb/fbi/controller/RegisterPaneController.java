@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import thb.fbi.simulation.Base;
+import thb.fbi.simulation.FlagRegister;
 import thb.fbi.simulation.Simulator;
 import thb.fbi.simulation.SimulatorSingleton;
 
@@ -76,10 +77,10 @@ public class RegisterPaneController {
         r3HexButton.setOnAction(event -> UpdateRegisterValueFormat(Base.HEX, 3));
 
         // bind value of flags to flag labels
-        NFlagValue.textProperty().bind(simulator.getFlagRegister().getNFlagProperty().asString());
-        ZFlagValue.textProperty().bind(simulator.getFlagRegister().getZFlagProperty().asString());
-        CFlagValue.textProperty().bind(simulator.getFlagRegister().getCFlagProperty().asString());
-        VFlagValue.textProperty().bind(simulator.getFlagRegister().getVFlagProperty().asString());
+        NFlagValue.textProperty().bind(FlagRegister.getNFlagProperty().asString());
+        ZFlagValue.textProperty().bind(FlagRegister.getZFlagProperty().asString());
+        CFlagValue.textProperty().bind(FlagRegister.getCFlagProperty().asString());
+        VFlagValue.textProperty().bind(FlagRegister.getVFlagProperty().asString());
 
         /**** this are bindings for making the register boxes invisible ****/ 
         // make the boxes invisble so they do not appear when not used

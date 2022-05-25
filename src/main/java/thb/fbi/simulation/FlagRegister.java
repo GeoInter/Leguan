@@ -9,26 +9,26 @@ import javafx.beans.property.SimpleBooleanProperty;
  */
 public class FlagRegister {
     /** Negative condition flag, Observable for UI */
-    private SimpleBooleanProperty n = new SimpleBooleanProperty(false);
+    private static SimpleBooleanProperty n = new SimpleBooleanProperty(false);
     /** Zero condition flag, Observable for UI */
-    private SimpleBooleanProperty z = new SimpleBooleanProperty(false);
+    private static SimpleBooleanProperty z = new SimpleBooleanProperty(false);
     /** Carry condition flag, Observable for UI */
-    private SimpleBooleanProperty c = new SimpleBooleanProperty(false);
+    private static SimpleBooleanProperty c = new SimpleBooleanProperty(false);
     /** Overflow condition flag, Observable for UI */
-    private SimpleBooleanProperty v = new SimpleBooleanProperty(false);
+    private static SimpleBooleanProperty v = new SimpleBooleanProperty(false);
 
-    public FlagRegister() {
-        this.n.set(false);
-        this.z.set(false);
-        this.c.set(false);
-        this.v.set(false);
+    public static void resetFlags() {
+        FlagRegister.n.set(false);
+        FlagRegister.z.set(false);
+        FlagRegister.c.set(false);
+        FlagRegister.v.set(false);
     }
 
     /**
      * gets the Negative condition flag
      * @return boolean representing if flag is set
      */
-    public boolean getNFlag() {
+    public static boolean getNFlag() {
         return n.get();
     }
 
@@ -36,7 +36,7 @@ public class FlagRegister {
      * gets the Zero condition flag
      * @return boolean representing if flag is set
      */
-    public boolean getZFlag() {
+    public static boolean getZFlag() {
         return z.get();
     }
 
@@ -44,7 +44,7 @@ public class FlagRegister {
      * gets the Carry condition flag
      * @return boolean representing if flag is set
      */
-    public boolean getCFlag() {
+    public static boolean getCFlag() {
         return c.get();
     }
 
@@ -52,7 +52,7 @@ public class FlagRegister {
      * gets the Overflow condition flag
      * @return boolean representing if flag is set
      */
-    public boolean getVFlag() {
+    public static boolean getVFlag() {
         return v.get();
     }
 
@@ -60,32 +60,32 @@ public class FlagRegister {
      * sets the Negative condition flag
      * @param n boolean to change the flag to
      */
-    public void setNFlag(boolean n) {
-        this.n.set(n);
+    public static void setNFlag(boolean n) {
+        FlagRegister.n.set(n);
     }
 
     /**
      * sets the Zero condition flag
      * @param z boolean to change the flag to
      */
-    public void setZFlag(boolean z) {
-        this.z.set(z);
+    public static void setZFlag(boolean z) {
+        FlagRegister.z.set(z);
     }
 
     /**
      * sets the Carry condition flag
      * @param c boolean to change the flag to
      */
-    public void setCFlag(boolean c) {
-        this.c.set(c);
+    public static void setCFlag(boolean c) {
+        FlagRegister.c.set(c);
     }
 
     /**
      * sets the Overflow condition flag
      * @param v boolean to change the flag to
      */
-    public void setVFlag(boolean v) {
-        this.v.set(v);
+    public static void setVFlag(boolean v) {
+        FlagRegister.v.set(v);
     }
 
     /**
@@ -94,8 +94,8 @@ public class FlagRegister {
      * (for this simulator all register values are signed, so no bitmask required)
      * @param value number to check if negative
      */
-    public void checkAndSetNFlag(long value) {
-        this.n.set(value < 0);
+    public static void checkAndSetNFlag(long value) {
+        FlagRegister.n.set(value < 0);
     }
 
     /**
@@ -103,8 +103,8 @@ public class FlagRegister {
      * 
      * @param value number to compare with 0
      */
-    public void checkAndSetZFlag(long value) {
-        this.z.set(value == 0);
+    public static void checkAndSetZFlag(long value) {
+        FlagRegister.z.set(value == 0);
     }
 
     /**
@@ -114,7 +114,7 @@ public class FlagRegister {
      * @param op1 first operand
      * @param op2 second operand
      */
-    public void checkAndSetCFlag(long op1, long op2) {
+    public static void checkAndSetCFlag(long op1, long op2) {
         long op1Lower = (int) op1;// op1 << 32;
         long op2Lower = (int) op2;// op2 << 32;
         
@@ -132,9 +132,9 @@ public class FlagRegister {
             // include previous carry from lower half (carryLower just as helper, when lower half carry can affect upper half)
             boolean carryHigher = 0 < (op1Higher + op2Higher + (carryLower ? 1 : 0))>>32;
  
-            this.c.set(carryHigher);
+            FlagRegister.c.set(carryHigher);
         } else {
-            this.c.set(carryLower);
+            FlagRegister.c.set(carryLower);
         }
     }
 
@@ -147,27 +147,27 @@ public class FlagRegister {
      * @param op2 second operand
      * @param result result of both operands
      */
-    public void checkAndSetVFlag(long op1, long op2, long result) {
+    public static void checkAndSetVFlag(long op1, long op2, long result) {
         if(op1 > 0 && op2 > 0 && result < 0) {
-            this.v.set(true);
+            FlagRegister.v.set(true);
         } else if (op1 < 0 && op2 < 0 && result > 0) {
-            this.v.set(true);
+            FlagRegister.v.set(true);
         }
     }
 
-    public SimpleBooleanProperty getNFlagProperty() {
+    public static SimpleBooleanProperty getNFlagProperty() {
         return n;
     }
 
-    public SimpleBooleanProperty getZFlagProperty() {
+    public static SimpleBooleanProperty getZFlagProperty() {
         return z;
     }
 
-    public SimpleBooleanProperty getCFlagProperty() {
+    public static SimpleBooleanProperty getCFlagProperty() {
         return c;
     }
 
-    public SimpleBooleanProperty getVFlagProperty() {
+    public static SimpleBooleanProperty getVFlagProperty() {
         return v;
     }
 }

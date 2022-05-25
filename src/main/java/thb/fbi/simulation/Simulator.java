@@ -48,7 +48,7 @@ public class Simulator {
         while(statement != null) {
             System.out.println("* pc: " + pc + " - line " + statement.getSourceLine());
             Instruction instruction = statement.getInstruction();
-            instruction.simulate(statement.getArguments(), flagRegister, pc);
+            instruction.simulate(statement.getArguments(), pc);
 
             System.out.println("R0: " + registers[0].getValue());
             System.out.println("R1: " + registers[1].getValue());
@@ -85,7 +85,7 @@ public class Simulator {
         argument.setRn(registers[0]);
         argument.setRm(registers[1]);
         argument.setRd(registers[2]);
-        instruction.simulate(argument, flagRegister, pc);
+        instruction.simulate(argument, pc);
     }
 
     public void testSub() {
@@ -97,7 +97,7 @@ public class Simulator {
         argument.setRn(registers[0]);
         argument.setRm(registers[1]);
         argument.setRd(registers[2]);
-        instruction.simulate(argument, flagRegister, pc);
+        instruction.simulate(argument, pc);
     }
 
     /**
