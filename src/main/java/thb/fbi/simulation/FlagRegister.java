@@ -17,7 +17,10 @@ public class FlagRegister {
     /** Overflow condition flag, Observable for UI */
     private static SimpleBooleanProperty v = new SimpleBooleanProperty(false);
 
-    public static void resetFlags() {
+    /**
+     * resets all flags back to false
+     */
+    public static void reset() {
         FlagRegister.n.set(false);
         FlagRegister.z.set(false);
         FlagRegister.c.set(false);

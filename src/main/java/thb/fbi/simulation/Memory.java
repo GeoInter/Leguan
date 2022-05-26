@@ -1,7 +1,6 @@
 package thb.fbi.simulation;
 
 import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 import java.util.HashMap;
 
 /**
@@ -10,14 +9,14 @@ import java.util.HashMap;
 public class Memory {
 
     private static HashMap<Long, Byte> dataStorage = new HashMap<Long, Byte>(); // uses keys -> keys as address
-    // uses put() method to add elements
+    public static long dataAdressMin = 10000;
 
     // TODO: test for null/ non-allocated bytes
 
     /**
      * resets the memory by clearing the hashmap
      */
-    public static void resetMemmory() {
+    public static void reset() {
         dataStorage.clear();
     }
 
@@ -27,7 +26,7 @@ public class Memory {
      * @return
      */
     public static byte loadByte(long address) {
-        return dataStorage.get(address);
+        return getByte(address);
     }
 
     /**
@@ -37,8 +36,9 @@ public class Memory {
      */
     public static long loadHalfword(long address) {
         byte[]bytes = new byte[2];
-        bytes[0] = dataStorage.get(address);
-        bytes[1] = dataStorage.get(address+1);
+        for(int i = 0; i < bytes.length; i++) {
+            bytes[i] = getByte(address + i);
+        }
         return combineBytes(bytes);
     }
 
@@ -49,10 +49,9 @@ public class Memory {
      */
     public static long loadWord(long address) {
         byte[]bytes = new byte[4];
-        bytes[0] = dataStorage.get(address);
-        bytes[1] = dataStorage.get(address+1);
-        bytes[2] = dataStorage.get(address+2);
-        bytes[3] = dataStorage.get(address+3);
+        for(int i = 0; i < bytes.length; i++) {
+            bytes[i] = getByte(address + i);
+        }
         return combineBytes(bytes);
     }
 
@@ -63,15 +62,27 @@ public class Memory {
      */
     public static long loadDWord(long address) {
         byte[]bytes = new byte[8];
-        bytes[0] = dataStorage.get(address);
-        bytes[1] = dataStorage.get(address+1);
-        bytes[2] = dataStorage.get(address+2);
-        bytes[3] = dataStorage.get(address+3);
-        bytes[4] = dataStorage.get(address+4);
-        bytes[5] = dataStorage.get(address+5);
-        bytes[6] = dataStorage.get(address+6);
-        bytes[7] = dataStorage.get(address+7);
+        for(int i = 0; i < bytes.length; i++) {
+            bytes[i] = getByte(address + i);
+        }
         return combineBytes(bytes);
+    }
+
+    /**
+     * gets a single Byte 
+     * 
+     * because the HashMap uses the Byte class instead
+     * of the primitive datatype byte, accessing a empty
+     * index results in a NullpointerException
+     * @param address
+     * @return
+     */
+    private static byte getByte(long address) {
+        Byte data = dataStorage.get(address);
+        if(data == null) {
+            return 0;
+        }
+        return data;
     }
 
     /**
@@ -80,12 +91,13 @@ public class Memory {
      * @return bytes combined into a single long value
      */
     private static long combineBytes(byte[] bytes) {
-        ByteBuffer bb = ByteBuffer.allocate(bytes.length);
-        bb.order(ByteOrder.nativeOrder());
-        for (byte b : bytes) {
-            bb.put(b);
+        long result = bytes[0];
+        System.out.println("start: " + result);
+        System.out.println("0 iteration: " + Long.toBinaryString(result));
+        for(int i = 1; i < bytes.length; i++) {
+            result = (((result) << 8) | bytes[i]);
+            System.out.println(i + " iteration: " + Long.toBinaryString(result));
         }
-        long result = bb.getLong();
         return result;
     }
 
@@ -128,14 +140,9 @@ public class Memory {
      * @param value to be stored in memory
      */
     public static void storeDWord(long address, long value) {
-        byte[] bytes = ByteBuffer.allocate(4).putLong(value).array();
+        byte[] bytes = ByteBuffer.allocate(8).putLong(value).array();
         for(int i = 0; i < bytes.length; i++) {
             dataStorage.put(address+i, bytes[i]);
         }
-    }
-
-    // for later Testing
-    public String toString() {
-        return dataStorage.toString();
     }
 }

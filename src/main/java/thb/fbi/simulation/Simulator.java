@@ -25,9 +25,9 @@ public class Simulator {
             registers[i] = new Register("R"+i, 0, i);
             registers[i].setNumberFormat(Base.DEC);
         }
-        registers[0].setValue(-8);
-        registers[1].setValue(4);
-        registers[2].setValue(2058766);
+        registers[0].setValue(-1);
+        registers[1].setValue(0);
+        registers[2].setValue(5);
     }
 
     /** 
@@ -76,16 +76,57 @@ public class Simulator {
         }
     }
 
-    public void testAdd() {
+    public void testMemory() {
         this.program = new ARMProgram("Simple Test");
         updateShownRegisters();
+
+        System.out.println("-------Start-------");
+        System.out.println("R0: " + registers[0].getValue());
+        System.out.println("R2: " + registers[2].getValue());
         
-        Instruction instruction = instructionSet.findInstructionByMnemonic("ADDS");
+        Instruction instruction = instructionSet.findInstructionByMnemonic("STURB");
         InstructionArguments argument = new InstructionArguments();
-        argument.setRn(registers[0]);
-        argument.setRm(registers[1]);
-        argument.setRd(registers[2]);
+        argument.setRt(registers[0]);
+        argument.setRn(registers[2]);
+        argument.setDt_Address(0);
         instruction.simulate(argument, pc);
+
+        System.out.println("-------Store-------");
+        System.out.println("R0: " + registers[0].getValue());
+        System.out.println("R2: " + registers[2].getValue());
+
+        Instruction instruction2 = instructionSet.findInstructionByMnemonic("LDUR");
+        InstructionArguments argument2 = new InstructionArguments();
+        argument2.setRt(registers[0]);
+        argument2.setRn(registers[2]);
+        argument2.setDt_Address(0);
+        instruction2.simulate(argument2, pc);
+
+        System.out.println("-------Load-------");
+        System.out.println("R0: " + registers[0].getValue());
+        System.out.println("R2: " + registers[2].getValue());
+
+        Instruction instruction3 = instructionSet.findInstructionByMnemonic("STUR");
+        InstructionArguments argument3 = new InstructionArguments();
+        argument3.setRt(registers[0]);
+        argument3.setRn(registers[2]);
+        argument3.setDt_Address(0);
+        instruction3.simulate(argument3, pc);
+
+        System.out.println("-------Store-------");
+        System.out.println("R0: " + registers[0].getValue());
+        System.out.println("R2: " + registers[2].getValue());
+
+        Instruction instruction4 = instructionSet.findInstructionByMnemonic("LDURB");
+        InstructionArguments argument4 = new InstructionArguments();
+        argument4.setRt(registers[0]);
+        argument4.setRn(registers[2]);
+        argument4.setDt_Address(0);
+        instruction4.simulate(argument4, pc);
+
+        System.out.println("-------Load-------");
+        System.out.println("R0: " + registers[0].getValue());
+        System.out.println("R2: " + registers[2].getValue());
     }
 
     public void testSub() {

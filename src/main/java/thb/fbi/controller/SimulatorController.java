@@ -4,6 +4,8 @@ import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.StackPane;
+import thb.fbi.simulation.FlagRegister;
+import thb.fbi.simulation.Memory;
 import thb.fbi.simulation.Simulator;
 import thb.fbi.simulation.SimulatorSingleton;
 
@@ -33,12 +35,16 @@ public class SimulatorController {
 
     @FXML
     private void runCode() {
-        simulator.testAdd();
+        simulator.testMemory();
     }
 
+    /**
+     * resets the simulator including memory and flags
+     */
     @FXML
     private void reset() {
-        simulator.testSub();
+        Memory.reset();
+        FlagRegister.reset();
     }
 
     @FXML

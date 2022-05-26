@@ -3,6 +3,7 @@ package thb.fbi.instructions;
 import java.util.HashSet;
 
 import thb.fbi.simulation.FlagRegister;
+import thb.fbi.simulation.Memory;
 import thb.fbi.simulation.Register;
 
 /**
@@ -100,15 +101,112 @@ public class InstructionSet {
 
         instructionSet.add(
             new DataTransferInstruction("LDUR", 
-            "Load memory to register", 
+            "Load a double word from memory to register", 
             new IDataTransferCode() {
                 @Override
                 public void simulate(int dt_address, String opcode2, Register Rn, Register Rt) {
-                    // TODO: access memory address to load its content into target register
                     long op1 = Rn.getValue();
                     long address = op1 + dt_address;
-                    System.out.println("Not yet implemented but address is: " + address);
-                    //Rt.setValue(0);
+                    long value = Memory.loadDWord(address);
+                    Rt.setValue(value);
+                }
+            })
+        );
+
+        instructionSet.add(
+            new DataTransferInstruction("LDURB", 
+            "Load a Byte from memory to register", 
+            new IDataTransferCode() {
+                @Override
+                public void simulate(int dt_address, String opcode2, Register Rn, Register Rt) {
+                    long op1 = Rn.getValue();
+                    long address = op1 + dt_address;
+                    long value = Memory.loadByte(address);
+                    Rt.setValue(value);
+                }
+            })
+        );
+
+        instructionSet.add(
+            new DataTransferInstruction("LDURH", 
+            "Load a half word from memory to register", 
+            new IDataTransferCode() {
+                @Override
+                public void simulate(int dt_address, String opcode2, Register Rn, Register Rt) {
+                    long op1 = Rn.getValue();
+                    long address = op1 + dt_address;
+                    long value = Memory.loadHalfword(address);
+                    Rt.setValue(value);
+                }
+            })
+        );
+
+        instructionSet.add(
+            new DataTransferInstruction("LDURSW", 
+            "Load a word from memory to register", 
+            new IDataTransferCode() {
+                @Override
+                public void simulate(int dt_address, String opcode2, Register Rn, Register Rt) {
+                    long op1 = Rn.getValue();
+                    long address = op1 + dt_address;
+                    long value = Memory.loadWord(address);
+                    Rt.setValue(value);
+                }
+            })
+        );
+
+        instructionSet.add(
+            new DataTransferInstruction("STUR", 
+            "Store a double word from register into memory", 
+            new IDataTransferCode() {
+                @Override
+                public void simulate(int dt_address, String opcode2, Register Rn, Register Rt) {
+                    long value = Rt.getValue();
+                    long op1 = Rn.getValue();
+                    long address = op1 + dt_address;
+                    Memory.storeDWord(address, value);
+                }
+            })
+        );
+
+        instructionSet.add(
+            new DataTransferInstruction("STURB", 
+            "Store a Byte from register into memory", 
+            new IDataTransferCode() {
+                @Override
+                public void simulate(int dt_address, String opcode2, Register Rn, Register Rt) {
+                    byte value = (byte) Rt.getValue();
+                    long op1 = Rn.getValue();
+                    long address = op1 + dt_address;
+                    Memory.storeByte(address, value);
+                }
+            })
+        );
+
+        instructionSet.add(
+            new DataTransferInstruction("STURH", 
+            "Store a half word from register into memory", 
+            new IDataTransferCode() {
+                @Override
+                public void simulate(int dt_address, String opcode2, Register Rn, Register Rt) {
+                    short value = (short) Rt.getValue();
+                    long op1 = Rn.getValue();
+                    long address = op1 + dt_address;
+                    Memory.storeHalfword(address, value);
+                }
+            })
+        );
+
+        instructionSet.add(
+            new DataTransferInstruction("STURH", 
+            "Store a word from register into memory", 
+            new IDataTransferCode() {
+                @Override
+                public void simulate(int dt_address, String opcode2, Register Rn, Register Rt) {
+                    int value = (int) Rt.getValue();
+                    long op1 = Rn.getValue();
+                    long address = op1 + dt_address;
+                    Memory.storeWord(address, value);
                 }
             })
         );
