@@ -22,11 +22,11 @@ public class Simulator {
     public Simulator() {
         instructionSet.populate();
         for (int i = 0; i < registers.length; i++) {
-            registers[i] = new Register("R"+i, 0, i);
+            registers[i] = new Register("R"+i, -i, i);
             registers[i].setNumberFormat(Base.DEC);
         }
         registers[0].setValue(-1);
-        registers[1].setValue(0);
+        registers[1].setValue(-2);
         registers[2].setValue(5);
     }
 

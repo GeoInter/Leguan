@@ -14,6 +14,8 @@
          <content>
             <VBox>
                <children>
+                  <!-- test for custom class -->
+                   
                   <HBox>
                      <children>
                         <Label alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="30.0" text="PC" />
@@ -23,314 +25,58 @@
                         <Button fx:id="pcHexButton" mnemonicParsing="false" prefWidth="46.0" text="Hex" />
                      </children>
                   </HBox>
-                  <Label text="&gt; Arguments/ Results" underline="true">
+                  <Label text="&gt; Arguments/ Results" underline="true"> <!-- 0 to 8 -->
                      <padding>
                         <Insets top="10.0" />
                      </padding>
                   </Label>
-                  <HBox fx:id="r0Box">
-                     <children>
-                        <Label alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="30.0" text="R0" />
-                        <Label fx:id="r0Value" alignment="CENTER" prefHeight="26.0" prefWidth="200.0" text="0" textAlignment="CENTER" wrapText="true" />
-                        <Button fx:id="r0DecButton" mnemonicParsing="false" prefWidth="46.0" text="Dec" />
-                        <Button fx:id="r0BinButton" mnemonicParsing="false" prefWidth="46.0" text="Bin" />
-                        <Button fx:id="r0HexButton" mnemonicParsing="false" prefWidth="46.0" text="Hex" />
-                     </children>
-                  </HBox>
-                  <HBox fx:id="r1Box">
-                     <children>
-                        <Label alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="30.0" text="R1" />
-                        <Label fx:id="r1Value" alignment="CENTER" prefHeight="26.0" prefWidth="200.0" text="0" />
-                        <Button fx:id="r1DecButton" mnemonicParsing="false" prefWidth="46.0" text="Dec" />
-                        <Button fx:id="r1BinButton" mnemonicParsing="false" prefWidth="46.0" text="Bin" />
-                        <Button fx:id="r1HexButton" mnemonicParsing="false" prefWidth="46.0" text="Hex" />
-                     </children>
-                  </HBox>
-                  <HBox fx:id="r2Box">
-                     <children>
-                        <Label alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="30.0" text="R2" />
-                        <Label fx:id="r2Value" alignment="CENTER" prefHeight="26.0" prefWidth="200.0" text="0" />
-                        <Button fx:id="r2DecButton" mnemonicParsing="false" prefWidth="46.0" text="Dec" />
-                        <Button fx:id="r2BinButton" mnemonicParsing="false" prefWidth="46.0" text="Bin" />
-                        <Button fx:id="r2HexButton" mnemonicParsing="false" prefWidth="46.0" text="Hex" />
-                     </children>
-                  </HBox>
-                  <HBox fx:id="r3Box">
-                     <children>
-                        <Label alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="30.0" text="R3" />
-                        <Label fx:id="r3Value" alignment="CENTER" prefHeight="26.0" prefWidth="200.0" text="0" />
-                        <Button fx:id="r3DecButton" mnemonicParsing="false" prefWidth="46.0" text="Dec" />
-                        <Button fx:id="r3BinButton" mnemonicParsing="false" prefWidth="46.0" text="Bin" />
-                        <Button fx:id="r3HexButton" mnemonicParsing="false" prefWidth="46.0" text="Hex" />
-                     </children>
-                  </HBox>
-                  <HBox fx:id="r4Box">
-                     <children>
-                        <Label alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="30.0" text="R4" />
-                        <Label fx:id="r4Value" alignment="CENTER" prefHeight="26.0" prefWidth="200.0" text="0" />
-                        <Button fx:id="r4DecButton" mnemonicParsing="false" prefWidth="46.0" text="Dec" />
-                        <Button fx:id="r4BinButton" mnemonicParsing="false" prefWidth="46.0" text="Bin" />
-                        <Button fx:id="r4HexButton" mnemonicParsing="false" prefWidth="46.0" text="Hex" />
-                     </children>
-                  </HBox>
-                  <HBox fx:id="r5Box">
-                     <children>
-                        <Label alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="30.0" text="R5" />
-                        <Label fx:id="r5Value" alignment="CENTER" prefHeight="26.0" prefWidth="200.0" text="0" />
-                        <Button fx:id="r5DecButton" mnemonicParsing="false" prefWidth="46.0" text="Dec" />
-                        <Button fx:id="r5BinButton" mnemonicParsing="false" prefWidth="46.0" text="Bin" />
-                        <Button fx:id="r5HexButton" mnemonicParsing="false" prefWidth="46.0" text="Hex" />
-                     </children>
-                  </HBox>
-                  <HBox fx:id="r6Box">
-                     <children>
-                        <Label alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="30.0" text="R6" />
-                        <Label fx:id="r6Value" alignment="CENTER" prefHeight="26.0" prefWidth="200.0" text="0" />
-                        <Button fx:id="r6DecButton" mnemonicParsing="false" prefWidth="46.0" text="Dec" />
-                        <Button fx:id="r6BinButton" mnemonicParsing="false" prefWidth="46.0" text="Bin" />
-                        <Button fx:id="r6HexButton" mnemonicParsing="false" prefWidth="46.0" text="Hex" />
-                     </children>
-                  </HBox>
-                  <HBox fx:id="r7Box">
-                     <children>
-                        <Label alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="30.0" text="R7" />
-                        <Label fx:id="r7Value" alignment="CENTER" prefHeight="26.0" prefWidth="200.0" text="0" />
-                        <Button fx:id="r7DecButton" mnemonicParsing="false" prefWidth="46.0" text="Dec" />
-                        <Button fx:id="r7BinButton" mnemonicParsing="false" prefWidth="46.0" text="Bin" />
-                        <Button fx:id="r7HexButton" mnemonicParsing="false" prefWidth="46.0" text="Hex" />
-                     </children>
-                  </HBox>
-                  <HBox fx:id="r8Box">
-                     <children>
-                        <Label alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="30.0" text="R8" />
-                        <Label fx:id="r8Value" alignment="CENTER" prefHeight="26.0" prefWidth="200.0" text="0" />
-                        <Button fx:id="r8DecButton" mnemonicParsing="false" prefWidth="46.0" text="Dec" />
-                        <Button fx:id="r8BinButton" mnemonicParsing="false" prefWidth="46.0" text="Bin" />
-                        <Button fx:id="r8HexButton" mnemonicParsing="false" prefWidth="46.0" text="Hex" />
-                     </children>
-                  </HBox>
-                  <Label text="&gt; Temporaries" underline="true">
+                  <fx:include fx:id="r0" source="RegisterTitleBar.fxml" />
+                  <fx:include fx:id="r1" source="RegisterTitleBar.fxml" />
+                  <fx:include fx:id="r2" source="RegisterTitleBar.fxml" />
+                  <fx:include fx:id="r3" source="RegisterTitleBar.fxml" />
+                  <fx:include fx:id="r4" source="RegisterTitleBar.fxml" />
+                  <fx:include fx:id="r5" source="RegisterTitleBar.fxml" />
+                  <fx:include fx:id="r6" source="RegisterTitleBar.fxml" />
+                  <fx:include fx:id="r7" source="RegisterTitleBar.fxml" />
+                  <fx:include fx:id="r8" source="RegisterTitleBar.fxml" />
+                  <Label text="&gt; Temporaries" underline="true"> <!-- 9 to 18 -->
                      <padding>
                         <Insets top="10.0" />
                      </padding>
                   </Label>
-                  <HBox fx:id="r9Box">
-                     <children>
-                        <Label alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="30.0" text="R9" />
-                        <Label fx:id="r9Value" alignment="CENTER" prefHeight="26.0" prefWidth="200.0" text="0" />
-                        <Button fx:id="r9DecButton" mnemonicParsing="false" prefWidth="46.0" text="Dec" />
-                        <Button fx:id="r9BinButton" mnemonicParsing="false" prefWidth="46.0" text="Bin" />
-                        <Button fx:id="r9HexButton" mnemonicParsing="false" prefWidth="46.0" text="Hex" />
-                     </children>
-                  </HBox>
-                  <HBox fx:id="r10Box">
-                     <children>
-                        <Label alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="30.0" text="R10" />
-                        <Label fx:id="r10Value" alignment="CENTER" prefHeight="26.0" prefWidth="200.0" text="0" />
-                        <Button fx:id="r10DecButton" mnemonicParsing="false" prefWidth="46.0" text="Dec" />
-                        <Button fx:id="r10BinButton" mnemonicParsing="false" prefWidth="46.0" text="Bin" />
-                        <Button fx:id="r10HexButton" mnemonicParsing="false" prefWidth="46.0" text="Hex" />
-                     </children>
-                  </HBox>
-                  <HBox fx:id="r11Box">
-                     <children>
-                        <Label alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="30.0" text="R11" />
-                        <Label fx:id="r11Value" alignment="CENTER" prefHeight="26.0" prefWidth="200.0" text="0" />
-                        <Button fx:id="r11DecButton" mnemonicParsing="false" prefWidth="46.0" text="Dec" />
-                        <Button fx:id="r11BinButton" mnemonicParsing="false" prefWidth="46.0" text="Bin" />
-                        <Button fx:id="r11HexButton" mnemonicParsing="false" prefWidth="46.0" text="Hex" />
-                     </children>
-                  </HBox>
-                  <HBox fx:id="r12Box">
-                     <children>
-                        <Label alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="30.0" text="R12" />
-                        <Label fx:id="r12Value" alignment="CENTER" prefHeight="26.0" prefWidth="200.0" text="0" />
-                        <Button fx:id="r12DecButton" mnemonicParsing="false" prefWidth="46.0" text="Dec" />
-                        <Button fx:id="r12BinButton" mnemonicParsing="false" prefWidth="46.0" text="Bin" />
-                        <Button fx:id="r12HexButton" mnemonicParsing="false" prefWidth="46.0" text="Hex" />
-                     </children>
-                  </HBox>
-                  <HBox fx:id="r13Box">
-                     <children>
-                        <Label alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="30.0" text="R13" />
-                        <Label fx:id="r13Value" alignment="CENTER" prefHeight="26.0" prefWidth="200.0" text="0" />
-                        <Button fx:id="r13DecButton" mnemonicParsing="false" prefWidth="46.0" text="Dec" />
-                        <Button fx:id="r13BinButton" mnemonicParsing="false" prefWidth="46.0" text="Bin" />
-                        <Button fx:id="r13HexButton" mnemonicParsing="false" prefWidth="46.0" text="Hex" />
-                     </children>
-                  </HBox>
-                  <HBox fx:id="r14Box">
-                     <children>
-                        <Label alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="30.0" text="R14" />
-                        <Label fx:id="r14Value" alignment="CENTER" prefHeight="26.0" prefWidth="200.0" text="0" />
-                        <Button fx:id="r14DecButton" mnemonicParsing="false" prefWidth="46.0" text="Dec" />
-                        <Button fx:id="r14BinButton" mnemonicParsing="false" prefWidth="46.0" text="Bin" />
-                        <Button fx:id="r14HexButton" mnemonicParsing="false" prefWidth="46.0" text="Hex" />
-                     </children>
-                  </HBox>
-                  <HBox fx:id="r15Box">
-                     <children>
-                        <Label alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="30.0" text="R15" />
-                        <Label fx:id="r15Value" alignment="CENTER" prefHeight="26.0" prefWidth="200.0" text="0" />
-                        <Button fx:id="r15DecButton" mnemonicParsing="false" prefWidth="46.0" text="Dec" />
-                        <Button fx:id="r15BinButton" mnemonicParsing="false" prefWidth="46.0" text="Bin" />
-                        <Button fx:id="r15HexButton" mnemonicParsing="false" prefWidth="46.0" text="Hex" />
-                     </children>
-                  </HBox>
-                  <HBox fx:id="r16Box">
-                     <children>
-                        <Label alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="30.0" text="R16" />
-                        <Label fx:id="r16Value" alignment="CENTER" prefHeight="26.0" prefWidth="200.0" text="0" />
-                        <Button fx:id="r16DecButton" mnemonicParsing="false" prefWidth="46.0" text="Dec" />
-                        <Button fx:id="r16BinButton" mnemonicParsing="false" prefWidth="46.0" text="Bin" />
-                        <Button fx:id="r16HexButton" mnemonicParsing="false" prefWidth="46.0" text="Hex" />
-                     </children>
-                  </HBox>
-                  <HBox fx:id="r17Box">
-                     <children>
-                        <Label alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="30.0" text="R17" />
-                        <Label fx:id="r17Value" alignment="CENTER" prefHeight="26.0" prefWidth="200.0" text="0" />
-                        <Button fx:id="r17DecButton" mnemonicParsing="false" prefWidth="46.0" text="Dec" />
-                        <Button fx:id="r17BinButton" mnemonicParsing="false" prefWidth="46.0" text="Bin" />
-                        <Button fx:id="r17HexButton" mnemonicParsing="false" prefWidth="46.0" text="Hex" />
-                     </children>
-                  </HBox>
-                  <HBox fx:id="r18Box">
-                     <children>
-                        <Label alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="30.0" text="R18" />
-                        <Label fx:id="r18Value" alignment="CENTER" prefHeight="26.0" prefWidth="200.0" text="0" />
-                        <Button fx:id="r18DecButton" mnemonicParsing="false" prefWidth="46.0" text="Dec" />
-                        <Button fx:id="r18BinButton" mnemonicParsing="false" prefWidth="46.0" text="Bin" />
-                        <Button fx:id="r18HexButton" mnemonicParsing="false" prefWidth="46.0" text="Hex" />
-                     </children>
-                  </HBox>
-                  <Label text="&gt; Saved" underline="true">
+                  <fx:include fx:id="r9" source="RegisterTitleBar.fxml" />
+                  <fx:include fx:id="r10" source="RegisterTitleBar.fxml" />
+                  <fx:include fx:id="r11" source="RegisterTitleBar.fxml" />
+                  <fx:include fx:id="r12" source="RegisterTitleBar.fxml" />
+                  <fx:include fx:id="r13" source="RegisterTitleBar.fxml" />
+                  <fx:include fx:id="r14" source="RegisterTitleBar.fxml" />
+                  <fx:include fx:id="r15" source="RegisterTitleBar.fxml" />
+                  <fx:include fx:id="r16" source="RegisterTitleBar.fxml" />
+                  <fx:include fx:id="r17" source="RegisterTitleBar.fxml" />
+                  <fx:include fx:id="r18" source="RegisterTitleBar.fxml" />
+                  <Label text="&gt; Saved" underline="true"> <!-- 19 to 27 -->
                      <padding>
                         <Insets top="10.0" />
                      </padding>
                   </Label>
-                  <HBox fx:id="r19Box">
-                     <children>
-                        <Label alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="30.0" text="R19" />
-                        <Label fx:id="r19Value" alignment="CENTER" prefHeight="26.0" prefWidth="200.0" text="0" />
-                        <Button fx:id="r19DecButton" mnemonicParsing="false" prefWidth="46.0" text="Dec" />
-                        <Button fx:id="r19BinButton" mnemonicParsing="false" prefWidth="46.0" text="Bin" />
-                        <Button fx:id="r19HexButton" mnemonicParsing="false" prefWidth="46.0" text="Hex" />
-                     </children>
-                  </HBox>
-                  <HBox fx:id="r20Box">
-                     <children>
-                        <Label alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="30.0" text="R20" />
-                        <Label fx:id="r20Value" alignment="CENTER" prefHeight="26.0" prefWidth="200.0" text="0" />
-                        <Button fx:id="r20DecButton" mnemonicParsing="false" prefWidth="46.0" text="Dec" />
-                        <Button fx:id="r20BinButton" mnemonicParsing="false" prefWidth="46.0" text="Bin" />
-                        <Button fx:id="r20HexButton" mnemonicParsing="false" prefWidth="46.0" text="Hex" />
-                     </children>
-                  </HBox>
-                  <HBox fx:id="r21Box">
-                     <children>
-                        <Label alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="30.0" text="R21" />
-                        <Label fx:id="r21Value" alignment="CENTER" prefHeight="26.0" prefWidth="200.0" text="0" />
-                        <Button fx:id="r21DecButton" mnemonicParsing="false" prefWidth="46.0" text="Dec" />
-                        <Button fx:id="r21BinButton" mnemonicParsing="false" prefWidth="46.0" text="Bin" />
-                        <Button fx:id="r21HexButton" mnemonicParsing="false" prefWidth="46.0" text="Hex" />
-                     </children>
-                  </HBox>
-                  <HBox fx:id="r22Box">
-                     <children>
-                        <Label alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="30.0" text="R22" />
-                        <Label fx:id="r22Value" alignment="CENTER" prefHeight="26.0" prefWidth="200.0" text="0" />
-                        <Button fx:id="r22DecButton" mnemonicParsing="false" prefWidth="46.0" text="Dec" />
-                        <Button fx:id="r22BinButton" mnemonicParsing="false" prefWidth="46.0" text="Bin" />
-                        <Button fx:id="r22HexButton" mnemonicParsing="false" prefWidth="46.0" text="Hex" />
-                     </children>
-                  </HBox>
-                  <HBox fx:id="r23Box">
-                     <children>
-                        <Label alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="30.0" text="R23" />
-                        <Label fx:id="r23Value" alignment="CENTER" prefHeight="26.0" prefWidth="200.0" text="0" />
-                        <Button fx:id="r23DecButton" mnemonicParsing="false" prefWidth="46.0" text="Dec" />
-                        <Button fx:id="r23BinButton" mnemonicParsing="false" prefWidth="46.0" text="Bin" />
-                        <Button fx:id="r23HexButton" mnemonicParsing="false" prefWidth="46.0" text="Hex" />
-                     </children>
-                  </HBox>
-                  <HBox fx:id="r24Box">
-                     <children>
-                        <Label alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="30.0" text="R24" />
-                        <Label fx:id="r24Value" alignment="CENTER" prefHeight="26.0" prefWidth="200.0" text="0" />
-                        <Button fx:id="r24DecButton" mnemonicParsing="false" prefWidth="46.0" text="Dec" />
-                        <Button fx:id="r24BinButton" mnemonicParsing="false" prefWidth="46.0" text="Bin" />
-                        <Button fx:id="r24HexButton" mnemonicParsing="false" prefWidth="46.0" text="Hex" />
-                     </children>
-                  </HBox>
-                  <HBox fx:id="r25Box">
-                     <children>
-                        <Label alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="30.0" text="R25" />
-                        <Label fx:id="r25Value" alignment="CENTER" prefHeight="26.0" prefWidth="200.0" text="0" />
-                        <Button fx:id="r25DecButton" mnemonicParsing="false" prefWidth="46.0" text="Dec" />
-                        <Button fx:id="r25BinButton" mnemonicParsing="false" prefWidth="46.0" text="Bin" />
-                        <Button fx:id="r25HexButton" mnemonicParsing="false" prefWidth="46.0" text="Hex" />
-                     </children>
-                  </HBox>
-                  <HBox fx:id="r26Box">
-                     <children>
-                        <Label alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="30.0" text="R26" />
-                        <Label fx:id="r26Value" alignment="CENTER" prefHeight="26.0" prefWidth="200.0" text="0" />
-                        <Button fx:id="r26DecButton" mnemonicParsing="false" prefWidth="46.0" text="Dec" />
-                        <Button fx:id="r26BinButton" mnemonicParsing="false" prefWidth="46.0" text="Bin" />
-                        <Button fx:id="r26HexButton" mnemonicParsing="false" prefWidth="46.0" text="Hex" />
-                     </children>
-                  </HBox>
-                  <HBox fx:id="r27Box">
-                     <children>
-                        <Label alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="30.0" text="R27" />
-                        <Label fx:id="r27Value" alignment="CENTER" prefHeight="26.0" prefWidth="200.0" text="0" />
-                        <Button fx:id="r27DecButton" mnemonicParsing="false" prefWidth="46.0" text="Dec" />
-                        <Button fx:id="r27BinButton" mnemonicParsing="false" prefWidth="46.0" text="Bin" />
-                        <Button fx:id="r27HexButton" mnemonicParsing="false" prefWidth="46.0" text="Hex" />
-                     </children>
-                  </HBox>
-                  <Label text="&gt; Others" underline="true">
+                  <fx:include fx:id="r19" source="RegisterTitleBar.fxml" />
+                  <fx:include fx:id="r20" source="RegisterTitleBar.fxml" />
+                  <fx:include fx:id="r21" source="RegisterTitleBar.fxml" />
+                  <fx:include fx:id="r22" source="RegisterTitleBar.fxml" />
+                  <fx:include fx:id="r23" source="RegisterTitleBar.fxml" />
+                  <fx:include fx:id="r24" source="RegisterTitleBar.fxml" />
+                  <fx:include fx:id="r25" source="RegisterTitleBar.fxml" />
+                  <fx:include fx:id="r26" source="RegisterTitleBar.fxml" />
+                  <fx:include fx:id="r27" source="RegisterTitleBar.fxml" />
+                  <Label text="&gt; Others" underline="true"> <!-- 28 to 31(XZR) -->
                      <padding>
                         <Insets top="10.0" />
                      </padding>
                   </Label>
-                  <HBox fx:id="r28Box">
-                     <children>
-                        <Label alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="30.0" text="R28" />
-                        <Label fx:id="r28Value" alignment="CENTER" prefHeight="26.0" prefWidth="200.0" text="0" />
-                        <Button fx:id="r28DecButton" mnemonicParsing="false" prefWidth="46.0" text="Dec" />
-                        <Button fx:id="r28BinButton" mnemonicParsing="false" prefWidth="46.0" text="Bin" />
-                        <Button fx:id="r28HexButton" mnemonicParsing="false" prefWidth="46.0" text="Hex" />
-                     </children>
-                  </HBox>
-                  <HBox fx:id="r29Box">
-                     <children>
-                        <Label alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="30.0" text="R29" />
-                        <Label fx:id="r29Value" alignment="CENTER" prefHeight="26.0" prefWidth="200.0" text="0" />
-                        <Button fx:id="r29DecButton" mnemonicParsing="false" prefWidth="46.0" text="Dec" />
-                        <Button fx:id="r29BinButton" mnemonicParsing="false" prefWidth="46.0" text="Bin" />
-                        <Button fx:id="r29HexButton" mnemonicParsing="false" prefWidth="46.0" text="Hex" />
-                     </children>
-                  </HBox>
-                  <HBox fx:id="r30Box">
-                     <children>
-                        <Label alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="30.0" text="R30" />
-                        <Label fx:id="r30Value" alignment="CENTER" prefHeight="26.0" prefWidth="200.0" text="0" />
-                        <Button fx:id="r30DecButton" mnemonicParsing="false" prefWidth="46.0" text="Dec" />
-                        <Button fx:id="r30BinButton" mnemonicParsing="false" prefWidth="46.0" text="Bin" />
-                        <Button fx:id="r30HexButton" mnemonicParsing="false" prefWidth="46.0" text="Hex" />
-                     </children>
-                  </HBox>
-                  <HBox fx:id="rZBox">
-                     <children>
-                        <Label alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="30.0" text="XZR" />
-                        <Label fx:id="rZValue" alignment="CENTER" prefHeight="26.0" prefWidth="200.0" text="0" />
-                        <Button fx:id="rZDecButton" mnemonicParsing="false" prefWidth="46.0" text="Dec" />
-                        <Button fx:id="rZBinButton" mnemonicParsing="false" prefWidth="46.0" text="Bin" />
-                        <Button fx:id="rZHexButton" mnemonicParsing="false" prefWidth="46.0" text="Hex" />
-                     </children>
-                  </HBox>
+                  <fx:include fx:id="r28" source="RegisterTitleBar.fxml" />
+                  <fx:include fx:id="r29" source="RegisterTitleBar.fxml" />
+                  <fx:include fx:id="r30" source="RegisterTitleBar.fxml" />
+                  <fx:include fx:id="r31" source="RegisterTitleBar.fxml" />
                </children>
             </VBox>
          </content>

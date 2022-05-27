@@ -7,20 +7,20 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<fx:root id="titlebar-hbox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@interface.css" type="javafx.scene.layout.HBox" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<HBox fx:id="registerBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="thb.fbi.controller.RegisterTitleBarController">
    <children>
-      <Label id="titlebar-label" fx:id="lblReg" alignment="CENTER" maxHeight="1.7976931348623157E308" prefHeight="26.0" prefWidth="46.0" text="R0" textAlignment="CENTER">
+      <Label fx:id="registerTitle" alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="45.0" text="R0" textAlignment="CENTER">
          <padding>
             <Insets left="8.0" right="8.0" />
          </padding>
       </Label>
-      <Label id="titlebar-value" fx:id="lblValue" alignment="CENTER" maxHeight="1.7976931348623157E308" prefHeight="26.0" prefWidth="272.0" text="0" textAlignment="CENTER">
+      <Label fx:id="registerValue" alignment="CENTER" prefHeight="26.0" prefWidth="200.0" text="0" textAlignment="CENTER" wrapText="true">
          <padding>
             <Insets left="8.0" right="8.0" />
          </padding>
       </Label>
-      <Button id="titlebar-button" fx:id="btnDecimal" disable="true" mnemonicParsing="false" onAction="#btnDecimalFired" prefWidth="46.0" text="Dec" />
-      <Button id="titlebar-button" fx:id="btnBinary" mnemonicParsing="false" onAction="#btnBinaryFired" prefWidth="46.0" text="Bin" />
-      <Button id="titlebar-hex" fx:id="btnHex" mnemonicParsing="false" onAction="#btnHexFired" prefWidth="46.0" text="Hex" />
+      <Button fx:id="decButton" onAction="#updateToDec" mnemonicParsing="false" prefWidth="46.0" text="Dec" disable="true"/>
+      <Button fx:id="binButton" onAction="#updateToBin" mnemonicParsing="false" prefWidth="46.0" text="Bin" />
+      <Button fx:id="hexButton" onAction="#updateToHex" mnemonicParsing="false" prefWidth="46.0" text="Hex" />
    </children>
-</fx:root>
+</HBox>

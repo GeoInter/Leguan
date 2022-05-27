@@ -133,7 +133,7 @@
                   </VBox>
                </children>
             </AnchorPane>
-          <AnchorPane>
+            <AnchorPane>
                <children>
                    <!-- content from RegisterPane.fxml included here -->
                   <fx:include fx:id="registerPane" source="RegisterPane.fxml" />              
