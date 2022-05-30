@@ -27,6 +27,16 @@ public class RegisterTitleBarController {
     @FXML HBox registerBox;
 
     /**
+     * Adds an always visible register to this Controller
+     * @param register
+     */
+    public void setProperties(Register register) {
+        this.register = register;
+        registerTitle.setText(register.getName());
+        registerValue.textProperty().bind(register.getShownValue());
+    }
+
+    /**
      * Adds a register and button to this Controller instance
      * 
      * binds value so it updates for every change and hides element when unused

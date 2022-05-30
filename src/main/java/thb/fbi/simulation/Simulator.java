@@ -13,7 +13,7 @@ public class Simulator {
     /** accessible regsiters */
     private Register[] registers = new Register[32];
     /** programm counter */
-    private long pc = 0;
+    private Register pc = new Register("PC", 0, -1);
     /** register of processor flags */
     private FlagRegister flagRegister = new FlagRegister();
     /** program to execute */
@@ -44,11 +44,11 @@ public class Simulator {
         System.out.println("--------------");
 
         // get first statement
-        ProgramStatement statement = program.getProgramStatement((int)pc / 2);
+        ProgramStatement statement = program.getProgramStatement((int)pc.getValue() / 2);
         while(statement != null) {
             System.out.println("* pc: " + pc + " - line " + statement.getSourceLine());
             Instruction instruction = statement.getInstruction();
-            instruction.simulate(statement.getArguments(), pc);
+            instruction.simulate(statement.getArguments(), pc.getValue());
 
             System.out.println("R0: " + registers[0].getValue());
             System.out.println("R1: " + registers[1].getValue());
@@ -56,9 +56,9 @@ public class Simulator {
             System.out.println("R3: " + registers[3].getValue());
             System.out.println("--------------");
 
-            pc += Instruction.INSTRUCTION_LENGTH;
+            pc.setValue(pc.getValue() + Instruction.INSTRUCTION_LENGTH);
             // get next statement, pointed by pc 
-            statement = program.getProgramStatement((int)pc / 2);
+            statement = program.getProgramStatement((int)pc.getValue() / 2);
         }
     }
 
@@ -89,7 +89,7 @@ public class Simulator {
         argument.setRt(registers[0]);
         argument.setRn(registers[2]);
         argument.setDt_Address(0);
-        instruction.simulate(argument, pc);
+        instruction.simulate(argument, pc.getValue());
 
         System.out.println("-------Store-------");
         System.out.println("R0: " + registers[0].getValue());
@@ -100,7 +100,7 @@ public class Simulator {
         argument2.setRt(registers[0]);
         argument2.setRn(registers[2]);
         argument2.setDt_Address(0);
-        instruction2.simulate(argument2, pc);
+        instruction2.simulate(argument2, pc.getValue());
 
         System.out.println("-------Load-------");
         System.out.println("R0: " + registers[0].getValue());
@@ -111,7 +111,7 @@ public class Simulator {
         argument3.setRt(registers[0]);
         argument3.setRn(registers[2]);
         argument3.setDt_Address(0);
-        instruction3.simulate(argument3, pc);
+        instruction3.simulate(argument3, pc.getValue());
 
         System.out.println("-------Store-------");
         System.out.println("R0: " + registers[0].getValue());
@@ -122,11 +122,13 @@ public class Simulator {
         argument4.setRt(registers[0]);
         argument4.setRn(registers[2]);
         argument4.setDt_Address(0);
-        instruction4.simulate(argument4, pc);
+        instruction4.simulate(argument4, pc.getValue());
 
         System.out.println("-------Load-------");
         System.out.println("R0: " + registers[0].getValue());
         System.out.println("R2: " + registers[2].getValue());
+
+        pc.setValue(16);
     }
 
     public void testSub() {
@@ -138,7 +140,7 @@ public class Simulator {
         argument.setRn(registers[0]);
         argument.setRm(registers[1]);
         argument.setRd(registers[2]);
-        instruction.simulate(argument, pc);
+        instruction.simulate(argument, pc.getValue());
     }
 
     /**
@@ -162,8 +164,12 @@ public class Simulator {
         return this.flagRegister;
     }
 
-    public long getPC() {
+    public Register getPC() {
         return this.pc;
+    }
+
+    public long getPCValue() {
+        return this.pc.getValue();
     }
 
     public InstructionSet getInstructionSet() {

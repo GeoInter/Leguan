@@ -19,7 +19,7 @@ public class RegisterPaneController {
 
     @FXML VBox RegisterPane;
 
-
+    @FXML RegisterTitleBarController pcController; 
     @FXML RegisterTitleBarController r0Controller; 
     @FXML RegisterTitleBarController r1Controller;  
     @FXML RegisterTitleBarController r2Controller; 
@@ -83,6 +83,7 @@ public class RegisterPaneController {
     @FXML
     public void initialize() {
 
+        pcController.setProperties(simulator.getPC());
         r0Controller.setProperties(simulator.getRegisters()[0], showAllRegisters);
         r1Controller.setProperties(simulator.getRegisters()[1], showAllRegisters);
         r2Controller.setProperties(simulator.getRegisters()[2], showAllRegisters);
