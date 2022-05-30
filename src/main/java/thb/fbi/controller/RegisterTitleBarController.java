@@ -8,8 +8,15 @@ import javafx.scene.layout.HBox;
 import thb.fbi.simulation.Base;
 import thb.fbi.simulation.Register;
 
+/**
+ * controller class for a register bar
+ * 
+ * controls only one specified register
+ * register needs to be set seperate/ outside of this controller
+ */
 public class RegisterTitleBarController {
 
+    /** register to associate to this UI element */
     private Register register;
 
     @FXML Label registerTitle;
@@ -19,12 +26,14 @@ public class RegisterTitleBarController {
     @FXML Button hexButton;
     @FXML HBox registerBox;
 
-    @FXML
-    public void initialize() {
-    
-    }
-
-    @FXML void setProperties(Register register, SimpleBooleanProperty showAllRegisters) {
+    /**
+     * Adds a register and button to this Controller instance
+     * 
+     * binds value so it updates for every change and hides element when unused
+     * @param register
+     * @param showAllRegisters
+     */
+    public void setProperties(Register register, SimpleBooleanProperty showAllRegisters) {
         this.register = register;
         registerTitle.setText(register.getName());
         registerValue.textProperty().bind(register.getShownValue());
@@ -32,6 +41,9 @@ public class RegisterTitleBarController {
         registerBox.visibleProperty().bind(register.getIsUsed().or(showAllRegisters));
     }
 
+    /**
+     * updates displayed value to decimal format and deactivates the DEC button
+     */
     @FXML
     private void updateToDec() { 
         register.setNumberFormat(Base.DEC);
@@ -40,6 +52,9 @@ public class RegisterTitleBarController {
         hexButton.setDisable(false);
     }
 
+    /**
+     * updates displayed value to binary format and deactivates the BIN button
+     */
     @FXML
     private void updateToBin() { 
         register.setNumberFormat(Base.BIN);
@@ -48,6 +63,9 @@ public class RegisterTitleBarController {
         hexButton.setDisable(false);
     }
 
+    /**
+     * updates displayed value to hexadeciaml format and deactivates the HEX button
+     */
     @FXML
     private void updateToHex() { 
         register.setNumberFormat(Base.HEX);
