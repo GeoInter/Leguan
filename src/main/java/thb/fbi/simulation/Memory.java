@@ -20,10 +20,17 @@ public class Memory {
         dataStorage.clear();
     }
 
+    /**
+     * set Controller as observer
+     * @param observer controller class that implements the MemoryObserver
+     */
     public static void setObserver(MemoryObserver observer) {
         Memory.observer = observer;
     }
 
+    /**
+     * notify Observer for changes in HashMap
+     */
     public static void notifyObserver() {
         observer.update(dataStorage);
     }
