@@ -91,7 +91,7 @@ public class Simulator {
         argument.setDt_Address(0);
         instruction.simulate(argument, pc.getValue());
 
-        System.out.println("-------Store-------");
+        System.out.println("-------Store Byte-------");
         System.out.println("R0: " + registers[0].getValue());
         System.out.println("R2: " + registers[2].getValue());
 
@@ -102,7 +102,7 @@ public class Simulator {
         argument2.setDt_Address(0);
         instruction2.simulate(argument2, pc.getValue());
 
-        System.out.println("-------Load-------");
+        System.out.println("-------Load DWord-------");
         System.out.println("R0: " + registers[0].getValue());
         System.out.println("R2: " + registers[2].getValue());
 
@@ -113,7 +113,7 @@ public class Simulator {
         argument3.setDt_Address(0);
         instruction3.simulate(argument3, pc.getValue());
 
-        System.out.println("-------Store-------");
+        System.out.println("-------Store DWord-------");
         System.out.println("R0: " + registers[0].getValue());
         System.out.println("R2: " + registers[2].getValue());
 
@@ -124,7 +124,7 @@ public class Simulator {
         argument4.setDt_Address(0);
         instruction4.simulate(argument4, pc.getValue());
 
-        System.out.println("-------Load-------");
+        System.out.println("-------Load Byte-------");
         System.out.println("R0: " + registers[0].getValue());
         System.out.println("R2: " + registers[2].getValue());
 

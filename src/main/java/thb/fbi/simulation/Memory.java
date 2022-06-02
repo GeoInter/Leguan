@@ -11,13 +11,21 @@ public class Memory {
     private static HashMap<Long, Byte> dataStorage = new HashMap<Long, Byte>(); // uses keys -> keys as address
     public static long dataAdressMin = 10000;
 
-    // TODO: test for null/ non-allocated bytes
+    private static MemoryObserver observer;
 
     /**
      * resets the memory by clearing the hashmap
      */
     public static void reset() {
         dataStorage.clear();
+    }
+
+    public static void setObserver(MemoryObserver observer) {
+        Memory.observer = observer;
+    }
+
+    public static void notifyObserver() {
+        observer.update(dataStorage);
     }
 
     /**
@@ -108,6 +116,7 @@ public class Memory {
      */
     public static void storeByte(long address, byte value) {
         dataStorage.put(address, value);
+        notifyObserver();
     }
 
     /**
@@ -120,6 +129,7 @@ public class Memory {
         for(int i = 0; i < bytes.length; i++) {
             dataStorage.put(address+i, bytes[i]);
         }
+        notifyObserver();
     }
 
     /**
@@ -132,6 +142,7 @@ public class Memory {
         for(int i = 0; i < bytes.length; i++) {
             dataStorage.put(address+i, bytes[i]);
         }
+        notifyObserver();
     }
 
     /**
@@ -144,5 +155,6 @@ public class Memory {
         for(int i = 0; i < bytes.length; i++) {
             dataStorage.put(address+i, bytes[i]);
         }
+        notifyObserver();
     }
 }
