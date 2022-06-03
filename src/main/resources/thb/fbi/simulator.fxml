@@ -8,10 +8,15 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import org.fxmisc.richtext.CodeArea?>
 
 <VBox maxHeight="1.7976931348623157E308" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="thb.fbi.controller.SimulatorController">
    <children>
@@ -102,11 +107,8 @@
       </VBox>
       <SplitPane fx:id="splitPane" dividerPositions="0.9" maxHeight="1.7976931348623157E308" prefWidth="1920.0" VBox.vgrow="ALWAYS">
         <items>
-          <AnchorPane>
+            <AnchorPane>
                <children>
-                  <!-- content from RegisterPane.fxml included here -->
-                  <fx:include fx:id="memory" source="Memory.fxml" />
-                  <!--
                   <VBox>
                      <children>
                         <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
@@ -128,16 +130,30 @@
                                     <CodeArea autoHeight="true" lineHighlighterOn="true" prefHeight="397.0" prefWidth="601.0" />
                                  </content>
                               </ScrollPane>
-                           </children></StackPane>
+                           </children>
+                        </StackPane>
                      </children>
                   </VBox>
-                  -->
                </children>
             </AnchorPane>
             <AnchorPane fx:id="rightSideAnchorPane">
                <children>
-                  <!-- content from RegisterPane.fxml included here -->
-                  <fx:include fx:id="registerPane" source="RegisterPane.fxml" />              
+                  <TabPane tabClosingPolicy="UNAVAILABLE">
+                    <tabs>
+                      <Tab text="Register">
+                           <content>
+                              <!-- content from RegisterPane.fxml included here -->
+                              <fx:include fx:id="registerPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" source="RegisterPane.fxml" />
+                           </content>
+                        </Tab>
+                      <Tab text="Memory">
+                           <content>
+                              <!-- content from RegisterPane.fxml included here -->
+                              <fx:include fx:id="memory" source="Memory.fxml" />
+                           </content>
+                        </Tab>
+                    </tabs>
+                  </TabPane>              
                </children>
             </AnchorPane>
         </items>

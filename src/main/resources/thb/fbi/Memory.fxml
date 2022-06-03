@@ -10,7 +10,7 @@
 
 <VBox alignment="TOP_CENTER" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="thb.fbi.controller.MemoryController">
    <children>
-      <HBox prefWidth="200.0">
+      <HBox>
          <children>
             <TextField fx:id="startAddressTextField" promptText="start address">
                <HBox.margin>
@@ -31,7 +31,7 @@
       </Button>
       <TableView fx:id="memoryTable">
         <columns>
-          <TableColumn fx:id="addressColumn" editable="false" prefWidth="75.0" sortable="false" text="Address" />
+          <TableColumn fx:id="addressColumn" editable="false" prefWidth="75.0" text="Address" />
           <TableColumn fx:id="contentColumn" editable="false" prefWidth="75.0" sortable="false" text="Content" />
         </columns>
          <columnResizePolicy>

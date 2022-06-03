@@ -31,7 +31,8 @@ public class MemoryController implements MemoryObserver {
     @FXML TextField startAddressTextField;
     @FXML TextField endAddressTextField;
 
-    private Map<Long, Byte> data;
+    private Map<Long, Byte> data = new HashMap<Long, Byte>();
+    
     /** specifies amount of digits allowed in textfield. 
      * If maximum is reached no new input will be accepted besides backspace. 
      * */

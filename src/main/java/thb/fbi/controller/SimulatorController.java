@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.SplitPane;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import thb.fbi.simulation.FlagRegister;
@@ -24,6 +25,7 @@ public class SimulatorController {
     @FXML StackPane codeStackPane;
     @FXML SplitPane splitPane;
     @FXML AnchorPane rightSideAnchorPane;
+    @FXML TabPane tabPane;
 
     @FXML CheckBox showUnusedRegisterButton;
 
