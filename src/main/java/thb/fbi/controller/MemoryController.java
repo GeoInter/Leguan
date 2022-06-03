@@ -32,7 +32,7 @@ public class MemoryController implements MemoryObserver {
     @FXML TextField endAddressTextField;
 
     private Map<Long, Byte> data = new HashMap<Long, Byte>();
-    
+
     /** specifies amount of digits allowed in textfield. 
      * If maximum is reached no new input will be accepted besides backspace. 
      * */
@@ -78,12 +78,22 @@ public class MemoryController implements MemoryObserver {
 
     /**
      * when Memory changes, update the tableView
-     * @param data
+     * also applies filter - so that filter persist even when updated
+     * @param data new HashMap from Memory
      */
     @Override
     public void update(HashMap<Long, Byte> data) {
         this.data = data;
         updateTable(data);
+        filterMemoryTable();
+    }
+
+    /**
+     * function called when filter button pressed
+     */
+    @FXML
+    public void filterButtonFired() {
+        filterMemoryTable();
     }
 
     /**
@@ -91,7 +101,6 @@ public class MemoryController implements MemoryObserver {
      * 
      * can filter from only a start, only an end or an interval of both addresses
      */
-    @FXML
     public void filterMemoryTable() {
         Map<Long, Byte> filteredData;
         if(startAddressTextField.getText().isBlank() && endAddressTextField.getText().isBlank()) {
