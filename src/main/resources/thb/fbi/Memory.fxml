@@ -11,7 +11,7 @@
    <children>
       <TextField fx:id="startAddressLabel" promptText="Interval Start" />
       <TextField fx:id="endAddressLabel" promptText="Interval End" />
-      <Button mnemonicParsing="false" text="Temp">
+      <Button fx:id="filterButton" mnemonicParsing="false" onAction="#filterMemoryTable" text="Filter">
          <VBox.margin>
             <Insets bottom="8.0" top="8.0" />
          </VBox.margin>

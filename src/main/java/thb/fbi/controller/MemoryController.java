@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.function.UnaryOperator;
+import java.util.stream.Collectors;
 
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
@@ -27,8 +28,10 @@ public class MemoryController implements MemoryObserver {
     @FXML TableColumn<Map.Entry<Long, Byte>, Long> addressColumn;
     @FXML TableColumn<Map.Entry<Long, Byte>, Byte> contentColumn;
 
-    @FXML TextField startAddressLabel;
-    @FXML TextField endAddressLabel;
+    @FXML TextField startAddressTextField;
+    @FXML TextField endAddressTextField;
+
+    private Map<Long, Byte> data;
 
     @FXML
     public void initialize() {
@@ -59,8 +62,8 @@ public class MemoryController implements MemoryObserver {
             return null;
         };
         
-        startAddressLabel.setTextFormatter(new TextFormatter<Integer>(new IntegerStringConverter(), 0, integerFilter));
-        endAddressLabel.setTextFormatter(new TextFormatter<Integer>(new IntegerStringConverter(), 0, integerFilter));
+        startAddressTextField.setTextFormatter(new TextFormatter<Integer>(new IntegerStringConverter(), null, integerFilter));
+        endAddressTextField.setTextFormatter(new TextFormatter<Integer>(new IntegerStringConverter(), null, integerFilter));
         
         Memory.setObserver(this);
         
@@ -72,6 +75,43 @@ public class MemoryController implements MemoryObserver {
      */
     @Override
     public void update(HashMap<Long, Byte> data) {
+        this.data = data;
+        updateTable(data);
+    }
+
+    /**
+     * filter table depending on entered value in textfields
+     * 
+     * can filter from only a start, only an end or an interval of both addresses
+     */
+    @FXML
+    public void filterMemoryTable() {
+        Map<Long, Byte> filteredData;
+        if(startAddressTextField.getText().isBlank() && endAddressTextField.getText().isBlank()) {
+            filteredData = data;
+        } else if(startAddressTextField.getText().isBlank()) {
+            filteredData = data.entrySet().stream()
+                .filter(map -> map.getKey() <= Integer.parseInt(endAddressTextField.getText()))
+                .collect(Collectors.toMap(p -> p.getKey(), p -> p.getValue()));
+        } else if(endAddressTextField.getText().isBlank()) {
+            filteredData = data.entrySet().stream()
+                .filter(map -> map.getKey() >= Integer.parseInt(startAddressTextField.getText()))
+                .collect(Collectors.toMap(p -> p.getKey(), p -> p.getValue()));
+        } else {
+            filteredData = data.entrySet().stream()
+                .filter(map -> map.getKey() >= Integer.parseInt(startAddressTextField.getText()) && map.getKey() <= Integer.parseInt(endAddressTextField.getText()))
+                .collect(Collectors.toMap(p -> p.getKey(), p -> p.getValue()));
+        }
+
+        System.out.println(filteredData.toString());
+        updateTable(filteredData);
+    }
+
+    /**
+     * update the tableview
+     * @param data new hashmap to be inserted into the table
+     */
+    private void updateTable(Map<Long, Byte> data) {
         ObservableList<Map.Entry<Long, Byte>> items = FXCollections.observableArrayList(data.entrySet());
         memoryTable.setItems(items);
     }
