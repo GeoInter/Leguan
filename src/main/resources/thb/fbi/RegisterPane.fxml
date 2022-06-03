@@ -71,6 +71,7 @@
                   <fx:include fx:id="r29" source="RegisterTitleBar.fxml" />
                   <fx:include fx:id="r30" source="RegisterTitleBar.fxml" />
                   <fx:include fx:id="r31" source="RegisterTitleBar.fxml" />
+                  <Separator prefWidth="200.0" />
                </children>
             </VBox>
          </content>

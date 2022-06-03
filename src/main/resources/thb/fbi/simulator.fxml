@@ -13,8 +13,8 @@
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import org.fxmisc.richtext.CodeArea?>
 
@@ -109,11 +109,11 @@
         <items>
             <AnchorPane>
                <children>
-                  <VBox>
+                  <VBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                        <HBox alignment="CENTER_LEFT" visible="false">
                            <children>
-                              <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Reset to continue editing code" HBox.hgrow="ALWAYS">
+                              <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Reset to continue editing code">
                                  <padding>
                                     <Insets bottom="4.0" left="8.0" right="8.0" top="4.0" />
                                  </padding>
@@ -125,10 +125,13 @@
                         </HBox>
                         <StackPane fx:id="codeStackPane" layoutX="14.0" layoutY="14.0" VBox.vgrow="ALWAYS">
                            <children>
-                              <ScrollPane prefHeight="400.0" prefWidth="618.0" vbarPolicy="ALWAYS" StackPane.alignment="CENTER">
+                              <ScrollPane fx:id="codeScrollPane" prefHeight="400.0" prefWidth="618.0" vbarPolicy="ALWAYS" StackPane.alignment="CENTER">
                                  <content>
-                                    <CodeArea autoHeight="true" lineHighlighterOn="true" prefHeight="397.0" prefWidth="601.0" />
+                                    <CodeArea fx:id="codeArea" lineHighlighterOn="true" wrapText="true" />
                                  </content>
+                                 <StackPane.margin>
+                                    <Insets />
+                                 </StackPane.margin>
                               </ScrollPane>
                            </children>
                         </StackPane>
