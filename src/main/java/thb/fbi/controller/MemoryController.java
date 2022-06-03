@@ -32,6 +32,10 @@ public class MemoryController implements MemoryObserver {
     @FXML TextField endAddressTextField;
 
     private Map<Long, Byte> data;
+    /** specifies amount of digits allowed in textfield. 
+     * If maximum is reached no new input will be accepted besides backspace. 
+     * */
+    private int maxLengthOfTextFields = 6;
 
     @FXML
     public void initialize() {
@@ -56,9 +60,11 @@ public class MemoryController implements MemoryObserver {
 
         // filter for allowing number input only
         UnaryOperator<Change> integerFilter = change -> {
-            if(change.getText().matches("\\d*")) {
-                return change;
-            } 
+            if(change.getControlNewText().length() <= maxLengthOfTextFields) {
+                if(change.getText().matches("\\d*")) {
+                    return change;
+                } 
+            }
             return null;
         };
         

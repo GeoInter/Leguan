@@ -100,7 +100,7 @@
             </HBox>
          </children>
       </VBox>
-      <SplitPane dividerPositions="0.62" maxHeight="1.7976931348623157E308" prefWidth="1920.0" VBox.vgrow="ALWAYS">
+      <SplitPane fx:id="splitPane" dividerPositions="0.9" maxHeight="1.7976931348623157E308" prefWidth="1920.0" VBox.vgrow="ALWAYS">
         <items>
           <AnchorPane>
                <children>
@@ -134,7 +134,7 @@
                   -->
                </children>
             </AnchorPane>
-            <AnchorPane>
+            <AnchorPane fx:id="rightSideAnchorPane">
                <children>
                   <!-- content from RegisterPane.fxml included here -->
                   <fx:include fx:id="registerPane" source="RegisterPane.fxml" />              

@@ -3,6 +3,8 @@ package thb.fbi.controller;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.SplitPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import thb.fbi.simulation.FlagRegister;
 import thb.fbi.simulation.Memory;
@@ -20,6 +22,8 @@ public class SimulatorController {
     @FXML Parent registerPane;
 
     @FXML StackPane codeStackPane;
+    @FXML SplitPane splitPane;
+    @FXML AnchorPane rightSideAnchorPane;
 
     @FXML CheckBox showUnusedRegisterButton;
 
@@ -31,6 +35,10 @@ public class SimulatorController {
         showUnusedRegisterButton.selectedProperty().bindBidirectional(RegisterPaneController.showAllRegisters);
         // CodeArea codeArea = new CodeArea();
         // codeStackPane.getChildren().addAll(codeArea);
+
+        // prevent rightside to resize (change divider position) when maximazing
+        SplitPane.setResizableWithParent(rightSideAnchorPane, false);
+
     }
 
     @FXML
