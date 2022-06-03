@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -14,6 +15,7 @@
             <VBox>
                <children>
                   <fx:include fx:id="pc" source="RegisterTitleBar.fxml" />
+                  <Separator prefWidth="200.0" />
                   <Label text="&gt; Arguments/ Results" underline="true"> <!-- 0 to 8 -->
                      <padding>
                         <Insets top="10.0" />
@@ -28,6 +30,7 @@
                   <fx:include fx:id="r6" source="RegisterTitleBar.fxml" />
                   <fx:include fx:id="r7" source="RegisterTitleBar.fxml" />
                   <fx:include fx:id="r8" source="RegisterTitleBar.fxml" />
+                  <Separator prefWidth="200.0" />
                   <Label text="&gt; Temporaries" underline="true"> <!-- 9 to 18 -->
                      <padding>
                         <Insets top="10.0" />
@@ -43,6 +46,7 @@
                   <fx:include fx:id="r16" source="RegisterTitleBar.fxml" />
                   <fx:include fx:id="r17" source="RegisterTitleBar.fxml" />
                   <fx:include fx:id="r18" source="RegisterTitleBar.fxml" />
+                  <Separator prefWidth="200.0" />
                   <Label text="&gt; Saved" underline="true"> <!-- 19 to 27 -->
                      <padding>
                         <Insets top="10.0" />
@@ -57,6 +61,7 @@
                   <fx:include fx:id="r25" source="RegisterTitleBar.fxml" />
                   <fx:include fx:id="r26" source="RegisterTitleBar.fxml" />
                   <fx:include fx:id="r27" source="RegisterTitleBar.fxml" />
+                  <Separator prefWidth="200.0" />
                   <Label text="&gt; Others" underline="true"> <!-- 28 to 31(XZR) -->
                      <padding>
                         <Insets top="10.0" />

@@ -25,7 +25,7 @@ public class Simulator {
             registers[i] = new Register("R"+i, -i, i);
             registers[i].setNumberFormat(Base.DEC);
         }
-        registers[0].setValue(-1);
+        registers[0].setValue(65);
         registers[1].setValue(-2);
         registers[2].setValue(5);
     }
