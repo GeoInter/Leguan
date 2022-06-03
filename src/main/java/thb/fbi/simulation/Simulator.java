@@ -27,7 +27,7 @@ public class Simulator {
         }
         registers[0].setValue(65);
         registers[1].setValue(-2);
-        registers[2].setValue(5);
+        registers[2].setValue(83);
     }
 
     /** 

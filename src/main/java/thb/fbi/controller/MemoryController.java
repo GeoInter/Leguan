@@ -32,8 +32,10 @@ public class MemoryController implements MemoryObserver {
     @FXML TextField startAddressTextField;
     @FXML TextField endAddressTextField;
 
-    @FXML Button ASCIIButton;
-    @FXML Button DecButton;
+    @FXML Button DecValueButton;
+    @FXML Button ASCIIValueButton;
+    @FXML Button DecAddressButton;
+    @FXML Button HexAddressButton;
 
     private Map<Long, Byte> data = new HashMap<Long, Byte>();
 
@@ -44,6 +46,8 @@ public class MemoryController implements MemoryObserver {
 
     private boolean displayValueAsASCII = false;
 
+    private boolean displayAddressAsHex = false;
+
     @FXML
     public void initialize() {
         
@@ -51,7 +55,13 @@ public class MemoryController implements MemoryObserver {
 
             @Override
             public ObservableValue<String> call(CellDataFeatures<Map.Entry<Long, Byte>, String> arg) {
-                return new SimpleStringProperty(arg.getValue().getKey().toString());
+                if(displayAddressAsHex) {
+                    StringBuilder str = new StringBuilder(Long.toHexString(arg.getValue().getKey()).toUpperCase());
+                    str.insert(0, "0x");
+                    return new SimpleStringProperty(str.toString());
+                } else {
+                    return new SimpleStringProperty(arg.getValue().getKey().toString());
+                }
             }
             
         });
@@ -107,14 +117,32 @@ public class MemoryController implements MemoryObserver {
         filterMemoryTable();
     }
 
+    @FXML
+    public void switchAddressToDec() {
+        displayAddressAsHex = false;
+        HexAddressButton.setDisable(false);
+        DecAddressButton.setDisable(true);
+        // force refresh so each cell is updated by cellValueFactory
+        memoryTable.refresh();
+    }
+
+    @FXML
+    public void switchAddressToHex() {
+        displayAddressAsHex = true;
+        HexAddressButton.setDisable(true);
+        DecAddressButton.setDisable(false);
+        // force refresh so each cell is updated by cellValueFactory
+        memoryTable.refresh();
+    }
+
     /**
      * display content row as ASCII chars
      */
     @FXML
-    public void switchToASCII() {
+    public void switchValueToASCII() {
         displayValueAsASCII = true;
-        ASCIIButton.setDisable(true);
-        DecButton.setDisable(false);
+        ASCIIValueButton.setDisable(true);
+        DecValueButton.setDisable(false);
         // force refresh so each cell is updated by cellValueFactory
         memoryTable.refresh();
     }
@@ -123,10 +151,10 @@ public class MemoryController implements MemoryObserver {
      * display content row as decimal numbers
      */
     @FXML
-    public void switchToDec() {
+    public void switchValueToDec() {
         displayValueAsASCII = false;
-        ASCIIButton.setDisable(false);
-        DecButton.setDisable(true);
+        ASCIIValueButton.setDisable(false);
+        DecValueButton.setDisable(true);
         // force refresh so each cell is updated by cellValueFactory
         memoryTable.refresh(); 
     }

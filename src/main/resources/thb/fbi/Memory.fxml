@@ -10,21 +10,39 @@
 
 <VBox alignment="TOP_CENTER" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="thb.fbi.controller.MemoryController">
    <children>
-      <HBox alignment="CENTER">
+      <HBox alignment="CENTER" spacing="100.0">
          <children>
-            <Button fx:id="ASCIIButton" mnemonicParsing="false" onAction="#switchToASCII" text="ASCII">
-               <HBox.margin>
-                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-               </HBox.margin>
-            </Button>
-            <Button fx:id="DecButton" disable="true" mnemonicParsing="false" onAction="#switchToDec" text="Dec">
-               <HBox.margin>
-                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-               </HBox.margin>
-            </Button>
+            <HBox alignment="CENTER">
+               <children>
+                  <Button fx:id="DecAddressButton" disable="true" mnemonicParsing="false" onAction="#switchAddressToDec" text="Dec">
+                     <HBox.margin>
+                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="HexAddressButton" mnemonicParsing="false" onAction="#switchAddressToHex" text="Hex">
+                     <HBox.margin>
+                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER">
+               <children>
+                  <Button fx:id="DecValueButton" disable="true" mnemonicParsing="false" onAction="#switchValueToDec" text="Dec">
+                     <HBox.margin>
+                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="ASCIIValueButton" mnemonicParsing="false" onAction="#switchValueToASCII" text="ASCII">
+                     <HBox.margin>
+                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
          </children>
          <VBox.margin>
-            <Insets bottom="6.0" />
+            <Insets bottom="10.0" left="2.0" right="2.0" top="2.0" />
          </VBox.margin>
       </HBox>
       <HBox alignment="CENTER">
