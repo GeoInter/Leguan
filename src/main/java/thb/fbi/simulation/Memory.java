@@ -1,14 +1,14 @@
 package thb.fbi.simulation;
 
 import java.nio.ByteBuffer;
-import java.util.HashMap;
+import java.util.TreeMap;
 
 /**
  * class for memory storage (only data, instruction is seperate in ProgramStatement)
  */
 public class Memory {
 
-    private static HashMap<Long, Byte> dataStorage = new HashMap<Long, Byte>(); // uses keys -> keys as address
+    private static TreeMap<Long, Byte> dataStorage = new TreeMap<Long, Byte>(); // uses keys -> keys as address
     public static long dataAdressMin = 10000;
 
     private static MemoryObserver observer;

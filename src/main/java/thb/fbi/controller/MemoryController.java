@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.Map.Entry;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
@@ -113,7 +114,7 @@ public class MemoryController implements MemoryObserver {
      * @param data new HashMap from Memory
      */
     @Override
-    public void update(HashMap<Long, Byte> data) {
+    public void update(TreeMap<Long, Byte> data) {
         this.data = data;
         updateTable(data);
         filterMemoryTable();
