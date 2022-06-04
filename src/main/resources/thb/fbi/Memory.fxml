@@ -92,7 +92,7 @@
             <Insets bottom="6.0" left="3.0" right="3.0" />
          </VBox.margin>
       </HBox>
-      <TableView fx:id="memoryTable">
+      <TableView fx:id="memoryTable" fixedCellSize="30.0">
         <columns>
           <TableColumn fx:id="addressColumn" editable="false" prefWidth="75.0" text="Address" />
           <TableColumn fx:id="contentColumn" editable="false" prefWidth="75.0" sortable="false" text="Content" />

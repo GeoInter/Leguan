@@ -20,6 +20,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         scene = new Scene(loadFXML("simulator"), 640, 480);
+        scene.getStylesheets().add(this.getClass().getResource("temp.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
         stage.setTitle("ARMv8 Thumb Simulator");
