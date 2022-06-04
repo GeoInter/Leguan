@@ -1,7 +1,9 @@
 package thb.fbi.controller;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.Map.Entry;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
@@ -36,6 +38,8 @@ public class MemoryController implements MemoryObserver {
     @FXML Button ASCIIValueButton;
     @FXML Button DecAddressButton;
     @FXML Button HexAddressButton;
+    @FXML Button memoryByteButton;
+    @FXML Button memoryDWordButton;
 
     private Map<Long, Byte> data = new HashMap<Long, Byte>();
 
@@ -44,9 +48,14 @@ public class MemoryController implements MemoryObserver {
      * */
     private int maxLengthOfTextFields = 6;
 
+    /** determines if values of memory should be displayed as ASCII chars */
     private boolean displayValueAsASCII = false;
 
+    /** dertemines if address of memory should be displayed as hex values */
     private boolean displayAddressAsHex = false;
+
+    /** dertemines if entries of memory should be displayed as double words (8 Byte) */
+    private boolean displayMemoryAsDWord = false;
 
     @FXML
     public void initialize() {
@@ -117,6 +126,9 @@ public class MemoryController implements MemoryObserver {
         filterMemoryTable();
     }
 
+    /**
+     * switches displayed address to decimal values
+     */
     @FXML
     public void switchAddressToDec() {
         displayAddressAsHex = false;
@@ -126,6 +138,9 @@ public class MemoryController implements MemoryObserver {
         memoryTable.refresh();
     }
 
+    /**
+     * switches displayed address to hex values
+     */
     @FXML
     public void switchAddressToHex() {
         displayAddressAsHex = true;
@@ -133,6 +148,42 @@ public class MemoryController implements MemoryObserver {
         DecAddressButton.setDisable(false);
         // force refresh so each cell is updated by cellValueFactory
         memoryTable.refresh();
+    }
+
+    /**
+     * switches displayed memory entries to DWords (8 Byte)
+     */
+    @FXML
+    public void switchMemoryToDWord() {
+        memoryByteButton.setDisable(false);
+        memoryDWordButton.setDisable(true);
+        // get all used keys
+        Set<Long> keys = data.keySet();
+
+        // map available keys to multiple of 8 (address space of DWords)
+        Set<Long> addressSet = new HashSet<Long>();
+        for (Long addressTemp : keys) {
+            addressSet.add((addressTemp / 8) * 8);
+        }
+
+        // build new HashMap from Dword address space
+        Map<Long, Long> dwordData = new HashMap<>();
+        for (Long address : addressSet) {
+            dwordData.put(address, Memory.loadDWord(address));
+        }
+        displayMemoryAsDWord = true;
+        // update UI
+    }
+
+    /**
+     * switches displayed memory entries to Byte
+     */
+    @FXML
+    public void switchMemoryToByte() {
+        memoryByteButton.setDisable(true);
+        memoryDWordButton.setDisable(false);
+        displayMemoryAsDWord = false;
+        // update UI
     }
 
     /**
