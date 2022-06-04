@@ -1,8 +1,8 @@
 package thb.fbi.controller;
 
-import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.BooleanProperty;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import thb.fbi.simulation.FlagRegister;
@@ -13,9 +13,6 @@ import thb.fbi.simulation.SimulatorSingleton;
  * UI Controller for the Register Sidepanel
  */
 public class RegisterPaneController {
-
-    /** boolean if checkbox is checked to show all registers */
-    public static SimpleBooleanProperty showAllRegisters = new SimpleBooleanProperty();
 
     @FXML VBox RegisterPane;
 
@@ -56,25 +53,13 @@ public class RegisterPaneController {
     @FXML RegisterTitleBarController r30Controller;
     @FXML RegisterTitleBarController r31Controller;
 
-    @FXML Parent r0;
-    @FXML Parent r1;
-    @FXML Parent r2;
-    @FXML Parent r3;
-    @FXML Parent r4;
-    @FXML Parent r5;
-    @FXML Parent r6;
-    @FXML Parent r7;
-    @FXML Parent r8;
-
     @FXML Label NFlagValue;
     @FXML Label ZFlagValue;
     @FXML Label CFlagValue;
     @FXML Label VFlagValue;
 
+    @FXML CheckBox showUnusedRegisterCheckBox;
     
-
-    
-
     private Simulator simulator = SimulatorSingleton.getSimulator();
 
     /**
@@ -82,6 +67,8 @@ public class RegisterPaneController {
      */
     @FXML
     public void initialize() {
+
+        BooleanProperty showAllRegisters = showUnusedRegisterCheckBox.selectedProperty();
 
         pcController.setProperties(simulator.getPC());
         r0Controller.setProperties(simulator.getRegisters()[0], showAllRegisters);

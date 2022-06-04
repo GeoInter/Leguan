@@ -1,6 +1,6 @@
 package thb.fbi.controller;
 
-import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -63,7 +63,7 @@ public class RegisterTitleBarController {
      * @param register
      * @param showAllRegisters
      */
-    public void setProperties(Register register, SimpleBooleanProperty showAllRegisters) {
+    public void setProperties(Register register, BooleanProperty showAllRegisters) {
         this.register = register;
         registerTitle.setText(register.getName());
         registerValue.textProperty().bind(register.getShownValue());

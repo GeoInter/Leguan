@@ -4,7 +4,6 @@ import org.fxmisc.richtext.CodeArea;
 
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TabPane;
@@ -32,14 +31,10 @@ public class SimulatorController {
     @FXML ScrollPane codeScrollPane;
     @FXML CodeArea codeArea;
 
-    @FXML CheckBox showUnusedRegisterButton;
-
     Simulator simulator = SimulatorSingleton.getSimulator();
 
     @FXML
     public void initialize() {
-        
-        showUnusedRegisterButton.selectedProperty().bindBidirectional(RegisterPaneController.showAllRegisters);
         codeArea.prefHeightProperty().bind(codeScrollPane.heightProperty().subtract(10)); 
         codeArea.prefWidthProperty().bind(codeScrollPane.widthProperty().subtract(15)); // size of scrollbar
 
