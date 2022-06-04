@@ -13,7 +13,7 @@
    <children>
       <CheckBox fx:id="showUnusedRegisterCheckBox" mnemonicParsing="false" selected="true" text="show unused registers">
          <VBox.margin>
-            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+            <Insets bottom="15.0" left="15.0" right="15.0" top="18.0" />
          </VBox.margin>
       </CheckBox>
       <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" pannable="true" prefHeight="850.0" vbarPolicy="ALWAYS">

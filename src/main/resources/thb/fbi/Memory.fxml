@@ -2,6 +2,8 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -12,39 +14,62 @@
    <children>
       <HBox alignment="CENTER" spacing="100.0">
          <children>
-            <HBox alignment="CENTER">
+            <VBox alignment="CENTER">
                <children>
-                  <Button fx:id="DecAddressButton" disable="true" mnemonicParsing="false" onAction="#switchAddressToDec" text="Dec">
-                     <HBox.margin>
-                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-                     </HBox.margin>
-                  </Button>
-                  <Button fx:id="HexAddressButton" mnemonicParsing="false" onAction="#switchAddressToHex" text="Hex">
-                     <HBox.margin>
-                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-                     </HBox.margin>
-                  </Button>
+                  <Label text="Address Display">
+                     <VBox.margin>
+                        <Insets bottom="4.0" />
+                     </VBox.margin>
+                  </Label>
+                  <HBox alignment="CENTER">
+                     <children>
+                        <Button fx:id="DecAddressButton" disable="true" mnemonicParsing="false" onAction="#switchAddressToDec" text="Dec">
+                           <HBox.margin>
+                              <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button fx:id="HexAddressButton" mnemonicParsing="false" onAction="#switchAddressToHex" text="Hex">
+                           <HBox.margin>
+                              <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
                </children>
-            </HBox>
-            <HBox alignment="CENTER">
+            </VBox>
+            <VBox alignment="CENTER">
                <children>
-                  <Button fx:id="DecValueButton" disable="true" mnemonicParsing="false" onAction="#switchValueToDec" text="Dec">
-                     <HBox.margin>
-                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-                     </HBox.margin>
-                  </Button>
-                  <Button fx:id="ASCIIValueButton" mnemonicParsing="false" onAction="#switchValueToASCII" text="ASCII">
-                     <HBox.margin>
-                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-                     </HBox.margin>
-                  </Button>
+                  <Label text="Value Display">
+                     <VBox.margin>
+                        <Insets bottom="4.0" />
+                     </VBox.margin>
+                  </Label>
+                  <HBox alignment="CENTER">
+                     <children>
+                        <Button fx:id="DecValueButton" disable="true" mnemonicParsing="false" onAction="#switchValueToDec" text="Dec">
+                           <HBox.margin>
+                              <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button fx:id="ASCIIValueButton" mnemonicParsing="false" onAction="#switchValueToASCII" text="ASCII">
+                           <HBox.margin>
+                              <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
                </children>
-            </HBox>
+            </VBox>
          </children>
          <VBox.margin>
-            <Insets bottom="10.0" left="2.0" right="2.0" top="12.0" />
+            <Insets bottom="10.0" left="2.0" right="2.0" top="18.0" />
          </VBox.margin>
       </HBox>
+      <Separator prefWidth="200.0">
+         <VBox.margin>
+            <Insets bottom="5.0" top="5.0" />
+         </VBox.margin>
+      </Separator>
       <HBox alignment="CENTER">
          <children>
             <TextField fx:id="startAddressTextField" promptText="start address">
@@ -64,7 +89,7 @@
             </Button>
          </children>
          <VBox.margin>
-            <Insets bottom="6.0" />
+            <Insets bottom="6.0" left="3.0" right="3.0" />
          </VBox.margin>
       </HBox>
       <TableView fx:id="memoryTable">
@@ -78,6 +103,11 @@
       </TableView>
       <HBox alignment="CENTER">
          <children>
+            <Label text="Display Memory as">
+               <HBox.margin>
+                  <Insets right="8.0" />
+               </HBox.margin>
+            </Label>
             <Button fx:id="memoryByteButton" disable="true" mnemonicParsing="false" onAction="#switchMemoryToByte" text="Byte">
                <HBox.margin>
                   <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
@@ -90,7 +120,7 @@
             </Button>
          </children>
          <VBox.margin>
-            <Insets bottom="10.0" left="2.0" right="2.0" top="12.0" />
+            <Insets bottom="10.0" left="2.0" right="2.0" top="18.0" />
          </VBox.margin>
       </HBox>
    </children>
