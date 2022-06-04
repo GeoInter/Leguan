@@ -14,9 +14,10 @@ public class NumberComparator implements Comparator<String> {
         if (o1 == null) return -1;
         if (o2 == null) return 1;
 
-        // handling hex values
+        
         Integer i1=null;
         Integer i2=null;
+        // handling hex values
         if(o1.contains("0x") && o2.contains("0x")) {
             String s1 = o1.substring(2);
             String s2 = o2.substring(2);
@@ -26,8 +27,6 @@ public class NumberComparator implements Comparator<String> {
             try{ i1=Integer.valueOf(o1); } catch(NumberFormatException ignored){}
             try{ i2=Integer.valueOf(o2); } catch(NumberFormatException ignored){}
         }
-
-        System.out.println("comp: " + i1 + " to " + i2);
 
         if(i1==null && i2==null) return o1.compareTo(o2);
         if(i1==null) return -1;

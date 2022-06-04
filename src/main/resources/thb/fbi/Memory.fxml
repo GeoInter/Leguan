@@ -76,5 +76,22 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
+      <HBox alignment="CENTER">
+         <children>
+            <Button fx:id="memoryByteButton" disable="true" mnemonicParsing="false" onAction="#switchMemoryToByte" text="Byte">
+               <HBox.margin>
+                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="memoryDWordButton" mnemonicParsing="false" onAction="#DWordButtonFired" text="DWord">
+               <HBox.margin>
+                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+         <VBox.margin>
+            <Insets bottom="10.0" left="2.0" right="2.0" top="12.0" />
+         </VBox.margin>
+      </HBox>
    </children>
 </VBox>

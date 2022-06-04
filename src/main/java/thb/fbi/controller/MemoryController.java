@@ -1,6 +1,5 @@
 package thb.fbi.controller;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -28,9 +27,9 @@ import thb.fbi.simulation.MemoryObserver;
 
 public class MemoryController implements MemoryObserver {
 
-    @FXML TableView<Map.Entry<Long, Byte>> memoryTable;
-    @FXML TableColumn<Map.Entry<Long, Byte>, String> addressColumn;
-    @FXML TableColumn<Map.Entry<Long, Byte>, String> contentColumn;
+    @FXML TableView<Map.Entry<Long, Long>> memoryTable;
+    @FXML TableColumn<Map.Entry<Long, Long>, String> addressColumn;
+    @FXML TableColumn<Map.Entry<Long, Long>, String> contentColumn;
 
     @FXML TextField startAddressTextField;
     @FXML TextField endAddressTextField;
@@ -42,7 +41,7 @@ public class MemoryController implements MemoryObserver {
     @FXML Button memoryByteButton;
     @FXML Button memoryDWordButton;
 
-    private Map<Long, Byte> data = new HashMap<Long, Byte>();
+    private Map<Long, Long> data = new TreeMap<Long, Long>();
 
     /** specifies amount of digits allowed in textfield. 
      * If maximum is reached no new input will be accepted besides backspace. 
@@ -62,10 +61,10 @@ public class MemoryController implements MemoryObserver {
     public void initialize() {
         
         addressColumn.setComparator(new NumberComparator());
-        addressColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Map.Entry<Long,Byte>, String>, ObservableValue<String>>() {
+        addressColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Map.Entry<Long, Long>, String>, ObservableValue<String>>() {
 
             @Override
-            public ObservableValue<String> call(CellDataFeatures<Map.Entry<Long, Byte>, String> arg) {
+            public ObservableValue<String> call(CellDataFeatures<Map.Entry<Long, Long>, String> arg) {
                 if(displayAddressAsHex) {
                     StringBuilder str = new StringBuilder(Long.toHexString(arg.getValue().getKey()).toUpperCase());
                     str.insert(0, "0x");
@@ -77,10 +76,10 @@ public class MemoryController implements MemoryObserver {
             
         });
 
-        contentColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Map.Entry<Long,Byte>, String>, ObservableValue<String>>() {
+        contentColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Map.Entry<Long, Long>, String>, ObservableValue<String>>() {
 
             @Override
-            public ObservableValue<String> call(CellDataFeatures<Entry<Long, Byte>, String> arg) {
+            public ObservableValue<String> call(CellDataFeatures<Entry<Long, Long>, String> arg) {
                 if(displayValueAsASCII) {
                     char c = (char) arg.getValue().getValue().byteValue();
                     return new SimpleStringProperty(Character.toString(c));
@@ -111,21 +110,23 @@ public class MemoryController implements MemoryObserver {
     /**
      * when Memory changes, update the tableView
      * also applies filter - so that filter persist even when updated
-     * @param data new HashMap from Memory
+     * @param newData new TreeMap from Memory
      */
     @Override
-    public void update(TreeMap<Long, Byte> data) {
-        this.data = data;
-        updateTable(data);
-        filterMemoryTable();
+    public void update(TreeMap<Long, Byte> newData) {
+        this.data.clear();
+        for(Map.Entry<Long, Byte> entry : newData.entrySet()) {
+            this.data.put(entry.getKey(), (long) entry.getValue());
+        }
+        updateTable();
     }
 
     /**
-     * function called when filter button pressed
+     * function called when filter button is pressed
      */
     @FXML
     public void filterButtonFired() {
-        filterMemoryTable();
+        updateTable();
     }
 
     /**
@@ -153,28 +154,14 @@ public class MemoryController implements MemoryObserver {
     }
 
     /**
-     * switches displayed memory entries to DWords (8 Byte)
+     * function called when DWord button is pressed
      */
     @FXML
-    public void switchMemoryToDWord() {
+    public void DWordButtonFired() {
         memoryByteButton.setDisable(false);
         memoryDWordButton.setDisable(true);
-        // get all used keys
-        Set<Long> keys = data.keySet();
-
-        // map available keys to multiple of 8 (address space of DWords)
-        Set<Long> addressSet = new HashSet<Long>();
-        for (Long addressTemp : keys) {
-            addressSet.add((addressTemp / 8) * 8);
-        }
-
-        // build new HashMap from Dword address space
-        Map<Long, Long> dwordData = new HashMap<>();
-        for (Long address : addressSet) {
-            dwordData.put(address, Memory.loadDWord(address));
-        }
         displayMemoryAsDWord = true;
-        // update UI
+        updateTable();
     }
 
     /**
@@ -185,7 +172,7 @@ public class MemoryController implements MemoryObserver {
         memoryByteButton.setDisable(true);
         memoryDWordButton.setDisable(false);
         displayMemoryAsDWord = false;
-        // update UI
+        updateTable();
     }
 
     /**
@@ -213,36 +200,65 @@ public class MemoryController implements MemoryObserver {
     }
 
     /**
-     * filter table depending on entered value in textfields
-     * 
+     * returns a filtered map depending on entered values in textfields (or the unfiltered parameter map)
      * can filter from only a start, only an end or an interval of both addresses
+     * @param data map to be filtered
+     * @return filtered map 
      */
-    public void filterMemoryTable() {
-        Map<Long, Byte> filteredData;
+    public Map<Long, Long> getFilteredMap(Map<Long, Long> data) {
+        Map<Long, Long> filteredData;
         if(startAddressTextField.getText().isBlank() && endAddressTextField.getText().isBlank()) {
-            filteredData = data;
+            return data;
         } else if(startAddressTextField.getText().isBlank()) {
             filteredData = data.entrySet().stream()
-                .filter(map -> map.getKey() <= Integer.parseInt(endAddressTextField.getText()))
+                .filter(map -> map.getKey() <= Long.parseLong(endAddressTextField.getText()))
                 .collect(Collectors.toMap(p -> p.getKey(), p -> p.getValue()));
         } else if(endAddressTextField.getText().isBlank()) {
             filteredData = data.entrySet().stream()
-                .filter(map -> map.getKey() >= Integer.parseInt(startAddressTextField.getText()))
+                .filter(map -> map.getKey() >= Long.parseLong(startAddressTextField.getText()))
                 .collect(Collectors.toMap(p -> p.getKey(), p -> p.getValue()));
         } else {
             filteredData = data.entrySet().stream()
-                .filter(map -> map.getKey() >= Integer.parseInt(startAddressTextField.getText()) && map.getKey() <= Integer.parseInt(endAddressTextField.getText()))
+                .filter(map -> map.getKey() >= Long.parseLong(startAddressTextField.getText()) && map.getKey() <= Long.parseLong(endAddressTextField.getText()))
                 .collect(Collectors.toMap(p -> p.getKey(), p -> p.getValue()));
         }
-        updateTable(filteredData);
+        return filteredData;
+    }
+
+    /**
+     * returns a map with DWords (8 Byte) as its values
+     * @param data map to turn into dword map
+     * @return new dword map
+     */
+    public Map<Long, Long> getDWordMap(Map<Long, Long> data) {
+        // get all used keys
+        Set<Long> keys = data.keySet();
+        // map available keys to multiple of 8 (address space of DWords)
+        Set<Long> addressSet = new HashSet<Long>();
+        for (Long addressTemp : keys) {
+            addressSet.add((addressTemp / 8) * 8);
+        }
+
+        // build new HashMap from Dword address space
+        Map<Long, Long> dwordData = new TreeMap<>();
+        for (Long address : addressSet) {
+            dwordData.put(address, Memory.loadDWord(address));
+        }
+        return dwordData;
     }
 
     /**
      * update the tableview
-     * @param data new hashmap to be inserted into the table
      */
-    private void updateTable(Map<Long, Byte> data) {
-        ObservableList<Map.Entry<Long, Byte>> items = FXCollections.observableArrayList(data.entrySet());
+    private void updateTable() {
+        Map<Long, Long> newData = this.data;
+        if(displayMemoryAsDWord) {
+            newData = getDWordMap(newData);
+        }
+        newData = getFilteredMap(newData);
+        
+        System.out.println(newData.toString());
+        ObservableList<Map.Entry<Long, Long>> items = FXCollections.observableArrayList(newData.entrySet());
         memoryTable.setItems(items);
     }
     
