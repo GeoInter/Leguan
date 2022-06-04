@@ -41,7 +41,7 @@ public class MemoryController implements MemoryObserver {
     @FXML Button memoryByteButton;
     @FXML Button memoryDWordButton;
 
-    private Map<Long, Long> data = new TreeMap<Long, Long>();
+    private TreeMap<Long, Long> data = new TreeMap<Long, Long>();
 
     /** specifies amount of digits allowed in textfield. 
      * If maximum is reached no new input will be accepted besides backspace. 
@@ -205,22 +205,23 @@ public class MemoryController implements MemoryObserver {
      * @param data map to be filtered
      * @return filtered map 
      */
-    public Map<Long, Long> getFilteredMap(Map<Long, Long> data) {
-        Map<Long, Long> filteredData;
+    public TreeMap<Long, Long> getFilteredMap(TreeMap<Long, Long> data) {
+        TreeMap<Long, Long> filteredData;
         if(startAddressTextField.getText().isBlank() && endAddressTextField.getText().isBlank()) {
             return data;
-        } else if(startAddressTextField.getText().isBlank()) {
+        } 
+        else if(startAddressTextField.getText().isBlank()) {
             filteredData = data.entrySet().stream()
                 .filter(map -> map.getKey() <= Long.parseLong(endAddressTextField.getText()))
-                .collect(Collectors.toMap(p -> p.getKey(), p -> p.getValue()));
+                .collect(Collectors.toMap(p -> p.getKey(), p -> p.getValue(), Math::addExact, TreeMap::new));
         } else if(endAddressTextField.getText().isBlank()) {
             filteredData = data.entrySet().stream()
                 .filter(map -> map.getKey() >= Long.parseLong(startAddressTextField.getText()))
-                .collect(Collectors.toMap(p -> p.getKey(), p -> p.getValue()));
+                .collect(Collectors.toMap(p -> p.getKey(), p -> p.getValue(), Math::addExact, TreeMap::new));
         } else {
             filteredData = data.entrySet().stream()
                 .filter(map -> map.getKey() >= Long.parseLong(startAddressTextField.getText()) && map.getKey() <= Long.parseLong(endAddressTextField.getText()))
-                .collect(Collectors.toMap(p -> p.getKey(), p -> p.getValue()));
+                .collect(Collectors.toMap(p -> p.getKey(), p -> p.getValue(), Math::addExact, TreeMap::new));
         }
         return filteredData;
     }
@@ -230,7 +231,7 @@ public class MemoryController implements MemoryObserver {
      * @param data map to turn into dword map
      * @return new dword map
      */
-    public Map<Long, Long> getDWordMap(Map<Long, Long> data) {
+    public TreeMap<Long, Long> getDWordMap(TreeMap<Long, Long> data) {
         // get all used keys
         Set<Long> keys = data.keySet();
         // map available keys to multiple of 8 (address space of DWords)
@@ -240,7 +241,7 @@ public class MemoryController implements MemoryObserver {
         }
 
         // build new HashMap from Dword address space
-        Map<Long, Long> dwordData = new TreeMap<>();
+        TreeMap<Long, Long> dwordData = new TreeMap<>();
         for (Long address : addressSet) {
             dwordData.put(address, Memory.loadDWord(address));
         }
@@ -251,7 +252,7 @@ public class MemoryController implements MemoryObserver {
      * update the tableview
      */
     private void updateTable() {
-        Map<Long, Long> newData = this.data;
+        TreeMap<Long, Long> newData = this.data;
         if(displayMemoryAsDWord) {
             newData = getDWordMap(newData);
         }
