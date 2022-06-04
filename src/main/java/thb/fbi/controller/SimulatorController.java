@@ -45,7 +45,7 @@ public class SimulatorController {
 
     @FXML
     private void runCode() {
-        simulator.testMemory();
+        simulator.testASCIIInMemory();
     }
 
     /**

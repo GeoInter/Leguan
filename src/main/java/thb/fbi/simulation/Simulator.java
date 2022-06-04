@@ -25,9 +25,9 @@ public class Simulator {
             registers[i] = new Register("R"+i, -i, i);
             registers[i].setNumberFormat(Base.DEC);
         }
-        registers[0].setValue(65);
+        registers[0].setValue(5216694956355245935L);
         registers[1].setValue(-2);
-        registers[2].setValue(9);
+        registers[2].setValue(0);
     }
 
     /** 
@@ -129,6 +129,19 @@ public class Simulator {
         System.out.println("R2: " + registers[2].getValue());
 
         pc.setValue(16);
+    }
+
+    public void testASCIIInMemory() {
+        Instruction instruction4 = instructionSet.findInstructionByMnemonic("STUR");
+        InstructionArguments argument4 = new InstructionArguments();
+        argument4.setRt(registers[0]);
+        argument4.setRn(registers[2]);
+        argument4.setDt_Address(0);
+        instruction4.simulate(argument4, pc.getValue());
+
+        System.out.println("-------Store DWord-------"); // 0100 1000 0110 0101 0110 1100 0110 1100 0110 1111
+        System.out.println("R0: " + registers[0].getValue());
+        System.out.println("R2: " + registers[2].getValue());
     }
 
     public void testSub() {

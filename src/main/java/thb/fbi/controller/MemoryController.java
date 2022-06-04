@@ -1,5 +1,6 @@
 package thb.fbi.controller;
 
+import java.nio.ByteBuffer;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -81,8 +82,16 @@ public class MemoryController implements MemoryObserver {
             @Override
             public ObservableValue<String> call(CellDataFeatures<Entry<Long, Long>, String> arg) {
                 if(displayValueAsASCII) {
-                    char c = (char) arg.getValue().getValue().byteValue();
-                    return new SimpleStringProperty(Character.toString(c));
+                    ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES);
+                    buffer.clear();
+                    buffer.putLong(arg.getValue().getValue());
+                    byte[] array = buffer.array();
+                    String s = "";
+                    for (byte b : array) {
+                        s += (char) b + " ";
+                    }
+                    buffer.clear();
+                    return new SimpleStringProperty(s);
                 } else {
                     return new SimpleStringProperty(arg.getValue().getValue().toString());
                 }
