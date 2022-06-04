@@ -23,7 +23,7 @@ public class App extends Application {
         scene.getStylesheets().add(this.getClass().getResource("temp.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
-        stage.setTitle("ARMv8 Thumb Simulator");
+        stage.setTitle("Intrastellar - an ARMv8 Thumb Simulator");
         stage.setMaximized(true);
     }
 
