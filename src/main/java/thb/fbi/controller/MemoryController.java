@@ -60,6 +60,7 @@ public class MemoryController implements MemoryObserver {
     @FXML
     public void initialize() {
         
+        addressColumn.setComparator(new NumberComparator());
         addressColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Map.Entry<Long,Byte>, String>, ObservableValue<String>>() {
 
             @Override
