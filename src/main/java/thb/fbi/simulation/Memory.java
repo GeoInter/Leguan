@@ -101,7 +101,8 @@ public class Memory {
     }
 
     /**
-     * combines an array of bytes into a single long value
+     * combines an array of bytes into a single long value (Big Endian)
+     * ARMv8 supports both Little and Big Endian, this implementation supports BE only
      * @param bytes array of bytes to be combined, first element will be highest byte
      * @return bytes combined into a single long value
      */

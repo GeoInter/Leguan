@@ -82,13 +82,22 @@ public class MemoryController implements MemoryObserver {
             @Override
             public ObservableValue<String> call(CellDataFeatures<Entry<Long, Long>, String> arg) {
                 if(displayValueAsASCII) {
+                    long l = arg.getValue().getValue();
+                    String s = "";
+                    // for single byte
+                    if(l <= 127 && l >= -128) {
+                        byte b = (byte) l;
+                        s = byteToString(b) + "";
+                        return new SimpleStringProperty(s);
+                    }
+
+                    // for long (dword)
                     ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES);
                     buffer.clear();
-                    buffer.putLong(arg.getValue().getValue());
+                    buffer.putLong(l);
                     byte[] array = buffer.array();
-                    String s = "";
                     for (byte b : array) {
-                        s += (char) b + " ";
+                        s += byteToString(b) + " ";
                     }
                     buffer.clear();
                     return new SimpleStringProperty(s);
@@ -115,6 +124,47 @@ public class MemoryController implements MemoryObserver {
         Memory.setObserver(this);
         
     }
+
+    
+    /**
+     * gets a proper (ASCII) String from a byte
+     * @param b byte to turn into String
+     * @return escaped String for correct display of an ASCII char
+     */
+    private String byteToString(byte b) {
+        char ch = (char) (b & 0xFF);
+        String display = "";
+
+        if(Character.isWhitespace(ch)) {
+            switch(ch) {
+                case '\r':
+                    display = "\\r";  
+                    break;  
+                case '\t':  
+                    display = "\\t";  
+                    break;  
+                case '\n':  
+                    display = "\\n";  
+                    break;  
+                case '\f':  
+                    display = "\\f";  
+                    break;  
+                case ' ':  
+                    display = "[space]";  
+                    break;  
+                default:  
+                    display = "[whitespace]";  
+                    break;
+            }
+
+        } else if (Character.isISOControl(ch)) { // detect characters that are control chars
+            display = "[control]";
+        } else { // all other chars
+            display = Character.toString(ch);
+        }
+        return display;
+    }
+    
 
     /**
      * when Memory changes, update the tableView
