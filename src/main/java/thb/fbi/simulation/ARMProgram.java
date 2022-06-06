@@ -21,7 +21,9 @@ public class ARMProgram {
         usedRegisters.add(simulator.getRegisters()[0]);
         usedRegisters.add(simulator.getRegisters()[1]);
         usedRegisters.add(simulator.getRegisters()[2]);
-        usedRegisters.add(simulator.getRegisters()[3]);
+        usedRegisters.add(simulator.getRegisters()[5]);
+        usedRegisters.add(simulator.getRegisters()[8]);
+        usedRegisters.add(simulator.getRegisters()[7]);
     }
 
     /**
