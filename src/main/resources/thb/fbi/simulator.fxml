@@ -101,7 +101,7 @@
             </HBox>
          </children>
       </VBox>
-      <SplitPane fx:id="splitPane" dividerPositions="0.9" maxHeight="1.7976931348623157E308" prefWidth="1920.0" VBox.vgrow="ALWAYS">
+      <SplitPane fx:id="splitPane" dividerPositions="0.8" maxHeight="1.7976931348623157E308" prefWidth="1920.0" VBox.vgrow="ALWAYS">
         <items>
             <AnchorPane>
                <children>
@@ -137,7 +137,7 @@
             </AnchorPane>
             <AnchorPane fx:id="rightSideAnchorPane">
                <children>
-                  <TabPane tabClosingPolicy="UNAVAILABLE">
+                  <TabPane minWidth="420.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                     <tabs>
                       <Tab text="Register">
                            <content>
