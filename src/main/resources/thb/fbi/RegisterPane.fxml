@@ -16,7 +16,7 @@
             <Insets bottom="15.0" left="15.0" right="15.0" top="18.0" />
          </VBox.margin>
       </CheckBox>
-      <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" pannable="true" prefHeight="850.0" vbarPolicy="ALWAYS">
+      <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" maxHeight="800.0" pannable="true" vbarPolicy="ALWAYS">
          <content>
             <VBox>
                <children>
@@ -85,7 +85,7 @@
             <Insets left="10.0" right="10.0" top="10.0" />
          </padding>
       </ScrollPane>
-      <HBox alignment="CENTER" fillHeight="false" prefHeight="60.0" prefWidth="300.0">
+      <HBox alignment="BOTTOM_CENTER" fillHeight="false" prefHeight="60.0" prefWidth="300.0">
          <children>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
