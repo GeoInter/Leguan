@@ -18,6 +18,7 @@ public class Memory {
      */
     public static void reset() {
         dataStorage.clear();
+        notifyObserver();
     }
 
     /**
