@@ -16,7 +16,7 @@ public class DataTransferInstruction extends Instruction {
     }
 
     @Override
-    public void simulate(InstructionArguments argument, long pc) {
+    public void simulate(InstructionArguments argument, Register pc) {
         // TODO: figure out what datatype opcode2 is
         int dt_address = argument.getDt_Address();
         String opcode2 = "";

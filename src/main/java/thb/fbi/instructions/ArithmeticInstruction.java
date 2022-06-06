@@ -16,7 +16,7 @@ public class ArithmeticInstruction extends Instruction {
     }
 
     @Override
-    public void simulate(InstructionArguments argument, long pc) {
+    public void simulate(InstructionArguments argument, Register pc) {
         Register Rm = argument.getRm();
         int shamt = argument.getShamt();
         Register Rn = argument.getRn();

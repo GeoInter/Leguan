@@ -16,7 +16,7 @@ public class ImmediateInstruction extends Instruction {
     }
 
     @Override
-    public void simulate(InstructionArguments argument, long pc) {
+    public void simulate(InstructionArguments argument, Register pc) {
         int alu_immediate = argument.getAlu_Immediate();
         Register Rn = argument.getRn();
         Register Rd = argument.getRd();

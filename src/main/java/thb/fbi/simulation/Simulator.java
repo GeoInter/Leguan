@@ -22,12 +22,14 @@ public class Simulator {
     public Simulator() {
         instructionSet.populate();
         for (int i = 0; i < registers.length; i++) {
-            registers[i] = new Register("R"+i, -i, i);
+            registers[i] = new Register("R"+i, 0, i);
             registers[i].setNumberFormat(Base.DEC);
         }
+        /*
         registers[0].setValue(5216694956355245935L);
         registers[1].setValue(-2);
         registers[2].setValue(0);
+        */
     }
 
     /** 
@@ -48,7 +50,7 @@ public class Simulator {
         while(statement != null) {
             System.out.println("* pc: " + pc + " - line " + statement.getSourceLine());
             Instruction instruction = statement.getInstruction();
-            instruction.simulate(statement.getArguments(), pc.getValue());
+            instruction.simulate(statement.getArguments(), pc);
 
             System.out.println("R0: " + registers[0].getValue());
             System.out.println("R1: " + registers[1].getValue());
@@ -59,6 +61,22 @@ public class Simulator {
             pc.setValue(pc.getValue() + Instruction.INSTRUCTION_LENGTH);
             // get next statement, pointed by pc 
             statement = program.getProgramStatement((int)pc.getValue() / 2);
+        }
+    }
+
+    public void simulateStep() {
+        if(pc.getValue() <= 0) {
+             // for presentation purpose; needs to be moved later
+            this.program = new ARMProgram("Fibonacci Test");
+            updateShownRegisters();
+        }
+        ProgramStatement statement = program.getProgramStatement((int)pc.getValue() / 2);
+        if(statement != null) {
+            Instruction instruction = statement.getInstruction();
+            if(instruction != null) {
+                instruction.simulate(statement.getArguments(), pc);
+                pc.setValue(pc.getValue() + Instruction.INSTRUCTION_LENGTH);
+            }
         }
     }
 
@@ -89,7 +107,7 @@ public class Simulator {
         argument.setRt(registers[0]);
         argument.setRn(registers[2]);
         argument.setDt_Address(0);
-        instruction.simulate(argument, pc.getValue());
+        instruction.simulate(argument, pc);
 
         System.out.println("-------Store Byte-------");
         System.out.println("R0: " + registers[0].getValue());
@@ -100,7 +118,7 @@ public class Simulator {
         argument2.setRt(registers[0]);
         argument2.setRn(registers[2]);
         argument2.setDt_Address(0);
-        instruction2.simulate(argument2, pc.getValue());
+        instruction2.simulate(argument2, pc);
 
         System.out.println("-------Load DWord-------");
         System.out.println("R0: " + registers[0].getValue());
@@ -111,7 +129,7 @@ public class Simulator {
         argument3.setRt(registers[0]);
         argument3.setRn(registers[2]);
         argument3.setDt_Address(0);
-        instruction3.simulate(argument3, pc.getValue());
+        instruction3.simulate(argument3, pc);
 
         System.out.println("-------Store DWord-------");
         System.out.println("R0: " + registers[0].getValue());
@@ -122,7 +140,7 @@ public class Simulator {
         argument4.setRt(registers[0]);
         argument4.setRn(registers[2]);
         argument4.setDt_Address(0);
-        instruction4.simulate(argument4, pc.getValue());
+        instruction4.simulate(argument4, pc);
 
         System.out.println("-------Load Byte-------");
         System.out.println("R0: " + registers[0].getValue());
@@ -137,7 +155,7 @@ public class Simulator {
         argument4.setRt(registers[0]);
         argument4.setRn(registers[2]);
         argument4.setDt_Address(0);
-        instruction4.simulate(argument4, pc.getValue());
+        instruction4.simulate(argument4, pc);
 
         System.out.println("-------Store DWord-------"); // 0100 1000 0110 0101 0110 1100 0110 1100 0110 1111
         System.out.println("R0: " + registers[0].getValue());
@@ -153,7 +171,7 @@ public class Simulator {
         argument.setRn(registers[0]);
         argument.setRm(registers[1]);
         argument.setRd(registers[2]);
-        instruction.simulate(argument, pc.getValue());
+        instruction.simulate(argument, pc);
     }
 
     /**
@@ -163,6 +181,16 @@ public class Simulator {
      */
     public void UpdateRegisterValueFormat(Base format, int index) {
         this.registers[index].setNumberFormat(format);
+    }
+
+    /**
+     * resets all register values and pc to 0
+     */
+    public void reset() {
+        for (Register register : registers) {
+            register.setValue(0);
+        }
+        pc.setValue(0);
     }
 
     /**

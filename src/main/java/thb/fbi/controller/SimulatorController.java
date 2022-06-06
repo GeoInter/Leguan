@@ -55,11 +55,12 @@ public class SimulatorController {
     private void reset() {
         Memory.reset();
         FlagRegister.reset();
+        simulator.reset();
     }
 
     @FXML
     private void stepForward() {
-        System.out.println("step forward");
+        simulator.simulateStep();
     }
 
     @FXML

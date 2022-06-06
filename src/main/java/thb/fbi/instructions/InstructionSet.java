@@ -100,6 +100,20 @@ public class InstructionSet {
         );
 
         instructionSet.add(
+            new ConditionalBranchInstruction("CBNZ",
+                "Compare and Branch if not Zero",
+                new IConditionalBranchCode() {
+                    @Override
+                    public void simulate(int cond_br_address, Register Rt, Register pc) {
+                        long op = Rt.getValue();
+                        if(op != 0) {
+                            pc.setValue(cond_br_address);
+                        }
+                    }
+                })
+        );
+
+        instructionSet.add(
             new DataTransferInstruction("LDUR", 
             "Load a double word from memory to register", 
             new IDataTransferCode() {
@@ -267,8 +281,7 @@ public class InstructionSet {
                 return instruction;
             }
         }
-        // get the 'NULL' Instruction, prevents critical runtime error
-        return (Instruction) instructionSet.toArray()[0];
+        return null;
     }
     
 }

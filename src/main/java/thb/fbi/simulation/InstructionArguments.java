@@ -13,8 +13,8 @@ public class InstructionArguments {
     private int shamt; // 6bit
     private int alu_immediate; // 12bit
     private int dt_address; // 9bit
-    // br_address
-    // cond_br_address
+    private int br_address;
+    private int cond_br_address;
     // mov_immediate
     
 
@@ -54,6 +54,14 @@ public class InstructionArguments {
         return dt_address;
     }
 
+    public int getBr_Address() {
+        return br_address;
+    }
+
+    public int getCond_Br_Address() {
+        return cond_br_address;
+    }
+
     public void setRn(Register rn) {
         this.Rn = rn;
     }
@@ -80,5 +88,13 @@ public class InstructionArguments {
 
     public void setDt_Address(int dt_address) {
         this.dt_address = dt_address;
+    }
+
+    public void setBr_Address(int br_address) {
+        this.br_address = br_address;
+    }
+
+    public void setCond_Br_Address(int cond_br_address) {
+        this.cond_br_address = cond_br_address;
     }
 }
