@@ -85,7 +85,7 @@
             <Insets left="10.0" right="10.0" top="10.0" />
          </padding>
       </ScrollPane>
-      <HBox alignment="BOTTOM_CENTER" fillHeight="false" prefHeight="60.0" prefWidth="300.0">
+      <HBox id="flag-register" alignment="BOTTOM_CENTER" fillHeight="false" prefHeight="60.0" prefWidth="300.0">
          <children>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>

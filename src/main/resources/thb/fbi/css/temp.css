@@ -12,3 +12,8 @@
     -fx-border-width: 0px;
     border-width: 0px;
 }
+
+#flag-register {
+    -fx-background-color: #adb8ba;
+    background-color: #adb8ba
+}
