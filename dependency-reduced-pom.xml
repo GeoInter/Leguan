@@ -8,7 +8,7 @@
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.0</version>
+        <version>3.10.1</version>
         <configuration>
           <release>11</release>
         </configuration>
@@ -16,7 +16,7 @@
       <plugin>
         <groupId>org.openjfx</groupId>
         <artifactId>javafx-maven-plugin</artifactId>
-        <version>0.0.6</version>
+        <version>0.0.8</version>
         <executions>
           <execution>
             <id>default-cli</id>
@@ -28,7 +28,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>3.2.0</version>
+        <version>3.3.0</version>
         <executions>
           <execution>
             <phase>package</phase>
@@ -45,10 +45,58 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>com.akathist.maven.plugins.launch4j</groupId>
+        <artifactId>launch4j-maven-plugin</artifactId>
+        <version>2.0.1</version>
+        <executions>
+          <execution>
+            <id>jar-to-exe</id>
+            <phase>package</phase>
+            <goals>
+              <goal>launch4j</goal>
+            </goals>
+            <configuration>
+              <headerType>gui</headerType>
+              <stayAlive>true</stayAlive>
+              <jar>${project.build.directory}/${project.build.finalName}.jar</jar>
+              <outfile>${project.build.directory}/${project.build.finalName}.exe</outfile>
+              <classPath>
+                <mainClass>thb.fbi.Launcher</mainClass>
+              </classPath>
+              <jre>
+                <minVersion>1.11.0</minVersion>
+                <jdkPreference>preferJre</jdkPreference>
+                <path>./lib/jre</path>
+                <opts />
+              </jre>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>3.3.0</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <configuration>
+              <appendAssemblyId>false</appendAssemblyId>
+              <descriptors>
+                <descriptor>${project.basedir}/src/main/resources/assembly.xml</descriptor>
+              </descriptors>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
   <properties>
     <maven.compiler.target>11</maven.compiler.target>
+    <sys.java.home>${env.JAVA_HOME}</sys.java.home>
     <maven.compiler.source>11</maven.compiler.source>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <javafx.version>13</javafx.version>
