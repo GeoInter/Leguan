@@ -1,13 +1,10 @@
 package thb.fbi.controller;
 
 import javafx.beans.property.BooleanProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
-import javafx.scene.text.Font;
 import thb.fbi.simulation.Base;
 import thb.fbi.simulation.Register;
 
@@ -30,21 +27,7 @@ public class RegisterTitleBarController {
     @FXML HBox registerBox;
 
     @FXML
-    public void initialize() {
-        registerValue.textProperty().addListener(new ChangeListener<String>() {
-
-            @Override
-            public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
-                // change font size when a 32 bit binary number is displayed
-                if(arg2.length() >= 32) {
-                    registerValue.setFont(new Font(9));
-                } else {
-                    registerValue.setFont(new Font(13)); // restore default font size
-                }
-            }
-            
-        });
-    }
+    public void initialize() { }
 
     /**
      * Adds an always visible register to this Controller
