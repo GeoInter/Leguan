@@ -7,19 +7,24 @@
     <format>zip</format>
   </formats>
   <fileSets>
-
-    <!-- Add the .exe to the zip -->
+    <!-- Add the .exe and .jar to the zip -->
     <fileSet>
       <directory>${project.build.directory}</directory>
       <outputDirectory />
       <includes>
         <include>${project.build.finalName}.exe</include>
+        <include>${project.build.finalName}.jar</include>
       </includes>
     </fileSet>
-
     <!-- Add the JRE from the systems JDK location, to the zip -->
     <fileSet>
-      <directory>${sys.java.home}/jre</directory>
+      <!-- path to my personal jdk path since it is not in JAVA_HOME -->
+      <directory>C:\Program Files\Java\jdk-11.0.13\bin</directory>
+      <outputDirectory>lib/jre</outputDirectory>
+    </fileSet>
+    <!-- Add the JRE to the zip from unpacked JDK location -->
+    <fileSet>
+      <directory>${project.build.directory}/jdk/jre</directory>
       <outputDirectory>lib/jre</outputDirectory>
     </fileSet>
   </fileSets>
