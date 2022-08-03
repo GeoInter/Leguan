@@ -212,7 +212,7 @@ public class InstructionSet {
         );
 
         instructionSet.add(
-            new DataTransferInstruction("STURH", 
+            new DataTransferInstruction("STURW", 
             "Store a word from register into memory", 
             new IDataTransferCode() {
                 @Override
