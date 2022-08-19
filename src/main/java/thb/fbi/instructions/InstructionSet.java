@@ -100,6 +100,72 @@ public class InstructionSet {
         );
 
         instructionSet.add(
+            new ArithmeticInstruction("AND", 
+                "AND", 
+                new IArithmeticCode() {
+                    @Override
+                    public void simulate(Register Rm, int shamt, Register Rn, Register Rd) {
+                        long op1 = Rm.getValue();
+                        long op2 = Rn.getValue();
+                        long result = op1 & op2;
+
+                        Rd.setValue(result);
+                    }
+                })
+        );
+
+        instructionSet.add(
+            new ImmediateInstruction("ANDI", 
+                "AND Immediate", 
+                new IImmediateCode() {
+                    @Override
+                    public void simulate(int alu_immediate, Register Rn, Register Rd) {
+                        long op1 = Rn.getValue();
+                        long result = op1 & alu_immediate;
+
+                        Rd.setValue(result);
+                    }
+                })
+        );
+
+        instructionSet.add(
+            new ImmediateInstruction("ANDIS", 
+                "AND Immediate and Flags", 
+                new IImmediateCode() {
+                    @Override
+                    public void simulate(int alu_immediate, Register Rn, Register Rd) {
+                        long op1 = Rn.getValue();
+                        long result = op1 & alu_immediate;
+
+                        Rd.setValue(result);
+                    }
+                })
+        );
+
+        instructionSet.add(
+            new ArithmeticInstruction("ANDS", 
+                "AND with Flags", 
+                new IArithmeticCode() {
+                    @Override
+                    public void simulate(Register Rm, int shamt, Register Rn, Register Rd) {
+                        long op1 = Rm.getValue();
+                        long op2 = Rn.getValue();
+                        long result = op1 & op2;
+
+                        Rd.setValue(result);
+                    }
+                })
+        );
+
+        /////////// B Branch Instruction
+
+        /////////// B.cond Branch Instruction
+
+        /////////// BL Branch Instruction
+
+        /////////// BR Branch Instruction
+
+        instructionSet.add(
             new ConditionalBranchInstruction("CBNZ",
                 "Compare and Branch if not Zero",
                 new IConditionalBranchCode() {
@@ -109,6 +175,35 @@ public class InstructionSet {
                         if(op != 0) {
                             pc.setValue(cond_br_address);
                         }
+                    }
+                })
+        );
+
+        instructionSet.add(
+            new ArithmeticInstruction("EOR", 
+                "Exclusive OR between two Registers", 
+                new IArithmeticCode() {
+                    @Override
+                    public void simulate(Register Rm, int shamt, Register Rn, Register Rd) {
+                        long op1 = Rm.getValue();
+                        long op2 = Rn.getValue();
+                        long result = op1 ^ op2; //equals !=
+
+                        Rd.setValue(result);
+                    }
+                })
+        );
+
+        instructionSet.add(
+            new ImmediateInstruction("EORI", 
+                "Exclusive OR between Register and Immediate", 
+                new IImmediateCode() {
+                    @Override
+                    public void simulate(int alu_immediate, Register Rn, Register Rd) {
+                        long op1 = Rn.getValue();
+                        long result = op1 ^ alu_immediate; //equals !=
+
+                        Rd.setValue(result);
                     }
                 })
         );
@@ -167,6 +262,63 @@ public class InstructionSet {
                     Rt.setValue(value);
                 }
             })
+        );
+
+        instructionSet.add(
+            new ArithmeticInstruction("LSL", 
+                "Logical Shift Left", 
+                new IArithmeticCode() {
+                    @Override
+                    public void simulate(Register Rm, int shamt, Register Rn, Register Rd) {
+                        long op1 = Rn.getValue();
+                        long result = op1 << shamt;
+
+                        Rd.setValue(result);
+                    }
+                })
+        );
+
+        instructionSet.add(
+            new ArithmeticInstruction("LSR", 
+                "Logical Shift Right", 
+                new IArithmeticCode() {
+                    @Override
+                    public void simulate(Register Rm, int shamt, Register Rn, Register Rd) {
+                        long op1 = Rn.getValue();
+                        long result = op1 >>> shamt; //unsigned shift = shifts a zero into the leftmost position
+
+                        Rd.setValue(result);
+                    }
+                })
+        );
+
+        instructionSet.add(
+            new ArithmeticInstruction("ORR", 
+                "Inclusive OR between two Registers", 
+                new IArithmeticCode() {
+                    @Override
+                    public void simulate(Register Rm, int shamt, Register Rn, Register Rd) {
+                        long op1 = Rm.getValue();
+                        long op2 = Rn.getValue();
+                        long result = op1 | op2;
+
+                        Rd.setValue(result);
+                    }
+                })
+        );
+
+        instructionSet.add(
+            new ImmediateInstruction("ORRI", 
+                "Inclusive OR between Register and Immediate", 
+                new IImmediateCode() {
+                    @Override
+                    public void simulate(int alu_immediate, Register Rn, Register Rd) {
+                        long op1 = Rn.getValue();
+                        long result = op1 | alu_immediate;
+
+                        Rd.setValue(result);
+                    }
+                })
         );
 
         instructionSet.add(
@@ -247,6 +399,26 @@ public class InstructionSet {
                     public void simulate(int alu_immediate, Register Rn, Register Rd) {
                         long op1 = Rn.getValue();
                         long result = op1 - alu_immediate;
+                        Rd.setValue(result);
+                    }
+                })
+        );
+
+        instructionSet.add(
+            new ImmediateInstruction("SUBIS",
+                "Subtracts value of Registers Rm and a constant and puts result in Rd without flags",
+                new IImmediateCode() {
+                    @Override
+                    public void simulate(int alu_immediate, Register Rn, Register Rd) {
+                        long op1 = Rn.getValue();
+                        long result = op1 - alu_immediate;
+
+                        // carry check
+                        FlagRegister.checkAndSetCFlag(op1, -1*alu_immediate); // the only difference to ADDS
+
+                        // overflow check
+                        FlagRegister.checkAndSetVFlag(op1, alu_immediate, result);
+
                         Rd.setValue(result);
                     }
                 })
