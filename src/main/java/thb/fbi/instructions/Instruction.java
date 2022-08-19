@@ -6,7 +6,7 @@ import thb.fbi.simulation.Register;
 /**
  * Superclass for defining an instruction
  */
-public abstract class Instruction {
+public abstract class Instruction implements Comparable<Instruction> {
     /** mnemonic of instruction/ name of the instruction  */
     protected String mnemonic;
     /** brief description of the instruction */
@@ -49,5 +49,9 @@ public abstract class Instruction {
         if (this.mnemonic.equals(other.mnemonic)) 
             return true;
         return false;
+    }
+
+    public int compareTo(Instruction i) {
+        return mnemonic.compareTo(i.getMnemonic());
     }
 }

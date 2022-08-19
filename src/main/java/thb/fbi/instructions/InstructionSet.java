@@ -1,6 +1,7 @@
 package thb.fbi.instructions;
 
-import java.util.HashSet;
+import java.util.Formatter;
+import java.util.TreeSet;
 
 import thb.fbi.simulation.FlagRegister;
 import thb.fbi.simulation.Memory;
@@ -13,10 +14,10 @@ import thb.fbi.simulation.Register;
  */
 public class InstructionSet {
     /** unique List of all usable instructions */
-    private HashSet<Instruction> instructionSet;
+    private TreeSet<Instruction> instructionSet;
 
     public InstructionSet() {
-        instructionSet = new HashSet<Instruction>();
+        instructionSet = new TreeSet<Instruction>();
     }
 
     public void populate() {
@@ -454,6 +455,21 @@ public class InstructionSet {
             }
         }
         return null;
+    }
+
+    public String toString() {
+        if(instructionSet == null) 
+            return null;
+
+        //int LEGv8InstrNr = 36;
+        try (Formatter formatter = new Formatter()) {
+            //formatter.format("\nSize: %d / %d\n\n", instructionSet.size(), LEGv8InstrNr);
+            formatter.format("%-15s %-30s %-15s\n", "Name", "Format", "Description");
+            for (Instruction ins : instructionSet) {
+                formatter.format("%-7s %-30s %-60s\n", ins.getMnemonic(), ins.getClass().getSimpleName(), ins.getDescription());
+            }
+            return formatter.toString();
+        }
     }
     
 }
