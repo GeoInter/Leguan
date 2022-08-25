@@ -11,7 +11,7 @@
 
 <VBox fx:id="RegisterPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="thb.fbi.controller.RegisterPaneController">
    <children>
-      <CheckBox fx:id="showUnusedRegisterCheckBox" mnemonicParsing="false" selected="true" text="show unused registers">
+      <CheckBox fx:id="showUnusedRegisterCheckBox" mnemonicParsing="false" selected="true" text="%register.Label.showUnused">
          <VBox.margin>
             <Insets bottom="15.0" left="15.0" right="15.0" top="18.0" />
          </VBox.margin>
@@ -22,7 +22,7 @@
                <children>
                   <fx:include fx:id="pc" source="RegisterTitleBar.fxml" />
                   <Separator prefWidth="200.0" />
-                  <Label text="&gt; Arguments/ Results" underline="true"> <!-- 0 to 8 -->
+                  <Label text="%register.Label.Arguments" underline="true"> <!-- 0 to 8 -->
                      <padding>
                         <Insets top="10.0" />
                      </padding>
@@ -37,7 +37,7 @@
                   <fx:include fx:id="r7" source="RegisterTitleBar.fxml" />
                   <fx:include fx:id="r8" source="RegisterTitleBar.fxml" />
                   <Separator prefWidth="200.0" />
-                  <Label text="&gt; Temporaries" underline="true"> <!-- 9 to 18 -->
+                  <Label text="%register.Label.Temporaries" underline="true"> <!-- 9 to 18 -->
                      <padding>
                         <Insets top="10.0" />
                      </padding>
@@ -53,7 +53,7 @@
                   <fx:include fx:id="r17" source="RegisterTitleBar.fxml" />
                   <fx:include fx:id="r18" source="RegisterTitleBar.fxml" />
                   <Separator prefWidth="200.0" />
-                  <Label text="&gt; Saved" underline="true"> <!-- 19 to 27 -->
+                  <Label text="%register.Label.Saved" underline="true"> <!-- 19 to 27 -->
                      <padding>
                         <Insets top="10.0" />
                      </padding>
@@ -68,7 +68,7 @@
                   <fx:include fx:id="r26" source="RegisterTitleBar.fxml" />
                   <fx:include fx:id="r27" source="RegisterTitleBar.fxml" />
                   <Separator prefWidth="200.0" />
-                  <Label text="&gt; Others" underline="true"> <!-- 28 to 31(XZR) -->
+                  <Label text="%register.Label.Others" underline="true"> <!-- 28 to 31(XZR) -->
                      <padding>
                         <Insets top="10.0" />
                      </padding>

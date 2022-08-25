@@ -12,8 +12,6 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.binding.StringBinding;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 
 /**  
  * Internationalization class allows for switching between languages
@@ -45,7 +43,7 @@ public class I18N {
      */
     public static Locale getDefaultLocale() {
         Locale sysDefault = Locale.getDefault();
-        return getSupportedLocales().contains(sysDefault) ? sysDefault : Locale.GERMAN;
+        return getSupportedLocales().contains(sysDefault) ? sysDefault : Locale.ENGLISH;
     }
 
     public static Locale getLocale() {
@@ -70,7 +68,7 @@ public class I18N {
      * @return localized formatted string
      */
     public static String get(final String key, final Object... args) {
-        ResourceBundle bundle = ResourceBundle.getBundle("language", getLocale());
+        ResourceBundle bundle = ResourceBundle.getBundle("thb.fbi.languages.language", getLocale());
         return MessageFormat.format(bundle.getString(key), args);
     }
 
@@ -94,29 +92,4 @@ public class I18N {
         return Bindings.createStringBinding(func, locale);
     }
 
-    /**
-     * creates a bound Label whose value is computed on language change.
-     *
-     * @param func
-     *         the function to compute the value
-     * @return Label
-     */
-    public static Label labelForValue(Callable<String> func) {
-        Label label = new Label();
-        label.textProperty().bind(createStringBinding(func));
-        return label;
-    }
-
-    /**
-     * creates a bound Button for the given resourcebundle key
-     *
-     * @param key ResourceBundle key
-     * @param args optional arguments for the message
-     * @return Button
-     */
-    public static Button buttonForKey(final String key, final Object... args) {
-        Button button = new Button();
-        button.textProperty().bind(createStringBinding(key, args));
-        return button;
-    }
 }

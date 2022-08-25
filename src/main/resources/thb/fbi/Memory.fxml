@@ -16,7 +16,7 @@
          <children>
             <VBox alignment="CENTER">
                <children>
-                  <Label text="Address Display">
+                  <Label text="%memory.Label.Address">
                      <VBox.margin>
                         <Insets bottom="4.0" />
                      </VBox.margin>
@@ -39,7 +39,7 @@
             </VBox>
             <VBox alignment="CENTER">
                <children>
-                  <Label text="Value Display">
+                  <Label text="%memory.Label.Value">
                      <VBox.margin>
                         <Insets bottom="4.0" />
                      </VBox.margin>
@@ -72,17 +72,17 @@
       </Separator>
       <HBox alignment="CENTER">
          <children>
-            <TextField fx:id="startAddressTextField" promptText="start address">
+            <TextField fx:id="startAddressTextField" promptText="%memory.Textbox.start">
                <HBox.margin>
                   <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                </HBox.margin>
             </TextField>
-            <TextField fx:id="endAddressTextField" promptText="end address">
+            <TextField fx:id="endAddressTextField" promptText="%memory.Textbox.end">
                <HBox.margin>
                   <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                </HBox.margin>
             </TextField>
-            <Button fx:id="filterButton" mnemonicParsing="false" onAction="#filterButtonFired" text="Filter">
+            <Button fx:id="filterButton" mnemonicParsing="false" onAction="#filterButtonFired" text="%memory.Button.Filter">
                <HBox.margin>
                   <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                </HBox.margin>
@@ -94,8 +94,8 @@
       </HBox>
       <TableView fx:id="memoryTable" fixedCellSize="30.0">
         <columns>
-          <TableColumn fx:id="addressColumn" editable="false" prefWidth="75.0" text="Address" />
-          <TableColumn fx:id="contentColumn" editable="false" prefWidth="75.0" sortable="false" text="Content" />
+          <TableColumn fx:id="addressColumn" editable="false" prefWidth="75.0" text="%memory.Column.Address" />
+          <TableColumn fx:id="contentColumn" editable="false" prefWidth="75.0" sortable="false" text="%memory.Column.Content" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -103,7 +103,7 @@
       </TableView>
       <HBox alignment="CENTER">
          <children>
-            <Label text="Display Memory as">
+            <Label text="%memory.Label.Display">
                <HBox.margin>
                   <Insets right="8.0" />
                </HBox.margin>

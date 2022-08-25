@@ -1,9 +1,12 @@
 package thb.fbi.controller;
 
+import java.util.Locale;
+
 import org.fxmisc.richtext.CodeArea;
 
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TabPane;
@@ -13,6 +16,7 @@ import thb.fbi.simulation.FlagRegister;
 import thb.fbi.simulation.Memory;
 import thb.fbi.simulation.Simulator;
 import thb.fbi.simulation.SimulatorSingleton;
+import thb.fbi.utility.I18N;
 
 /**
  * UI Controller of the app
@@ -31,6 +35,11 @@ public class SimulatorController {
     @FXML ScrollPane codeScrollPane;
     @FXML CodeArea codeArea;
 
+    // @FXML Menu file_Menu;
+
+    @FXML MenuItem switchENButton;
+    @FXML MenuItem switchDEButton;
+
     Simulator simulator = SimulatorSingleton.getSimulator();
 
     @FXML
@@ -41,6 +50,10 @@ public class SimulatorController {
         // prevent rightside to resize (change divider position) when maximazing
         SplitPane.setResizableWithParent(rightSideAnchorPane, false);
 
+        switchENButton.setOnAction((evt) -> switchLanguage(Locale.ENGLISH));
+        switchDEButton.setOnAction((evt) -> switchLanguage(Locale.GERMAN));
+
+        // file_Menu.textProperty().bind(I18N.createStringBinding("menubar.File"));
     }
 
     @FXML
@@ -66,5 +79,15 @@ public class SimulatorController {
     @FXML
     private void stepBackward() {
         System.out.println("step backward");
-    }    
+    }   
+    
+    /**
+     * sets the given Locale in the I18N class and keeps count of the number of switches.
+     *
+     * @param locale
+     *         the new local to set
+     */
+    private void switchLanguage(Locale locale) {
+        I18N.setLocale(locale);
+    }
 }
