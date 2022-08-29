@@ -30,7 +30,7 @@ public class App extends Application {
         Parent root = FXMLLoader.load(fxmlLocation, bundle);
 
         scene = new Scene(root, 640, 480);
-        scene.getStylesheets().add(this.getClass().getResource("/thb/fbi/css/temp.css").toExternalForm());
+        scene.getStylesheets().add(this.getClass().getResource("/thb/fbi/css/base.css").toExternalForm());
         scene.getStylesheets().add(this.getClass().getResource("/thb/fbi/css/light.css").toExternalForm());
         stage.setScene(scene);
         stage.show();

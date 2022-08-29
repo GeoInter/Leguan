@@ -13,6 +13,7 @@
     border-width: 0px;
 }
 
+/* Scrollpane and Scrollbar */
 .scroll-bar:vertical *.increment-button,
 .scroll-bar:vertical *.decrement-button {
     -fx-background-color: transparent;
