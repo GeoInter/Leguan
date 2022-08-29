@@ -31,6 +31,7 @@ public class App extends Application {
 
         scene = new Scene(root, 640, 480);
         scene.getStylesheets().add(this.getClass().getResource("/thb/fbi/css/temp.css").toExternalForm());
+        scene.getStylesheets().add(this.getClass().getResource("/thb/fbi/css/light.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
         stage.setTitle("Intrastellar - an LEGv8 Simulator");

@@ -1,0 +1,81 @@
+#register-vbox {
+    -fx-background-color: lightgrey;
+    background-color: lightgrey;
+}
+
+#register-pane {
+    -fx-background-color: lightgrey;
+    background-color: lightgrey;
+}
+
+.register-titleBar {
+    -fx-border-color: rgb(165, 165, 165);
+    border-color: rgb(165, 165, 165);
+    -fx-border-width: 0 0 1 0;
+    border-width: 0 0 1 0;
+}
+
+.register-container {
+    -fx-background-color: #f1f1f1;
+    background-color:#f1f1f1;
+}
+
+#register-scrollpane {
+    -fx-border-color: lightgrey;
+    border-color: lightgrey;
+    border-style: solid;
+    -fx-border-insets: 1 0 0 0;
+}
+
+/* Register Title Bar */
+#register-title {
+    -fx-background-color: rgb(165, 165, 165);
+    background-color: rgb(165, 165, 165);
+}
+
+#register-value-button, .memory-button {
+    -fx-background-color: rgb(165, 165, 165);
+    background-color: rgb(165, 165, 165);
+    -fx-opacity: 1.0;
+    opacity: 1.0;
+}
+
+#register-value-button:disabled, .memory-button:disabled {
+    -fx-background-color: #00bae5;
+    background-color: #00bae5;
+}
+
+/* Flag Regsiter HBox */
+#flag-register {
+    -fx-background-color: lightgrey;
+    background-color: lightgrey;
+}
+
+/* Memory VBox */
+#memory-vbox {
+    -fx-background-color: #f1f1f1;
+    background-color: #f1f1f1;
+}
+
+/* TabView */
+.tab {
+    -fx-pref-width: 180;
+    -fx-background-color: rgb(165, 165, 165);
+    background-color: rgb(165, 165, 165);
+}
+.tab:selected {
+    -fx-background-color: #00bae5;
+    background-color: #00bae5;
+}
+
+.tab-header-background {
+    -fx-background-color: lightgrey;
+    background-color: lightgrey;
+}
+
+.tab-pane{
+    -fx-background-color: lightgrey;
+    background-color: lightgrey;
+    -fx-padding: 0 -1 -1 -1;
+    padding: 0 -1 -1 -1;
+}

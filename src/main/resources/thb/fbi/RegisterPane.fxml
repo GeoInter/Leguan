@@ -4,86 +4,152 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<VBox fx:id="RegisterPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="thb.fbi.controller.RegisterPaneController">
+<VBox id="register-pane" fx:id="RegisterPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="thb.fbi.controller.RegisterPaneController">
    <children>
       <CheckBox fx:id="showUnusedRegisterCheckBox" mnemonicParsing="false" selected="true" text="%register.Label.showUnused">
          <VBox.margin>
             <Insets bottom="15.0" left="15.0" right="15.0" top="18.0" />
          </VBox.margin>
       </CheckBox>
-      <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" maxHeight="800.0" pannable="true" vbarPolicy="ALWAYS">
+      <ScrollPane id="register-scrollpane" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" maxHeight="800.0" pannable="true" vbarPolicy="ALWAYS">
          <content>
-            <VBox>
+            <VBox id="register-vbox" spacing="12.0">
                <children>
-                  <fx:include fx:id="pc" source="RegisterTitleBar.fxml" />
-                  <Separator prefWidth="200.0" />
-                  <Label text="%register.Label.Arguments" underline="true"> <!-- 0 to 8 -->
+                  <VBox prefWidth="100.0" styleClass="register-container">
+                     <children>
+                        <fx:include fx:id="pc" source="RegisterTitleBar.fxml" />
+                     </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
                      <padding>
-                        <Insets top="10.0" />
+                        <Insets bottom="5.0" left="4.0" right="4.0" top="5.0" />
                      </padding>
-                  </Label>
-                  <fx:include fx:id="r0" source="RegisterTitleBar.fxml" />
-                  <fx:include fx:id="r1" source="RegisterTitleBar.fxml" />
-                  <fx:include fx:id="r2" source="RegisterTitleBar.fxml" />
-                  <fx:include fx:id="r3" source="RegisterTitleBar.fxml" />
-                  <fx:include fx:id="r4" source="RegisterTitleBar.fxml" />
-                  <fx:include fx:id="r5" source="RegisterTitleBar.fxml" />
-                  <fx:include fx:id="r6" source="RegisterTitleBar.fxml" />
-                  <fx:include fx:id="r7" source="RegisterTitleBar.fxml" />
-                  <fx:include fx:id="r8" source="RegisterTitleBar.fxml" />
-                  <Separator prefWidth="200.0" />
-                  <Label text="%register.Label.Temporaries" underline="true"> <!-- 9 to 18 -->
+                  </VBox>
+                  <VBox prefWidth="100.0" spacing="7.0" styleClass="register-container">
+                     <children>
+                        <Label text="%register.Label.Arguments" underline="true"> <!-- 0 to 8 -->
+                           <padding>
+                              <Insets top="10.0" />
+                           </padding>
+                           <VBox.margin>
+                              <Insets left="8.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <fx:include fx:id="r0" source="RegisterTitleBar.fxml" />
+                        <fx:include fx:id="r1" source="RegisterTitleBar.fxml" />
+                        <fx:include fx:id="r2" source="RegisterTitleBar.fxml" />
+                        <fx:include fx:id="r3" source="RegisterTitleBar.fxml" />
+                        <fx:include fx:id="r4" source="RegisterTitleBar.fxml" />
+                        <fx:include fx:id="r5" source="RegisterTitleBar.fxml" />
+                        <fx:include fx:id="r6" source="RegisterTitleBar.fxml" />
+                        <fx:include fx:id="r7" source="RegisterTitleBar.fxml" />
+                        <fx:include fx:id="r8" source="RegisterTitleBar.fxml" />
+                     </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
                      <padding>
-                        <Insets top="10.0" />
+                        <Insets bottom="5.0" left="4.0" right="4.0" />
                      </padding>
-                  </Label>
-                  <fx:include fx:id="r9" source="RegisterTitleBar.fxml" />
-                  <fx:include fx:id="r10" source="RegisterTitleBar.fxml" />
-                  <fx:include fx:id="r11" source="RegisterTitleBar.fxml" />
-                  <fx:include fx:id="r12" source="RegisterTitleBar.fxml" />
-                  <fx:include fx:id="r13" source="RegisterTitleBar.fxml" />
-                  <fx:include fx:id="r14" source="RegisterTitleBar.fxml" />
-                  <fx:include fx:id="r15" source="RegisterTitleBar.fxml" />
-                  <fx:include fx:id="r16" source="RegisterTitleBar.fxml" />
-                  <fx:include fx:id="r17" source="RegisterTitleBar.fxml" />
-                  <fx:include fx:id="r18" source="RegisterTitleBar.fxml" />
-                  <Separator prefWidth="200.0" />
-                  <Label text="%register.Label.Saved" underline="true"> <!-- 19 to 27 -->
+                  </VBox>
+                  <VBox prefWidth="100.0" spacing="7.0" styleClass="register-container">
+                     <children>
+                        <Label text="%register.Label.Temporaries" underline="true"> <!-- 9 to 18 -->
+                           <padding>
+                              <Insets top="10.0" />
+                           </padding>
+                           <VBox.margin>
+                              <Insets left="8.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <fx:include fx:id="r9" source="RegisterTitleBar.fxml" />
+                        <fx:include fx:id="r10" source="RegisterTitleBar.fxml" />
+                        <fx:include fx:id="r11" source="RegisterTitleBar.fxml" />
+                        <fx:include fx:id="r12" source="RegisterTitleBar.fxml" />
+                        <fx:include fx:id="r13" source="RegisterTitleBar.fxml" />
+                        <fx:include fx:id="r14" source="RegisterTitleBar.fxml" />
+                        <fx:include fx:id="r15" source="RegisterTitleBar.fxml" />
+                        <fx:include fx:id="r16" source="RegisterTitleBar.fxml" />
+                        <fx:include fx:id="r17" source="RegisterTitleBar.fxml" />
+                        <fx:include fx:id="r18" source="RegisterTitleBar.fxml" />
+                     </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
                      <padding>
-                        <Insets top="10.0" />
+                        <Insets bottom="5.0" left="4.0" right="4.0" />
                      </padding>
-                  </Label>
-                  <fx:include fx:id="r19" source="RegisterTitleBar.fxml" />
-                  <fx:include fx:id="r20" source="RegisterTitleBar.fxml" />
-                  <fx:include fx:id="r21" source="RegisterTitleBar.fxml" />
-                  <fx:include fx:id="r22" source="RegisterTitleBar.fxml" />
-                  <fx:include fx:id="r23" source="RegisterTitleBar.fxml" />
-                  <fx:include fx:id="r24" source="RegisterTitleBar.fxml" />
-                  <fx:include fx:id="r25" source="RegisterTitleBar.fxml" />
-                  <fx:include fx:id="r26" source="RegisterTitleBar.fxml" />
-                  <fx:include fx:id="r27" source="RegisterTitleBar.fxml" />
-                  <Separator prefWidth="200.0" />
-                  <Label text="%register.Label.Others" underline="true"> <!-- 28 to 31(XZR) -->
+                  </VBox>
+                  <VBox prefWidth="100.0" spacing="7.0" styleClass="register-container">
+                     <children>
+                        <Label text="%register.Label.Saved" underline="true"> <!-- 19 to 27 -->
+                           <padding>
+                              <Insets top="10.0" />
+                           </padding>
+                           <VBox.margin>
+                              <Insets left="8.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <fx:include fx:id="r19" source="RegisterTitleBar.fxml" />
+                        <fx:include fx:id="r20" source="RegisterTitleBar.fxml" />
+                        <fx:include fx:id="r21" source="RegisterTitleBar.fxml" />
+                        <fx:include fx:id="r22" source="RegisterTitleBar.fxml" />
+                        <fx:include fx:id="r23" source="RegisterTitleBar.fxml" />
+                        <fx:include fx:id="r24" source="RegisterTitleBar.fxml" />
+                        <fx:include fx:id="r25" source="RegisterTitleBar.fxml" />
+                        <fx:include fx:id="r26" source="RegisterTitleBar.fxml" />
+                        <fx:include fx:id="r27" source="RegisterTitleBar.fxml" />
+                     </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
                      <padding>
-                        <Insets top="10.0" />
+                        <Insets bottom="5.0" left="4.0" right="4.0" />
                      </padding>
-                  </Label>
-                  <fx:include fx:id="r28" source="RegisterTitleBar.fxml" />
-                  <fx:include fx:id="r29" source="RegisterTitleBar.fxml" />
-                  <fx:include fx:id="r30" source="RegisterTitleBar.fxml" />
-                  <fx:include fx:id="r31" source="RegisterTitleBar.fxml" />
-                  <Separator prefWidth="200.0" />
+                  </VBox>
+                  <VBox prefWidth="100.0" spacing="7.0" styleClass="register-container">
+                     <children>
+                        <Label text="%register.Label.Others" underline="true"> <!-- 28 to 31(XZR) -->
+                           <padding>
+                              <Insets top="10.0" />
+                           </padding>
+                           <VBox.margin>
+                              <Insets left="8.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <fx:include fx:id="r28" source="RegisterTitleBar.fxml" />
+                        <fx:include fx:id="r29" source="RegisterTitleBar.fxml" />
+                        <fx:include fx:id="r30" source="RegisterTitleBar.fxml" />
+                        <fx:include fx:id="r31" source="RegisterTitleBar.fxml" />
+                     </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <padding>
+                        <Insets bottom="5.0" left="4.0" right="4.0" />
+                     </padding>
+                  </VBox>
                </children>
             </VBox>
          </content>
-         <padding>
-            <Insets left="10.0" right="10.0" top="10.0" />
-         </padding>
       </ScrollPane>
       <HBox id="flag-register" alignment="BOTTOM_CENTER" fillHeight="false" prefHeight="60.0" prefWidth="300.0">
          <children>

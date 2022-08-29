@@ -6,9 +6,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox fx:id="registerBox" alignment="CENTER" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="thb.fbi.controller.RegisterTitleBarController">
+<HBox fx:id="registerBox" alignment="CENTER" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" styleClass="register-titleBar" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="thb.fbi.controller.RegisterTitleBarController">
    <children>
-      <Label fx:id="registerTitle" alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="45.0" text="R0" textAlignment="CENTER">
+      <Label id="register-title" fx:id="registerTitle" alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="45.0" text="R0" textAlignment="CENTER">
          <padding>
             <Insets left="8.0" right="8.0" />
          </padding>
@@ -24,17 +24,26 @@
             <Font size="13.0" />
          </font>
       </Label>
-      <Button fx:id="decButton" disable="true" maxHeight="1.7976931348623157E308" mnemonicParsing="false" onAction="#updateToDec" prefWidth="46.0" text="Dec">
+      <Button id="register-value-button" fx:id="decButton" disable="true" maxHeight="1.7976931348623157E308" mnemonicParsing="false" onAction="#updateToDec" prefWidth="46.0" stylesheets="@css/light.css" text="Dec">
          <HBox.margin>
-            <Insets bottom="4.0" top="4.0" />
-         </HBox.margin></Button>
-      <Button fx:id="binButton" maxHeight="1.7976931348623157E308" mnemonicParsing="false" onAction="#updateToBin" prefWidth="46.0" text="Bin">
+            <Insets />
+         </HBox.margin>
+         <font>
+            <Font size="13.0" />
+         </font></Button>
+      <Button id="register-value-button" fx:id="binButton" maxHeight="1.7976931348623157E308" mnemonicParsing="false" onAction="#updateToBin" prefWidth="46.0" text="Bin">
          <HBox.margin>
-            <Insets bottom="4.0" top="4.0" />
-         </HBox.margin></Button>
-      <Button fx:id="hexButton" maxHeight="1.7976931348623157E308" mnemonicParsing="false" onAction="#updateToHex" prefWidth="46.0" text="Hex">
+            <Insets />
+         </HBox.margin>
+         <font>
+            <Font size="13.0" />
+         </font></Button>
+      <Button id="register-value-button" fx:id="hexButton" maxHeight="1.7976931348623157E308" mnemonicParsing="false" onAction="#updateToHex" prefWidth="46.0" text="Hex">
          <HBox.margin>
-            <Insets bottom="4.0" top="4.0" />
-         </HBox.margin></Button>
+            <Insets />
+         </HBox.margin>
+         <font>
+            <Font size="13.0" />
+         </font></Button>
    </children>
 </HBox>
