@@ -24,7 +24,7 @@
             <Font size="13.0" />
          </font>
       </Label>
-      <Button id="register-value-button" fx:id="decButton" disable="true" maxHeight="1.7976931348623157E308" mnemonicParsing="false" onAction="#updateToDec" prefWidth="46.0" stylesheets="@css/light.css" text="Dec">
+      <Button id="register-value-button" fx:id="decButton" disable="true" maxHeight="1.7976931348623157E308" mnemonicParsing="false" onAction="#updateToDec" prefWidth="46.0" text="Dec">
          <HBox.margin>
             <Insets />
          </HBox.margin>
