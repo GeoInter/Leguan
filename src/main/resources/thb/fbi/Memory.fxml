@@ -82,7 +82,7 @@
                   <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                </HBox.margin>
             </TextField>
-            <Button fx:id="filterButton" mnemonicParsing="false" onAction="#filterButtonFired" text="%memory.Button.Filter">
+            <Button id="filter-button" fx:id="filterButton" mnemonicParsing="false" onAction="#filterButtonFired" text="%memory.Button.Filter">
                <HBox.margin>
                   <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                </HBox.margin>

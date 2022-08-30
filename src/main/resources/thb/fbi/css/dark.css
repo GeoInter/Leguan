@@ -1,0 +1,229 @@
+#register-vbox {
+    -fx-background-color: #252526;
+    background-color: #252526;
+}
+
+#register-pane {
+    -fx-background-color: #252526;
+    background-color: #252526;
+}
+
+.register-titleBar {
+    -fx-border-color: rgb(165, 165, 165);
+    border-color: rgb(165, 165, 165);
+    -fx-border-width: 0 0 1 0;
+    border-width: 0 0 1 0;
+}
+
+.register-container {
+    -fx-background-color: #1e1e1e;
+    background-color:#1e1e1e;
+}
+
+#register-scrollpane {
+    -fx-border-color: lightgrey;
+    border-color: lightgrey;
+    border-style: solid;
+    -fx-border-insets: 1 0 0 0;
+}
+
+/* Scrollpane*/
+.scroll-bar:vertical .thumb {
+    -fx-background-color: #414141;
+    background-color: #414141;
+}
+
+.scroll-bar .track {
+    -fx-fill: transparent;
+    fill: transparent;
+}
+
+.scroll-pane{
+    -fx-background-color:transparent;
+    background-color: transparent;
+ }
+
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+    background-color: transparent;
+}
+
+#editor-vbox, .code-area, .editor-scrollpane, .editor-stackpane {
+    -fx-background-color: #1e1e1e;
+    background-color:#1e1e1e;
+}
+
+.split-pane-divider {
+    -fx-background-color: #414141;
+    background-color:#414141;
+}
+
+.check-box .box {
+    -fx-background-color: #6d6e6a;
+    background-color:#6d6e6a;
+}
+
+.check-box .mark {
+    -fx-background-color: white;
+    background-color: white;
+}
+
+.simulator-button {
+    -fx-background-color: #00bae5;
+    background-color: #00bae5;
+}
+
+.simulator-bar {
+    -fx-background-color: #252526;
+    background-color: #252526;
+}
+
+/* Register Title Bar */
+#register-title {
+    -fx-background-color: #6d6e6a;
+    background-color: #6d6e6a;
+}
+
+#register-value-button, .memory-button {
+    -fx-background-color: #6d6e6a;
+    background-color: #6d6e6a;
+    -fx-opacity: 1.0;
+    opacity: 1.0;
+}
+
+#register-value-button:disabled, .memory-button:disabled {
+    -fx-background-color: #00bae5;
+    background-color: #00bae5;
+}
+
+/* Flag Regsiter HBox */
+#flag-register {
+    -fx-background-color: #252526;
+    background-color: #252526;
+}
+
+/* Memory VBox */
+#memory-vbox {
+    -fx-background-color: #252526;
+    background-color: #252526;
+}
+
+.column-header{
+    -fx-background-color: #6d6e6a;
+    background-color: #6d6e6a;
+}
+
+.text-field {
+    -fx-background-color: #3c3c3c;
+    background-color: #3c3c3c;
+    -fx-text-fill: white;
+}
+
+/** color the (sort) arrow of table */
+.table-view .column-header .arrow {
+    -fx-background-color: white;
+    background-color: white;
+}
+
+/** add slight dividers between headers */
+.table-view .column-header {
+    -fx-border-color: white;
+    border-color: white;
+    -fx-border-width: .1;
+    border-width: .1;
+}
+
+/** remove corner of header section */
+.table-view .column-header-background .filler, .table-view .corner {
+    -fx-background-color: #6d6e6a;
+    background-color: #6d6e6a;
+}
+
+/** color the scroll bar background and thumb */
+.table-view .scroll-bar {
+    -fx-background-color: white;
+    background-color: white;
+}
+.table-view .scroll-bar .thumb {
+    -fx-background-color: #414141;
+    background-color: #414141;
+}
+
+.table-cell {
+    -fx-text-fill: white;
+}
+
+.table-view .placeholder {
+    -fx-background-color: #6d6e6a;
+    background-color: #6d6e6a;
+}
+
+.table-row-cell:empty {
+    -fx-background-color: #80817c;
+    background-color: #80817c;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #6d6e6a;
+    background-color: #6d6e6a;
+}
+
+.table-row-cell:even {
+    -fx-background-color: #80817c;
+    background-color: #80817c;
+}
+
+.list-cell:even,
+.list-cell:odd,
+.table-row-cell:even,
+.table-row-cell:odd{    
+    -fx-control-inner-background: derive(-fx-base, 15%);
+}
+
+/* TabView */
+.tab {
+    -fx-pref-width: 180;
+    -fx-background-color: #6d6e6a;
+    background-color: #6d6e6a;
+}
+.tab:selected {
+    -fx-background-color: #00bae5;
+    background-color: #00bae5;
+}
+
+.tab-header-background {
+    -fx-background-color: #252526;
+    background-color: #252526;
+}
+
+.tab-pane{
+    -fx-background-color: lightgrey;
+    background-color: lightgrey;
+    -fx-padding: 0 -1 -1 -1;
+    padding: 0 -1 -1 -1;
+}
+
+.tab .tab-label {
+    -fx-text-fill: white;
+}
+
+/* Text color */
+.label {
+    -fx-text-fill: white;
+}
+.check-box {
+    -fx-text-fill: white;
+}
+.button {
+    -fx-text-fill: white;
+}
+
+.menu-bar {
+    -fx-background-color: #3c3c3c;
+    background-color: #3c3c3c;
+}
+
+#filter-button {
+    -fx-background-color: #6d6e6a;
+    background-color: #6d6e6a;
+}

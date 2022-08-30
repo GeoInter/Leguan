@@ -56,16 +56,16 @@
       </MenuBar>
       <VBox alignment="CENTER" maxHeight="1.7976931348623157E308">
          <children>
-            <HBox alignment="CENTER" maxHeight="60.0">
+            <HBox alignment="CENTER" maxHeight="60.0" styleClass="simulator-bar">
                <children>
                   <HBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
                      <children>
                         <ButtonBar maxWidth="1.7976931348623157E308">
                           <buttons>
-                              <Button mnemonicParsing="false" onAction="#runCode" text="%buttonbar.Run" />
-                              <Button mnemonicParsing="false" onAction="#reset" text="%buttonbar.Reset" />
-                              <Button mnemonicParsing="false" onAction="#stepForward" text="%buttonbar.Forward" />
-                              <Button mnemonicParsing="false" onAction="#stepBackward" text="%buttonbar.Backward" />
+                              <Button mnemonicParsing="false" onAction="#runCode" styleClass="simulator-button" text="%buttonbar.Run" />
+                              <Button mnemonicParsing="false" onAction="#reset" styleClass="simulator-button" text="%buttonbar.Reset" />
+                              <Button mnemonicParsing="false" onAction="#stepForward" styleClass="simulator-button" text="%buttonbar.Forward" />
+                              <Button mnemonicParsing="false" onAction="#stepBackward" styleClass="simulator-button" text="%buttonbar.Backward" />
                           </buttons>
                            <padding>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -111,7 +111,7 @@
         <items>
             <AnchorPane>
                <children>
-                  <VBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <VBox id="editor-vbox" alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <HBox alignment="CENTER_LEFT" visible="false">
                            <children>
@@ -125,11 +125,11 @@
                               <Insets bottom="2.0" left="6.0" right="6.0" top="2.0" />
                            </padding>
                         </HBox>
-                        <StackPane fx:id="codeStackPane" layoutX="14.0" layoutY="14.0" VBox.vgrow="ALWAYS">
+                        <StackPane id="editor-stackpane" fx:id="codeStackPane" layoutX="14.0" layoutY="14.0" VBox.vgrow="ALWAYS">
                            <children>
-                              <ScrollPane fx:id="codeScrollPane" prefHeight="400.0" prefWidth="618.0" vbarPolicy="ALWAYS" StackPane.alignment="CENTER">
+                              <ScrollPane id="editor-scrollpane" fx:id="codeScrollPane" prefHeight="400.0" prefWidth="618.0" vbarPolicy="ALWAYS" StackPane.alignment="CENTER">
                                  <content>
-                                    <CodeArea fx:id="codeArea" lineHighlighterOn="true" wrapText="true" />
+                                    <CodeArea id="code-area" fx:id="codeArea" lineHighlighterOn="true" wrapText="true" />
                                  </content>
                                  <StackPane.margin>
                                     <Insets />

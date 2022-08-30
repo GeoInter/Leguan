@@ -31,7 +31,7 @@ public class Parser {
         // ADDI R0, 1, R0
         InstructionArguments arg7 = new InstructionArguments();
         arg7.setRn(simulator.getRegisters()[7]);
-        arg7.setAlu_Immediate(12);
+        arg7.setAlu_Immediate(20);
         arg7.setRd(simulator.getRegisters()[7]);
 
         ProgramStatement p7 = new ProgramStatement(

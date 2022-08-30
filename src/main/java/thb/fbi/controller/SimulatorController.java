@@ -44,7 +44,7 @@ public class SimulatorController {
 
     @FXML
     public void initialize() {
-        codeArea.prefHeightProperty().bind(codeScrollPane.heightProperty().subtract(10)); 
+        codeArea.prefHeightProperty().bind(codeScrollPane.heightProperty()); 
         codeArea.prefWidthProperty().bind(codeScrollPane.widthProperty().subtract(15)); // size of scrollbar
 
         // prevent rightside to resize (change divider position) when maximazing
