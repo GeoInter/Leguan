@@ -1,11 +1,16 @@
-#register-vbox {
-    -fx-background-color: #252526;
-    background-color: #252526;
+.root {
+    -fx-background-color: #1e1e1e;
+    background-color:#1e1e1e;
 }
 
-#register-pane {
-    -fx-background-color: #252526;
-    background-color: #252526;
+#register-vbox {
+    -fx-background-color: #323232;
+    background-color: #323232;
+}
+
+#register-pane, #register-anchor-pane {
+    -fx-background-color: #323232;
+    background-color: #323232;
 }
 
 .register-titleBar {
@@ -16,8 +21,8 @@
 }
 
 .register-container {
-    -fx-background-color: #1e1e1e;
-    background-color:#1e1e1e;
+    -fx-background-color: #252526;
+    background-color:#252526;
 }
 
 #register-scrollpane {
@@ -63,7 +68,7 @@
     background-color:#6d6e6a;
 }
 
-.check-box .mark {
+.check-box:selected > .box > .mark {
     -fx-background-color: white;
     background-color: white;
 }
@@ -129,8 +134,8 @@
 .table-view .column-header {
     -fx-border-color: white;
     border-color: white;
-    -fx-border-width: .1;
-    border-width: .1;
+    -fx-border-width: 0.05;
+    border-width: 0.05;
 }
 
 /** remove corner of header section */
@@ -218,9 +223,20 @@
     -fx-text-fill: white;
 }
 
-.menu-bar {
+.menu-bar, .menu-button, .menu, .context-menu {
     -fx-background-color: #3c3c3c;
     background-color: #3c3c3c;
+}
+
+.menu-item {
+    -fx-background-color: #3c3c3c;
+    background-color: #3c3c3c;
+    -fx-text-fill: white;
+}
+
+.menu-item:focused {
+    -fx-background-color: #00bae5;
+    background-color: #00bae5;
 }
 
 #filter-button {
