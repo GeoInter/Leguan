@@ -141,9 +141,9 @@
                   </VBox>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="rightSideAnchorPane">
+            <AnchorPane id="register-anchor-pane" fx:id="rightSideAnchorPane">
                <children>
-                  <TabPane minWidth="420.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                  <TabPane minWidth="420.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <tabs>
                       <Tab text="%splitpane.Tab.Register">
                            <content>
