@@ -2,13 +2,14 @@
     -fx-main-color: white;
     -fx-secondary-color: #ececec;
     -fx-tertiary-color: lightgrey;
-    -fx-menubar-color: #e5e5e5;
+    -fx-menubar-color: #dddddd;
     -fbi-blue: #00bae5;
     -fx-element-color: #f1f1f1;
     -scrollbar-divider-color: #adadad;
 
     -fx-background-color: -fx-main-color;
     background-color: -fx-main-color;
+    -fx-text-fill: black;
 }
 
 #register-vbox {
@@ -61,7 +62,10 @@
     background-color: transparent;
 }
 
-#editor-vbox, .code-area, .editor-scrollpane, .editor-stackpane {
+#editor-vbox, 
+.code-area, 
+.editor-scrollpane, 
+.editor-stackpane {
     -fx-background-color: -fx-main-color;
     background-color:-fx-main-color;
 }
@@ -121,7 +125,7 @@
     background-color: #f1f1f1;
 }
 
-.column-header{
+.column-header {
     -fx-background-color: -fx-element-color;
     background-color: -fx-element-color;
 }
@@ -140,10 +144,14 @@
 
 /** add slight dividers between headers */
 .table-view .column-header {
-    -fx-border-color: white;
-    border-color: white;
-    -fx-border-width: 0.05;
-    border-width: 0.05;
+    -fx-border-color: black;
+    border-color: black;
+    -fx-border-width: 0.3;
+    border-width: 0.3;
+}
+
+.table-view {
+    -fx-table-cell-border-color: black;
 }
 
 /** remove corner of header section */
@@ -164,6 +172,10 @@
 
 .table-cell {
     -fx-text-fill: black;
+    -fx-border-color: black;
+    border-color: black;
+    -fx-border-width: 0.3;
+    border-width: 0.3;
 }
 
 .table-view .placeholder {
@@ -231,7 +243,10 @@
     -fx-text-fill: black;
 }
 
-.menu-bar, .menu-button, .menu, .context-menu {
+.menu-bar, 
+.menu-button, 
+.menu, 
+.context-menu {
     -fx-background-color: -fx-menubar-color;
     background-color: -fx-menubar-color;
 }

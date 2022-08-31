@@ -9,6 +9,7 @@
 
     -fx-background-color: -fx-main-color;
     background-color: -fx-main-color;
+    -fx-text-fill: white;
 }
 
 #register-vbox {
@@ -61,7 +62,10 @@
     background-color: transparent;
 }
 
-#editor-vbox, .code-area, .editor-scrollpane, .editor-stackpane {
+#editor-vbox, 
+.code-area, 
+.editor-scrollpane, 
+.editor-stackpane {
     -fx-background-color: -fx-main-color;
     background-color:-fx-main-color;
 }
@@ -121,7 +125,7 @@
     background-color: -fx-secondary-color;
 }
 
-.column-header{
+.column-header {
     -fx-background-color: -fx-element-color;
     background-color: -fx-element-color;
 }
@@ -142,8 +146,12 @@
 .table-view .column-header {
     -fx-border-color: white;
     border-color: white;
-    -fx-border-width: 0.05;
-    border-width: 0.05;
+    -fx-border-width: 0.3;
+    border-width: 0.3;
+}
+
+.table-view {
+    -fx-table-cell-border-color: white;
 }
 
 /** remove corner of header section */
@@ -164,6 +172,10 @@
 
 .table-cell {
     -fx-text-fill: white;
+    -fx-border-color: white;
+    border-color: white;
+    -fx-border-width: 0.3;
+    border-width: 0.3;
 }
 
 .table-view .placeholder {
@@ -231,7 +243,10 @@
     -fx-text-fill: white;
 }
 
-.menu-bar, .menu-button, .menu, .context-menu {
+.menu-bar, 
+.menu-button, 
+.menu, 
+.context-menu {
     -fx-background-color: -fx-menubar-color;
     background-color: -fx-menubar-color;
 }
