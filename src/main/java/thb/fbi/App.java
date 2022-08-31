@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import thb.fbi.utility.I18N;
 
@@ -33,9 +34,10 @@ public class App extends Application {
         scene.getStylesheets().add(this.getClass().getResource("/thb/fbi/css/base.css").toExternalForm());
         scene.getStylesheets().add(this.getClass().getResource("/thb/fbi/css/dark.css").toExternalForm());
         stage.setScene(scene);
-        stage.show();
+        stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/thb/fbi/images/icon.png")));
         stage.setTitle("Intrastellar - an LEGv8 Simulator");
         stage.setMaximized(true);
+        stage.show();
     }
 
     static void setRoot(String fxml) throws IOException {
