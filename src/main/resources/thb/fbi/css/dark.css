@@ -1,16 +1,24 @@
 .root {
-    -fx-background-color: #1e1e1e;
-    background-color:#1e1e1e;
+    -fx-main-color: #1e1e1e;
+    -fx-secondary-color: #252526;
+    -fx-tertiary-color: #323232;
+    -fx-menubar-color: #3c3c3c;
+    -fbi-blue: #00bae5;
+    -fx-element-color: #6d6e6a;
+    -scrollbar-divider-color: #414141;
+
+    -fx-background-color: -fx-main-color;
+    background-color: -fx-main-color;
 }
 
 #register-vbox {
-    -fx-background-color: #323232;
-    background-color: #323232;
+    -fx-background-color: -fx-tertiary-color;
+    background-color: -fx-tertiary-color;
 }
 
 #register-pane, #register-anchor-pane {
-    -fx-background-color: #323232;
-    background-color: #323232;
+    -fx-background-color: -fx-tertiary-color;
+    background-color: -fx-tertiary-color;
 }
 
 .register-titleBar {
@@ -21,8 +29,8 @@
 }
 
 .register-container {
-    -fx-background-color: #252526;
-    background-color:#252526;
+    -fx-background-color: -fx-secondary-color;
+    background-color:-fx-secondary-color;
 }
 
 #register-scrollpane {
@@ -34,8 +42,8 @@
 
 /* Scrollpane*/
 .scroll-bar:vertical .thumb {
-    -fx-background-color: #414141;
-    background-color: #414141;
+    -fx-background-color: -scrollbar-divider-color;
+    background-color: -scrollbar-divider-color;
 }
 
 .scroll-bar .track {
@@ -54,18 +62,18 @@
 }
 
 #editor-vbox, .code-area, .editor-scrollpane, .editor-stackpane {
-    -fx-background-color: #1e1e1e;
-    background-color:#1e1e1e;
+    -fx-background-color: -fx-main-color;
+    background-color:-fx-main-color;
 }
 
 .split-pane-divider {
-    -fx-background-color: #414141;
-    background-color:#414141;
+    -fx-background-color: -scrollbar-divider-color;
+    background-color:-scrollbar-divider-color;
 }
 
 .check-box .box {
-    -fx-background-color: #6d6e6a;
-    background-color:#6d6e6a;
+    -fx-background-color: -fx-element-color;
+    background-color: -fx-element-color;
 }
 
 .check-box:selected > .box > .mark {
@@ -74,53 +82,53 @@
 }
 
 .simulator-button {
-    -fx-background-color: #00bae5;
-    background-color: #00bae5;
+    -fx-background-color: -fbi-blue;
+    background-color: -fbi-blue;
 }
 
 .simulator-bar {
-    -fx-background-color: #252526;
-    background-color: #252526;
+    -fx-background-color: -fx-secondary-color;
+    background-color: -fx-secondary-color;
 }
 
 /* Register Title Bar */
 #register-title {
-    -fx-background-color: #6d6e6a;
-    background-color: #6d6e6a;
+    -fx-background-color: -fx-element-color;
+    background-color: -fx-element-color;
 }
 
 #register-value-button, .memory-button {
-    -fx-background-color: #6d6e6a;
-    background-color: #6d6e6a;
+    -fx-background-color: -fx-element-color;
+    background-color: -fx-element-color;
     -fx-opacity: 1.0;
     opacity: 1.0;
 }
 
 #register-value-button:disabled, .memory-button:disabled {
-    -fx-background-color: #00bae5;
-    background-color: #00bae5;
+    -fx-background-color: -fbi-blue;
+    background-color: -fbi-blue;
 }
 
 /* Flag Regsiter HBox */
 #flag-register {
-    -fx-background-color: #252526;
-    background-color: #252526;
+    -fx-background-color: -fx-secondary-color;
+    background-color: -fx-secondary-color;
 }
 
 /* Memory VBox */
 #memory-vbox {
-    -fx-background-color: #252526;
-    background-color: #252526;
+    -fx-background-color: -fx-secondary-color;
+    background-color: -fx-secondary-color;
 }
 
 .column-header{
-    -fx-background-color: #6d6e6a;
-    background-color: #6d6e6a;
+    -fx-background-color: -fx-element-color;
+    background-color: -fx-element-color;
 }
 
 .text-field {
-    -fx-background-color: #3c3c3c;
-    background-color: #3c3c3c;
+    -fx-background-color: -fx-menubar-color;
+    background-color: -fx-menubar-color;
     -fx-text-fill: white;
 }
 
@@ -140,8 +148,8 @@
 
 /** remove corner of header section */
 .table-view .column-header-background .filler, .table-view .corner {
-    -fx-background-color: #6d6e6a;
-    background-color: #6d6e6a;
+    -fx-background-color: -fx-element-color;
+    background-color: -fx-element-color;
 }
 
 /** color the scroll bar background and thumb */
@@ -150,8 +158,8 @@
     background-color: white;
 }
 .table-view .scroll-bar .thumb {
-    -fx-background-color: #414141;
-    background-color: #414141;
+    -fx-background-color: -scrollbar-divider-color;
+    background-color: -scrollbar-divider-color;
 }
 
 .table-cell {
@@ -159,8 +167,8 @@
 }
 
 .table-view .placeholder {
-    -fx-background-color: #6d6e6a;
-    background-color: #6d6e6a;
+    -fx-background-color: -fx-element-color;
+    background-color: -fx-element-color;
 }
 
 .table-row-cell:empty {
@@ -169,8 +177,8 @@
 }
 
 .table-row-cell:odd {
-    -fx-background-color: #6d6e6a;
-    background-color: #6d6e6a;
+    -fx-background-color: -fx-element-color;
+    background-color: -fx-element-color;
 }
 
 .table-row-cell:even {
@@ -188,17 +196,17 @@
 /* TabView */
 .tab {
     -fx-pref-width: 180;
-    -fx-background-color: #6d6e6a;
-    background-color: #6d6e6a;
+    -fx-background-color: -fx-element-color;
+    background-color: -fx-element-color;
 }
 .tab:selected {
-    -fx-background-color: #00bae5;
-    background-color: #00bae5;
+    -fx-background-color: -fbi-blue;
+    background-color: -fbi-blue;
 }
 
 .tab-header-background {
-    -fx-background-color: #252526;
-    background-color: #252526;
+    -fx-background-color: -fx-secondary-color;
+    background-color: -fx-secondary-color;
 }
 
 .tab-pane{
@@ -208,11 +216,11 @@
     padding: 0 -1 -1 -1;
 }
 
+/* Text color */
 .tab .tab-label {
     -fx-text-fill: white;
 }
 
-/* Text color */
 .label {
     -fx-text-fill: white;
 }
@@ -224,22 +232,22 @@
 }
 
 .menu-bar, .menu-button, .menu, .context-menu {
-    -fx-background-color: #3c3c3c;
-    background-color: #3c3c3c;
+    -fx-background-color: -fx-menubar-color;
+    background-color: -fx-menubar-color;
 }
 
 .menu-item {
-    -fx-background-color: #3c3c3c;
-    background-color: #3c3c3c;
+    -fx-background-color: -fx-menubar-color;
+    background-color: -fx-menubar-color;
     -fx-text-fill: white;
 }
 
 .menu-item:focused {
-    -fx-background-color: #00bae5;
-    background-color: #00bae5;
+    -fx-background-color: -fbi-blue;
+    background-color: -fbi-blue;
 }
 
 #filter-button {
-    -fx-background-color: #6d6e6a;
-    background-color: #6d6e6a;
+    -fx-background-color: -fx-element-color;
+    background-color: -fx-element-color;
 }

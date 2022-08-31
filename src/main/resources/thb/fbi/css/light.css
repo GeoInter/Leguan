@@ -1,16 +1,29 @@
-#register-vbox {
-    -fx-background-color: lightgrey;
-    background-color: lightgrey;
+.root {
+    -fx-main-color: white;
+    -fx-secondary-color: #ececec;
+    -fx-tertiary-color: lightgrey;
+    -fx-menubar-color: #e5e5e5;
+    -fbi-blue: #00bae5;
+    -fx-element-color: #f1f1f1;
+    -scrollbar-divider-color: #adadad;
+
+    -fx-background-color: -fx-main-color;
+    background-color: -fx-main-color;
 }
 
-#register-pane {
-    -fx-background-color: lightgrey;
-    background-color: lightgrey;
+#register-vbox {
+    -fx-background-color: -fx-tertiary-color;
+    background-color: -fx-tertiary-color;
+}
+
+#register-pane, #register-anchor-pane {
+    -fx-background-color: -fx-tertiary-color;
+    background-color: -fx-tertiary-color;
 }
 
 .register-titleBar {
-    -fx-border-color: rgb(165, 165, 165);
-    border-color: rgb(165, 165, 165);
+    -fx-border-color: #adadad;
+    border-color: #adadad;
     -fx-border-width: 0 0 1 0;
     border-width: 0 0 1 0;
 }
@@ -25,6 +38,57 @@
     border-color: lightgrey;
     border-style: solid;
     -fx-border-insets: 1 0 0 0;
+}
+
+/* Scrollpane*/
+.scroll-bar:vertical .thumb {
+    -fx-background-color: -scrollbar-divider-color;
+    background-color: -scrollbar-divider-color;
+}
+
+.scroll-bar .track {
+    -fx-fill: transparent;
+    fill: transparent;
+}
+
+.scroll-pane{
+    -fx-background-color:transparent;
+    background-color: transparent;
+ }
+
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+    background-color: transparent;
+}
+
+#editor-vbox, .code-area, .editor-scrollpane, .editor-stackpane {
+    -fx-background-color: -fx-main-color;
+    background-color:-fx-main-color;
+}
+
+.split-pane-divider {
+    -fx-background-color: -scrollbar-divider-color;
+    background-color:-scrollbar-divider-color;
+}
+
+.check-box .box {
+    -fx-background-color: -fx-element-color;
+    background-color: -fx-element-color;
+}
+
+.check-box:selected > .box > .mark {
+    -fx-background-color: black;
+    background-color: black;
+}
+
+.simulator-button {
+    -fx-background-color: -fbi-blue;
+    background-color: -fbi-blue;
+}
+
+.simulator-bar {
+    -fx-background-color: -fx-secondary-color;
+    background-color: -fx-secondary-color;
 }
 
 /* Register Title Bar */
@@ -57,6 +121,78 @@
     background-color: #f1f1f1;
 }
 
+.column-header{
+    -fx-background-color: -fx-element-color;
+    background-color: -fx-element-color;
+}
+
+.text-field {
+    -fx-background-color: -fx-menubar-color;
+    background-color: -fx-menubar-color;
+    -fx-text-fill: black;
+}
+
+/** color the (sort) arrow of table */
+.table-view .column-header .arrow {
+    -fx-background-color: grey;
+    background-color: grey;
+}
+
+/** add slight dividers between headers */
+.table-view .column-header {
+    -fx-border-color: white;
+    border-color: white;
+    -fx-border-width: 0.05;
+    border-width: 0.05;
+}
+
+/** remove corner of header section */
+.table-view .column-header-background .filler, .table-view .corner {
+    -fx-background-color: -fx-element-color;
+    background-color: -fx-element-color;
+}
+
+/** color the scroll bar background and thumb */
+.table-view .scroll-bar {
+    -fx-background-color: white;
+    background-color: white;
+}
+.table-view .scroll-bar .thumb {
+    -fx-background-color: -scrollbar-divider-color;
+    background-color: -scrollbar-divider-color;
+}
+
+.table-cell {
+    -fx-text-fill: black;
+}
+
+.table-view .placeholder {
+    -fx-background-color: -fx-element-color;
+    background-color: -fx-element-color;
+}
+
+.table-row-cell:empty {
+    -fx-background-color: #80817c;
+    background-color: #80817c;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: -fx-element-color;
+    background-color: -fx-element-color;
+}
+
+.table-row-cell:even {
+    -fx-background-color: #e0e0e0;
+    background-color: #e0e0e0;
+}
+
+.list-cell:even,
+.list-cell:odd,
+.table-row-cell:even,
+.table-row-cell:odd{    
+    -fx-control-inner-background: derive(-fx-base, 15%);
+}
+
 /* TabView */
 .tab {
     -fx-pref-width: 180;
@@ -78,4 +214,40 @@
     background-color: lightgrey;
     -fx-padding: 0 -1 -1 -1;
     padding: 0 -1 -1 -1;
+}
+
+/* Text color */
+.tab .tab-label {
+    -fx-text-fill: black;
+}
+
+.label {
+    -fx-text-fill: black;
+}
+.check-box {
+    -fx-text-fill: black;
+}
+.button {
+    -fx-text-fill: black;
+}
+
+.menu-bar, .menu-button, .menu, .context-menu {
+    -fx-background-color: -fx-menubar-color;
+    background-color: -fx-menubar-color;
+}
+
+.menu-item {
+    -fx-background-color: -fx-menubar-color;
+    background-color: -fx-menubar-color;
+    -fx-text-fill: black;
+}
+
+.menu-item:focused {
+    -fx-background-color: -fbi-blue;
+    background-color: -fbi-blue;
+}
+
+#filter-button {
+    -fx-background-color: lightgrey;
+    background-color: lightgrey;
 }
