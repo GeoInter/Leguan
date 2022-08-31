@@ -42,8 +42,18 @@
           </Menu>
             <Menu mnemonicParsing="false" text="%menubar.Settings">
               <items>
-                <MenuItem fx:id="switchENButton" mnemonicParsing="false" text="Switch to English" />
-                  <MenuItem fx:id="switchDEButton" mnemonicParsing="false" text="Switch to German" />
+                  <Menu mnemonicParsing="false" text="%menubar.Theme">
+                     <items>
+                        <MenuItem fx:id="lightThemeItem" mnemonicParsing="false" text="Light" />
+                        <MenuItem fx:id="darkThemeItem" mnemonicParsing="false" text="Dark" />
+                     </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="%menubar.Language">
+                    <items>
+                      <MenuItem fx:id="switchENButton" mnemonicParsing="false" text="English" />
+                        <MenuItem fx:id="switchDEButton" mnemonicParsing="false" text="Deutsch" />
+                    </items>
+                  </Menu>
               </items>
             </Menu>
             <Menu mnemonicParsing="false" text="%menubar.Help">
