@@ -108,6 +108,10 @@
     opacity: 1.0;
 }
 
+#register-value-button {
+    -fx-background-radius: 0;
+}
+
 #register-value-button:disabled, .memory-button:disabled {
     -fx-background-color: -fbi-blue;
     background-color: -fbi-blue;
@@ -210,6 +214,7 @@
     -fx-pref-width: 180;
     -fx-background-color: -fx-element-color;
     background-color: -fx-element-color;
+    -fx-background-radius: 0;
 }
 .tab:selected {
     -fx-background-color: -fbi-blue;

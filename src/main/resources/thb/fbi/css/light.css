@@ -108,6 +108,10 @@
     opacity: 1.0;
 }
 
+#register-value-button {
+    -fx-background-radius: 0;
+}
+
 #register-value-button:disabled, .memory-button:disabled {
     -fx-background-color: #00bae5;
     background-color: #00bae5;
@@ -115,8 +119,8 @@
 
 /* Flag Regsiter HBox */
 #flag-register {
-    -fx-background-color: lightgrey;
-    background-color: lightgrey;
+    -fx-background-color: -fx-secondary-color;
+    background-color: -fx-secondary-color;
 }
 
 /* Memory VBox */
@@ -210,6 +214,7 @@
     -fx-pref-width: 180;
     -fx-background-color: rgb(165, 165, 165);
     background-color: rgb(165, 165, 165);
+    -fx-background-radius: 0;
 }
 .tab:selected {
     -fx-background-color: #00bae5;
