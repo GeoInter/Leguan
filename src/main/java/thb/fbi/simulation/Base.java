@@ -9,6 +9,7 @@ public enum Base
 {
     BIN(2),
     DEC(10), 
+    uDEC(0),
     HEX(16);
     
     private int value;

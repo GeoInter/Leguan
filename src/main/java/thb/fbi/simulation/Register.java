@@ -56,7 +56,16 @@ public class Register {
                 str.insert(0, "0x");
                 this.shownValue.set(str.toString());
                 break;
-            case DEC: // decimal
+            case uDEC: // unsigned decimal (point delimited in pairs of 3)
+                String unsigned = Long.toUnsignedString(this.value);
+                str = new StringBuilder(unsigned);
+                for(int i = unsigned.length()-3; i > 0; i-= 3) {
+                    str.insert(i, ".");
+                }
+                str.insert(0, "u ");
+                this.shownValue.set(str.toString());
+                break;
+            case DEC: // signed decimal
             default:
                 NumberFormat nf = NumberFormat.getInstance();
                 this.shownValue.set("" + nf.format(this.value));

@@ -11,11 +11,12 @@
 
 <VBox id="register-pane" fx:id="RegisterPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="thb.fbi.controller.RegisterPaneController">
    <children>
-      <CheckBox fx:id="showUnusedRegisterCheckBox" mnemonicParsing="false" selected="true" text="%register.Label.showUnused">
-         <VBox.margin>
-            <Insets bottom="15.0" left="15.0" right="15.0" top="18.0" />
-         </VBox.margin>
-      </CheckBox>
+      <HBox alignment="CENTER" prefHeight="50.0" spacing="50.0">
+         <children>
+            <CheckBox fx:id="showUnusedRegisterCheckBox" alignment="CENTER" mnemonicParsing="false" selected="true" text="%register.Label.showUnused" />
+            <CheckBox fx:id="displayUnsignedCheckBox" mnemonicParsing="false" text="display as unsigned" />
+         </children>
+      </HBox>
       <ScrollPane id="register-scrollpane" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" maxHeight="800.0" pannable="true" vbarPolicy="ALWAYS" VBox.vgrow="ALWAYS">
          <content>
             <VBox id="register-vbox" spacing="12.0">

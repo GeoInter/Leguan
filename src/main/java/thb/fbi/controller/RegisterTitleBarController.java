@@ -1,6 +1,8 @@
 package thb.fbi.controller;
 
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -19,6 +21,8 @@ public class RegisterTitleBarController {
     /** register to associate to this UI element */
     private Register register;
 
+    private BooleanProperty displayUnsigned;
+
     @FXML Label registerTitle;
     @FXML Label registerValue;
     @FXML Button decButton;
@@ -33,10 +37,11 @@ public class RegisterTitleBarController {
      * Adds an always visible register to this Controller
      * @param register
      */
-    public void setProperties(Register register) {
+    public void setProperties(Register register, BooleanProperty displayUnsigned) {
         this.register = register;
         registerTitle.setText(register.getName());
         registerValue.textProperty().bind(register.getShownValue());
+        setDisplayUnsigned(displayUnsigned);
     }
 
     /**
@@ -46,12 +51,30 @@ public class RegisterTitleBarController {
      * @param register
      * @param showAllRegisters
      */
-    public void setProperties(Register register, BooleanProperty showAllRegisters) {
+    public void setProperties(Register register, BooleanProperty showAllRegisters, BooleanProperty displayUnsigned) {
         this.register = register;
         registerTitle.setText(register.getName());
         registerValue.textProperty().bind(register.getShownValue());
         registerBox.managedProperty().bind(register.getIsUsed().or(showAllRegisters));
         registerBox.visibleProperty().bind(register.getIsUsed().or(showAllRegisters));
+        setDisplayUnsigned(displayUnsigned);
+    }
+
+    private void setDisplayUnsigned(BooleanProperty displayUnsigned) {
+        this.displayUnsigned = displayUnsigned;
+        displayUnsigned.addListener(new ChangeListener<Boolean>() {
+
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(newValue && register.getNumberFormat() == Base.DEC) {
+                    register.setNumberFormat(Base.uDEC);
+                }
+                if((!newValue) && register.getNumberFormat() == Base.uDEC) {
+                    register.setNumberFormat(Base.DEC);
+                }
+            }
+
+        });
     }
 
     /**
@@ -59,7 +82,11 @@ public class RegisterTitleBarController {
      */
     @FXML
     private void updateToDec() { 
-        register.setNumberFormat(Base.DEC);
+        if(displayUnsigned.get() == true) {
+            register.setNumberFormat(Base.uDEC);
+        } else {
+            register.setNumberFormat(Base.DEC);
+        }
         decButton.setDisable(true);
         binButton.setDisable(false);
         hexButton.setDisable(false);
