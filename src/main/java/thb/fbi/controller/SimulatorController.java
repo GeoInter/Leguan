@@ -6,6 +6,7 @@ import org.fxmisc.richtext.CodeArea;
 
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
@@ -39,12 +40,14 @@ public class SimulatorController {
 
     @FXML MenuItem switchENButton;
     @FXML MenuItem switchDEButton;
+    @FXML MenuItem lightThemeItem;
+    @FXML MenuItem darkThemeItem;
 
     Simulator simulator = SimulatorSingleton.getSimulator();
 
     @FXML
     public void initialize() {
-        codeArea.prefHeightProperty().bind(codeScrollPane.heightProperty().subtract(10)); 
+        codeArea.prefHeightProperty().bind(codeScrollPane.heightProperty()); 
         codeArea.prefWidthProperty().bind(codeScrollPane.widthProperty().subtract(15)); // size of scrollbar
 
         // prevent rightside to resize (change divider position) when maximazing
@@ -52,6 +55,9 @@ public class SimulatorController {
 
         switchENButton.setOnAction((evt) -> switchLanguage(Locale.ENGLISH));
         switchDEButton.setOnAction((evt) -> switchLanguage(Locale.GERMAN));
+
+        lightThemeItem.setOnAction((evt) -> switchStylesheets("light.css"));
+        darkThemeItem.setOnAction((evt) -> switchStylesheets("dark.css"));
 
         // file_Menu.textProperty().bind(I18N.createStringBinding("menubar.File"));
     }
@@ -89,5 +95,14 @@ public class SimulatorController {
      */
     private void switchLanguage(Locale locale) {
         I18N.setLocale(locale);
+    }
+
+    /**
+     * switches to a stylesheet
+     */
+    public void switchStylesheets(String css) {
+        Scene scene = registerPane.getScene();
+        scene.getStylesheets().remove(1); // remove except for base
+        scene.getStylesheets().add(this.getClass().getResource("/thb/fbi/css/" + css).toExternalForm());
     }
 }

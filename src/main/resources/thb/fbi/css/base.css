@@ -1,0 +1,44 @@
+.root {
+    -fx-background-color: #00bae5;
+    background-color: #00bae5;
+}
+
+.table-row-cell:empty {
+    -fx-background-color: transparent;
+    background-color: transparent;
+}
+ 
+.table-row-cell:empty .table-cell {
+    -fx-border-width: 0px;
+    border-width: 0px;
+}
+
+/* Scrollpane and Scrollbar */
+.scroll-bar:vertical *.increment-button,
+.scroll-bar:vertical *.decrement-button {
+    -fx-background-color: transparent;
+    background-color: transparent;
+}
+
+.scroll-bar:vertical .track,
+.scroll-bar:vertical .track {
+    -fx-background-color :transparent;
+    background-color: transparent;
+    -fx-border-color :transparent;
+    border-color:  transparent;
+    -fx-background-radius : 0.0em;
+    -fx-border-radius :2.0em;
+    border-radius: 2.0em;
+}
+
+.scroll-pane {
+    -fx-background-color:transparent;
+    background-color: transparent;
+}
+
+.tab-pane:top *.tab-header-area {
+    -fx-background-insets: 0, 0 0 1 0;
+ /* -fx-padding: 0.416667em 0.166667em 0.0em 0.833em; /* 5 2 0 10 */
+    -fx-padding: 0.0em 0.166667em 0.0em 0.0em;
+    padding: 0 2 0 0;
+}
