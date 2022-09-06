@@ -211,7 +211,6 @@
 
 /* TabView */
 .tab {
-    -fx-pref-width: 180;
     -fx-background-color: -fx-element-color;
     background-color: -fx-element-color;
     -fx-background-radius: 0;
@@ -231,6 +230,16 @@
     background-color: lightgrey;
     -fx-padding: 0 -1 -1 -1;
     padding: 0 -1 -1 -1;
+}
+
+.tab-down-button {
+    -fx-padding: 0;
+    padding: 0;
+}
+    
+.tab-down-button .arrow {
+    -fx-padding: 0;
+    padding: 0;
 }
 
 /* Text color */

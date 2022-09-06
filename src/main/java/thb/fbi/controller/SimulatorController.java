@@ -53,6 +53,10 @@ public class SimulatorController {
         // prevent rightside to resize (change divider position) when maximazing
         SplitPane.setResizableWithParent(rightSideAnchorPane, false);
 
+        // tabs fill header of tabPane
+        tabPane.tabMaxWidthProperty().bind(rightSideAnchorPane.widthProperty().divide(tabPane.getTabs().size()));
+        tabPane.tabMinWidthProperty().bind(rightSideAnchorPane.widthProperty().divide(tabPane.getTabs().size()));
+
         switchENButton.setOnAction((evt) -> switchLanguage(Locale.ENGLISH));
         switchDEButton.setOnAction((evt) -> switchLanguage(Locale.GERMAN));
 
