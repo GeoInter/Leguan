@@ -7,6 +7,7 @@ import org.fxmisc.richtext.CodeArea;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
@@ -36,7 +37,7 @@ public class SimulatorController {
     @FXML ScrollPane codeScrollPane;
     @FXML CodeArea codeArea;
 
-    // @FXML Menu file_Menu;
+    @FXML Menu file_Menu;
 
     @FXML MenuItem switchENButton;
     @FXML MenuItem switchDEButton;
@@ -54,8 +55,9 @@ public class SimulatorController {
         SplitPane.setResizableWithParent(rightSideAnchorPane, false);
 
         // tabs fill header of tabPane
-        tabPane.tabMaxWidthProperty().bind(rightSideAnchorPane.widthProperty().divide(tabPane.getTabs().size()));
-        tabPane.tabMinWidthProperty().bind(rightSideAnchorPane.widthProperty().divide(tabPane.getTabs().size()));
+        // BUG: Switching Tabs (which are filling the tabPane) leaves empty extra space at right side; subtract 20 to prevent
+        tabPane.tabMaxWidthProperty().bind((rightSideAnchorPane.widthProperty().divide(tabPane.getTabs().size())).subtract(20));
+        tabPane.tabMinWidthProperty().bind((rightSideAnchorPane.widthProperty().divide(tabPane.getTabs().size())).subtract(20));
 
         switchENButton.setOnAction((evt) -> switchLanguage(Locale.ENGLISH));
         switchDEButton.setOnAction((evt) -> switchLanguage(Locale.GERMAN));
