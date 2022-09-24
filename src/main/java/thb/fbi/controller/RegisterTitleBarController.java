@@ -65,11 +65,11 @@ public class RegisterTitleBarController {
         displayUnsigned.addListener(new ChangeListener<Boolean>() {
 
             @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(newValue && register.getNumberFormat() == Base.DEC) {
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldState, Boolean newState) {
+                if(newState && register.getNumberFormat() == Base.DEC) {
                     register.setNumberFormat(Base.uDEC);
                 }
-                if((!newValue) && register.getNumberFormat() == Base.uDEC) {
+                else if((!newState) && register.getNumberFormat() == Base.uDEC) {
                     register.setNumberFormat(Base.DEC);
                 }
             }
