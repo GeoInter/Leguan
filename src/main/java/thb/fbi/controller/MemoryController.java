@@ -25,6 +25,7 @@ import javafx.util.Callback;
 import javafx.util.converter.IntegerStringConverter;
 import thb.fbi.simulation.Memory;
 import thb.fbi.simulation.MemoryObserver;
+import thb.fbi.utility.NumberComparator;
 
 public class MemoryController implements MemoryObserver {
 

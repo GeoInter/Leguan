@@ -1,9 +1,9 @@
-package thb.fbi.controller;
+package thb.fbi.utility;
 
 import java.util.Comparator;
 
 /**
- * class for comparing strings made out of numbers
+ * class for comparing (hexadecimal) strings made out of numbers
  * used for address in memory table
  */
 public class NumberComparator implements Comparator<String> {
