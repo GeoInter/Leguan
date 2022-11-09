@@ -1,7 +1,17 @@
 package thb.fbi.simulation;
 
+import java.io.IOException;
+
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTree;
+
 import thb.fbi.instructions.Instruction;
 import thb.fbi.instructions.InstructionSet;
+import thb.fbi.parser.ProgramParser;
+import thb.fbi.parser.antlr.LegV8Lexer;
+import thb.fbi.parser.antlr.LegV8Parser;
 
 /** 
  * class for simulating a processor and instruction execution
@@ -25,11 +35,11 @@ public class Simulator {
             registers[i] = new Register("R"+i, 0, i);
             registers[i].setNumberFormat(Base.DEC);
         }
-        /*
-        registers[0].setValue(5216694956355245935L);
+        
+        registers[0].setValue(12);
         registers[1].setValue(-2);
-        registers[2].setValue(0);
-        */
+        registers[2].setValue(7);
+        
     }
 
     /** 
@@ -172,6 +182,44 @@ public class Simulator {
         argument.setRm(registers[1]);
         argument.setRd(registers[2]);
         instruction.simulate(argument, pc);
+    }
+
+    public void testParser() {
+        LegV8Parser parser = getParser();
+
+        // parse form start symbol 'main'
+        ParseTree antlTree = parser.main();
+        // create visitor
+        ProgramParser progVisitor = new ProgramParser();
+        this.program = progVisitor.visit(antlTree);
+
+        ProgramStatement statement = program.getProgramStatement(0);
+        if(statement != null) {
+            Instruction instruction = statement.getInstruction();
+            if(instruction != null) {
+                instruction.simulate(statement.getArguments(), pc);
+                pc.setValue(pc.getValue() + Instruction.INSTRUCTION_LENGTH);
+            }
+        }
+    }
+
+    /*
+     * Types of Parser and Lexer are specific to the name of the used grammar
+     * 
+     */
+    private LegV8Parser getParser() {
+        LegV8Parser parser = null;
+
+        //try {
+            CharStream input = CharStreams.fromString("ADD X2, X0, X1;");  // fromFileName("./example2.txt");
+            LegV8Lexer lexer = new LegV8Lexer(input);
+            CommonTokenStream tokens = new CommonTokenStream(lexer);
+            parser = new LegV8Parser(tokens);
+        //} catch (IOException e) {
+        //    e.printStackTrace();
+        //}
+
+        return parser;
     }
 
     /**

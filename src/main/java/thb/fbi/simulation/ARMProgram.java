@@ -15,6 +15,11 @@ public class ARMProgram {
     private ArrayList<ProgramStatement> statements;
     private ArrayList<Register> usedRegisters = new ArrayList<Register>();
 
+    public ARMProgram() {
+        fileName = "Empty";
+        statements = new ArrayList<ProgramStatement>();
+    }
+
     public ARMProgram(String fileName) {
         this.fileName = fileName;
         statements = Parser.getStatements();
