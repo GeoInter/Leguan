@@ -1,7 +1,5 @@
 package thb.fbi.simulation;
 
-import java.io.IOException;
-
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -184,8 +182,8 @@ public class Simulator {
         instruction.simulate(argument, pc);
     }
 
-    public void testParser() {
-        LegV8Parser parser = getParser();
+    public void testParser(String code) {
+        LegV8Parser parser = getParser(code);
 
         // parse form start symbol 'main'
         ParseTree antlTree = parser.main();
@@ -208,17 +206,13 @@ public class Simulator {
      * Types of Parser and Lexer are specific to the name of the used grammar
      * 
      */
-    private LegV8Parser getParser() {
+    private LegV8Parser getParser(String code) {
         LegV8Parser parser = null;
 
-        //try {
-            CharStream input = CharStreams.fromString("ADD X2, X0, X1;");  // fromFileName("./example2.txt");
-            LegV8Lexer lexer = new LegV8Lexer(input);
-            CommonTokenStream tokens = new CommonTokenStream(lexer);
-            parser = new LegV8Parser(tokens);
-        //} catch (IOException e) {
-        //    e.printStackTrace();
-        //}
+        CharStream input = CharStreams.fromString(code);
+        LegV8Lexer lexer = new LegV8Lexer(input);
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
+        parser = new LegV8Parser(tokens);
 
         return parser;
     }

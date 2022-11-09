@@ -71,7 +71,7 @@ public class SimulatorController {
     @FXML
     private void runCode() {
         //simulator.testASCIIInMemory();
-        simulator.testParser();
+        simulator.testParser(codeArea.getText());
     }
 
     /**
