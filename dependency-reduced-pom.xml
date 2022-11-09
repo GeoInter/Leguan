@@ -92,6 +92,23 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.antlr</groupId>
+        <artifactId>antlr4-maven-plugin</artifactId>
+        <version>4.11.1</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>antlr4</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <sourceDirectory>src/main/java/thb/fbi/parser</sourceDirectory>
+          <outputDirectory>src/main/java/thb/fbi/parser/antlr</outputDirectory>
+          <visitor>true</visitor>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
   <properties>

@@ -9,3 +9,6 @@ workspace.code-workspace
 
 # ignore local (fat) jars - for non-modular java 
 /src/main/resources/*.jar
+
+# ignore local .antlr package (duplicate since pom.xml defines an antlr package already
+/src/main/java/thb/fbi/parser/.antlr 

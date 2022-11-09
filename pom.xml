@@ -36,6 +36,11 @@
             <artifactId>richtextfx</artifactId>
             <version>0.10.9</version>
         </dependency>
+        <dependency>
+          <groupId>org.antlr</groupId>
+          <artifactId>antlr4-runtime</artifactId>
+          <version>4.11.1</version>
+      </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -145,6 +150,23 @@
                   </execution>
                 </executions>
             </plugin>
+            <plugin>
+              <groupId>org.antlr</groupId>
+              <artifactId>antlr4-maven-plugin</artifactId>
+              <version>4.11.1</version>
+              <configuration>
+                <sourceDirectory>src/main/java/thb/fbi/parser</sourceDirectory>
+                <outputDirectory>src/main/java/thb/fbi/parser/antlr</outputDirectory>
+                <visitor>true</visitor>
+              </configuration>
+              <executions>
+                  <execution>
+                      <goals>
+                          <goal>antlr4</goal>
+                      </goals>
+                  </execution>
+              </executions>
+          </plugin>
         </plugins>
     </build>
 </project>
