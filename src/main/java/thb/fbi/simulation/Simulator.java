@@ -192,6 +192,7 @@ public class Simulator {
         // create visitor
         ProgramParser progVisitor = new ProgramParser();
         this.program = progVisitor.visit(antlTree);
+        updateShownRegisters();
 
         ProgramStatement statement = program.getProgramStatement(0);
         if(statement != null) {

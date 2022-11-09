@@ -1,5 +1,7 @@
 package thb.fbi.parser;
 
+import java.util.ArrayList;
+
 import thb.fbi.instructions.Instruction;
 import thb.fbi.parser.antlr.LegV8BaseVisitor;
 import thb.fbi.parser.antlr.LegV8Parser.IinstrContext;
@@ -18,6 +20,15 @@ import thb.fbi.simulation.SimulatorSingleton;
 public class ProgramStatementParser extends LegV8BaseVisitor {
 
     private static Simulator simulator = SimulatorSingleton.getSimulator();
+    private ArrayList<Register> usedRegisters = new ArrayList<Register>();
+
+    /**
+     * return list of used registers
+     * @return list of (used) parsed registers 
+     */
+    public ArrayList<Register> getUsedRegisters() {
+        return usedRegisters;
+    }
 
     @Override
     public ProgramStatement visitLine(LineContext ctx) {
@@ -32,6 +43,9 @@ public class ProgramStatementParser extends LegV8BaseVisitor {
         registerName = registerName.substring(1);
         int index = Integer.parseInt(registerName);
         Register register = simulator.getRegisters()[index];
+        if(! usedRegisters.contains(register)) {
+            usedRegisters.add(register);
+        }
         return register;
     }
 

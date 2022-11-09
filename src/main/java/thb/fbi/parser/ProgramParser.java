@@ -42,6 +42,7 @@ public class ProgramParser extends LegV8BaseVisitor<ARMProgram> {
         ProgramStatement statement = (ProgramStatement)statementVisitor.visit(ctx);
         ARMProgram program = new ARMProgram();
         program.addStatement(statement);
+        program.setUsedRegister(statementVisitor.getUsedRegisters());
         return program;
     }
 

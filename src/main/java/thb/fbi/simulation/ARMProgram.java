@@ -71,4 +71,12 @@ public class ARMProgram {
     public void addStatement(ProgramStatement statement) {
         statements.add(statement);
     }
+
+    /**
+     * set list of used registers within this program
+     * @param usedRegisters
+     */
+    public void setUsedRegister(ArrayList<Register> usedRegisters) {
+        this.usedRegisters = usedRegisters;
+    }
 }
