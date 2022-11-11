@@ -318,7 +318,6 @@ public class MemoryController implements MemoryObserver {
         }
         newData = getFilteredMap(newData);
         
-        System.out.println(newData.toString());
         ObservableList<Map.Entry<Long, Long>> items = FXCollections.observableArrayList(newData.entrySet());
         memoryTable.setItems(items);
     }

@@ -109,17 +109,13 @@ public class Memory {
      */
     private static long combineBytes(byte[] bytes) {
         long result = bytes[0];
-        System.out.println("start: " + result);
-        System.out.println("0 iteration: " + Long.toBinaryString(result));
         for(int i = 1; i < bytes.length; i++) {
             if(bytes[i] < 0) { // when bytes[i] is negative and is casted to long, it will have many leading 1s, changing the bitwise OR operation
                 long b = bytes[i];
                 b = b & 255; // 255 = first 8 bit set
                 result = (((result) << 8) | b);
-                System.out.println(i + " iteration: " + Long.toBinaryString(result) + '\t' + "byte: " + Long.toBinaryString(b) + '\t' + "dec: " + Long.toBinaryString(bytes[i]));
             } else {
                 result = (((result) << 8) | bytes[i]); 
-                System.out.println(i + " iteration: " + Long.toBinaryString(result));
             }
         }
         return result;
