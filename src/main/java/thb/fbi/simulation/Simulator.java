@@ -102,8 +102,11 @@ public class Simulator {
         }
     }
 
-    
-    public void testParser(String code) {
+    /**
+     * parses and executes the whole written code 
+     * @param code written text to parse
+     */
+    public void run(String code) {
         LegV8Parser parser = getParser(code);
 
         // parse form start symbol 'main'
@@ -127,8 +130,6 @@ public class Simulator {
                 running = false;
             }
         }
-
-        System.out.println("done parsing");
     }
 
     /*

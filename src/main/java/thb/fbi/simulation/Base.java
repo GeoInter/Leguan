@@ -3,7 +3,7 @@ package thb.fbi.simulation;
 /** 
  * \brief class for reprenting possible numberformats
  * 
- * numberformats are used in UI for displaying register value as Binary(2), Decimal(10) or Hexdecimal(16)
+ * numberformats are used in UI for displaying register value as Binary(2), Decimal(10), unsigned Decimal(0) or Hexdecimal(16)
  */
 public enum Base
 {

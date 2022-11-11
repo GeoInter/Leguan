@@ -32,8 +32,8 @@ public class ProgramStatementParser extends LegV8BaseVisitor {
 
     @Override
     public ProgramStatement visitLine(LineContext ctx) {
-        Instruction instr = visitRinstr((RinstrContext)ctx.getChild(0));
-        InstructionArguments args = visitRparam((RparamContext)ctx.getChild(1));
+        Instruction instr = (Instruction) visit(ctx.getChild(0));
+        InstructionArguments args = (InstructionArguments) visit(ctx.getChild(1));
         return new ProgramStatement(instr, args, null, 0);
     }
 
@@ -50,11 +50,21 @@ public class ProgramStatementParser extends LegV8BaseVisitor {
         return register;
     }
 
+    private Instruction getInstructionByName(String instructionName) {
+        Instruction instruction = simulator.getInstructionSet().findInstructionByMnemonic(instructionName);
+        return instruction;
+    }
+
     @Override
     public Instruction visitRinstr(RinstrContext ctx) {
         String instructionName = ctx.getChild(0).getText();
-        Instruction instruction = simulator.getInstructionSet().findInstructionByMnemonic(instructionName);
-        return instruction;
+        return getInstructionByName(instructionName);
+    }
+
+    @Override
+    public Instruction visitIinstr(IinstrContext ctx) {
+        String instructionName = ctx.getChild(0).getText();
+        return getInstructionByName(instructionName);
     }
 
     @Override
@@ -68,29 +78,23 @@ public class ProgramStatementParser extends LegV8BaseVisitor {
         args.setRm(Rm);
         return args;
     }
-    //////////////////////////////// LATER ///////////////////////////
-    @Override
-    public Long visitNum(NumContext ctx) {
-        String numberText = ctx.getChild(0).getText();
-        long number = Long.parseLong(numberText);
-        return number;
-    }
-
     
-    @Override
-    public Object visitIinstr(IinstrContext ctx) {
-        // TODO Auto-generated method stub
-        return super.visitIinstr(ctx);
-    }
-
     @Override
     public Object visitIparam(IparamContext ctx) {
-        // TODO Auto-generated method stub
-        return super.visitIparam(ctx);
+        Register Rd = visitRegister(((RegisterContext)ctx.getChild(0)));
+        Register Rn = visitRegister(((RegisterContext)ctx.getChild(2)));
+        int alu_immediate = visitNum((NumContext)ctx.getChild(4));
+        InstructionArguments args = new InstructionArguments();
+        args.setRd(Rd);
+        args.setRn(Rn);
+        args.setAlu_Immediate(alu_immediate);
+        return args;
     }
-
     
-
-    
-
+    @Override
+    public Integer visitNum(NumContext ctx) {
+        String numberText = ctx.getChild(0).getText();
+        int number = Integer.parseInt(numberText);
+        return number;
+    }
 }

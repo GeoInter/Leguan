@@ -17,9 +17,8 @@ public class DataTransferInstruction extends Instruction {
 
     @Override
     public void simulate(InstructionArguments argument, Register pc) {
-        // TODO: figure out what datatype opcode2 is
         int dt_address = argument.getDt_Address();
-        String opcode2 = "";
+        String opcode2 = "00"; // not used by LegV8
         Register Rn = argument.getRn();
         Register Rt = argument.getRt();
         this.dataTransferCode.simulate(dt_address, opcode2, Rn, Rt);
