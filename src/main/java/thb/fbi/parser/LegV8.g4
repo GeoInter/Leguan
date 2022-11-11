@@ -7,15 +7,17 @@ main : program EOF;
 
 program : line+ ;
 
-line : declaration? (rinstr rparam | iinstr iparam);
+line : declaration? (arithmeticInstruction arithmeticParam | immediateInstruction immediateParam | datatransferInstruction datatransferParam);
 
 declaration: MarkDeclaration ;
 
-rinstr : 'ADD' | 'SUB' ;
-iinstr : 'ADDI' ;
+arithmeticInstruction : 'ADD' | 'SUB' ;
+immediateInstruction : 'ADDI' ;
+datatransferInstruction : 'STUR' ;
 
-rparam : register COMMA register COMMA register SEMI;
-iparam : register COMMA register COMMA num SEMI;
+arithmeticParam : register COMMA register COMMA register SEMI;
+immediateParam : register COMMA register COMMA num SEMI;
+datatransferParam : register COMMA register COMMA num SEMI;
 
 num: NUMBER ;
 

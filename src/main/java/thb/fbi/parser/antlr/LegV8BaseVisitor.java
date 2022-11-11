@@ -46,28 +46,42 @@ public class LegV8BaseVisitor<T> extends AbstractParseTreeVisitor<T> implements 
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitRinstr(LegV8Parser.RinstrContext ctx) { return visitChildren(ctx); }
+	@Override public T visitArithmeticInstruction(LegV8Parser.ArithmeticInstructionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitIinstr(LegV8Parser.IinstrContext ctx) { return visitChildren(ctx); }
+	@Override public T visitImmediateInstruction(LegV8Parser.ImmediateInstructionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitRparam(LegV8Parser.RparamContext ctx) { return visitChildren(ctx); }
+	@Override public T visitDatatransferInstruction(LegV8Parser.DatatransferInstructionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitIparam(LegV8Parser.IparamContext ctx) { return visitChildren(ctx); }
+	@Override public T visitArithmeticParam(LegV8Parser.ArithmeticParamContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitImmediateParam(LegV8Parser.ImmediateParamContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitDatatransferParam(LegV8Parser.DatatransferParamContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

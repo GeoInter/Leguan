@@ -48,45 +48,65 @@ public interface LegV8Listener extends ParseTreeListener {
 	 */
 	void exitDeclaration(LegV8Parser.DeclarationContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link LegV8Parser#rinstr}.
+	 * Enter a parse tree produced by {@link LegV8Parser#arithmeticInstruction}.
 	 * @param ctx the parse tree
 	 */
-	void enterRinstr(LegV8Parser.RinstrContext ctx);
+	void enterArithmeticInstruction(LegV8Parser.ArithmeticInstructionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link LegV8Parser#rinstr}.
+	 * Exit a parse tree produced by {@link LegV8Parser#arithmeticInstruction}.
 	 * @param ctx the parse tree
 	 */
-	void exitRinstr(LegV8Parser.RinstrContext ctx);
+	void exitArithmeticInstruction(LegV8Parser.ArithmeticInstructionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link LegV8Parser#iinstr}.
+	 * Enter a parse tree produced by {@link LegV8Parser#immediateInstruction}.
 	 * @param ctx the parse tree
 	 */
-	void enterIinstr(LegV8Parser.IinstrContext ctx);
+	void enterImmediateInstruction(LegV8Parser.ImmediateInstructionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link LegV8Parser#iinstr}.
+	 * Exit a parse tree produced by {@link LegV8Parser#immediateInstruction}.
 	 * @param ctx the parse tree
 	 */
-	void exitIinstr(LegV8Parser.IinstrContext ctx);
+	void exitImmediateInstruction(LegV8Parser.ImmediateInstructionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link LegV8Parser#rparam}.
+	 * Enter a parse tree produced by {@link LegV8Parser#datatransferInstruction}.
 	 * @param ctx the parse tree
 	 */
-	void enterRparam(LegV8Parser.RparamContext ctx);
+	void enterDatatransferInstruction(LegV8Parser.DatatransferInstructionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link LegV8Parser#rparam}.
+	 * Exit a parse tree produced by {@link LegV8Parser#datatransferInstruction}.
 	 * @param ctx the parse tree
 	 */
-	void exitRparam(LegV8Parser.RparamContext ctx);
+	void exitDatatransferInstruction(LegV8Parser.DatatransferInstructionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link LegV8Parser#iparam}.
+	 * Enter a parse tree produced by {@link LegV8Parser#arithmeticParam}.
 	 * @param ctx the parse tree
 	 */
-	void enterIparam(LegV8Parser.IparamContext ctx);
+	void enterArithmeticParam(LegV8Parser.ArithmeticParamContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link LegV8Parser#iparam}.
+	 * Exit a parse tree produced by {@link LegV8Parser#arithmeticParam}.
 	 * @param ctx the parse tree
 	 */
-	void exitIparam(LegV8Parser.IparamContext ctx);
+	void exitArithmeticParam(LegV8Parser.ArithmeticParamContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link LegV8Parser#immediateParam}.
+	 * @param ctx the parse tree
+	 */
+	void enterImmediateParam(LegV8Parser.ImmediateParamContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LegV8Parser#immediateParam}.
+	 * @param ctx the parse tree
+	 */
+	void exitImmediateParam(LegV8Parser.ImmediateParamContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link LegV8Parser#datatransferParam}.
+	 * @param ctx the parse tree
+	 */
+	void enterDatatransferParam(LegV8Parser.DatatransferParamContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LegV8Parser#datatransferParam}.
+	 * @param ctx the parse tree
+	 */
+	void exitDatatransferParam(LegV8Parser.DatatransferParamContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link LegV8Parser#num}.
 	 * @param ctx the parse tree

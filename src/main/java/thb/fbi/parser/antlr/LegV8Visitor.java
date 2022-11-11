@@ -35,29 +35,41 @@ public interface LegV8Visitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitDeclaration(LegV8Parser.DeclarationContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link LegV8Parser#rinstr}.
+	 * Visit a parse tree produced by {@link LegV8Parser#arithmeticInstruction}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitRinstr(LegV8Parser.RinstrContext ctx);
+	T visitArithmeticInstruction(LegV8Parser.ArithmeticInstructionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link LegV8Parser#iinstr}.
+	 * Visit a parse tree produced by {@link LegV8Parser#immediateInstruction}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitIinstr(LegV8Parser.IinstrContext ctx);
+	T visitImmediateInstruction(LegV8Parser.ImmediateInstructionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link LegV8Parser#rparam}.
+	 * Visit a parse tree produced by {@link LegV8Parser#datatransferInstruction}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitRparam(LegV8Parser.RparamContext ctx);
+	T visitDatatransferInstruction(LegV8Parser.DatatransferInstructionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link LegV8Parser#iparam}.
+	 * Visit a parse tree produced by {@link LegV8Parser#arithmeticParam}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitIparam(LegV8Parser.IparamContext ctx);
+	T visitArithmeticParam(LegV8Parser.ArithmeticParamContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link LegV8Parser#immediateParam}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitImmediateParam(LegV8Parser.ImmediateParamContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link LegV8Parser#datatransferParam}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDatatransferParam(LegV8Parser.DatatransferParamContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link LegV8Parser#num}.
 	 * @param ctx the parse tree

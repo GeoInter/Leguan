@@ -65,49 +65,73 @@ public class LegV8BaseListener implements LegV8Listener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterRinstr(LegV8Parser.RinstrContext ctx) { }
+	@Override public void enterArithmeticInstruction(LegV8Parser.ArithmeticInstructionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitRinstr(LegV8Parser.RinstrContext ctx) { }
+	@Override public void exitArithmeticInstruction(LegV8Parser.ArithmeticInstructionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterIinstr(LegV8Parser.IinstrContext ctx) { }
+	@Override public void enterImmediateInstruction(LegV8Parser.ImmediateInstructionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitIinstr(LegV8Parser.IinstrContext ctx) { }
+	@Override public void exitImmediateInstruction(LegV8Parser.ImmediateInstructionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterRparam(LegV8Parser.RparamContext ctx) { }
+	@Override public void enterDatatransferInstruction(LegV8Parser.DatatransferInstructionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitRparam(LegV8Parser.RparamContext ctx) { }
+	@Override public void exitDatatransferInstruction(LegV8Parser.DatatransferInstructionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterIparam(LegV8Parser.IparamContext ctx) { }
+	@Override public void enterArithmeticParam(LegV8Parser.ArithmeticParamContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitIparam(LegV8Parser.IparamContext ctx) { }
+	@Override public void exitArithmeticParam(LegV8Parser.ArithmeticParamContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterImmediateParam(LegV8Parser.ImmediateParamContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitImmediateParam(LegV8Parser.ImmediateParamContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDatatransferParam(LegV8Parser.DatatransferParamContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDatatransferParam(LegV8Parser.DatatransferParamContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
