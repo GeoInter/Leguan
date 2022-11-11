@@ -1,5 +1,7 @@
 package thb.fbi.parser;
 
+import java.util.ArrayList;
+
 import thb.fbi.parser.antlr.LegV8BaseVisitor;
 import thb.fbi.parser.antlr.LegV8Parser.MainContext;
 import thb.fbi.parser.antlr.LegV8Parser.ProgramContext;
@@ -39,9 +41,16 @@ public class ProgramParser extends LegV8BaseVisitor<ARMProgram> {
     @Override
     public ARMProgram visitProgram(ProgramContext ctx) {
         ProgramStatementParser statementVisitor = new ProgramStatementParser();
-        ProgramStatement statement = (ProgramStatement)statementVisitor.visit(ctx);
+        ArrayList<ProgramStatement> lines = new ArrayList<ProgramStatement>();
+
+        for(int i = 0; i < ctx.getChildCount(); i++) {
+            ProgramStatement statement = (ProgramStatement)statementVisitor.visit(ctx.getChild(i));
+            statement.setSourceLine(i);
+            lines.add(statement);
+        }
+
         ARMProgram program = new ARMProgram();
-        program.addStatement(statement);
+        program.setStatement(lines);
         program.setUsedRegister(statementVisitor.getUsedRegisters());
         return program;
     }

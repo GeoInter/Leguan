@@ -73,6 +73,14 @@ public class ARMProgram {
     }
 
     /**
+     * adds a List of Program Statement/ Line of Source Code to this instance
+     * @param statement List of Program Statements to set 
+     */
+    public void setStatement(ArrayList<ProgramStatement> statements) {
+        this.statements = statements;
+    }
+
+    /**
      * set list of used registers within this program
      * @param usedRegisters
      */

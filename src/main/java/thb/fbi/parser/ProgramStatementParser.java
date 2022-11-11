@@ -42,6 +42,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor {
         String registerName = ctx.getChild(0).getText();
         registerName = registerName.substring(1);
         int index = Integer.parseInt(registerName);
+        // TODO: catch OutOfBounds Exception when number exceeds range 
         Register register = simulator.getRegisters()[index];
         if(! usedRegisters.contains(register)) {
             usedRegisters.add(register);

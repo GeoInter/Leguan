@@ -78,7 +78,7 @@ public class Simulator {
             this.program = new ARMProgram("Fibonacci Test");
             updateShownRegisters();
         }
-        ProgramStatement statement = program.getProgramStatement((int)pc.getValue() / 2);
+        ProgramStatement statement = program.getProgramStatement((int)pc.getValue() / Instruction.INSTRUCTION_LENGTH);
         if(statement != null) {
             Instruction instruction = statement.getInstruction();
             if(instruction != null) {
@@ -102,86 +102,7 @@ public class Simulator {
         }
     }
 
-    public void testMemory() {
-        this.program = new ARMProgram("Simple Test");
-        updateShownRegisters();
-
-        System.out.println("-------Start-------");
-        System.out.println("R0: " + registers[0].getValue());
-        System.out.println("R2: " + registers[2].getValue());
-        
-        Instruction instruction = instructionSet.findInstructionByMnemonic("STURB");
-        InstructionArguments argument = new InstructionArguments();
-        argument.setRt(registers[0]);
-        argument.setRn(registers[2]);
-        argument.setDt_Address(0);
-        instruction.simulate(argument, pc);
-
-        System.out.println("-------Store Byte-------");
-        System.out.println("R0: " + registers[0].getValue());
-        System.out.println("R2: " + registers[2].getValue());
-
-        Instruction instruction2 = instructionSet.findInstructionByMnemonic("LDUR");
-        InstructionArguments argument2 = new InstructionArguments();
-        argument2.setRt(registers[0]);
-        argument2.setRn(registers[2]);
-        argument2.setDt_Address(0);
-        instruction2.simulate(argument2, pc);
-
-        System.out.println("-------Load DWord-------");
-        System.out.println("R0: " + registers[0].getValue());
-        System.out.println("R2: " + registers[2].getValue());
-
-        Instruction instruction3 = instructionSet.findInstructionByMnemonic("STUR");
-        InstructionArguments argument3 = new InstructionArguments();
-        argument3.setRt(registers[0]);
-        argument3.setRn(registers[2]);
-        argument3.setDt_Address(0);
-        instruction3.simulate(argument3, pc);
-
-        System.out.println("-------Store DWord-------");
-        System.out.println("R0: " + registers[0].getValue());
-        System.out.println("R2: " + registers[2].getValue());
-
-        Instruction instruction4 = instructionSet.findInstructionByMnemonic("LDURB");
-        InstructionArguments argument4 = new InstructionArguments();
-        argument4.setRt(registers[0]);
-        argument4.setRn(registers[2]);
-        argument4.setDt_Address(0);
-        instruction4.simulate(argument4, pc);
-
-        System.out.println("-------Load Byte-------");
-        System.out.println("R0: " + registers[0].getValue());
-        System.out.println("R2: " + registers[2].getValue());
-
-        pc.setValue(16);
-    }
-
-    public void testASCIIInMemory() {
-        Instruction instruction4 = instructionSet.findInstructionByMnemonic("STUR");
-        InstructionArguments argument4 = new InstructionArguments();
-        argument4.setRt(registers[0]);
-        argument4.setRn(registers[2]);
-        argument4.setDt_Address(0);
-        instruction4.simulate(argument4, pc);
-
-        System.out.println("-------Store DWord-------"); // 0100 1000 0110 0101 0110 1100 0110 1100 0110 1111
-        System.out.println("R0: " + registers[0].getValue());
-        System.out.println("R2: " + registers[2].getValue());
-    }
-
-    public void testSub() {
-        this.program = new ARMProgram("Simple Test");
-        updateShownRegisters();
-        
-        Instruction instruction = instructionSet.findInstructionByMnemonic("SUBS");
-        InstructionArguments argument = new InstructionArguments();
-        argument.setRn(registers[0]);
-        argument.setRm(registers[1]);
-        argument.setRd(registers[2]);
-        instruction.simulate(argument, pc);
-    }
-
+    
     public void testParser(String code) {
         LegV8Parser parser = getParser(code);
 
@@ -192,14 +113,22 @@ public class Simulator {
         this.program = progVisitor.visit(antlTree);
         updateShownRegisters();
 
-        ProgramStatement statement = program.getProgramStatement(0);
-        if(statement != null) {
-            Instruction instruction = statement.getInstruction();
-            if(instruction != null) {
-                instruction.simulate(statement.getArguments(), pc);
-                pc.setValue(pc.getValue() + Instruction.INSTRUCTION_LENGTH);
+        boolean running = true;
+
+        while(running) {
+            ProgramStatement statement = program.getProgramStatement((int)pc.getValue() / Instruction.INSTRUCTION_LENGTH);
+            if(statement != null) {
+                Instruction instruction = statement.getInstruction();
+                if(instruction != null) {
+                    instruction.simulate(statement.getArguments(), pc);
+                    pc.setValue(pc.getValue() + Instruction.INSTRUCTION_LENGTH);
+                } 
+            } else {
+                running = false;
             }
         }
+
+        System.out.println("done parsing");
     }
 
     /*
