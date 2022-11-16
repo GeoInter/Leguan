@@ -7,17 +7,20 @@ main : program EOF;
 
 program : line+ ;
 
-line : declaration? (arithmeticInstruction arithmeticParam | immediateInstruction immediateParam | datatransferInstruction datatransferParam) COMMENT?;
+line : declaration? (arithmeticInstruction arithmeticParam | immediateInstruction immediateParam | datatransferInstruction datatransferParam | condBranchInstruction condBranchParam) COMMENT?;
 
 declaration: MarkDeclaration ;
+invocation: MarkInvocation ;
 
 arithmeticInstruction : 'ADD' | 'SUB' ;
 immediateInstruction : 'ADDI' ;
 datatransferInstruction : 'STUR' ;
+condBranchInstruction : 'CBNZ' ;
 
 arithmeticParam : register COMMA register COMMA register SEMI ;
 immediateParam : register COMMA register COMMA num SEMI ;
 datatransferParam : register COMMA register COMMA num SEMI ;
+condBranchParam : register COMMA invocation SEMI;
 
 num: NUMBER ;
 

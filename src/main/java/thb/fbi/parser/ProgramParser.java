@@ -34,7 +34,7 @@ public class ProgramParser extends LegV8BaseVisitor<ARMProgram> {
     // using for setting ARMProgram property 
     @Override
     public ARMProgram visitMain(MainContext ctx) {
-        ARMProgram program = visitProgram((ProgramContext)ctx.getChild(0));
+        ARMProgram program = visitProgram(ctx.program());
         return program;
     }
 
@@ -43,8 +43,9 @@ public class ProgramParser extends LegV8BaseVisitor<ARMProgram> {
         ProgramStatementParser statementVisitor = new ProgramStatementParser();
         ArrayList<ProgramStatement> lines = new ArrayList<ProgramStatement>();
 
-        for(int i = 0; i < ctx.getChildCount(); i++) {
-            ProgramStatement statement = (ProgramStatement)statementVisitor.visit(ctx.getChild(i));
+        for(int i = 0; i < ctx.line().size(); i++) {
+            statementVisitor.setSourceLine(i);
+            ProgramStatement statement = statementVisitor.visitLine(ctx.line(i));
             statement.setSourceLine(i);
             lines.add(statement);
         }
