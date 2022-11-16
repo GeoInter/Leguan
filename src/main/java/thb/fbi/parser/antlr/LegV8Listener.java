@@ -68,6 +68,16 @@ public interface LegV8Listener extends ParseTreeListener {
 	 */
 	void exitArithmeticInstruction(LegV8Parser.ArithmeticInstructionContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link LegV8Parser#shiftInstruction}.
+	 * @param ctx the parse tree
+	 */
+	void enterShiftInstruction(LegV8Parser.ShiftInstructionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LegV8Parser#shiftInstruction}.
+	 * @param ctx the parse tree
+	 */
+	void exitShiftInstruction(LegV8Parser.ShiftInstructionContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link LegV8Parser#immediateInstruction}.
 	 * @param ctx the parse tree
 	 */
@@ -98,6 +108,16 @@ public interface LegV8Listener extends ParseTreeListener {
 	 */
 	void exitCondBranchInstruction(LegV8Parser.CondBranchInstructionContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link LegV8Parser#branchInstruction}.
+	 * @param ctx the parse tree
+	 */
+	void enterBranchInstruction(LegV8Parser.BranchInstructionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LegV8Parser#branchInstruction}.
+	 * @param ctx the parse tree
+	 */
+	void exitBranchInstruction(LegV8Parser.BranchInstructionContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link LegV8Parser#arithmeticParam}.
 	 * @param ctx the parse tree
 	 */
@@ -107,6 +127,16 @@ public interface LegV8Listener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitArithmeticParam(LegV8Parser.ArithmeticParamContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link LegV8Parser#shiftParam}.
+	 * @param ctx the parse tree
+	 */
+	void enterShiftParam(LegV8Parser.ShiftParamContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LegV8Parser#shiftParam}.
+	 * @param ctx the parse tree
+	 */
+	void exitShiftParam(LegV8Parser.ShiftParamContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link LegV8Parser#immediateParam}.
 	 * @param ctx the parse tree
@@ -137,6 +167,16 @@ public interface LegV8Listener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitCondBranchParam(LegV8Parser.CondBranchParamContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link LegV8Parser#branchParam}.
+	 * @param ctx the parse tree
+	 */
+	void enterBranchParam(LegV8Parser.BranchParamContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LegV8Parser#branchParam}.
+	 * @param ctx the parse tree
+	 */
+	void exitBranchParam(LegV8Parser.BranchParamContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link LegV8Parser#num}.
 	 * @param ctx the parse tree

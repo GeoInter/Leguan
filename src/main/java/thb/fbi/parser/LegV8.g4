@@ -7,20 +7,24 @@ main : program EOF;
 
 program : line+ ;
 
-line : declaration? (arithmeticInstruction arithmeticParam | immediateInstruction immediateParam | datatransferInstruction datatransferParam | condBranchInstruction condBranchParam);
+line : declaration? (arithmeticInstruction arithmeticParam | shiftInstruction shiftParam | immediateInstruction immediateParam | datatransferInstruction datatransferParam | condBranchInstruction condBranchParam | branchInstruction branchParam);
 
 declaration: MarkDeclaration ;
 invocation: MarkInvocation ;
 
 arithmeticInstruction : 'ADD' | 'SUB' ;
+shiftInstruction: 'LSL' | 'LSR' ;
 immediateInstruction : 'ADDI' ;
 datatransferInstruction : 'STUR' ;
 condBranchInstruction : 'CBNZ' ;
+branchInstruction : 'B';
 
 arithmeticParam : register COMMA register COMMA register SEMI ;
+shiftParam : register COMMA register COMMA num SEMI ; // seperated from arithemtic
 immediateParam : register COMMA register COMMA num SEMI ;
 datatransferParam : register COMMA register COMMA num SEMI ;
 condBranchParam : register COMMA invocation SEMI;
+branchParam : invocation SEMI;
 
 num: NUMBER ;
 register : REGISTER ;
@@ -30,8 +34,8 @@ register : REGISTER ;
 
 // skip
 WS : [ \t\r\n\f] -> skip;
-COMMENT: '/*' .*? '*/' -> skip ;
-LINE_COMMENT: '//' ~[\r\n]* -> skip ;
+COMMENT: '/*' .*? '*/' -> skip ; // non-greedy wildcart (ends with trailing */)
+LINE_COMMENT: '//' ~[\r\n]* -> skip ; // matches everything except tab and newline
 
 // syntax relared
 COMMA : ',' ;

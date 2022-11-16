@@ -89,6 +89,18 @@ public class LegV8BaseListener implements LegV8Listener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterShiftInstruction(LegV8Parser.ShiftInstructionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitShiftInstruction(LegV8Parser.ShiftInstructionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterImmediateInstruction(LegV8Parser.ImmediateInstructionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -125,6 +137,18 @@ public class LegV8BaseListener implements LegV8Listener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterBranchInstruction(LegV8Parser.BranchInstructionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitBranchInstruction(LegV8Parser.BranchInstructionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterArithmeticParam(LegV8Parser.ArithmeticParamContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -132,6 +156,18 @@ public class LegV8BaseListener implements LegV8Listener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitArithmeticParam(LegV8Parser.ArithmeticParamContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterShiftParam(LegV8Parser.ShiftParamContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitShiftParam(LegV8Parser.ShiftParamContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -168,6 +204,18 @@ public class LegV8BaseListener implements LegV8Listener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitCondBranchParam(LegV8Parser.CondBranchParamContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterBranchParam(LegV8Parser.BranchParamContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitBranchParam(LegV8Parser.BranchParamContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

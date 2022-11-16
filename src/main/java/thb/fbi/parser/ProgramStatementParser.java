@@ -7,6 +7,8 @@ import thb.fbi.instructions.Instruction;
 import thb.fbi.parser.antlr.LegV8BaseVisitor;
 import thb.fbi.parser.antlr.LegV8Parser.ArithmeticInstructionContext;
 import thb.fbi.parser.antlr.LegV8Parser.ArithmeticParamContext;
+import thb.fbi.parser.antlr.LegV8Parser.BranchInstructionContext;
+import thb.fbi.parser.antlr.LegV8Parser.BranchParamContext;
 import thb.fbi.parser.antlr.LegV8Parser.CondBranchInstructionContext;
 import thb.fbi.parser.antlr.LegV8Parser.CondBranchParamContext;
 import thb.fbi.parser.antlr.LegV8Parser.DatatransferInstructionContext;
@@ -18,6 +20,8 @@ import thb.fbi.parser.antlr.LegV8Parser.InvocationContext;
 import thb.fbi.parser.antlr.LegV8Parser.LineContext;
 import thb.fbi.parser.antlr.LegV8Parser.NumContext;
 import thb.fbi.parser.antlr.LegV8Parser.RegisterContext;
+import thb.fbi.parser.antlr.LegV8Parser.ShiftInstructionContext;
+import thb.fbi.parser.antlr.LegV8Parser.ShiftParamContext;
 import thb.fbi.simulation.InstructionArguments;
 import thb.fbi.simulation.ProgramStatement;
 import thb.fbi.simulation.Register;
@@ -118,6 +122,12 @@ public class ProgramStatementParser extends LegV8BaseVisitor {
     }
 
     @Override
+    public Instruction visitShiftInstruction(ShiftInstructionContext ctx) {
+        String instructionName = ctx.getChild(0).getText();
+        return getInstructionByName(instructionName);
+    }
+
+    @Override
     public Instruction visitImmediateInstruction(ImmediateInstructionContext ctx) {
         String instructionName = ctx.getChild(0).getText();
         return getInstructionByName(instructionName);
@@ -130,7 +140,13 @@ public class ProgramStatementParser extends LegV8BaseVisitor {
     }
 
     @Override
-    public Object visitCondBranchInstruction(CondBranchInstructionContext ctx) {
+    public Instruction visitCondBranchInstruction(CondBranchInstructionContext ctx) {
+        String instructionName = ctx.getChild(0).getText();
+        return getInstructionByName(instructionName);
+    }
+
+    @Override
+    public Instruction visitBranchInstruction(BranchInstructionContext ctx) {
         String instructionName = ctx.getChild(0).getText();
         return getInstructionByName(instructionName);
     }
@@ -178,6 +194,26 @@ public class ProgramStatementParser extends LegV8BaseVisitor {
         InstructionArguments args = new InstructionArguments();
         args.setRt(Rt);
         args.setCond_Br_Address(cond_br_address);
+        return args;
+    }
+
+    @Override
+    public InstructionArguments visitBranchParam(BranchParamContext ctx) {
+        int br_address = visitInvocation(ctx.invocation());
+        InstructionArguments args = new InstructionArguments();
+        args.setBr_Address(br_address);
+        return args;
+    }
+
+    @Override
+    public InstructionArguments visitShiftParam(ShiftParamContext ctx) {
+        Register Rd = visitRegister(ctx.register(0));
+        Register Rn = visitRegister(ctx.register(1));
+        int shamt = visitNum(ctx.num());
+        InstructionArguments args = new InstructionArguments();
+        args.setRd(Rd);
+        args.setRn(Rn);
+        args.setShamt(shamt);
         return args;
     }
 

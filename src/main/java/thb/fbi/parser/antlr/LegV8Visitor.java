@@ -47,6 +47,12 @@ public interface LegV8Visitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitArithmeticInstruction(LegV8Parser.ArithmeticInstructionContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link LegV8Parser#shiftInstruction}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitShiftInstruction(LegV8Parser.ShiftInstructionContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link LegV8Parser#immediateInstruction}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -65,11 +71,23 @@ public interface LegV8Visitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitCondBranchInstruction(LegV8Parser.CondBranchInstructionContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link LegV8Parser#branchInstruction}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBranchInstruction(LegV8Parser.BranchInstructionContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link LegV8Parser#arithmeticParam}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitArithmeticParam(LegV8Parser.ArithmeticParamContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link LegV8Parser#shiftParam}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitShiftParam(LegV8Parser.ShiftParamContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link LegV8Parser#immediateParam}.
 	 * @param ctx the parse tree
@@ -88,6 +106,12 @@ public interface LegV8Visitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitCondBranchParam(LegV8Parser.CondBranchParamContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link LegV8Parser#branchParam}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBranchParam(LegV8Parser.BranchParamContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link LegV8Parser#num}.
 	 * @param ctx the parse tree
