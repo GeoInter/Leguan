@@ -33,10 +33,19 @@ public class ProgramStatementParser extends LegV8BaseVisitor {
     private static Simulator simulator = SimulatorSingleton.getSimulator();
     private ArrayList<Register> usedRegisters = new ArrayList<Register>();
     private HashMap<String, Integer> jumpMarks = new HashMap<String, Integer>();
+    private HashMap<Integer, String> unresolvedMarks = new HashMap<Integer, String>();
     private int sourceLine = 0; // current line of source code for jumpMark resolving
 
     public void setSourceLine(int sourceLine) {
         this.sourceLine = sourceLine;
+    }
+
+    public HashMap<String, Integer> getJumpMarks() {
+        return jumpMarks;
+    }
+
+    public HashMap<Integer, String> getUnresolvedMarks() {
+        return unresolvedMarks;
     }
 
     /**
@@ -100,9 +109,14 @@ public class ProgramStatementParser extends LegV8BaseVisitor {
 
     @Override
     public Integer visitInvocation(InvocationContext ctx) {
-        // TODO: current: only works if mark is previously declared in code
-        System.out.println("mark invoc found: " + ctx.MarkInvocation().getText() + " at " + sourceLine);
-        return jumpMarks.get(ctx.MarkInvocation().getText());
+        String id = ctx.MarkInvocation().getText();
+        Integer address = jumpMarks.get(id);
+        if(address != null) {
+            return address;
+        } else {
+            unresolvedMarks.put(this.sourceLine, id);
+            return -1;
+        }
     }
 
     /**

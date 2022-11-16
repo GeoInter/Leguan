@@ -1,11 +1,14 @@
 package thb.fbi.parser;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Set;
 
 import thb.fbi.parser.antlr.LegV8BaseVisitor;
 import thb.fbi.parser.antlr.LegV8Parser.MainContext;
 import thb.fbi.parser.antlr.LegV8Parser.ProgramContext;
 import thb.fbi.simulation.ARMProgram;
+import thb.fbi.simulation.InstructionArguments;
 import thb.fbi.simulation.ProgramStatement;
 
 // each rule = one visitor
@@ -49,6 +52,27 @@ public class ProgramParser extends LegV8BaseVisitor<ARMProgram> {
             statement.setSourceLine(i);
             lines.add(statement);
         }
+
+
+        // re-resolve marks when later declared
+        HashMap<String, Integer> jumpMarks = statementVisitor.getJumpMarks();
+        HashMap<Integer, String> unresolvedMarks = statementVisitor.getUnresolvedMarks();
+
+        for (Integer index : unresolvedMarks.keySet()) {
+            ProgramStatement statement = lines.get(index);
+            InstructionArguments args = statement.getArguments();
+
+            if(args.getCond_Br_Address() == -1) {
+                String id = unresolvedMarks.get(index);
+                int sourceLine = jumpMarks.get(id);
+                args.setCond_Br_Address(sourceLine);
+            } else if(args.getBr_Address() == -1) {
+                String id = unresolvedMarks.get(index);
+                int sourceLine = jumpMarks.get(id);
+                args.setBr_Address(sourceLine);
+            }
+        }
+        
 
         ARMProgram program = new ARMProgram();
         program.setStatement(lines);

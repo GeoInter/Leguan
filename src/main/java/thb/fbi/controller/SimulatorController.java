@@ -86,7 +86,7 @@ public class SimulatorController {
 
     @FXML
     private void stepForward() {
-        simulator.simulateStep();
+        simulator.forwardStep(codeArea.getText());
     }
 
     @FXML

@@ -33,11 +33,12 @@ public class Simulator {
             registers[i] = new Register("R"+i, 0, i);
             registers[i].setNumberFormat(Base.DEC);
         }
-        
+        pc.setValue(-1);
+        /* 
         registers[0].setValue(12);
         registers[1].setValue(-2);
         registers[2].setValue(7);
-        
+        */
     }
 
     /** 
@@ -102,6 +103,29 @@ public class Simulator {
         }
     }
 
+    public void forwardStep(String code) {
+        // TODO: fix this dirty mock up code
+        if(pc.getValue() <= -1) {
+            LegV8Parser parser = getParser(code);
+
+            // parse form start symbol 'main'
+            ParseTree antlTree = parser.main();
+            // create visitor
+            ProgramParser progVisitor = new ProgramParser();
+            this.program = progVisitor.visit(antlTree);
+            updateShownRegisters();
+            pc.setValue(0);
+        }
+        ProgramStatement statement = program.getProgramStatement((int)pc.getValue() / Instruction.INSTRUCTION_LENGTH);
+        if(statement != null) {
+            Instruction instruction = statement.getInstruction();
+            if(instruction != null) {
+                instruction.simulate(statement.getArguments(), pc);
+                pc.setValue(pc.getValue() + Instruction.INSTRUCTION_LENGTH);
+            }
+        }
+    }
+
     /**
      * parses and executes the whole written code 
      * @param code written text to parse
@@ -117,6 +141,9 @@ public class Simulator {
         updateShownRegisters();
 
         boolean running = true;
+
+        // TODO: remove when forwardStep is fixed
+        pc.setValue(0);
 
         while(running) {
             ProgramStatement statement = program.getProgramStatement((int)pc.getValue() / Instruction.INSTRUCTION_LENGTH);

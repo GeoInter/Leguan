@@ -158,7 +158,16 @@ public class InstructionSet {
                 })
         );
 
-        /////////// B Branch Instruction
+        instructionSet.add(
+            new BranchInstruction("B",
+                "Branch",
+                new IBranchCode() {
+                    @Override
+                    public void simulate(int br_address, Register pc) {
+                        pc.setValue((br_address-1)*Instruction.INSTRUCTION_LENGTH);
+                    }
+                })
+        );
 
         /////////// B.cond Branch Instruction
 
