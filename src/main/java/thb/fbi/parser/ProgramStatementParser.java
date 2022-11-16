@@ -34,14 +34,23 @@ public class ProgramStatementParser extends LegV8BaseVisitor {
 
     @Override
     public ProgramStatement visitLine(LineContext ctx) {
-        Instruction instr = (Instruction) visit(ctx.getChild(0));
-        InstructionArguments args = (InstructionArguments) visit(ctx.getChild(1));
+        Instruction instr = null;
+        InstructionArguments args = null;
+        // generic access to nodes
+        if(ctx.declaration() == null) {
+            instr = (Instruction) visit(ctx.getChild(0));
+            args = (InstructionArguments) visit(ctx.getChild(1));
+        } else {
+            System.out.println(ctx.declaration().getText());
+            instr = (Instruction) visit(ctx.getChild(1));
+            args = (InstructionArguments) visit(ctx.getChild(2));
+        }
         return new ProgramStatement(instr, args, null, 0);
     }
 
     @Override
     public Register visitRegister(RegisterContext ctx) {
-        String registerName = ctx.getChild(0).getText();
+        String registerName = ctx.REGISTER().getText();
         registerName = registerName.substring(1);
         int index = Integer.parseInt(registerName);
         // TODO: catch OutOfBounds Exception when number exceeds range 
@@ -54,7 +63,8 @@ public class ProgramStatementParser extends LegV8BaseVisitor {
 
     @Override
     public Integer visitNum(NumContext ctx) {
-        String numberText = ctx.getChild(0).getText();
+        String numberText = ctx.NUMBER().getText();
+        // TODO: catch NumberFormatException
         int number = Integer.parseInt(numberText);
         return number;
     }
@@ -84,9 +94,9 @@ public class ProgramStatementParser extends LegV8BaseVisitor {
 
     @Override
     public InstructionArguments visitArithmeticParam(ArithmeticParamContext ctx) {
-        Register Rd = visitRegister(((RegisterContext)ctx.getChild(0)));
-        Register Rn = visitRegister(((RegisterContext)ctx.getChild(2)));
-        Register Rm = visitRegister(((RegisterContext)ctx.getChild(4)));
+        Register Rd = visitRegister(ctx.register(0));
+        Register Rn = visitRegister(ctx.register(1));
+        Register Rm = visitRegister(ctx.register(2));
         InstructionArguments args = new InstructionArguments();
         args.setRd(Rd);
         args.setRn(Rn);
@@ -96,9 +106,9 @@ public class ProgramStatementParser extends LegV8BaseVisitor {
     
     @Override
     public InstructionArguments visitImmediateParam(ImmediateParamContext ctx) {
-        Register Rd = visitRegister(((RegisterContext)ctx.getChild(0)));
-        Register Rn = visitRegister(((RegisterContext)ctx.getChild(2)));
-        int alu_immediate = visitNum((NumContext)ctx.getChild(4));
+        Register Rd = visitRegister(ctx.register(0));
+        Register Rn = visitRegister(ctx.register(1));
+        int alu_immediate = visitNum(ctx.num());
         InstructionArguments args = new InstructionArguments();
         args.setRd(Rd);
         args.setRn(Rn);
@@ -108,9 +118,9 @@ public class ProgramStatementParser extends LegV8BaseVisitor {
 
     @Override
     public InstructionArguments visitDatatransferParam(DatatransferParamContext ctx) {
-        Register Rt = visitRegister(((RegisterContext)ctx.getChild(0)));
-        Register Rn = visitRegister(((RegisterContext)ctx.getChild(2)));
-        int dt_address = visitNum((NumContext)ctx.getChild(4));
+        Register Rt = visitRegister(ctx.register(0));
+        Register Rn = visitRegister(ctx.register(1));
+        int dt_address = visitNum(ctx.num());
         InstructionArguments args = new InstructionArguments();
         args.setRt(Rt);
         args.setRn(Rn);
