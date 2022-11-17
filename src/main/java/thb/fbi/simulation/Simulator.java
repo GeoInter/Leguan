@@ -21,7 +21,7 @@ public class Simulator {
     /** accessible regsiters */
     private Register[] registers = new Register[32];
     /** programm counter */
-    private Register pc = new Register("PC", 0, -1);
+    private PCRegister pc = new PCRegister("PC", 0, -1);
     /** register of processor flags */
     private FlagRegister flagRegister = new FlagRegister();
     /** program to execute */
@@ -116,12 +116,11 @@ public class Simulator {
             updateShownRegisters();
             pc.setValue(0);
         }
-        ProgramStatement statement = program.getProgramStatement((int)pc.getValue() / Instruction.INSTRUCTION_LENGTH);
+        ProgramStatement statement = program.getProgramStatement((int) pc.getValue());
         if(statement != null) {
             Instruction instruction = statement.getInstruction();
             if(instruction != null) {
                 instruction.simulate(statement.getArguments(), pc);
-                pc.setValue(pc.getValue() + Instruction.INSTRUCTION_LENGTH);
             }
         }
     }
@@ -145,13 +144,15 @@ public class Simulator {
         // TODO: remove when forwardStep is fixed
         pc.setValue(0);
 
-        while(running) {
-            ProgramStatement statement = program.getProgramStatement((int)pc.getValue() / Instruction.INSTRUCTION_LENGTH);
+        int fallback = 0;
+
+        while(running && fallback <= 5000) {
+            fallback++;
+            ProgramStatement statement = program.getProgramStatement((int) pc.getValue());
             if(statement != null) {
                 Instruction instruction = statement.getInstruction();
                 if(instruction != null) {
                     instruction.simulate(statement.getArguments(), pc);
-                    pc.setValue(pc.getValue() + Instruction.INSTRUCTION_LENGTH);
                 } 
             } else {
                 running = false;
@@ -205,7 +206,7 @@ public class Simulator {
         return this.flagRegister;
     }
 
-    public Register getPC() {
+    public PCRegister getPC() {
         return this.pc;
     }
 

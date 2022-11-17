@@ -1,7 +1,7 @@
 package thb.fbi.instructions;
 
 import thb.fbi.simulation.InstructionArguments;
-import thb.fbi.simulation.Register;
+import thb.fbi.simulation.PCRegister;
 
 /**
  * Subclass for (unconditional) branch instructions.
@@ -16,7 +16,7 @@ public class BranchInstruction extends Instruction {
     }
 
     @Override
-    public void simulate(InstructionArguments argument, Register pc) {
+    public void simulate(InstructionArguments argument, PCRegister pc) {
         int br_address = argument.getBr_Address();
         this.branchCode.simulate(br_address, pc);
     }

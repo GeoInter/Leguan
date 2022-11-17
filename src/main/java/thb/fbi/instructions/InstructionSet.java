@@ -5,6 +5,7 @@ import java.util.TreeSet;
 
 import thb.fbi.simulation.FlagRegister;
 import thb.fbi.simulation.Memory;
+import thb.fbi.simulation.PCRegister;
 import thb.fbi.simulation.Register;
 
 /**
@@ -163,8 +164,8 @@ public class InstructionSet {
                 "Branch",
                 new IBranchCode() {
                     @Override
-                    public void simulate(int br_address, Register pc) {
-                        pc.setValue((br_address-1)*Instruction.INSTRUCTION_LENGTH);
+                    public void simulate(int br_address, PCRegister pc) {
+                        pc.setValue(br_address);
                     }
                 })
         );
@@ -180,10 +181,12 @@ public class InstructionSet {
                 "Compare and Branch if not Zero",
                 new IConditionalBranchCode() {
                     @Override
-                    public void simulate(int cond_br_address, Register Rt, Register pc) {
+                    public void simulate(int cond_br_address, Register Rt, PCRegister pc) {
                         long op = Rt.getValue();
                         if(op != 0) {
                             pc.setValue(cond_br_address);
+                        } else {
+                            pc.increase();
                         }
                     }
                 })

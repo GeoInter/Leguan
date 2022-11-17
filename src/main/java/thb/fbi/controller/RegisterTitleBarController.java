@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import thb.fbi.simulation.Base;
+import thb.fbi.simulation.PCRegister;
 import thb.fbi.simulation.Register;
 
 /**
@@ -37,7 +38,7 @@ public class RegisterTitleBarController {
      * Adds an always visible register to this Controller
      * @param register
      */
-    public void setProperties(Register register, BooleanProperty displayUnsigned) {
+    public void setProperties(PCRegister register, BooleanProperty displayUnsigned) {
         this.register = register;
         registerTitle.setText(register.getName());
         registerValue.textProperty().bind(register.getShownValue());

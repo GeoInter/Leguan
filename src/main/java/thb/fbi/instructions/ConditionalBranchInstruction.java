@@ -1,6 +1,7 @@
 package thb.fbi.instructions;
 
 import thb.fbi.simulation.InstructionArguments;
+import thb.fbi.simulation.PCRegister;
 import thb.fbi.simulation.Register;
 
 /**
@@ -16,7 +17,7 @@ public class ConditionalBranchInstruction extends Instruction {
     }
 
     @Override
-    public void simulate(InstructionArguments argument, Register pc) {
+    public void simulate(InstructionArguments argument, PCRegister pc) {
         int cond_br_address = argument.getCond_Br_Address();
         Register Rt = argument.getRt();
         this.conditionalBranchCode.simulate(cond_br_address, Rt, pc);

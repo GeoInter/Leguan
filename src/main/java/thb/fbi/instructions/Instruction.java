@@ -1,7 +1,7 @@
 package thb.fbi.instructions;
 
 import thb.fbi.simulation.InstructionArguments;
-import thb.fbi.simulation.Register;
+import thb.fbi.simulation.PCRegister;
 
 /**
  * Superclass for defining an instruction
@@ -12,7 +12,7 @@ public abstract class Instruction implements Comparable<Instruction> {
     /** brief description of the instruction */
     protected String description;
 
-    public static final short INSTRUCTION_LENGTH = 2;
+    public static final short INSTRUCTION_LENGTH = 4;
 
     public String getMnemonic() {
         return this.mnemonic;
@@ -27,7 +27,7 @@ public abstract class Instruction implements Comparable<Instruction> {
         this.description = description;
     }
 
-    public abstract void simulate(InstructionArguments argument, Register pc);
+    public abstract void simulate(InstructionArguments argument, PCRegister pc);
 
     @Override
     public int hashCode() {

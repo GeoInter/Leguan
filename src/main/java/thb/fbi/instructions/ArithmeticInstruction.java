@@ -1,6 +1,7 @@
 package thb.fbi.instructions;
 
 import thb.fbi.simulation.InstructionArguments;
+import thb.fbi.simulation.PCRegister;
 import thb.fbi.simulation.Register;
 
 /**
@@ -16,12 +17,13 @@ public class ArithmeticInstruction extends Instruction {
     }
 
     @Override
-    public void simulate(InstructionArguments argument, Register pc) {
+    public void simulate(InstructionArguments argument, PCRegister pc) {
         Register Rm = argument.getRm();
         int shamt = argument.getShamt();
         Register Rn = argument.getRn();
         Register Rd = argument.getRd();
         this.arithmeticCode.simulate(Rm, shamt, Rn, Rd);
+        pc.increase();
     }
 
     public IArithmeticCode getArithmeticCode() {

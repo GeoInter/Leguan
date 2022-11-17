@@ -12,17 +12,17 @@ import javafx.beans.property.SimpleStringProperty;
  */
 public class Register {
     /** name of the register */
-    private String name;
+    protected String name;
     /** number/ id/ index of the register */
-    private int id;
+    protected int id;
     /** value in the register, Property instead of primitive for easier updating UI */
-    private long value;
+    protected long value;
     /** Property for indicating if register is in use or can be grayed out in UI */
     private SimpleBooleanProperty isUsed = new SimpleBooleanProperty(true);
     /** value and format as to be seen in UI */
-    private SimpleStringProperty shownValue = new SimpleStringProperty("0");
+    protected SimpleStringProperty shownValue = new SimpleStringProperty("0");
     /** format of value to be shown can be either binary, decimal or hexadecimal */
-    private Base numberFormat = Base.DEC;
+    protected Base numberFormat = Base.DEC;
 
     public Register(String name, long value, int id) {
         this.name = name;
@@ -32,14 +32,22 @@ public class Register {
 
     /**
      * Updates the shown value in UI
-     * delimites binary and hex number in pairs of 4
-     * formats decimal with set Locale (points/ commas)
      */
     public void updateShownValue() {
+        updateShownValue(this.value);
+    }
+
+    /**
+     * Updates the shown value in UI
+     * delimites binary and hex number in pairs of 4
+     * formats decimal with set Locale (points/ commas)
+     * @param value to show in UI
+     */
+    protected void updateShownValue(long value) {
         StringBuilder str;
         switch(numberFormat) {
             case BIN: // binary (space delimited in pairs of 4)
-                String bin = Long.toBinaryString(this.value);
+                String bin = Long.toBinaryString(value);
                 str = new StringBuilder(bin);
                 for(int i = bin.length()-4; i > 0; i-= 4) {
                     str.insert(i, " ");
@@ -48,7 +56,7 @@ public class Register {
                 this.shownValue.set(str.toString());
                 break;
             case HEX: // hexadecimal (space delimited in pairs of 4)
-                String hex = Long.toHexString(this.value).toUpperCase();
+                String hex = Long.toHexString(value).toUpperCase();
                 str = new StringBuilder(hex);
                 for(int i = hex.length()-4; i > 0; i-= 4) {
                     str.insert(i, " ");
@@ -57,7 +65,7 @@ public class Register {
                 this.shownValue.set(str.toString());
                 break;
             case uDEC: // unsigned decimal (point delimited in pairs of 3)
-                String unsigned = Long.toUnsignedString(this.value);
+                String unsigned = Long.toUnsignedString(value);
                 str = new StringBuilder(unsigned);
                 for(int i = unsigned.length()-3; i > 0; i-= 3) {
                     str.insert(i, ".");
@@ -68,7 +76,7 @@ public class Register {
             case DEC: // signed decimal
             default:
                 NumberFormat nf = NumberFormat.getInstance();
-                this.shownValue.set("" + nf.format(this.value));
+                this.shownValue.set("" + nf.format(value));
                 break;
         }
     }
@@ -97,7 +105,9 @@ public class Register {
         return numberFormat;
     }
 
-    /** when value of register changes update shown value in UI */
+    /** 
+     * when value of register changes update shown value in UI 
+     */
     public void setValue(long value) {
         this.value = value;
         updateShownValue();
@@ -115,7 +125,9 @@ public class Register {
         this.shownValue = shownValue;
     }
 
-    /** when NumberFormat changes update the shown value in UI */
+    /** 
+     * when NumberFormat changes update the shown value in UI 
+     */
     public void setNumberFormat(Base format) {
         this.numberFormat = format;
         updateShownValue();
