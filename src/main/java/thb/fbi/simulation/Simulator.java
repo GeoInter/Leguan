@@ -18,8 +18,10 @@ import thb.fbi.parser.antlr.LegV8Parser;
 public class Simulator {
     /** used set of instruction for this simulator instance */
     private InstructionSet instructionSet = new InstructionSet();
-    /** accessible regsiters */
-    private Register[] registers = new Register[32];
+    /** number of registers */
+    public final int registerNr = 32;
+    /** array of accessible regsiters */
+    private Register[] registers;
     /** programm counter */
     private PCRegister pc = new PCRegister("PC", 0, -1);
     /** register of processor flags */
@@ -28,6 +30,7 @@ public class Simulator {
     private ARMProgram program;
 
     public Simulator() {
+        registers = new Register[registerNr];
         instructionSet.populate();
         for (int i = 0; i < registers.length; i++) {
             registers[i] = new Register("R"+i, 0, i);
@@ -133,31 +136,38 @@ public class Simulator {
         LegV8Parser parser = getParser(code);
 
         // parse form start symbol 'main'
-        ParseTree antlTree = parser.main();
+        ParseTree antlrTree = parser.main();
         // create visitor
         ProgramParser progVisitor = new ProgramParser();
-        this.program = progVisitor.visit(antlTree);
-        updateShownRegisters();
+        this.program = progVisitor.visit(antlrTree);
 
-        boolean running = true;
+        if(progVisitor.semanticErrors.isEmpty()) {
+            updateShownRegisters();
 
-        // TODO: remove when forwardStep is fixed
-        pc.setValue(0);
+            boolean running = true;
 
-        int fallback = 0;
+            // TODO: remove when forwardStep is fixed
+            pc.setValue(0);
 
-        while(running && fallback <= 5000) {
-            fallback++;
-            ProgramStatement statement = program.getProgramStatement((int) pc.getValue());
-            if(statement != null) {
-                Instruction instruction = statement.getInstruction();
-                if(instruction != null) {
-                    instruction.simulate(statement.getArguments(), pc);
-                } 
-            } else {
-                running = false;
+            int fallback = 0;
+
+            while(running && fallback <= 5000) {
+                fallback++;
+                ProgramStatement statement = program.getProgramStatement((int) pc.getValue());
+                if(statement != null) {
+                    Instruction instruction = statement.getInstruction();
+                    if(instruction != null) {
+                        instruction.simulate(statement.getArguments(), pc);
+                    } 
+                } else {
+                    running = false;
+                }
             }
+        } else {
+            System.out.println(progVisitor.semanticErrors.toString());
         }
+
+        
     }
 
     /*

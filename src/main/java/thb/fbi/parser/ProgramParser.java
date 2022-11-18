@@ -2,33 +2,23 @@ package thb.fbi.parser;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import org.antlr.v4.runtime.Token;
+
 import thb.fbi.parser.antlr.LegV8BaseVisitor;
 import thb.fbi.parser.antlr.LegV8Parser.MainContext;
 import thb.fbi.parser.antlr.LegV8Parser.ProgramContext;
 import thb.fbi.simulation.ARMProgram;
 import thb.fbi.simulation.InstructionArguments;
 import thb.fbi.simulation.ProgramStatement;
-
-// each rule = one visitor
-// 
-/* ##### Types
- * arguments = parameterlist
- *      1 to 3 parameters
- * 
- * instruction accessed by simulator/ instructionset class
- * 
- * arguments + instruction + nrLine = ProgramStatement
- * 
- * ##### Notes
- * Find Object type for legv8BaseVisitor 
- * 
- * add visit method for each node (Rn, Rm, Rd, etc.)???
- * 
- * split up into line and program? -> base on typing
- *      -> here: Program, ProgramStatement, Arguments, Instruction 
- */
+import thb.fbi.simulation.Register;
 
 public class ProgramParser extends LegV8BaseVisitor<ARMProgram> {
+
+    public ArrayList<String> semanticErrors = new ArrayList<String>();
+    private ArrayList<Register> usedRegisters = new ArrayList<Register>();
+    private HashMap<String, Integer> jumpMarks = new HashMap<String, Integer>();
+    private HashMap<Integer, String> unresolvedMarks = new HashMap<Integer, String>();
 
     // could be refactored
     // start and end point of parsing -> calls visitProgram + same return type
@@ -41,7 +31,7 @@ public class ProgramParser extends LegV8BaseVisitor<ARMProgram> {
 
     @Override
     public ARMProgram visitProgram(ProgramContext ctx) {
-        ProgramStatementParser statementVisitor = new ProgramStatementParser();
+        ProgramStatementParser statementVisitor = new ProgramStatementParser(semanticErrors, usedRegisters, jumpMarks, unresolvedMarks);
         ArrayList<ProgramStatement> lines = new ArrayList<ProgramStatement>();
 
         for(int i = 0; i < ctx.line().size(); i++) {
@@ -62,12 +52,29 @@ public class ProgramParser extends LegV8BaseVisitor<ARMProgram> {
 
             if(args.getCond_Br_Address() == -1) {
                 String id = unresolvedMarks.get(index);
-                int sourceLine = jumpMarks.get(id);
-                args.setCond_Br_Address(sourceLine);
+                Integer sourceLine = jumpMarks.get(id);
+
+                if(sourceLine == null) {
+                    Token token = ctx.line(index).condBranchParam().invocation().MarkInvocation().getSymbol();
+                    int line = token.getLine();
+                    int pos = token.getCharPositionInLine();
+                    semanticErrors.add("Cannot branch to undeclared mark '" + id + "'. ("+ line + ", " + pos + ")");
+                } else {
+                    args.setCond_Br_Address(sourceLine);
+                }
+                
             } else if(args.getBr_Address() == -1) {
                 String id = unresolvedMarks.get(index);
-                int sourceLine = jumpMarks.get(id);
-                args.setBr_Address(sourceLine);
+                Integer sourceLine = jumpMarks.get(id);
+
+                if(sourceLine == null) {
+                    Token token = ctx.line(index).branchParam().invocation().MarkInvocation().getSymbol();
+                    int line = token.getLine();
+                    int pos = token.getCharPositionInLine();
+                    semanticErrors.add("Cannot branch to undeclared mark '" + id + "'. ("+ line + ", " + pos + ")");
+                } else {
+                    args.setBr_Address(sourceLine);
+                }   
             }
         }
         

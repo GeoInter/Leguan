@@ -3,6 +3,8 @@ package thb.fbi.parser;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.antlr.v4.runtime.Token;
+
 import thb.fbi.instructions.Instruction;
 import thb.fbi.parser.antlr.LegV8BaseVisitor;
 import thb.fbi.parser.antlr.LegV8Parser.ArithmeticInstructionContext;
@@ -28,13 +30,24 @@ import thb.fbi.simulation.Register;
 import thb.fbi.simulation.Simulator;
 import thb.fbi.simulation.SimulatorSingleton;
 
-public class ProgramStatementParser extends LegV8BaseVisitor {
+public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
 
     private static Simulator simulator = SimulatorSingleton.getSimulator();
-    private ArrayList<Register> usedRegisters = new ArrayList<Register>();
-    private HashMap<String, Integer> jumpMarks = new HashMap<String, Integer>();
-    private HashMap<Integer, String> unresolvedMarks = new HashMap<Integer, String>();
     private int sourceLine = 0; // current line of source code for jumpMark resolving
+
+    private ArrayList<String> semanticErrors;
+    private ArrayList<Register> usedRegisters;
+    private HashMap<String, Integer> jumpMarks;
+    private HashMap<Integer, String> unresolvedMarks;
+
+    
+    public ProgramStatementParser(ArrayList<String> semanticErrors, ArrayList<Register> usedRegisters,
+            HashMap<String, Integer> jumpMarks, HashMap<Integer, String> unresolvedMarks) {
+        this.semanticErrors = semanticErrors;
+        this.usedRegisters = usedRegisters;
+        this.jumpMarks = jumpMarks;
+        this.unresolvedMarks = unresolvedMarks;
+    }
 
     public void setSourceLine(int sourceLine) {
         this.sourceLine = sourceLine;
@@ -80,10 +93,17 @@ public class ProgramStatementParser extends LegV8BaseVisitor {
         String registerName = ctx.REGISTER().getText();
         registerName = registerName.substring(1);
         int index = Integer.parseInt(registerName);
-        // TODO: catch OutOfBounds Exception when number exceeds range 
-        Register register = simulator.getRegisters()[index];
-        if(! usedRegisters.contains(register)) {
-            usedRegisters.add(register);
+        Register register = null;
+        try {
+            register = simulator.getRegisters()[index];
+            if(! usedRegisters.contains(register)) {
+                usedRegisters.add(register);
+            }
+        } catch(ArrayIndexOutOfBoundsException  e) {
+            Token token = ctx.REGISTER().getSymbol();
+            int line = token.getLine();
+            int pos = token.getCharPositionInLine();
+            semanticErrors.add("Register not in allowed range of " + simulator.registerNr + ". (" + line + ", " + pos + ")");
         }
         return register;
     }
@@ -94,8 +114,15 @@ public class ProgramStatementParser extends LegV8BaseVisitor {
     @Override
     public Integer visitNum(NumContext ctx) {
         String numberText = ctx.NUMBER().getText();
-        // TODO: catch NumberFormatException
-        int number = Integer.parseInt(numberText);
+        int number = 0;
+        try {
+            number = Integer.parseInt(numberText);
+        } catch(NumberFormatException e) {
+            Token token = ctx.NUMBER().getSymbol();
+            int line = token.getLine();
+            int pos = token.getCharPositionInLine();
+            semanticErrors.add("Number has not appropriate format. (" + line + ", " + pos + ")");
+        }
         return number;
     }
 
