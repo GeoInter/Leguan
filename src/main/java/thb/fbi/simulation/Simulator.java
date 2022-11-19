@@ -8,6 +8,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import thb.fbi.instructions.Instruction;
 import thb.fbi.instructions.InstructionSet;
 import thb.fbi.parser.ProgramParser;
+import thb.fbi.parser.SyntaxErrorListener;
 import thb.fbi.parser.antlr.LegV8Lexer;
 import thb.fbi.parser.antlr.LegV8Parser;
 
@@ -28,6 +29,8 @@ public class Simulator {
     private FlagRegister flagRegister = new FlagRegister();
     /** program to execute */
     private ARMProgram program;
+    /** Listener for Syntax Errors */
+    private SyntaxErrorListener syntaxErrorListener;
 
     public Simulator() {
         registers = new Register[registerNr];
@@ -42,6 +45,7 @@ public class Simulator {
         registers[1].setValue(-2);
         registers[2].setValue(7);
         */
+        syntaxErrorListener = new SyntaxErrorListener();
     }
 
     /** 
@@ -107,7 +111,8 @@ public class Simulator {
     }
 
     public void forwardStep(String code) {
-        // TODO: fix this dirty mock up code
+        // TODO: fix this dirty mock up code (determine changes in program)
+        // TODO: add error check (ref. parse()/run() method)
         if(pc.getValue() <= -1) {
             LegV8Parser parser = getParser(code);
 
@@ -137,37 +142,47 @@ public class Simulator {
 
         // parse form start symbol 'main'
         ParseTree antlrTree = parser.main();
-        // create visitor
-        ProgramParser progVisitor = new ProgramParser();
-        this.program = progVisitor.visit(antlrTree);
 
-        if(progVisitor.semanticErrors.isEmpty()) {
-            updateShownRegisters();
+        if(syntaxErrorListener.syntaxErrors.isEmpty()) {
+            // create visitor
+            ProgramParser progVisitor = new ProgramParser();
+            this.program = progVisitor.visit(antlrTree);
 
-            boolean running = true;
-
-            // TODO: remove when forwardStep is fixed
-            pc.setValue(0);
-
-            int fallback = 0;
-
-            while(running && fallback <= 5000) {
-                fallback++;
-                ProgramStatement statement = program.getProgramStatement((int) pc.getValue());
-                if(statement != null) {
-                    Instruction instruction = statement.getInstruction();
-                    if(instruction != null) {
-                        instruction.simulate(statement.getArguments(), pc);
-                    } 
-                } else {
-                    running = false;
-                }
+            if(progVisitor.semanticErrors.isEmpty()) {
+                runCode();
+            } else {
+                System.out.println(progVisitor.semanticErrors.toString());
             }
         } else {
-            System.out.println(progVisitor.semanticErrors.toString());
+            System.out.println(syntaxErrorListener.syntaxErrors.toString());
         }
+    }
 
-        
+    /**
+     * executes whole parsed program 
+     */
+    public void runCode() {
+        updateShownRegisters();
+
+        boolean running = true;
+
+        // TODO: remove when forwardStep is fixed
+        pc.setValue(0);
+
+        int fallback = 0;
+
+        while(running && fallback <= 5000) {
+            fallback++;
+            ProgramStatement statement = program.getProgramStatement((int) pc.getValue());
+            if(statement != null) {
+                Instruction instruction = statement.getInstruction();
+                if(instruction != null) {
+                    instruction.simulate(statement.getArguments(), pc);
+                } 
+            } else {
+                running = false;
+            }
+        }
     }
 
     /*
@@ -181,6 +196,10 @@ public class Simulator {
         LegV8Lexer lexer = new LegV8Lexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         parser = new LegV8Parser(tokens);
+
+        // syntax error handling
+        parser.removeErrorListeners();
+        parser.addErrorListener(syntaxErrorListener);
 
         return parser;
     }

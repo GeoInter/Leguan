@@ -48,14 +48,11 @@ public class ARMProgram {
     }
 
     /**
-     * gets a Program Statement at the specified address
-     * @param address where the Program Statement is located
-     * @return Program Statement at specified address
+     * gets a Program Statement at the specified index
+     * @param address index pointing to statement
+     * @return Program Statement at specified index
      */
     public ProgramStatement getProgramStatement(int address) {
-        //TODO: figure out how to do it
-        // 1) convert parameter to index (4000000 + parameter)
-        // 2) start pc at start of address space of the code
         try {
             return statements.get(address);
         } catch (IndexOutOfBoundsException e) {
