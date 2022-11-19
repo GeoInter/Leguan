@@ -64,15 +64,20 @@
 
 #editor-vbox, 
 .code-area, 
+.text-area .content,
 .editor-scrollpane, 
 .editor-stackpane {
     -fx-background-color: -fx-main-color;
-    background-color:-fx-main-color;
+    background-color: -fx-main-color;
+}
+
+.text-area {
+    -fx-text-fill: black;
 }
 
 .split-pane-divider {
     -fx-background-color: -scrollbar-divider-color;
-    background-color:-scrollbar-divider-color;
+    background-color: -scrollbar-divider-color;
 }
 
 .check-box .box {
@@ -113,8 +118,8 @@
 }
 
 #register-value-button:disabled, .memory-button:disabled {
-    -fx-background-color: #00bae5;
-    background-color: #00bae5;
+    -fx-background-color: -fbi-blue;
+    background-color: -fbi-blue;
 }
 
 /* Flag Regsiter HBox */

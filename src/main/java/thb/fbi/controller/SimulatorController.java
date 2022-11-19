@@ -1,5 +1,6 @@
 package thb.fbi.controller;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 import org.fxmisc.richtext.CodeArea;
@@ -12,6 +13,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import thb.fbi.simulation.FlagRegister;
@@ -32,10 +34,12 @@ public class SimulatorController {
 
     @FXML StackPane codeStackPane;
     @FXML SplitPane splitPane;
+    @FXML SplitPane textSplitpane;
     @FXML AnchorPane rightSideAnchorPane;
     @FXML TabPane tabPane;
     @FXML ScrollPane codeScrollPane;
     @FXML CodeArea codeArea;
+    @FXML TextArea console;
 
     @FXML Menu file_Menu;
 
@@ -71,7 +75,7 @@ public class SimulatorController {
     @FXML
     private void runCode() {
         //simulator.testASCIIInMemory();
-        simulator.run(codeArea.getText());
+        setConsoleText(simulator.run(codeArea.getText()));
     }
 
     /**
@@ -82,6 +86,7 @@ public class SimulatorController {
         Memory.reset();
         FlagRegister.reset();
         simulator.reset();
+        setConsoleText(null);
     }
 
     @FXML
@@ -93,12 +98,21 @@ public class SimulatorController {
     private void stepBackward() {
         System.out.println("step backward");
     }   
+
+    /**
+     * sets the text of the console text area
+     */
+    private void setConsoleText(ArrayList<String> text) {
+        if(text != null) {
+            console.setText(text.toString());
+        } else {
+            console.setText(null);
+        }   
+    }
     
     /**
-     * sets the given Locale in the I18N class and keeps count of the number of switches.
-     *
-     * @param locale
-     *         the new local to set
+     * sets the given Locale in the I18N class
+     * @param locale the new local to set
      */
     private void switchLanguage(Locale locale) {
         I18N.setLocale(locale);
@@ -106,6 +120,7 @@ public class SimulatorController {
 
     /**
      * switches to a stylesheet
+     * @param css name of the css file to use
      */
     public void switchStylesheets(String css) {
         Scene scene = registerPane.getScene();

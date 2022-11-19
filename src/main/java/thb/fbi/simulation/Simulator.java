@@ -1,5 +1,7 @@
 package thb.fbi.simulation;
 
+import java.util.ArrayList;
+
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -137,7 +139,7 @@ public class Simulator {
      * parses and executes the whole written code 
      * @param code written text to parse
      */
-    public void run(String code) {
+    public ArrayList<String> run(String code) {
         LegV8Parser parser = getParser(code);
 
         // parse form start symbol 'main'
@@ -151,11 +153,12 @@ public class Simulator {
             if(progVisitor.semanticErrors.isEmpty()) {
                 runCode();
             } else {
-                System.out.println(progVisitor.semanticErrors.toString());
+                return progVisitor.semanticErrors;
             }
         } else {
-            System.out.println(syntaxErrorListener.syntaxErrors.toString());
+            return syntaxErrorListener.syntaxErrors;
         }
+        return null;
     }
 
     /**

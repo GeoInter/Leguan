@@ -30,7 +30,7 @@ public class App extends Application {
         URL fxmlLocation = getClass().getResource("simulator.fxml");
         Parent root = FXMLLoader.load(fxmlLocation, bundle);
 
-        scene = new Scene(root, 640, 480);
+        scene = new Scene(root);
         scene.getStylesheets().add(this.getClass().getResource("/thb/fbi/css/base.css").toExternalForm());
         scene.getStylesheets().add(this.getClass().getResource("/thb/fbi/css/dark.css").toExternalForm());
         stage.setScene(scene);

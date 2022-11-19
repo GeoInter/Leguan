@@ -11,6 +11,7 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
@@ -83,7 +84,7 @@
                         </ButtonBar>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="250.0" HBox.hgrow="ALWAYS">
+                  <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="250.0" visible="false" HBox.hgrow="ALWAYS">
                      <children>
                         <Label prefHeight="17.0" prefWidth="62.0" text="Simulator" />
                         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
@@ -121,34 +122,31 @@
         <items>
             <AnchorPane>
                <children>
-                  <VBox id="editor-vbox" alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                     <children>
-                        <HBox alignment="CENTER_LEFT" visible="false">
+                  <SplitPane fx:id="textSplitpane" dividerPositions="0.9" orientation="VERTICAL" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <items>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                            <children>
-                              <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Reset to continue editing code">
-                                 <padding>
-                                    <Insets bottom="4.0" left="8.0" right="8.0" top="4.0" />
-                                 </padding>
-                              </Label>
+                              <StackPane id="editor-stackpane" fx:id="codeStackPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <ScrollPane id="editor-scrollpane" fx:id="codeScrollPane" prefHeight="400.0" prefWidth="618.0" vbarPolicy="ALWAYS" StackPane.alignment="CENTER">
+                                       <content>
+                                          <CodeArea id="code-area" fx:id="codeArea" lineHighlighterOn="true" wrapText="true" />
+                                       </content>
+                                       <StackPane.margin>
+                                          <Insets />
+                                       </StackPane.margin>
+                                    </ScrollPane>
+                                 </children>
+                              </StackPane>
                            </children>
-                           <padding>
-                              <Insets bottom="2.0" left="6.0" right="6.0" top="2.0" />
-                           </padding>
-                        </HBox>
-                        <StackPane id="editor-stackpane" fx:id="codeStackPane" layoutX="14.0" layoutY="14.0" VBox.vgrow="ALWAYS">
+                        </AnchorPane>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                            <children>
-                              <ScrollPane id="editor-scrollpane" fx:id="codeScrollPane" prefHeight="400.0" prefWidth="618.0" vbarPolicy="ALWAYS" StackPane.alignment="CENTER">
-                                 <content>
-                                    <CodeArea id="code-area" fx:id="codeArea" lineHighlighterOn="true" wrapText="true" />
-                                 </content>
-                                 <StackPane.margin>
-                                    <Insets />
-                                 </StackPane.margin>
-                              </ScrollPane>
+                              <TextArea id="console" fx:id="console" editable="false" prefHeight="200.0" prefWidth="200.0" promptText="No errors" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                            </children>
-                        </StackPane>
-                     </children>
-                  </VBox>
+                        </AnchorPane>
+                    </items>
+                  </SplitPane>
                </children>
             </AnchorPane>
             <AnchorPane id="register-anchor-pane" fx:id="rightSideAnchorPane">

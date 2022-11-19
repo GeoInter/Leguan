@@ -64,15 +64,20 @@
 
 #editor-vbox, 
 .code-area, 
+.text-area .content,
 .editor-scrollpane, 
 .editor-stackpane {
     -fx-background-color: -fx-main-color;
-    background-color:-fx-main-color;
+    background-color: -fx-main-color;
+}
+
+.text-area {
+    -fx-text-fill: white;
 }
 
 .split-pane-divider {
     -fx-background-color: -scrollbar-divider-color;
-    background-color:-scrollbar-divider-color;
+    background-color: -scrollbar-divider-color;
 }
 
 .check-box .box {
