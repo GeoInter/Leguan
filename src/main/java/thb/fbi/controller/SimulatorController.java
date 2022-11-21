@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import org.fxmisc.richtext.CodeArea;
+import org.fxmisc.richtext.LineNumberFactory;
 
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
@@ -16,6 +17,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import thb.fbi.parser.ParsingError;
 import thb.fbi.simulation.FlagRegister;
 import thb.fbi.simulation.Memory;
 import thb.fbi.simulation.Simulator;
@@ -54,6 +56,7 @@ public class SimulatorController {
     public void initialize() {
         codeArea.prefHeightProperty().bind(codeScrollPane.heightProperty()); 
         codeArea.prefWidthProperty().bind(codeScrollPane.widthProperty().subtract(15)); // size of scrollbar
+        codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
 
         // prevent rightside to resize (change divider position) when maximazing
         SplitPane.setResizableWithParent(rightSideAnchorPane, false);
@@ -102,11 +105,15 @@ public class SimulatorController {
     /**
      * sets the text of the console text area
      */
-    private void setConsoleText(ArrayList<String> text) {
-        if(text != null) {
-            console.setText(text.toString());
-        } else {
+    private void setConsoleText(ArrayList<ParsingError> errors) {
+        if(errors == null) {
             console.setText(null);
+        } else {
+            String errorMessage = "";
+            for (ParsingError parsingError : errors) {
+                errorMessage += parsingError.getErrorMessage() + "\n";
+            }
+            console.setText(errorMessage);
         }   
     }
     

@@ -35,13 +35,13 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
     private static Simulator simulator = SimulatorSingleton.getSimulator();
     private int sourceLine = 0; // current line of source code for jumpMark resolving
 
-    private ArrayList<String> semanticErrors;
+    private ArrayList<ParsingError> semanticErrors;
     private ArrayList<Register> usedRegisters;
     private HashMap<String, Integer> jumpMarks;
     private HashMap<Integer, String> unresolvedMarks;
 
     
-    public ProgramStatementParser(ArrayList<String> semanticErrors, ArrayList<Register> usedRegisters,
+    public ProgramStatementParser(ArrayList<ParsingError> semanticErrors, ArrayList<Register> usedRegisters,
             HashMap<String, Integer> jumpMarks, HashMap<Integer, String> unresolvedMarks) {
         this.semanticErrors = semanticErrors;
         this.usedRegisters = usedRegisters;
@@ -103,7 +103,8 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
             Token token = ctx.REGISTER().getSymbol();
             int line = token.getLine();
             int pos = token.getCharPositionInLine();
-            semanticErrors.add("Register not in allowed range of " + simulator.registerNr + ". (" + line + ", " + pos + ")");
+            ParsingError err = new ParsingError(line, pos, "Register not in allowed range of " + simulator.registerNr + ". (" + line + ", " + pos + ")");
+            semanticErrors.add(err);
         }
         return register;
     }
@@ -121,7 +122,8 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
             Token token = ctx.NUMBER().getSymbol();
             int line = token.getLine();
             int pos = token.getCharPositionInLine();
-            semanticErrors.add("Number has not appropriate format. (" + line + ", " + pos + ")");
+            ParsingError err = new ParsingError(line, pos, "Number has not appropriate format. (" + line + ", " + pos + ")");
+            semanticErrors.add(err);
         }
         return number;
     }

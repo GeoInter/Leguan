@@ -15,7 +15,7 @@ import thb.fbi.simulation.Register;
 
 public class ProgramParser extends LegV8BaseVisitor<ARMProgram> {
 
-    public ArrayList<String> semanticErrors = new ArrayList<String>();
+    public ArrayList<ParsingError> semanticErrors = new ArrayList<ParsingError>();
     private ArrayList<Register> usedRegisters = new ArrayList<Register>();
     private HashMap<String, Integer> jumpMarks = new HashMap<String, Integer>();
     private HashMap<Integer, String> unresolvedMarks = new HashMap<Integer, String>();
@@ -58,7 +58,8 @@ public class ProgramParser extends LegV8BaseVisitor<ARMProgram> {
                     Token token = ctx.line(index).condBranchParam().invocation().MarkInvocation().getSymbol();
                     int line = token.getLine();
                     int pos = token.getCharPositionInLine();
-                    semanticErrors.add("Cannot branch to undeclared mark '" + id + "'. ("+ line + ", " + pos + ")");
+                    ParsingError err = new ParsingError(line, pos, "Cannot branch to undeclared mark '" + id + "'. ("+ line + ", " + pos + ")");
+                    semanticErrors.add(err);
                 } else {
                     args.setCond_Br_Address(sourceLine);
                 }
@@ -71,7 +72,8 @@ public class ProgramParser extends LegV8BaseVisitor<ARMProgram> {
                     Token token = ctx.line(index).branchParam().invocation().MarkInvocation().getSymbol();
                     int line = token.getLine();
                     int pos = token.getCharPositionInLine();
-                    semanticErrors.add("Cannot branch to undeclared mark '" + id + "'. ("+ line + ", " + pos + ")");
+                    ParsingError err = new ParsingError(line, pos, "Cannot branch to undeclared mark '" + id + "'. ("+ line + ", " + pos + ")");
+                    semanticErrors.add(err);
                 } else {
                     args.setBr_Address(sourceLine);
                 }   

@@ -9,6 +9,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 
 import thb.fbi.instructions.Instruction;
 import thb.fbi.instructions.InstructionSet;
+import thb.fbi.parser.ParsingError;
 import thb.fbi.parser.ProgramParser;
 import thb.fbi.parser.SyntaxErrorListener;
 import thb.fbi.parser.antlr.LegV8Lexer;
@@ -139,12 +140,12 @@ public class Simulator {
      * parses and executes the whole written code 
      * @param code written text to parse
      */
-    public ArrayList<String> run(String code) {
+    public ArrayList<ParsingError> run(String code) {
         LegV8Parser parser = getParser(code);
 
         // parse form start symbol 'main'
         ParseTree antlrTree = parser.main();
-
+        
         if(syntaxErrorListener.syntaxErrors.isEmpty()) {
             // create visitor
             ProgramParser progVisitor = new ProgramParser();
@@ -201,6 +202,7 @@ public class Simulator {
         parser = new LegV8Parser(tokens);
 
         // syntax error handling
+        syntaxErrorListener.clearSyntaxErrors();
         parser.removeErrorListeners();
         parser.addErrorListener(syntaxErrorListener);
 
@@ -224,6 +226,7 @@ public class Simulator {
             register.setValue(0);
         }
         pc.setValue(0);
+        syntaxErrorListener.clearSyntaxErrors();
     }
 
     /**
