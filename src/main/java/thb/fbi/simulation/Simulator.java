@@ -1,7 +1,8 @@
 package thb.fbi.simulation;
 
 import java.util.ArrayList;
-
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -35,6 +36,8 @@ public class Simulator {
     /** Listener for Syntax Errors */
     private SyntaxErrorListener syntaxErrorListener;
 
+    private ExecutorService executor;
+
     public Simulator() {
         registers = new Register[registerNr];
         instructionSet.populate();
@@ -49,6 +52,7 @@ public class Simulator {
         registers[2].setValue(7);
         */
         syntaxErrorListener = new SyntaxErrorListener();
+        executor = Executors.newSingleThreadExecutor();
     }
 
     /** 
@@ -152,6 +156,16 @@ public class Simulator {
             this.program = progVisitor.visit(antlrTree);
 
             if(progVisitor.semanticErrors.isEmpty()) {
+                updateShownRegisters();
+                /* 
+                executor.execute(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            runCode();
+                        }
+
+                    });*/
                 runCode();
             } else {
                 return progVisitor.semanticErrors;
@@ -166,17 +180,13 @@ public class Simulator {
      * executes whole parsed program 
      */
     public void runCode() {
-        updateShownRegisters();
-
+        
         boolean running = true;
 
         // TODO: remove when forwardStep is fixed
         pc.setValue(0);
 
-        int fallback = 0;
-
-        while(running && fallback <= 5000) {
-            fallback++;
+        while(running) {
             ProgramStatement statement = program.getProgramStatement((int) pc.getValue());
             if(statement != null) {
                 Instruction instruction = statement.getInstruction();
@@ -227,6 +237,11 @@ public class Simulator {
         }
         pc.setValue(0);
         syntaxErrorListener.clearSyntaxErrors();
+        stopThread();
+    }
+
+    public void stopThread() {
+        executor.shutdownNow();
     }
 
     /**

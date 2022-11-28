@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -319,7 +320,8 @@ public class MemoryController implements MemoryObserver {
         newData = getFilteredMap(newData);
         
         ObservableList<Map.Entry<Long, Long>> items = FXCollections.observableArrayList(newData.entrySet());
-        memoryTable.setItems(items);
+        Platform.runLater(() -> {
+            memoryTable.setItems(items);
+        });
     }
-    
 }

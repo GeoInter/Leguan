@@ -102,6 +102,11 @@ public class SimulatorController {
         System.out.println("step backward");
     }   
 
+    @FXML
+    private void stopThread() {
+        simulator.stopThread();
+    }
+
     /**
      * sets the text of the console text area
      */

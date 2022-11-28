@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import thb.fbi.simulation.SimulatorSingleton;
 import thb.fbi.utility.I18N;
 
 import java.io.IOException;
@@ -51,5 +52,10 @@ public class App extends Application {
 
     public static void main(String[] args) {
         launch();
+    }
+
+    @Override
+    public void stop() {
+        SimulatorSingleton.getSimulator().reset();
     }
 }
