@@ -157,16 +157,17 @@ public class Simulator {
 
             if(progVisitor.semanticErrors.isEmpty()) {
                 updateShownRegisters();
-                /* 
-                executor.execute(new Runnable() {
+                 
+                executor.submit(new Runnable() {
 
-                        @Override
-                        public void run() {
-                            runCode();
-                        }
+                    @Override
+                    public void run() {
+                        Memory.storeByte(420, (byte)1938);
+                        // runCode();
+                    }
 
-                    });*/
-                runCode();
+                });
+                
             } else {
                 return progVisitor.semanticErrors;
             }
@@ -240,8 +241,12 @@ public class Simulator {
         stopThread();
     }
 
+    /**
+     * stops all running threads and restantiate executorService
+     */
     public void stopThread() {
         executor.shutdownNow();
+        executor = Executors.newSingleThreadExecutor();
     }
 
     /**
