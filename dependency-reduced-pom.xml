@@ -116,6 +116,6 @@
     <sys.java.home>${env.JAVA_HOME}</sys.java.home>
     <maven.compiler.source>11</maven.compiler.source>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <javafx.version>13</javafx.version>
+    <javafx.version>18</javafx.version>
   </properties>
 </project>
