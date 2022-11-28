@@ -9,8 +9,8 @@ program : line+ ;
 
 line : declaration? (arithmeticInstruction arithmeticParam | shiftInstruction shiftParam | immediateInstruction immediateParam | datatransferInstruction datatransferParam | condBranchInstruction condBranchParam | branchInstruction branchParam);
 
-declaration: MarkDeclaration ;
-invocation: MarkInvocation ;
+declaration: JumpDeclaration ;
+invocation: JumpInvocation ;
 
 arithmeticInstruction : 'ADD' | 'SUB' ;
 shiftInstruction: 'LSL' | 'LSR' ;
@@ -46,5 +46,5 @@ REGISTER : 'X0' | 'X'[1-9][0-9]* ; // manual check required for range
 NUMBER : '0' | '-'? [1-9][0-9]* ;
 
 // jump mark usage
-MarkDeclaration: [a-zA-Z]+ ':' ;
-MarkInvocation: [a-zA-Z]+ ;
+JumpDeclaration: [a-zA-Z]+ ':' ;
+JumpInvocation: [a-zA-Z]+ ;

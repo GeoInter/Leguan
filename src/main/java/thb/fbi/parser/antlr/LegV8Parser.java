@@ -19,7 +19,7 @@ public class LegV8Parser extends Parser {
 	public static final int
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, WS=9, 
 		COMMENT=10, LINE_COMMENT=11, COMMA=12, SEMI=13, REGISTER=14, NUMBER=15, 
-		MarkDeclaration=16, MarkInvocation=17;
+		JumpDeclaration=16, JumpInvocation=17;
 	public static final int
 		RULE_main = 0, RULE_program = 1, RULE_line = 2, RULE_declaration = 3, 
 		RULE_invocation = 4, RULE_arithmeticInstruction = 5, RULE_shiftInstruction = 6, 
@@ -48,8 +48,8 @@ public class LegV8Parser extends Parser {
 	private static String[] makeSymbolicNames() {
 		return new String[] {
 			null, null, null, null, null, null, null, null, null, "WS", "COMMENT", 
-			"LINE_COMMENT", "COMMA", "SEMI", "REGISTER", "NUMBER", "MarkDeclaration", 
-			"MarkInvocation"
+			"LINE_COMMENT", "COMMA", "SEMI", "REGISTER", "NUMBER", "JumpDeclaration", 
+			"JumpInvocation"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -282,7 +282,7 @@ public class LegV8Parser extends Parser {
 			setState(47);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if (_la==MarkDeclaration) {
+			if (_la==JumpDeclaration) {
 				{
 				setState(46);
 				declaration();
@@ -360,7 +360,7 @@ public class LegV8Parser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class DeclarationContext extends ParserRuleContext {
-		public TerminalNode MarkDeclaration() { return getToken(LegV8Parser.MarkDeclaration, 0); }
+		public TerminalNode JumpDeclaration() { return getToken(LegV8Parser.JumpDeclaration, 0); }
 		public DeclarationContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -387,7 +387,7 @@ public class LegV8Parser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(69);
-			match(MarkDeclaration);
+			match(JumpDeclaration);
 			}
 		}
 		catch (RecognitionException re) {
@@ -403,7 +403,7 @@ public class LegV8Parser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class InvocationContext extends ParserRuleContext {
-		public TerminalNode MarkInvocation() { return getToken(LegV8Parser.MarkInvocation, 0); }
+		public TerminalNode JumpInvocation() { return getToken(LegV8Parser.JumpInvocation, 0); }
 		public InvocationContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -430,7 +430,7 @@ public class LegV8Parser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(71);
-			match(MarkInvocation);
+			match(JumpInvocation);
 			}
 		}
 		catch (RecognitionException re) {

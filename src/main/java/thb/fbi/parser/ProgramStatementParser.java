@@ -103,7 +103,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
             Token token = ctx.REGISTER().getSymbol();
             int line = token.getLine();
             int pos = token.getCharPositionInLine();
-            ParsingError err = new ParsingError(line, pos, "Register not in allowed range of " + simulator.registerNr + ". (" + line + ", " + pos + ")");
+            ParsingError err = new ParsingError(line, pos, ParsingErrorType.RegisterOutOfRange);
             semanticErrors.add(err);
         }
         return register;
@@ -122,7 +122,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
             Token token = ctx.NUMBER().getSymbol();
             int line = token.getLine();
             int pos = token.getCharPositionInLine();
-            ParsingError err = new ParsingError(line, pos, "Number has not appropriate format. (" + line + ", " + pos + ")");
+            ParsingError err = new ParsingError(line, pos, ParsingErrorType.NumberFormatException);
             semanticErrors.add(err);
         }
         return number;
@@ -130,7 +130,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
 
     @Override
     public Object visitDeclaration(DeclarationContext ctx) {
-        String id = ctx.MarkDeclaration().getText();
+        String id = ctx.JumpDeclaration().getText();
         id = id.substring(0, id.length()-1); //remove ":"
         jumpMarks.put(id, this.sourceLine);
         return null;
@@ -138,7 +138,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
 
     @Override
     public Integer visitInvocation(InvocationContext ctx) {
-        String id = ctx.MarkInvocation().getText();
+        String id = ctx.JumpInvocation().getText();
         Integer address = jumpMarks.get(id);
         if(address != null) {
             return address;

@@ -55,10 +55,10 @@ public class ProgramParser extends LegV8BaseVisitor<ARMProgram> {
                 Integer sourceLine = jumpMarks.get(id);
 
                 if(sourceLine == null) {
-                    Token token = ctx.line(index).condBranchParam().invocation().MarkInvocation().getSymbol();
+                    Token token = ctx.line(index).condBranchParam().invocation().JumpInvocation().getSymbol();
                     int line = token.getLine();
                     int pos = token.getCharPositionInLine();
-                    ParsingError err = new ParsingError(line, pos, "Cannot branch to undeclared mark '" + id + "'. ("+ line + ", " + pos + ")");
+                    ParsingError err = new ParsingError(line, pos, ParsingErrorType.UndefinedJumpInvocation);
                     semanticErrors.add(err);
                 } else {
                     args.setCond_Br_Address(sourceLine);
@@ -69,10 +69,10 @@ public class ProgramParser extends LegV8BaseVisitor<ARMProgram> {
                 Integer sourceLine = jumpMarks.get(id);
 
                 if(sourceLine == null) {
-                    Token token = ctx.line(index).branchParam().invocation().MarkInvocation().getSymbol();
+                    Token token = ctx.line(index).branchParam().invocation().JumpInvocation().getSymbol();
                     int line = token.getLine();
                     int pos = token.getCharPositionInLine();
-                    ParsingError err = new ParsingError(line, pos, "Cannot branch to undeclared mark '" + id + "'. ("+ line + ", " + pos + ")");
+                    ParsingError err = new ParsingError(line, pos, ParsingErrorType.UndefinedJumpInvocation);
                     semanticErrors.add(err);
                 } else {
                     args.setBr_Address(sourceLine);

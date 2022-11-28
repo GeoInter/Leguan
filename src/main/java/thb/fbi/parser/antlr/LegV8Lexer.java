@@ -19,7 +19,7 @@ public class LegV8Lexer extends Lexer {
 	public static final int
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, WS=9, 
 		COMMENT=10, LINE_COMMENT=11, COMMA=12, SEMI=13, REGISTER=14, NUMBER=15, 
-		MarkDeclaration=16, MarkInvocation=17;
+		JumpDeclaration=16, JumpInvocation=17;
 	public static String[] channelNames = {
 		"DEFAULT_TOKEN_CHANNEL", "HIDDEN"
 	};
@@ -31,8 +31,8 @@ public class LegV8Lexer extends Lexer {
 	private static String[] makeRuleNames() {
 		return new String[] {
 			"T__0", "T__1", "T__2", "T__3", "T__4", "T__5", "T__6", "T__7", "WS", 
-			"COMMENT", "LINE_COMMENT", "COMMA", "SEMI", "REGISTER", "NUMBER", "MarkDeclaration", 
-			"MarkInvocation"
+			"COMMENT", "LINE_COMMENT", "COMMA", "SEMI", "REGISTER", "NUMBER", "JumpDeclaration", 
+			"JumpInvocation"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
@@ -47,8 +47,8 @@ public class LegV8Lexer extends Lexer {
 	private static String[] makeSymbolicNames() {
 		return new String[] {
 			null, null, null, null, null, null, null, null, null, "WS", "COMMENT", 
-			"LINE_COMMENT", "COMMA", "SEMI", "REGISTER", "NUMBER", "MarkDeclaration", 
-			"MarkInvocation"
+			"LINE_COMMENT", "COMMA", "SEMI", "REGISTER", "NUMBER", "JumpDeclaration", 
+			"JumpInvocation"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();

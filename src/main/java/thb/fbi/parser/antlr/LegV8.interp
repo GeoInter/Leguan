@@ -35,8 +35,8 @@ COMMA
 SEMI
 REGISTER
 NUMBER
-MarkDeclaration
-MarkInvocation
+JumpDeclaration
+JumpInvocation
 
 rule names:
 main

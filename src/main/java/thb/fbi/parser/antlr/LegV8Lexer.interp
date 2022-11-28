@@ -35,8 +35,8 @@ COMMA
 SEMI
 REGISTER
 NUMBER
-MarkDeclaration
-MarkInvocation
+JumpDeclaration
+JumpInvocation
 
 rule names:
 T__0
@@ -54,8 +54,8 @@ COMMA
 SEMI
 REGISTER
 NUMBER
-MarkDeclaration
-MarkInvocation
+JumpDeclaration
+JumpInvocation
 
 channel names:
 DEFAULT_TOKEN_CHANNEL
