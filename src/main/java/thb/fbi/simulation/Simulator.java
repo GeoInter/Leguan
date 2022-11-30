@@ -8,6 +8,7 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
+import javafx.beans.property.SimpleBooleanProperty;
 import thb.fbi.instructions.Instruction;
 import thb.fbi.instructions.InstructionSet;
 import thb.fbi.parser.ParsingError;
@@ -38,7 +39,7 @@ public class Simulator {
     /** Executor for delegating threads */
     private ExecutorService executor;
     /** boolean for endless loop when running all code */
-    private boolean isRunning;
+    private SimpleBooleanProperty isRunning = new SimpleBooleanProperty(false);
 
     public Simulator() {
         registers = new Register[registerNr];
@@ -180,13 +181,13 @@ public class Simulator {
      * executes whole parsed program 
      */
     public void runCode() {
-        isRunning = true;
+        isRunning.set(true);
         int failsafe = 0;
 
         // TODO: remove when forwardStep is fixed
         pc.setValue(0);
 
-        while(isRunning/*  && failsafe < 50000*/) {
+        while(isRunning.get()/*  && failsafe < 50000*/) {
             failsafe++;
             ProgramStatement statement = program.getProgramStatement((int) pc.getValue());
             if(statement != null) {
@@ -196,7 +197,7 @@ public class Simulator {
                     instruction.simulate(statement.getArguments(), pc);
                 } 
             } else {
-                isRunning = false;
+                isRunning.set(false);
             }
         }
     }
@@ -246,7 +247,7 @@ public class Simulator {
      * stops all running threads and restantiate executorService
      */
     public void stopThread() {
-        isRunning = false;
+        isRunning.set(false);
     }
 
     /**
@@ -279,5 +280,9 @@ public class Simulator {
 
     public InstructionSet getInstructionSet() {
         return this.instructionSet;
+    }
+
+    public SimpleBooleanProperty getIsRunning() {
+        return this.isRunning;
     }
 }

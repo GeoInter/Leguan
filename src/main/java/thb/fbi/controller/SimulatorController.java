@@ -9,6 +9,7 @@ import org.fxmisc.richtext.LineNumberFactory;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
@@ -50,6 +51,9 @@ public class SimulatorController {
     @FXML MenuItem lightThemeItem;
     @FXML MenuItem darkThemeItem;
 
+    @FXML Button runButton;
+    @FXML Button stopButton;
+
     Simulator simulator = SimulatorSingleton.getSimulator();
 
     @FXML
@@ -72,6 +76,8 @@ public class SimulatorController {
         lightThemeItem.setOnAction((evt) -> switchStylesheets("light.css"));
         darkThemeItem.setOnAction((evt) -> switchStylesheets("dark.css"));
 
+        runButton.disableProperty().bind(simulator.getIsRunning());
+        stopButton.disableProperty().bind(simulator.getIsRunning().not());
         // file_Menu.textProperty().bind(I18N.createStringBinding("menubar.File"));
     }
 
