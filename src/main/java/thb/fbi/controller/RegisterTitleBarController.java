@@ -1,5 +1,6 @@
 package thb.fbi.controller;
 
+import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -41,7 +42,7 @@ public class RegisterTitleBarController {
     public void setProperties(PCRegister register, BooleanProperty displayUnsigned) {
         this.register = register;
         registerTitle.setText(register.getName());
-        registerValue.textProperty().bind(register.getShownValue());
+        addValueObserver();
         setDisplayUnsigned(displayUnsigned);
     }
 
@@ -55,10 +56,28 @@ public class RegisterTitleBarController {
     public void setProperties(Register register, BooleanProperty showAllRegisters, BooleanProperty displayUnsigned) {
         this.register = register;
         registerTitle.setText(register.getName());
-        registerValue.textProperty().bind(register.getShownValue());
+        addValueObserver();
         registerBox.managedProperty().bind(register.getIsUsed().or(showAllRegisters));
         registerBox.visibleProperty().bind(register.getIsUsed().or(showAllRegisters));
         setDisplayUnsigned(displayUnsigned);
+    }
+
+    /**
+     * adds an observer to change UI
+     * listens to shownValue of register
+     * uses Platform.runLater for threading
+     */
+    public void addValueObserver() {
+        register.getShownValue().addListener(new ChangeListener<String>() {
+
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                Platform.runLater(() -> {
+                    registerValue.setText(register.getShownValue().get());
+                });
+            }
+            
+        });
     }
 
     private void setDisplayUnsigned(BooleanProperty displayUnsigned) {

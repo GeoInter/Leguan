@@ -57,5 +57,6 @@ public class App extends Application {
     @Override
     public void stop() {
         SimulatorSingleton.getSimulator().reset();
+        SimulatorSingleton.getSimulator().stopExecutor();
     }
 }

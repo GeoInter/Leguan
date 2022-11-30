@@ -35,8 +35,10 @@ public class Simulator {
     private ARMProgram program;
     /** Listener for Syntax Errors */
     private SyntaxErrorListener syntaxErrorListener;
-
+    /** Executor for delegating threads */
     private ExecutorService executor;
+    /** boolean for endless loop when running all code */
+    private boolean isRunning;
 
     public Simulator() {
         registers = new Register[registerNr];
@@ -157,17 +159,14 @@ public class Simulator {
 
             if(progVisitor.semanticErrors.isEmpty()) {
                 updateShownRegisters();
-                 
-                executor.submit(new Runnable() {
+                executor.execute(new Runnable() {
 
                     @Override
-                    public void run() {
-                        Memory.storeByte(420, (byte)1938);
-                        // runCode();
+                        public void run() {
+                            runCode();
                     }
-
+                    
                 });
-                
             } else {
                 return progVisitor.semanticErrors;
             }
@@ -181,21 +180,23 @@ public class Simulator {
      * executes whole parsed program 
      */
     public void runCode() {
-        
-        boolean running = true;
+        isRunning = true;
+        int failsafe = 0;
 
         // TODO: remove when forwardStep is fixed
         pc.setValue(0);
 
-        while(running) {
+        while(isRunning/*  && failsafe < 50000*/) {
+            failsafe++;
             ProgramStatement statement = program.getProgramStatement((int) pc.getValue());
             if(statement != null) {
                 Instruction instruction = statement.getInstruction();
                 if(instruction != null) {
+                    System.out.println(failsafe + ": " + instruction.getMnemonic());
                     instruction.simulate(statement.getArguments(), pc);
                 } 
             } else {
-                running = false;
+                isRunning = false;
             }
         }
     }
@@ -245,8 +246,15 @@ public class Simulator {
      * stops all running threads and restantiate executorService
      */
     public void stopThread() {
+        isRunning = false;
+    }
+
+    /**
+     * attempts to stop all threads (and ExecutorService) 
+     * when running can be called only once 
+     */
+    public void stopExecutor() {
         executor.shutdownNow();
-        executor = Executors.newSingleThreadExecutor();
     }
 
     /**
