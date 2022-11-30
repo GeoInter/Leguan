@@ -12,10 +12,10 @@ line : declaration? (arithmeticInstruction arithmeticParam | shiftInstruction sh
 declaration: JumpDeclaration ;
 invocation: JumpInvocation ;
 
-arithmeticInstruction : 'ADD' | 'SUB' ;
+arithmeticInstruction : 'ADD' | 'ADDS' | 'AND' | 'ANDS' | 'EOR' | 'EORI' | 'ORR' | 'SUB' | 'SUBS';
 shiftInstruction: 'LSL' | 'LSR' ;
-immediateInstruction : 'ADDI' ;
-datatransferInstruction : 'STUR' ;
+immediateInstruction : 'ADDI' | 'ADDIS' | 'ANDI' | 'ANDIS' | 'ORRI' | 'SUBI' | 'SUBIS';
+datatransferInstruction : 'LDUR' | 'LDURB' | 'LDURH' | 'LDURSW' | 'STUR' | 'STURB' | 'STURH' | 'STURW';
 condBranchInstruction : 'CBNZ' ;
 branchInstruction : 'B';
 
