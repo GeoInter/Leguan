@@ -8,27 +8,22 @@ import java.util.ArrayList;
  * contains all lines of code as @see ProgramStatements
  */
 public class ARMProgram {
-    // temp property
-    private static Simulator simulator = SimulatorSingleton.getSimulator();
-
     private String fileName;
-    private ArrayList<ProgramStatement> statements;
+    private String fileExtension;
+
+    private ArrayList<ProgramStatement> statements = new ArrayList<ProgramStatement>();
     private ArrayList<Register> usedRegisters = new ArrayList<Register>();
 
     public ARMProgram() {
-        fileName = "Empty";
-        statements = new ArrayList<ProgramStatement>();
+        fileName = "MyARMProgram";
+        fileExtension = "txt";
+        statements.clear();
     }
 
-    public ARMProgram(String fileName) {
+    public ARMProgram(String fileName, String fileExtension) {
         this.fileName = fileName;
-        statements = Parser.getStatements();
-        usedRegisters.add(simulator.getRegisters()[0]);
-        usedRegisters.add(simulator.getRegisters()[1]);
-        usedRegisters.add(simulator.getRegisters()[2]);
-        usedRegisters.add(simulator.getRegisters()[5]);
-        usedRegisters.add(simulator.getRegisters()[8]);
-        usedRegisters.add(simulator.getRegisters()[7]);
+        this.fileExtension = fileExtension;
+        statements.clear();
     }
 
     /**
@@ -37,6 +32,15 @@ public class ARMProgram {
      */
     public String getFileName() {
         return fileName;
+    }
+
+    public String getFileExtension() {
+        return fileExtension;
+    }
+
+    public String getFullFilePath() {
+        String path = fileName + "." + fileExtension;
+        return path;
     }
 
     /**

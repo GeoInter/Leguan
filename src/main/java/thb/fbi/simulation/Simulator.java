@@ -54,6 +54,7 @@ public class Simulator {
         registers[1].setValue(-2);
         registers[2].setValue(7);
         */
+        this.program = new ARMProgram();
         syntaxErrorListener = new SyntaxErrorListener();
         executor = Executors.newSingleThreadExecutor();
     }
@@ -62,7 +63,7 @@ public class Simulator {
      * executes the program
      */
     public void simulate() {
-        this.program = new ARMProgram("Simple Test");
+        this.program = new ARMProgram("Simple Test", "txt");
         updateShownRegisters();
 
         System.out.println("R0: " + registers[0].getValue());
@@ -93,7 +94,7 @@ public class Simulator {
     public void simulateStep() {
         if(pc.getValue() <= 0) {
              // for presentation purpose; needs to be moved later
-            this.program = new ARMProgram("Fibonacci Test");
+            this.program = new ARMProgram("Fibonacci-Test", "txt");
             updateShownRegisters();
         }
         ProgramStatement statement = program.getProgramStatement((int)pc.getValue() / Instruction.INSTRUCTION_LENGTH);
@@ -268,6 +269,10 @@ public class Simulator {
 
     public FlagRegister getFlagRegister() {
         return this.flagRegister;
+    }
+
+    public ARMProgram getArmProgram() {
+        return this.program;
     }
 
     public PCRegister getPC() {

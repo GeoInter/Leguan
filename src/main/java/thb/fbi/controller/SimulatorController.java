@@ -113,6 +113,21 @@ public class SimulatorController {
         simulator.stopThread();
     }
 
+    @FXML
+    private void openFile() {
+        codeArea.replaceText(FileManager.openFile());
+    }
+
+    @FXML
+    private void saveFile() {
+        FileManager.saveFile(codeArea.textProperty().getValue());
+    }
+
+    @FXML
+    private void saveFileAs() {
+        FileManager.saveFileAs(codeArea.textProperty().getValue());
+    }
+
     /**
      * sets the text of the console text area
      */
