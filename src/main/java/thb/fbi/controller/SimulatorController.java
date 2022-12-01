@@ -79,6 +79,8 @@ public class SimulatorController {
         runButton.disableProperty().bind(simulator.getIsRunning());
         stopButton.disableProperty().bind(simulator.getIsRunning().not());
         // file_Menu.textProperty().bind(I18N.createStringBinding("menubar.File"));
+
+        FileManager.init(codeArea);
     }
 
     @FXML
@@ -115,17 +117,17 @@ public class SimulatorController {
 
     @FXML
     private void openFile() {
-        codeArea.replaceText(FileManager.openFile());
+        FileManager.openFile();
     }
 
     @FXML
     private void saveFile() {
-        FileManager.saveFile(codeArea.textProperty().getValue());
+        FileManager.saveFile();
     }
 
     @FXML
     private void saveFileAs() {
-        FileManager.saveFileAs(codeArea.textProperty().getValue());
+        FileManager.saveFileAs();
     }
 
     /**

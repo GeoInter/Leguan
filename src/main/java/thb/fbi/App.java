@@ -65,7 +65,7 @@ public class App extends Application {
     public void stop() {
         SimulatorSingleton.getSimulator().reset();
         SimulatorSingleton.getSimulator().stopExecutor();
-        // TODO: get codearea content save / open dialog for confirmation
-        FileManager.saveFile("");
+        // TODO: open dialog for confirmation, before closing
+        FileManager.saveFile();
     }
 }

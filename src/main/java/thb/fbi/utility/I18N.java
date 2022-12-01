@@ -16,7 +16,6 @@ import javafx.beans.property.SimpleObjectProperty;
 /**  
  * Internationalization class allows for switching between languages
 */
-// TODO: refactor to singleton 
 public class I18N {
 
     /** the current state selected Locale */

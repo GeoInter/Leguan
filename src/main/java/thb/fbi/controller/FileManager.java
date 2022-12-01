@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 
+import org.fxmisc.richtext.CodeArea;
+
 import javafx.stage.FileChooser;
 import thb.fbi.App;
 import thb.fbi.simulation.Simulator;
@@ -17,32 +19,37 @@ public class FileManager {
 
     private static FileChooser fileChooser = new FileChooser();
     private static Simulator simulator = SimulatorSingleton.getSimulator();
-    // TODO: set initial directory to user documents
+    private static CodeArea codeArea;
 
-    public static String openFile() {
-        File selectedFile = fileChooser.showOpenDialog(App.getStage());
-        return getTextFromFile(selectedFile);
+    public static void init(CodeArea codeArea) {
+        fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+        FileManager.codeArea = codeArea;
     }
 
-    public static void saveFile(String content) {
+    public static void openFile() {
+        File selectedFile = fileChooser.showOpenDialog(App.getStage());
+        getTextFromFile(selectedFile);
+    }
+
+    public static void saveFile() {
         if(simulator.getArmProgram() != null) {
             String filePath = simulator.getArmProgram().getFullFilePath();
             fileChooser.setInitialFileName(filePath);
-            saveDialog(content);
+            saveDialog();
         } else {
-            saveFileAs(content);
+            saveFileAs();
         }
     }
 
-    public static void saveFileAs(String content) {
+    public static void saveFileAs() {
         fileChooser.setInitialFileName(null);
-        saveDialog(content);
+        saveDialog();
     }
 
-    private static void saveDialog(String content) {
+    private static void saveDialog() {
         File selectedFile = fileChooser.showSaveDialog(App.getStage());
         if(selectedFile != null) {
-            saveTextToFile(selectedFile, content);
+            saveTextToFile(selectedFile);
         }
     }
 
@@ -50,10 +57,10 @@ public class FileManager {
      * writes codearea content into specified file
      * @param file selected file to save to
      */
-    private static void saveTextToFile(File file, String content) {
+    private static void saveTextToFile(File file) {
         try {
             PrintWriter writer = new PrintWriter(file);
-            writer.println(content);
+            writer.println(codeArea.textProperty().getValue());
             writer.close();
         } catch (IOException e) {
             System.err.println("Error trying to save file");
@@ -64,13 +71,12 @@ public class FileManager {
      * sets content of specified file into codearea
      * @param file selected file to open
      */
-    private static String getTextFromFile(File file) {
+    private static void getTextFromFile(File file) {
         try {
             String content = Files.readString(file.toPath());
-            return content;
+            codeArea.replaceText(content);
         } catch(IOException e) {
-            return null;
+            
         }
     }
-    
 }
