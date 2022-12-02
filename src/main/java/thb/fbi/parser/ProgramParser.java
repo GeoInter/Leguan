@@ -20,6 +20,17 @@ public class ProgramParser extends LegV8BaseVisitor<ARMProgram> {
     private HashMap<String, Integer> jumpMarks = new HashMap<String, Integer>();
     private HashMap<Integer, String> unresolvedMarks = new HashMap<Integer, String>();
 
+    /**
+     * clears all arrays and maps
+     * resetting errors and found jumpMarks
+     */
+    public void clear() {
+        semanticErrors.clear();
+        usedRegisters.clear();
+        jumpMarks.clear();
+        unresolvedMarks.clear();
+    }
+
     // could be refactored
     // start and end point of parsing -> calls visitProgram + same return type
     // using for setting ARMProgram property 

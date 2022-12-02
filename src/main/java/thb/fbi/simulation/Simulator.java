@@ -9,6 +9,8 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import thb.fbi.instructions.Instruction;
 import thb.fbi.instructions.InstructionSet;
 import thb.fbi.parser.ParsingError;
@@ -36,10 +38,16 @@ public class Simulator {
     private ARMProgram program;
     /** Listener for Syntax Errors */
     private SyntaxErrorListener syntaxErrorListener;
+    /** Visitor for Syntax Tree */
+    private ProgramParser programParser;
     /** Executor for delegating threads */
     private ExecutorService executor;
     /** boolean for endless loop when running all code */
     private SimpleBooleanProperty isRunning = new SimpleBooleanProperty(false);
+    /** boolean indicating wheter code is changed (and unparsed) */
+    private SimpleBooleanProperty isCodeChanged = new SimpleBooleanProperty(true);
+    /** boolean indicating code is correct and parse */
+    private SimpleBooleanProperty isCodeParsed = new SimpleBooleanProperty(false);;
 
     public Simulator() {
         registers = new Register[registerNr];
@@ -56,7 +64,19 @@ public class Simulator {
         */
         this.program = new ARMProgram();
         syntaxErrorListener = new SyntaxErrorListener();
+        programParser = new ProgramParser();
         executor = Executors.newSingleThreadExecutor();
+
+        isCodeChanged.addListener(new ChangeListener<Boolean>() {
+
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(newValue) {
+                    isCodeParsed.set(false);
+                }
+            }
+            
+        });
     }
 
     /** 
@@ -121,27 +141,24 @@ public class Simulator {
         }
     }
 
-    public void forwardStep(String code) {
-        // TODO: fix this dirty mock up code (determine changes in program)
-        // TODO: add error check (ref. parse()/run() method)
-        if(pc.getValue() <= -1) {
-            LegV8Parser parser = getParser(code);
-
-            // parse form start symbol 'main'
-            ParseTree antlTree = parser.main();
-            // create visitor
-            ProgramParser progVisitor = new ProgramParser();
-            this.program = progVisitor.visit(antlTree);
-            updateShownRegisters();
-            pc.setValue(0);
-        }
-        ProgramStatement statement = program.getProgramStatement((int) pc.getValue());
-        if(statement != null) {
-            Instruction instruction = statement.getInstruction();
-            if(instruction != null) {
-                instruction.simulate(statement.getArguments(), pc);
+    public ArrayList<ParsingError> forwardStep(String code) {
+        // if not prior parsed - do it now
+        if(parse(code)) {
+            ProgramStatement statement = program.getProgramStatement((int) pc.getValue());
+            if(statement != null) {
+                Instruction instruction = statement.getInstruction();
+                if(instruction != null) {
+                    instruction.simulate(statement.getArguments(), pc);
+                }
+            }
+        } else {
+            if(! syntaxErrorListener.syntaxErrors.isEmpty()) {
+                return syntaxErrorListener.syntaxErrors;
+            } else if(! programParser.semanticErrors.isEmpty()) {
+                return programParser.semanticErrors;
             }
         }
+        return null;
     }
 
     /**
@@ -149,58 +166,76 @@ public class Simulator {
      * @param code written text to parse
      */
     public ArrayList<ParsingError> run(String code) {
-        LegV8Parser parser = getParser(code);
+        if(parse(code)) {
+            executor.execute(new Runnable() {
+            
+                @Override
+                public void run() {
+                    runCode();
+                }
 
-        // parse form start symbol 'main'
-        ParseTree antlrTree = parser.main();
-        
-        if(syntaxErrorListener.syntaxErrors.isEmpty()) {
-            // create visitor
-            ProgramParser progVisitor = new ProgramParser();
-            this.program = progVisitor.visit(antlrTree);
-
-            if(progVisitor.semanticErrors.isEmpty()) {
-                updateShownRegisters();
-                executor.execute(new Runnable() {
-
-                    @Override
-                        public void run() {
-                            runCode();
-                    }
-                    
-                });
-            } else {
-                return progVisitor.semanticErrors;
-            }
+            });
         } else {
-            return syntaxErrorListener.syntaxErrors;
+            if(! syntaxErrorListener.syntaxErrors.isEmpty()) {
+                return syntaxErrorListener.syntaxErrors;
+            } else if(! programParser.semanticErrors.isEmpty()) {
+                return programParser.semanticErrors;
+            }
         }
         return null;
     }
 
     /**
      * executes whole parsed program 
+     * has hidden failsafe mechnism - preventing endless loops
      */
     public void runCode() {
         isRunning.set(true);
         int failsafe = 0;
 
-        // TODO: remove when forwardStep is fixed
-        pc.setValue(0);
-
-        while(isRunning.get()/*  && failsafe < 50000*/) {
+        while(isRunning.get() && failsafe < 50000) {
             failsafe++;
             ProgramStatement statement = program.getProgramStatement((int) pc.getValue());
             if(statement != null) {
                 Instruction instruction = statement.getInstruction();
                 if(instruction != null) {
-                    System.out.println(failsafe + ": " + instruction.getMnemonic());
                     instruction.simulate(statement.getArguments(), pc);
                 } 
             } else {
                 isRunning.set(false);
             }
         }
+    }
+
+    /**
+     * parses the code when changes in code detected
+     * @param code code to parse
+     * @return boolean indicating if parsing was successful
+     */
+    public boolean parse(String code) {
+        if(isCodeChanged.get()) {
+            LegV8Parser parser = getParser(code);
+
+            // parse form start symbol 'main'
+            ParseTree antlrTree = parser.main();
+            
+            if(syntaxErrorListener.syntaxErrors.isEmpty()) {
+                // clear visitor/ program parser
+                programParser.clear();
+                this.program = programParser.visit(antlrTree);
+
+                if(programParser.semanticErrors.isEmpty()) {
+                    isCodeParsed.set(true);
+                    updateShownRegisters();
+                    reset();
+                } else {
+                    isCodeParsed.set(false);
+                }
+            } else {
+                isCodeParsed.set(false);
+            }
+        }
+        return isCodeParsed.get();
     }
 
     /*
@@ -289,5 +324,9 @@ public class Simulator {
 
     public SimpleBooleanProperty getIsRunning() {
         return this.isRunning;
+    }
+
+    public SimpleBooleanProperty getIsCodeChanged() {
+        return isCodeChanged;
     }
 }

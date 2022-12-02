@@ -6,6 +6,9 @@ import java.util.Locale;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
 
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -56,11 +59,22 @@ public class SimulatorController {
 
     Simulator simulator = SimulatorSingleton.getSimulator();
 
+    private SimpleBooleanProperty codeChanged = new SimpleBooleanProperty(true);
+
     @FXML
     public void initialize() {
+        simulator.getIsCodeChanged().bind(codeChanged);
         codeArea.prefHeightProperty().bind(codeScrollPane.heightProperty()); 
         codeArea.prefWidthProperty().bind(codeScrollPane.widthProperty().subtract(15)); // size of scrollbar
         codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
+        codeArea.textProperty().addListener(new ChangeListener<String>() {
+
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                codeChanged.set(true);
+            }
+            
+        });
 
         // prevent rightside to resize (change divider position) when maximazing
         SplitPane.setResizableWithParent(rightSideAnchorPane, false);
@@ -102,7 +116,7 @@ public class SimulatorController {
 
     @FXML
     private void stepForward() {
-        simulator.forwardStep(codeArea.getText());
+        setConsoleText(simulator.forwardStep(codeArea.getText()));
     }
 
     @FXML
