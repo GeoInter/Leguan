@@ -10,6 +10,7 @@ import org.fxmisc.richtext.CodeArea;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import thb.fbi.App;
 import thb.fbi.simulation.Simulator;
 import thb.fbi.simulation.SimulatorSingleton;
@@ -26,6 +27,7 @@ public class FileManager {
 
     public static void init(CodeArea codeArea) {
         fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+        fileChooser.getExtensionFilters().add(new ExtensionFilter("Text Files", "*.txt"));
         FileManager.codeArea = codeArea;
         FileManager.codeArea.textProperty().addListener(new ChangeListener<String>() {
 
