@@ -80,21 +80,23 @@ public class App extends Application {
      * Prompts dialog for saving file
      */
     public void confirmClosing(WindowEvent event) {
-        Alert alert = new Alert(AlertType.CONFIRMATION);
-        // TODO: detect actual unsaved changes
-        alert.setTitle("Current project is modified");
-        alert.setContentText("Save?");
-        ButtonType okButton = new ButtonType("Save", ButtonData.YES);
-        ButtonType noButton = new ButtonType("No", ButtonData.NO);
-        ButtonType cancelButton = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
-        alert.getButtonTypes().setAll(okButton, noButton, cancelButton);
-        alert.showAndWait().ifPresent(response -> {
-            if(response == okButton) {
-                FileManager.saveFile();
-            } else if(response == cancelButton) { 
-                // cancel closing
-                event.consume();
-            }
-        });
+        if(! FileManager.isSaved()) {
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+            // TODO: detect actual unsaved changes
+            alert.setTitle("Current project is modified");
+            alert.setContentText("Save?");
+            ButtonType okButton = new ButtonType("Save", ButtonData.YES);
+            ButtonType noButton = new ButtonType("No", ButtonData.NO);
+            ButtonType cancelButton = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
+            alert.getButtonTypes().setAll(okButton, noButton, cancelButton);
+            alert.showAndWait().ifPresent(response -> {
+                if(response == okButton) {
+                    FileManager.saveFile();
+                } else if(response == cancelButton) { 
+                    // cancel closing
+                    event.consume();
+                }
+            });
+        }
     }
 }

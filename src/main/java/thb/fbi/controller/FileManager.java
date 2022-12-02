@@ -7,6 +7,8 @@ import java.nio.file.Files;
 
 import org.fxmisc.richtext.CodeArea;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.stage.FileChooser;
 import thb.fbi.App;
 import thb.fbi.simulation.Simulator;
@@ -20,10 +22,19 @@ public class FileManager {
     private static FileChooser fileChooser = new FileChooser();
     private static Simulator simulator = SimulatorSingleton.getSimulator();
     private static CodeArea codeArea;
+    private static boolean isSaved = false;
 
     public static void init(CodeArea codeArea) {
         fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
         FileManager.codeArea = codeArea;
+        FileManager.codeArea.textProperty().addListener(new ChangeListener<String>() {
+
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                isSaved = false;
+            }
+            
+        });
     }
 
     public static void openFile() {
@@ -50,6 +61,7 @@ public class FileManager {
         File selectedFile = fileChooser.showSaveDialog(App.getStage());
         if(selectedFile != null) {
             saveTextToFile(selectedFile);
+            isSaved = true;
         }
     }
 
@@ -78,5 +90,9 @@ public class FileManager {
         } catch(IOException e) {
             
         }
+    }
+
+    public static boolean isSaved() {
+        return isSaved;
     }
 }
