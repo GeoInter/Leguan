@@ -4,8 +4,13 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import thb.fbi.controller.FileManager;
 import thb.fbi.simulation.SimulatorSingleton;
 import thb.fbi.utility.I18N;
@@ -45,6 +50,10 @@ public class App extends Application {
         App.stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/thb/fbi/images/icon.png")));
         App.stage.setTitle("Intrastellar - an LEGv8 Simulator");
         App.stage.setMaximized(true);
+        // following gets called when app is about to be closed 
+        App.stage.setOnCloseRequest(event -> {
+            confirmClosing(event);
+        });
         App.stage.show();
     }
 
@@ -65,7 +74,27 @@ public class App extends Application {
     public void stop() {
         SimulatorSingleton.getSimulator().reset();
         SimulatorSingleton.getSimulator().stopExecutor();
-        // TODO: open dialog for confirmation, before closing
-        FileManager.saveFile();
+    }
+
+    /**
+     * Prompts dialog for saving file
+     */
+    public void confirmClosing(WindowEvent event) {
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        // TODO: detect actual unsaved changes
+        alert.setTitle("Current project is modified");
+        alert.setContentText("Save?");
+        ButtonType okButton = new ButtonType("Save", ButtonData.YES);
+        ButtonType noButton = new ButtonType("No", ButtonData.NO);
+        ButtonType cancelButton = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
+        alert.getButtonTypes().setAll(okButton, noButton, cancelButton);
+        alert.showAndWait().ifPresent(response -> {
+            if(response == okButton) {
+                FileManager.saveFile();
+            } else if(response == cancelButton) { 
+                // cancel closing
+                event.consume();
+            }
+        });
     }
 }
