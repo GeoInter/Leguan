@@ -56,12 +56,7 @@ public class Simulator {
             registers[i] = new Register("R"+i, 0, i);
             registers[i].setNumberFormat(Base.DEC);
         }
-        pc.setValue(-1);
-        /* 
-        registers[0].setValue(12);
-        registers[1].setValue(-2);
-        registers[2].setValue(7);
-        */
+        pc.setValue(0);
         this.program = new ARMProgram();
         syntaxErrorListener = new SyntaxErrorListener();
         programParser = new ProgramParser();
@@ -77,54 +72,15 @@ public class Simulator {
             }
             
         });
-    }
 
-    /** 
-     * executes the program
-     */
-    public void simulate() {
-        this.program = new ARMProgram("Simple Test", "txt");
-        updateShownRegisters();
+        isCodeParsed.addListener(new ChangeListener<Boolean>() {
 
-        System.out.println("R0: " + registers[0].getValue());
-        System.out.println("R1: " + registers[1].getValue());
-        System.out.println("R2: " + registers[2].getValue());
-        System.out.println("R3: " + registers[3].getValue());
-        System.out.println("--------------");
-
-        // get first statement
-        ProgramStatement statement = program.getProgramStatement((int)pc.getValue() / 2);
-        while(statement != null) {
-            System.out.println("* pc: " + pc + " - line " + statement.getSourceLine());
-            Instruction instruction = statement.getInstruction();
-            instruction.simulate(statement.getArguments(), pc);
-
-            System.out.println("R0: " + registers[0].getValue());
-            System.out.println("R1: " + registers[1].getValue());
-            System.out.println("R2: " + registers[2].getValue());
-            System.out.println("R3: " + registers[3].getValue());
-            System.out.println("--------------");
-
-            pc.setValue(pc.getValue() + Instruction.INSTRUCTION_LENGTH);
-            // get next statement, pointed by pc 
-            statement = program.getProgramStatement((int)pc.getValue() / 2);
-        }
-    }
-
-    public void simulateStep() {
-        if(pc.getValue() <= 0) {
-             // for presentation purpose; needs to be moved later
-            this.program = new ARMProgram("Fibonacci-Test", "txt");
-            updateShownRegisters();
-        }
-        ProgramStatement statement = program.getProgramStatement((int)pc.getValue() / Instruction.INSTRUCTION_LENGTH);
-        if(statement != null) {
-            Instruction instruction = statement.getInstruction();
-            if(instruction != null) {
-                instruction.simulate(statement.getArguments(), pc);
-                pc.setValue(pc.getValue() + Instruction.INSTRUCTION_LENGTH);
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                isCodeChanged.set(false);
             }
-        }
+            
+        });
     }
 
     /**

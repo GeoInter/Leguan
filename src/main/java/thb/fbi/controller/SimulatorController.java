@@ -6,7 +6,6 @@ import java.util.Locale;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
 
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -59,11 +58,8 @@ public class SimulatorController {
 
     Simulator simulator = SimulatorSingleton.getSimulator();
 
-    private SimpleBooleanProperty codeChanged = new SimpleBooleanProperty(true);
-
     @FXML
     public void initialize() {
-        simulator.getIsCodeChanged().bind(codeChanged);
         codeArea.prefHeightProperty().bind(codeScrollPane.heightProperty()); 
         codeArea.prefWidthProperty().bind(codeScrollPane.widthProperty().subtract(15)); // size of scrollbar
         codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
@@ -71,7 +67,7 @@ public class SimulatorController {
 
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                codeChanged.set(true);
+                simulator.getIsCodeChanged().set(true);
             }
             
         });
