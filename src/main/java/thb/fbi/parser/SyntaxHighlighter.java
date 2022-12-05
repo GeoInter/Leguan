@@ -9,11 +9,16 @@ import org.fxmisc.richtext.model.StyleSpans;
 import org.fxmisc.richtext.model.StyleSpansBuilder;
 
 import thb.fbi.parser.antlr.LegV8BaseListener;
+import thb.fbi.parser.antlr.LegV8Parser.ArithmeticInstructionContext;
+import thb.fbi.parser.antlr.LegV8Parser.BranchInstructionContext;
+import thb.fbi.parser.antlr.LegV8Parser.CondBranchInstructionContext;
+import thb.fbi.parser.antlr.LegV8Parser.DatatransferInstructionContext;
 import thb.fbi.parser.antlr.LegV8Parser.DeclarationContext;
 import thb.fbi.parser.antlr.LegV8Parser.ImmediateInstructionContext;
 import thb.fbi.parser.antlr.LegV8Parser.InvocationContext;
 import thb.fbi.parser.antlr.LegV8Parser.MainContext;
 import thb.fbi.parser.antlr.LegV8Parser.RegisterContext;
+import thb.fbi.parser.antlr.LegV8Parser.ShiftInstructionContext;
 
 /**
  * Listener for walking through Syntax Tree and adding styles to each node
@@ -47,16 +52,12 @@ public class SyntaxHighlighter extends LegV8BaseListener {
             Token token = node.getSymbol();
             int spacing = token.getStartIndex() - lastEnd;
 
-
-    System.out.print("token != null     ");
-
-            if(spacing > 0) {
+            if(spacing >= 0) { // for detection of overlapping styles 
                 spansBuilder.add(Collections.emptyList(), spacing);
 
                 int gap = token.getText().length();
                 spansBuilder.add(Collections.singleton(style), gap);
                 lastEnd = token.getStopIndex() + 1;
-        System.out.print("spacing > 0     ");
             }
         }
     }
@@ -67,13 +68,33 @@ public class SyntaxHighlighter extends LegV8BaseListener {
     }
 
     @Override
-    public void enterImmediateInstruction(ImmediateInstructionContext ctx) {
-        addStyle(ctx.getToken(0, 0), "instruction");
+    public void enterArithmeticInstruction(ArithmeticInstructionContext ctx) {
+        addStyle(ctx.ArithmeticInstruction(), "instruction");
     }
 
     @Override
-    public void exitImmediateInstruction(ImmediateInstructionContext ctx) {
-        
+    public void enterBranchInstruction(BranchInstructionContext ctx) {
+        addStyle(ctx.BranchInstruction(), "instruction");
+    }
+
+    @Override
+    public void enterCondBranchInstruction(CondBranchInstructionContext ctx) {
+        addStyle(ctx.CondBranchInstruction(), "instruction");
+    }
+
+    @Override
+    public void enterDatatransferInstruction(DatatransferInstructionContext ctx) {
+        addStyle(ctx.DatatransferInstruction(), "instruction");
+    }
+
+    @Override
+    public void enterImmediateInstruction(ImmediateInstructionContext ctx) {
+        addStyle(ctx.ImmediateInstruction(), "instruction");
+    }
+
+    @Override
+    public void enterShiftInstruction(ShiftInstructionContext ctx) {
+        addStyle(ctx.ShiftInstruction(), "instruction");
     }
 
     @Override
@@ -90,5 +111,4 @@ public class SyntaxHighlighter extends LegV8BaseListener {
     public void enterInvocation(InvocationContext ctx) {
         addStyle(ctx.JumpInvocation(), "jump-mark");
     }
-
 }

@@ -168,37 +168,37 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
 
     @Override
     public Instruction visitArithmeticInstruction(ArithmeticInstructionContext ctx) {
-        String instructionName = ctx.getChild(0).getText();
+        String instructionName = ctx.ArithmeticInstruction().getText();
         return getInstructionByName(instructionName);
     }
 
     @Override
     public Instruction visitShiftInstruction(ShiftInstructionContext ctx) {
-        String instructionName = ctx.getChild(0).getText();
+        String instructionName = ctx.ShiftInstruction().getText();
         return getInstructionByName(instructionName);
     }
 
     @Override
     public Instruction visitImmediateInstruction(ImmediateInstructionContext ctx) {
-        String instructionName = ctx.getChild(0).getText();
+        String instructionName = ctx.ImmediateInstruction().getText();
         return getInstructionByName(instructionName);
     }
 
     @Override
     public Instruction visitDatatransferInstruction(DatatransferInstructionContext ctx) {
-        String instructionName = ctx.getChild(0).getText();
+        String instructionName = ctx.DatatransferInstruction().getText();
         return getInstructionByName(instructionName);
     }
 
     @Override
     public Instruction visitCondBranchInstruction(CondBranchInstructionContext ctx) {
-        String instructionName = ctx.getChild(0).getText();
+        String instructionName = ctx.CondBranchInstruction().getText();
         return getInstructionByName(instructionName);
     }
 
     @Override
     public Instruction visitBranchInstruction(BranchInstructionContext ctx) {
-        String instructionName = ctx.getChild(0).getText();
+        String instructionName = ctx.BranchInstruction().getText();
         return getInstructionByName(instructionName);
     }
 

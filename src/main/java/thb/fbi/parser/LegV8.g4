@@ -12,12 +12,12 @@ line : declaration? (arithmeticInstruction arithmeticParam | shiftInstruction sh
 declaration: JumpDeclaration ;
 invocation: JumpInvocation ;
 
-arithmeticInstruction : 'ADD' | 'ADDS' | 'AND' | 'ANDS' | 'EOR' | 'EORI' | 'ORR' | 'SUB' | 'SUBS';
-shiftInstruction: 'LSL' | 'LSR' ;
-immediateInstruction : 'ADDI' | 'ADDIS' | 'ANDI' | 'ANDIS' | 'ORRI' | 'SUBI' | 'SUBIS';
-datatransferInstruction : 'LDUR' | 'LDURB' | 'LDURH' | 'LDURSW' | 'STUR' | 'STURB' | 'STURH' | 'STURW';
-condBranchInstruction : 'CBNZ' ;
-branchInstruction : 'B';
+arithmeticInstruction : ArithmeticInstruction;
+shiftInstruction: ShiftInstruction;
+immediateInstruction : ImmediateInstruction;
+datatransferInstruction : DatatransferInstruction;
+condBranchInstruction : CondBranchInstruction;
+branchInstruction : BranchInstruction;
 
 arithmeticParam : register COMMA register COMMA register SEMI ;
 shiftParam : register COMMA register COMMA num SEMI ; // seperated from arithemtic
@@ -31,6 +31,13 @@ register : REGISTER ;
 
 
 // ** Tokens **
+ArithmeticInstruction: 'ADD' | 'ADDS' | 'AND' | 'ANDS' | 'EOR' | 'EORI' | 'ORR' | 'SUB' | 'SUBS';
+ShiftInstruction: 'LSL' | 'LSR' ;
+ImmediateInstruction : 'ADDI' | 'ADDIS' | 'ANDI' | 'ANDIS' | 'ORRI' | 'SUBI' | 'SUBIS';
+DatatransferInstruction : 'LDUR' | 'LDURB' | 'LDURH' | 'LDURSW' | 'STUR' | 'STURB' | 'STURH' | 'STURW';
+CondBranchInstruction : 'CBNZ' ;
+BranchInstruction : 'B';
+
 
 // skip
 WS : [ \t\r\n\f] -> skip;
