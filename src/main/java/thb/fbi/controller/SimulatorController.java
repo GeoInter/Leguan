@@ -1,13 +1,28 @@
 package thb.fbi.controller;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.Collection;
+import java.util.Collections;
 
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
+import org.fxmisc.richtext.model.PlainTextChange;
+import org.fxmisc.richtext.model.StyleSpans;
+import org.fxmisc.richtext.model.StyleSpansBuilder;
+import org.reactfx.EventStream;
+import org.reactfx.util.Try;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -21,6 +36,9 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import thb.fbi.parser.ParsingError;
+import thb.fbi.parser.SyntaxHighlighter;
+import thb.fbi.parser.antlr.LegV8Lexer;
+import thb.fbi.parser.antlr.LegV8Parser;
 import thb.fbi.simulation.FlagRegister;
 import thb.fbi.simulation.Memory;
 import thb.fbi.simulation.Simulator;
@@ -56,10 +74,12 @@ public class SimulatorController {
     @FXML Button runButton;
     @FXML Button stopButton;
 
-    Simulator simulator = SimulatorSingleton.getSimulator();
+    private Simulator simulator = SimulatorSingleton.getSimulator();
+    private ExecutorService executorService;
 
     @FXML
     public void initialize() {
+        executorService = Executors.newSingleThreadExecutor();
         codeArea.prefHeightProperty().bind(codeScrollPane.heightProperty()); 
         codeArea.prefWidthProperty().bind(codeScrollPane.widthProperty().subtract(15)); // size of scrollbar
         codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
@@ -71,6 +91,13 @@ public class SimulatorController {
             }
             
         });
+
+        EventStream<PlainTextChange> textChanges = codeArea.plainTextChanges();
+
+        textChanges.successionEnds(Duration.ofMillis(500))
+            .supplyTask(this::computeHighlightingAsync)
+            .awaitLatest(textChanges)
+            .subscribe(this::applyHighlighting);
 
         // prevent rightside to resize (change divider position) when maximazing
         SplitPane.setResizableWithParent(rightSideAnchorPane, false);
@@ -117,7 +144,8 @@ public class SimulatorController {
 
     @FXML
     private void stepBackward() {
-        System.out.println("step backward");
+        // System.out.println("step backward");
+        executorService.shutdown();
     }   
 
     @FXML
@@ -153,6 +181,51 @@ public class SimulatorController {
             }
             console.setText(errorMessage);
         }   
+    }
+
+    private Task<StyleSpans<Collection<String>>> computeHighlightingAsync(){
+        String code = codeArea.getText();
+
+        Task<StyleSpans<Collection<String>>> task = new Task<StyleSpans<Collection<String>>>() {
+            @Override
+            protected StyleSpans<Collection<String>> call() throws Exception {
+                return computeHighlighting(code);
+            }
+        };
+        executorService.execute(task);
+        return task;
+    }
+
+    private static StyleSpans<Collection<String>> computeHighlighting(String text){
+        if(text.length() > 0){
+            CharStream input = CharStreams.fromString(text);
+            LegV8Lexer lexer = new LegV8Lexer(input);
+            lexer.getErrorListeners().clear();
+            // parse
+            CommonTokenStream tokens = new CommonTokenStream(lexer);
+            LegV8Parser parser = new LegV8Parser(tokens);
+            parser.getErrorListeners().clear();
+            parser.setBuildParseTree(true);
+            LegV8Parser.MainContext mainContext = parser.main();
+
+            ParseTreeWalker walker = new ParseTreeWalker();
+            SyntaxHighlighter syntaxHighlighter = new SyntaxHighlighter(text.length());
+            walker.walk(syntaxHighlighter, mainContext);
+            return syntaxHighlighter.getStyles();
+        } 
+        else {
+            StyleSpansBuilder<Collection<String>> objectStyleSpansBuilder = new StyleSpansBuilder<>();
+            objectStyleSpansBuilder.add(Collections.emptyList(), 0);
+            return objectStyleSpansBuilder.create();
+        }
+    }
+
+    private void applyHighlighting(Try<StyleSpans<Collection<String>>> taskTry) {
+        StyleSpans<Collection<String>> highlighting = taskTry.get();
+                System.out.print(highlighting.getSpanCount() + " " + highlighting.toString() + "\n");
+        if(highlighting.getSpanCount() > 0) {
+            codeArea.setStyleSpans(0, highlighting);
+        }
     }
     
     /**

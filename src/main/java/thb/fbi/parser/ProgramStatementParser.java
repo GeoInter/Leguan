@@ -53,10 +53,18 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
         this.sourceLine = sourceLine;
     }
 
+    /**
+     * returns list of declared jump marks
+     * @return all jump marks
+     */
     public HashMap<String, Integer> getJumpMarks() {
         return jumpMarks;
     }
 
+    /**
+     * return list of unresolved jump marks (invocation came before declaration)
+     * @return all unresolved jump marks
+     */
     public HashMap<Integer, String> getUnresolvedMarks() {
         return unresolvedMarks;
     }

@@ -1,0 +1,16 @@
+.instruction {
+    -fx-fill: purple;
+    fill: purple;
+    -fx-font-weight: bold;
+    font-weight: bold;
+}
+
+.register {
+    -fx-fill: green;
+    fill: green;
+}
+
+.jump-mark {
+    -fx-fill: red;
+    fill: red;
+}

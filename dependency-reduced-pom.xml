@@ -95,7 +95,7 @@
       <plugin>
         <groupId>org.antlr</groupId>
         <artifactId>antlr4-maven-plugin</artifactId>
-        <version>4.11.1</version>
+        <version>${antlr.version}</version>
         <executions>
           <execution>
             <goals>
@@ -117,5 +117,6 @@
     <maven.compiler.source>11</maven.compiler.source>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <javafx.version>18</javafx.version>
+    <antlr.version>4.11.1</antlr.version>
   </properties>
 </project>

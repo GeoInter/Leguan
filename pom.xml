@@ -42,6 +42,11 @@
           <artifactId>antlr4-runtime</artifactId>
           <version>${antlr.version}</version>
       </dependency>
+      <dependency>
+        <groupId>org.reactfx</groupId>
+        <artifactId>reactfx</artifactId>
+        <version>2.0-M5</version>
+      </dependency>
     </dependencies>
     <build>
         <plugins>
