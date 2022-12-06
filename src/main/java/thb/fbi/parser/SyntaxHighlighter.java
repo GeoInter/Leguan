@@ -17,6 +17,7 @@ import thb.fbi.parser.antlr.LegV8Parser.DeclarationContext;
 import thb.fbi.parser.antlr.LegV8Parser.ImmediateInstructionContext;
 import thb.fbi.parser.antlr.LegV8Parser.InvocationContext;
 import thb.fbi.parser.antlr.LegV8Parser.MainContext;
+import thb.fbi.parser.antlr.LegV8Parser.NumContext;
 import thb.fbi.parser.antlr.LegV8Parser.RegisterContext;
 import thb.fbi.parser.antlr.LegV8Parser.ShiftInstructionContext;
 
@@ -99,7 +100,12 @@ public class SyntaxHighlighter extends LegV8BaseListener {
 
     @Override
     public void enterRegister(RegisterContext ctx) {
-        addStyle(ctx.REGISTER(), "instruction");
+        addStyle(ctx.REGISTER(), "register");
+    }
+
+    @Override
+    public void enterNum(NumContext ctx) {
+        addStyle(ctx.NUMBER(), "number");
     }
 
     @Override

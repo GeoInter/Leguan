@@ -41,8 +41,8 @@ BranchInstruction : 'B';
 
 // skip
 WS : [ \t\r\n\f] -> skip;
-COMMENT: '/*' .*? '*/' -> skip ; // non-greedy wildcart (ends with trailing */)
-LINE_COMMENT: '//' ~[\r\n]* -> skip ; // matches everything except tab and newline
+COMMENT: '/*' .*? '*/' -> skip; // non-greedy wildcart (ends with trailing */)
+LINE_COMMENT: '//' ~[\r\n]* -> skip; // matches everything except tab and newline
 
 // syntax relared
 COMMA : ',' ;

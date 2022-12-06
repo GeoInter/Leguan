@@ -6,11 +6,16 @@
 }
 
 .register {
-    -fx-fill: green;
-    fill: green;
+    -fx-fill: blue;
+    fill: blue;
 }
 
 .jump-mark {
     -fx-fill: red;
     fill: red;
+}
+
+.number {
+    -fx-fill: orange;
+    fill: orange;
 }
