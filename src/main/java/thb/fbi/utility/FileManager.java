@@ -1,4 +1,4 @@
-package thb.fbi.controller;
+package thb.fbi.utility;
 
 import java.io.File;
 import java.io.IOException;

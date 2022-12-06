@@ -11,9 +11,9 @@ import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import thb.fbi.controller.FileManager;
 import thb.fbi.simulation.SimulatorSingleton;
 import thb.fbi.utility.ExecutorServiceProvider;
+import thb.fbi.utility.FileManager;
 import thb.fbi.utility.I18N;
 
 import java.io.IOException;
