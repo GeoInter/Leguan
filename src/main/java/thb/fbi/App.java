@@ -45,9 +45,8 @@ public class App extends Application {
 
         scene = new Scene(root);
         scene.getStylesheets().add(this.getClass().getResource("/thb/fbi/css/base.css").toExternalForm());
+        scene.getStylesheets().add(this.getClass().getResource("/thb/fbi/css/syntax-highlighting.css").toExternalForm());
         scene.getStylesheets().add(this.getClass().getResource("/thb/fbi/css/dark.css").toExternalForm());
-
-        scene.getStylesheets().add(this.getClass().getResource("/thb/fbi/css/syntax-light.css").toExternalForm());
 
         App.stage.setScene(scene);
         App.stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/thb/fbi/images/icon.png")));

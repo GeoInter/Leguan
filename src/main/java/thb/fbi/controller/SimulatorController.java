@@ -242,7 +242,7 @@ public class SimulatorController {
      */
     public void switchStylesheets(String css) {
         Scene scene = registerPane.getScene();
-        scene.getStylesheets().remove(1); // remove except for base
+        scene.getStylesheets().remove(2); // remove except for base and syntax (later removes styling until textchange registered)
         scene.getStylesheets().add(this.getClass().getResource("/thb/fbi/css/" + css).toExternalForm());
     }
 }
