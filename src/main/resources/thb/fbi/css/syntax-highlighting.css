@@ -19,3 +19,10 @@
     -fx-fill: orange;
     fill: orange;
 }
+
+.error {
+    -rtfx-underline-color: red;
+    -rtfx-underline-dash-array: 2 2;
+    -rtfx-underline-width: 1;
+    -rtfx-underline-cap: butt;
+}

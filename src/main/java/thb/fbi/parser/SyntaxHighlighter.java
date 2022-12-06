@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 import org.antlr.v4.runtime.Token;
+import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import org.fxmisc.richtext.model.StyleSpans;
 import org.fxmisc.richtext.model.StyleSpansBuilder;
@@ -116,5 +117,10 @@ public class SyntaxHighlighter extends LegV8BaseListener {
     @Override
     public void enterInvocation(InvocationContext ctx) {
         addStyle(ctx.JumpInvocation(), "jump-mark");
+    }
+
+    @Override
+    public void visitErrorNode(ErrorNode node) {
+        addStyle(node, "error");
     }
 }
