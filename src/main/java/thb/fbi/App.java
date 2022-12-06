@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import thb.fbi.controller.FileManager;
 import thb.fbi.simulation.SimulatorSingleton;
+import thb.fbi.utility.ExecutorServiceProvider;
 import thb.fbi.utility.I18N;
 
 import java.io.IOException;
@@ -75,7 +76,7 @@ public class App extends Application {
     @Override
     public void stop() {
         SimulatorSingleton.getSimulator().reset();
-        SimulatorSingleton.getSimulator().stopExecutor();
+        ExecutorServiceProvider.shutdownAllExecutorServices();
     }
 
     /**

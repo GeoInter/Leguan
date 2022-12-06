@@ -2,7 +2,6 @@ package thb.fbi.simulation;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -18,6 +17,7 @@ import thb.fbi.parser.ProgramParser;
 import thb.fbi.parser.SyntaxErrorListener;
 import thb.fbi.parser.antlr.LegV8Lexer;
 import thb.fbi.parser.antlr.LegV8Parser;
+import thb.fbi.utility.ExecutorServiceProvider;
 
 /** 
  * class for simulating a processor and instruction execution
@@ -60,7 +60,7 @@ public class Simulator {
         this.program = new ARMProgram();
         syntaxErrorListener = new SyntaxErrorListener();
         programParser = new ProgramParser();
-        executor = Executors.newSingleThreadExecutor();
+        executor = ExecutorServiceProvider.getExecutorService();
 
         isCodeChanged.addListener(new ChangeListener<Boolean>() {
 
@@ -240,14 +240,6 @@ public class Simulator {
      */
     public void stopThread() {
         isRunning.set(false);
-    }
-
-    /**
-     * attempts to stop all threads (and ExecutorService) 
-     * when running can be called only once 
-     */
-    public void stopExecutor() {
-        executor.shutdownNow();
     }
 
     /**

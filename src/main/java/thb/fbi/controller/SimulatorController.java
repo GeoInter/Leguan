@@ -4,7 +4,6 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -43,6 +42,7 @@ import thb.fbi.simulation.FlagRegister;
 import thb.fbi.simulation.Memory;
 import thb.fbi.simulation.Simulator;
 import thb.fbi.simulation.SimulatorSingleton;
+import thb.fbi.utility.ExecutorServiceProvider;
 import thb.fbi.utility.I18N;
 
 /**
@@ -79,7 +79,7 @@ public class SimulatorController {
 
     @FXML
     public void initialize() {
-        executorService = Executors.newSingleThreadExecutor();
+        executorService = ExecutorServiceProvider.getExecutorService();
         codeArea.prefHeightProperty().bind(codeScrollPane.heightProperty()); 
         codeArea.prefWidthProperty().bind(codeScrollPane.widthProperty().subtract(15)); // size of scrollbar
         codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
@@ -144,8 +144,7 @@ public class SimulatorController {
 
     @FXML
     private void stepBackward() {
-        // System.out.println("step backward");
-        executorService.shutdown();
+        System.out.println("step backward");
     }   
 
     @FXML
@@ -222,7 +221,6 @@ public class SimulatorController {
 
     private void applyHighlighting(Try<StyleSpans<Collection<String>>> taskTry) {
         StyleSpans<Collection<String>> highlighting = taskTry.get();
-                System.out.print(highlighting.getSpanCount() + " " + highlighting.toString() + "\n");
         if(highlighting.getSpanCount() > 0) {
             codeArea.setStyleSpans(0, highlighting);
         }
