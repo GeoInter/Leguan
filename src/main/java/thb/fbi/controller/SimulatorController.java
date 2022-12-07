@@ -81,6 +81,7 @@ public class SimulatorController {
     @FXML
     public void initialize() {
         executorService = ExecutorServiceProvider.getExecutorService();
+        codeArea.setStyle("-fx-font.size: 14pt");
         codeArea.prefHeightProperty().bind(codeScrollPane.heightProperty()); 
         codeArea.prefWidthProperty().bind(codeScrollPane.widthProperty().subtract(15)); // size of scrollbar
         codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));

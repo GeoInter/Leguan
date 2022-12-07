@@ -7,7 +7,12 @@ main : program EOF;
 
 program : line+ ;
 
-line : declaration? (arithmeticInstruction arithmeticParam | shiftInstruction shiftParam | immediateInstruction immediateParam | datatransferInstruction datatransferParam | condBranchInstruction condBranchParam | branchInstruction branchParam);
+line : declaration? (arithmeticInstruction arithmeticParam | 
+                    shiftInstruction shiftParam | 
+                    immediateInstruction immediateParam | 
+                    datatransferInstruction datatransferParam | 
+                    condBranchInstruction condBranchParam | 
+                    branchInstruction branchParam);
 
 declaration: JumpDeclaration ;
 invocation: JumpInvocation ;
