@@ -7,7 +7,6 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
@@ -17,7 +16,6 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import org.fxmisc.richtext.CodeArea?>
 
 <VBox maxHeight="1.7976931348623157E308" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="thb.fbi.controller.SimulatorController">
    <children>
@@ -126,20 +124,9 @@
                <children>
                   <SplitPane fx:id="textSplitpane" dividerPositions="0.9" orientation="VERTICAL" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <items>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                      <AnchorPane fx:id="codeAreaAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                            <children>
-                              <StackPane id="editor-stackpane" fx:id="codeStackPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <children>
-                                    <ScrollPane id="editor-scrollpane" fx:id="codeScrollPane" prefHeight="400.0" prefWidth="618.0" vbarPolicy="ALWAYS" StackPane.alignment="CENTER">
-                                       <content>
-                                          <CodeArea id="code-area" fx:id="codeArea" lineHighlighterOn="true" wrapText="true" />
-                                       </content>
-                                       <StackPane.margin>
-                                          <Insets />
-                                       </StackPane.margin>
-                                    </ScrollPane>
-                                 </children>
-                              </StackPane>
+                              <StackPane id="editor-stackpane" fx:id="codeStackPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                            </children>
                         </AnchorPane>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">

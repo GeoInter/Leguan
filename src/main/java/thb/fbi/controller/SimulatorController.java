@@ -11,6 +11,7 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
+import org.fxmisc.flowless.VirtualizedScrollPane;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
 import org.fxmisc.richtext.model.PlainTextChange;
@@ -28,7 +29,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
@@ -60,9 +60,8 @@ public class SimulatorController {
     @FXML SplitPane splitPane;
     @FXML SplitPane textSplitpane;
     @FXML AnchorPane rightSideAnchorPane;
+    @FXML AnchorPane codeAreaAnchorPane;
     @FXML TabPane tabPane;
-    @FXML ScrollPane codeScrollPane;
-    @FXML CodeArea codeArea;
     @FXML TextArea console;
 
     @FXML Menu file_Menu;
@@ -75,15 +74,22 @@ public class SimulatorController {
     @FXML Button runButton;
     @FXML Button stopButton;
 
+    private CodeArea codeArea;
+    private VirtualizedScrollPane<CodeArea> virtualizedScrollPane;
+
     private Simulator simulator = SimulatorSingleton.getSimulator();
     private ExecutorService executorService;
 
     @FXML
     public void initialize() {
         executorService = ExecutorServiceProvider.getExecutorService();
-        codeArea.prefHeightProperty().bind(codeScrollPane.heightProperty()); 
-        codeArea.prefWidthProperty().bind(codeScrollPane.widthProperty().subtract(15)); // size of scrollbar
+        codeArea = new CodeArea();
+        virtualizedScrollPane = new VirtualizedScrollPane<>(codeArea);
+        codeStackPane.getChildren().add(new VirtualizedScrollPane<>(codeArea));
+        codeArea.prefHeightProperty().bind(virtualizedScrollPane.heightProperty()); 
+        codeArea.prefWidthProperty().bind(virtualizedScrollPane.widthProperty().subtract(15)); // size of scrollbar
         codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
+        codeArea.setLineHighlighterOn(true);
         codeArea.textProperty().addListener(new ChangeListener<String>() {
 
             @Override
