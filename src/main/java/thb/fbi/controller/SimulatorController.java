@@ -75,7 +75,6 @@ public class SimulatorController {
     @FXML Button stopButton;
 
     private CodeArea codeArea;
-    private VirtualizedScrollPane<CodeArea> virtualizedScrollPane;
 
     private Simulator simulator = SimulatorSingleton.getSimulator();
     private ExecutorService executorService;
@@ -84,10 +83,7 @@ public class SimulatorController {
     public void initialize() {
         executorService = ExecutorServiceProvider.getExecutorService();
         codeArea = new CodeArea();
-        virtualizedScrollPane = new VirtualizedScrollPane<>(codeArea);
-        codeStackPane.getChildren().add(new VirtualizedScrollPane<>(codeArea));
-        codeArea.prefHeightProperty().bind(virtualizedScrollPane.heightProperty()); 
-        codeArea.prefWidthProperty().bind(virtualizedScrollPane.widthProperty().subtract(15)); // size of scrollbar
+        codeStackPane.getChildren().add(new VirtualizedScrollPane<CodeArea>(codeArea));
         codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
         codeArea.setLineHighlighterOn(true);
         codeArea.textProperty().addListener(new ChangeListener<String>() {
