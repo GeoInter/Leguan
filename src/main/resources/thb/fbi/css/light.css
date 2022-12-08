@@ -82,12 +82,16 @@
 /* aka cursor */
 .caret {
     -fx-stroke: black;
+    stroke: black;
 }
 
 .line-highlighter {
-    -fx-fill: transparent;
+    -fx-fill: none;
+    fill: none;
     -fx-stroke: lightgrey;
+    stroke: lightgrey;
     -fx-stroke-width: 1;
+    stroke-width: 1;
     -fx-stroke-line-cap: square;
 }
 
