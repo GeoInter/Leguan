@@ -72,6 +72,25 @@
     background-color: -fx-main-color;
 }
 
+.styled-text-area .paragraph-text .text {
+    -fx-font-size: 14px;
+    font-size: 14px;
+    -fx-fill: -fx-textcolor;
+    fill: -fx-textcolor;
+}
+
+/* aka cursor */
+.caret {
+    -fx-stroke: white;
+}
+
+.line-highlighter {
+    -fx-fill: transparent;
+    -fx-stroke: grey;
+    -fx-stroke-width: 1;
+    -fx-stroke-line-cap: square;
+}
+
 /* Linenumber Factory */
 .lineno {
     -fx-background-color: -fx-main-color;
@@ -298,4 +317,34 @@
 #filter-button {
     -fx-background-color: -fx-element-color;
     background-color: -fx-element-color;
+}
+
+/* Syntax Highlighting */
+.instruction {
+    -fx-fill: #dccd79 !important;
+    fill: #dccd79;
+    -fx-font-weight: bold;
+    font-weight: bold;
+}
+
+.register {
+    -fx-fill: #4ec9b0 !important;
+    fill: #4ec9b0;
+}
+
+.jump-mark {
+    -fx-fill: #c586c0ed !important;
+    fill: #c586c0;
+}
+
+.number {
+    -fx-fill: #1b8fff !important;
+    fill: #1b8fff;
+}
+
+.error {
+    -rtfx-underline-color: red;
+    -rtfx-underline-dash-array: 2 2;
+    -rtfx-underline-width: 1;
+    -rtfx-underline-cap: butt;
 }
