@@ -84,7 +84,6 @@ public class App extends Application {
     public void confirmClosing(WindowEvent event) {
         if(! FileManager.isSaved()) {
             Alert alert = new Alert(AlertType.CONFIRMATION);
-            // TODO: detect actual unsaved changes
             alert.setTitle("Current project is modified");
             alert.setContentText("Save?");
             ButtonType okButton = new ButtonType("Save", ButtonData.YES);

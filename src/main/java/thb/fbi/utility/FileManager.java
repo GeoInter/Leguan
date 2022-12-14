@@ -10,7 +10,9 @@ import org.fxmisc.richtext.CodeArea;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import thb.fbi.App;
@@ -25,7 +27,7 @@ public class FileManager {
     private static FileChooser fileChooser = new FileChooser();
     private static Simulator simulator = SimulatorSingleton.getSimulator();
     private static CodeArea codeArea;
-    private static boolean isSaved = false;
+    private static boolean isSaved = true;
 
     public static void init(CodeArea codeArea) {
         fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
@@ -42,6 +44,19 @@ public class FileManager {
     }
 
     public static void openFile() {
+        if(! isSaved) {
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("Current project is modified");
+            alert.setContentText("Current file has unsaved changes. Want to save current file before opening another file?");
+            ButtonType okButton = new ButtonType("YES", ButtonData.YES);
+            ButtonType noButton = new ButtonType("No", ButtonData.NO);
+            alert.getButtonTypes().setAll(okButton, noButton);
+            alert.showAndWait().ifPresent(response -> {
+                if(response == okButton) {
+                    FileManager.saveFile();
+                }
+            });
+        }
         File selectedFile = fileChooser.showOpenDialog(App.getStage());
         if(selectedFile != null) {
             getTextFromFile(selectedFile);
