@@ -39,7 +39,7 @@ public class App extends Application {
     public void start(Stage stage) throws IOException { 
         App.stage = stage;
         Locale locale = I18N.getDefaultLocale();
-        ResourceBundle bundle = ResourceBundle.getBundle("/thb/fbi/languages/language", locale);
+        ResourceBundle bundle = ResourceBundle.getBundle("thb/fbi/languages/language", locale);
         
         URL fxmlLocation = getClass().getResource("simulator.fxml");
         Parent root = FXMLLoader.load(fxmlLocation, bundle);
