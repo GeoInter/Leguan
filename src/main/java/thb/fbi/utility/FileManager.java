@@ -9,6 +9,8 @@ import org.fxmisc.richtext.CodeArea;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import thb.fbi.App;
@@ -41,7 +43,9 @@ public class FileManager {
 
     public static void openFile() {
         File selectedFile = fileChooser.showOpenDialog(App.getStage());
-        getTextFromFile(selectedFile);
+        if(selectedFile != null) {
+            getTextFromFile(selectedFile);
+        }
     }
 
     public static void saveFile() {
@@ -77,7 +81,9 @@ public class FileManager {
             writer.println(codeArea.textProperty().getValue());
             writer.close();
         } catch (IOException e) {
-            System.err.println("Error trying to save file");
+            showErrorAlert("Error read/ writing file", "File could not be read/ saved to. Abort save.");
+        } catch(SecurityException s) {
+            showErrorAlert("File writing access denied", "Writing access of file denied. Abort save.");
         }
     }
 
@@ -89,9 +95,26 @@ public class FileManager {
         try {
             String content = Files.readString(file.toPath());
             codeArea.replaceText(content);
+            isSaved = true;
         } catch(IOException e) {
-            
+            showErrorAlert("Could not read file", "File could not be read. Abort loading.");
+        } catch(OutOfMemoryError m) {
+            showErrorAlert("Invalid file size", "File too large to handle. Abort loading.");
+        } catch(SecurityException s) {
+            showErrorAlert("Cannot access file", "File cannot be accessed. Abort loading.");
         }
+    }
+
+    /**
+     * shows an error alert for exceptions occuring while handling files
+     * @param header header/ title text of alert
+     * @param text main text/ message of alert
+     */
+    private static void showErrorAlert(String header, String text) {
+        Alert errorAlert = new Alert(AlertType.ERROR);
+        errorAlert.setHeaderText(header);
+        errorAlert.setContentText(text);
+        errorAlert.showAndWait();
     }
 
     public static boolean isSaved() {
