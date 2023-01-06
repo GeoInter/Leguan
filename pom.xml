@@ -2,7 +2,7 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>thb.fbi</groupId>
-    <artifactId>Intrastellar</artifactId>
+    <artifactId>Leguan</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
@@ -74,7 +74,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <!--<mainClass>thb.fbi.App</mainClass> -->
-                            <mainClass>thb.fbi/thb.fbi.Launcher</mainClass>
+                            <mainClass>thb.fbi.leguan/thb.fbi.leguan.Launcher</mainClass>
                         </configuration>
                     </execution>
                 </executions>
@@ -93,7 +93,7 @@
                       <transformers>
                         <transformer
                           implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                          <mainClass>thb.fbi.Launcher</mainClass>
+                          <mainClass>thb.fbi.leguan.Launcher</mainClass>
                         </transformer>
                       </transformers>
                     </configuration>
@@ -119,7 +119,7 @@
                       <!--<manifest>${project.basedir}/src/main/resources/${project.artifactId}.manifest</manifest>-->
                       <classPath>
                         <!-- The main class to invoke on executing the .exe -->
-                        <mainClass>thb.fbi.Launcher</mainClass>
+                        <mainClass>thb.fbi.leguan.Launcher</mainClass>
               
                       </classPath>
                       <jre>
@@ -166,8 +166,8 @@
               <artifactId>antlr4-maven-plugin</artifactId>
               <version>${antlr.version}</version>
               <configuration>
-                <sourceDirectory>src/main/java/thb/fbi/parser</sourceDirectory>
-                <outputDirectory>src/main/java/thb/fbi/parser/antlr</outputDirectory>
+                <sourceDirectory>src/main/java/thb/fbi/leguan/parser</sourceDirectory>
+                <outputDirectory>src/main/java/thb/fbi/leguan/parser/antlr</outputDirectory>
                 <visitor>true</visitor>
               </configuration>
               <executions>

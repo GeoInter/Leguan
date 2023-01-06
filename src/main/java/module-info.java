@@ -1,4 +1,4 @@
-module thb.fbi {
+module thb.fbi.leguan {
     requires javafx.controls;
     requires javafx.fxml;
     requires transitive javafx.graphics;
@@ -7,6 +7,6 @@ module thb.fbi {
     requires org.fxmisc.flowless;
     requires reactfx;
 
-    opens thb.fbi.controller to javafx.fxml;
-    exports thb.fbi;
+    opens thb.fbi.leguan.controller to javafx.fxml;
+    exports thb.fbi.leguan;
 }

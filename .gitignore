@@ -12,3 +12,6 @@ workspace.code-workspace
 
 # ignore local .antlr package (duplicate since pom.xml defines an antlr package already
 /src/main/java/thb/fbi/parser/.antlr 
+
+# intellij
+/.idea
