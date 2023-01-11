@@ -34,6 +34,8 @@ public class InstructionSet {
                 })
         );
 
+        //// Core Instruction Set ////
+
         instructionSet.add(
             new ArithmeticInstruction("ADD",
                 "Adds value of Registers Rm and Rn and puts result in Rd without flags",
@@ -170,7 +172,145 @@ public class InstructionSet {
                 })
         );
 
-        /////////// B.cond Branch Instruction
+        instructionSet.add(
+            new BranchInstruction("B.EQ",
+                "Branch Signed Equals",
+                new IBranchCode() {
+                    @Override
+                    public void simulate(int br_address, PCRegister pc) {
+                        // test Z == 1
+                        if(FlagRegister.getZFlag()) {
+                            pc.setValue(br_address);
+                        }
+                    }
+                })
+        );
+
+        instructionSet.add(
+            new BranchInstruction("B.NE",
+                "Branch Signed Not Equals",
+                new IBranchCode() {
+                    @Override
+                    public void simulate(int br_address, PCRegister pc) {
+                        // test Z == 0
+                        if(! FlagRegister.getZFlag()) {
+                            pc.setValue(br_address);
+                        }
+                    }
+                })
+        );
+
+        instructionSet.add(
+            new BranchInstruction("B.LT",
+                "Branch Signed Less Than",
+                new IBranchCode() {
+                    @Override
+                    public void simulate(int br_address, PCRegister pc) {
+                        // test N != V
+                        if(FlagRegister.getNFlag() != FlagRegister.getVFlag()) {
+                            pc.setValue(br_address);
+                        }
+                    }
+                })
+        );
+
+        instructionSet.add(
+            new BranchInstruction("B.LE",
+                "Branch Signed Less Equals",
+                new IBranchCode() {
+                    @Override
+                    public void simulate(int br_address, PCRegister pc) {
+                        // test ! (Z == 0 && N == V)
+                        if(! (!FlagRegister.getZFlag() && FlagRegister.getNFlag() == FlagRegister.getVFlag())) {
+                            pc.setValue(br_address);
+                        }
+                    }
+                })
+        );
+
+        instructionSet.add(
+            new BranchInstruction("B.GT",
+                "Branch Signed Greater Than",
+                new IBranchCode() {
+                    @Override
+                    public void simulate(int br_address, PCRegister pc) {
+                        // test (Z == 0 && N == V)
+                        if(!FlagRegister.getZFlag() && FlagRegister.getNFlag() == FlagRegister.getVFlag()) {
+                            pc.setValue(br_address);
+                        }
+                    }
+                })
+        );
+
+        instructionSet.add(
+            new BranchInstruction("B.GE",
+                "Branch Signed Greater Equals",
+                new IBranchCode() {
+                    @Override
+                    public void simulate(int br_address, PCRegister pc) {
+                        // test N == V
+                        if(FlagRegister.getNFlag() == FlagRegister.getVFlag()) {
+                            pc.setValue(br_address);
+                        }
+                    }
+                })
+        );
+
+        instructionSet.add(
+            new BranchInstruction("B.MI",
+                "Branch on Minus",
+                new IBranchCode() {
+                    @Override
+                    public void simulate(int br_address, PCRegister pc) {
+                        // test N == 1
+                        if(FlagRegister.getNFlag()) {
+                            pc.setValue(br_address);
+                        }
+                    }
+                })
+        );
+
+        instructionSet.add(
+            new BranchInstruction("B.PL",
+                "Branch on Plus",
+                new IBranchCode() {
+                    @Override
+                    public void simulate(int br_address, PCRegister pc) {
+                        // test N == 0
+                        if(! FlagRegister.getNFlag()) {
+                            pc.setValue(br_address);
+                        }
+                    }
+                })
+        );
+
+        instructionSet.add(
+            new BranchInstruction("B.VS",
+                "Branch on Overflow set",
+                new IBranchCode() {
+                    @Override
+                    public void simulate(int br_address, PCRegister pc) {
+                        // test V == 1
+                        if(FlagRegister.getVFlag()) {
+                            pc.setValue(br_address);
+                        }
+                    }
+                })
+        );
+
+        instructionSet.add(
+            new BranchInstruction("B.VC",
+                "Branch on Overflow clear",
+                new IBranchCode() {
+                    @Override
+                    public void simulate(int br_address, PCRegister pc) {
+                        // test V == 0
+                        if(! FlagRegister.getVFlag()) {
+                            pc.setValue(br_address);
+                        }
+                    }
+                })
+        );
 
         /////////// BL Branch Instruction
 
@@ -458,6 +598,8 @@ public class InstructionSet {
                     }
                 })
         );
+
+        //// Arithemetic Core Instruction Set ////
     }
 
     public Instruction findInstructionByMnemonic (String mnemonic) {
