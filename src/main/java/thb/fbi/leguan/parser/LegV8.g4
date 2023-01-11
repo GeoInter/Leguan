@@ -1,6 +1,6 @@
 grammar LegV8;
 
-@header{package thb.fbi.parser.antlr;}
+@header{package thb.fbi.leguan.parser.antlr;}
 
 // ** Rules ** 
 main : program EOF;
@@ -40,8 +40,8 @@ ArithmeticInstruction: 'ADD' | 'ADDS' | 'AND' | 'ANDS' | 'EOR' | 'EORI' | 'ORR' 
 ShiftInstruction: 'LSL' | 'LSR' ;
 ImmediateInstruction : 'ADDI' | 'ADDIS' | 'ANDI' | 'ANDIS' | 'ORRI' | 'SUBI' | 'SUBIS';
 DatatransferInstruction : 'LDUR' | 'LDURB' | 'LDURH' | 'LDURSW' | 'STUR' | 'STURB' | 'STURH' | 'STURW';
-CondBranchInstruction : 'CBNZ' ;
-BranchInstruction : 'B';
+CondBranchInstruction : 'CBNZ' | 'CBZ' ;
+BranchInstruction : 'B' ;
 
 
 // skip

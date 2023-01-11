@@ -13,7 +13,6 @@ REGISTER=12
 NUMBER=13
 JumpDeclaration=14
 JumpInvocation=15
-'CBNZ'=5
 'B'=6
 ','=10
 ';'=11

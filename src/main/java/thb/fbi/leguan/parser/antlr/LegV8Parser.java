@@ -40,8 +40,7 @@ public class LegV8Parser extends Parser {
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, null, null, null, null, "'CBNZ'", "'B'", null, null, null, "','", 
-			"';'"
+			null, null, null, null, null, null, "'B'", null, null, null, "','", "';'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
