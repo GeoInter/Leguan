@@ -20,7 +20,7 @@ public class LegV8Parser extends Parser {
 		ArithmeticInstruction=1, ShiftInstruction=2, ImmediateInstruction=3, DatatransferInstruction=4, 
 		CondBranchInstruction=5, BranchInstruction=6, WS=7, COMMENT=8, LINE_COMMENT=9, 
 		COMMA=10, SEMI=11, SQUARE_BRACKET_LEFT=12, SQUARE_BRACKET_RIGHT=13, REGISTER=14, 
-		NUMBER=15, JumpDeclaration=16, JumpInvocation=17;
+		NUMBER=15, SP=16, FP=17, LR=18, XZR=19, JumpDeclaration=20, JumpInvocation=21;
 	public static final int
 		RULE_main = 0, RULE_program = 1, RULE_line = 2, RULE_declaration = 3, 
 		RULE_invocation = 4, RULE_arithmeticInstruction = 5, RULE_shiftInstruction = 6, 
@@ -42,7 +42,7 @@ public class LegV8Parser extends Parser {
 	private static String[] makeLiteralNames() {
 		return new String[] {
 			null, null, null, null, null, null, null, null, null, null, "','", "';'", 
-			"'['", "']'"
+			"'['", "']'", null, null, "'SP'", "'FP'", "'LR'", "'XZR'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
@@ -51,7 +51,8 @@ public class LegV8Parser extends Parser {
 			null, "ArithmeticInstruction", "ShiftInstruction", "ImmediateInstruction", 
 			"DatatransferInstruction", "CondBranchInstruction", "BranchInstruction", 
 			"WS", "COMMENT", "LINE_COMMENT", "COMMA", "SEMI", "SQUARE_BRACKET_LEFT", 
-			"SQUARE_BRACKET_RIGHT", "REGISTER", "NUMBER", "JumpDeclaration", "JumpInvocation"
+			"SQUARE_BRACKET_RIGHT", "REGISTER", "NUMBER", "SP", "FP", "LR", "XZR", 
+			"JumpDeclaration", "JumpInvocation"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -200,7 +201,7 @@ public class LegV8Parser extends Parser {
 				setState(44); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( ((_la) & ~0x3f) == 0 && ((1L << _la) & 65662L) != 0 );
+			} while ( ((_la) & ~0x3f) == 0 && ((1L << _la) & 1048702L) != 0 );
 			}
 		}
 		catch (RecognitionException re) {
@@ -1160,7 +1161,7 @@ public class LegV8Parser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\u0004\u0001\u0011\u0080\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001"+
+		"\u0004\u0001\u0015\u0080\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001"+
 		"\u0002\u0002\u0007\u0002\u0002\u0003\u0007\u0003\u0002\u0004\u0007\u0004"+
 		"\u0002\u0005\u0007\u0005\u0002\u0006\u0007\u0006\u0002\u0007\u0007\u0007"+
 		"\u0002\b\u0007\b\u0002\t\u0007\t\u0002\n\u0007\n\u0002\u000b\u0007\u000b"+
@@ -1203,8 +1204,8 @@ public class LegV8Parser extends Parser {
 		"\u0010\u0000BD\u0001\u0000\u0000\u0000C1\u0001\u0000\u0000\u0000C4\u0001"+
 		"\u0000\u0000\u0000C7\u0001\u0000\u0000\u0000C:\u0001\u0000\u0000\u0000"+
 		"C=\u0001\u0000\u0000\u0000C@\u0001\u0000\u0000\u0000D\u0005\u0001\u0000"+
-		"\u0000\u0000EF\u0005\u0010\u0000\u0000F\u0007\u0001\u0000\u0000\u0000"+
-		"GH\u0005\u0011\u0000\u0000H\t\u0001\u0000\u0000\u0000IJ\u0005\u0001\u0000"+
+		"\u0000\u0000EF\u0005\u0014\u0000\u0000F\u0007\u0001\u0000\u0000\u0000"+
+		"GH\u0005\u0015\u0000\u0000H\t\u0001\u0000\u0000\u0000IJ\u0005\u0001\u0000"+
 		"\u0000J\u000b\u0001\u0000\u0000\u0000KL\u0005\u0002\u0000\u0000L\r\u0001"+
 		"\u0000\u0000\u0000MN\u0005\u0003\u0000\u0000N\u000f\u0001\u0000\u0000"+
 		"\u0000OP\u0005\u0004\u0000\u0000P\u0011\u0001\u0000\u0000\u0000QR\u0005"+

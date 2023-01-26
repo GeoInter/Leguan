@@ -56,8 +56,13 @@ SQUARE_BRACKET_LEFT : '[';
 SQUARE_BRACKET_RIGHT: ']';
 
 // Token for regsiter and number parameter
-REGISTER : 'X0' | 'X'[1-9][0-9]* ; // manual check required for range
+REGISTER : SP | FP | LR | XZR | 'X0' | 'X'[1-9][0-9]* ; // manual check required for range
 NUMBER : '0' | '-'? [1-9][0-9]* ;
+
+SP: 'SP' ;
+FP: 'FP' ;
+LR: 'LR' ;
+XZR: 'XZR' ;
 
 // jump mark usage
 JumpDeclaration: [a-zA-Z]+ ':' ;

@@ -95,12 +95,22 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
 
     /**
      * visits a single register node
+     * maps special registers to index
      */
     @Override
     public Register visitRegister(RegisterContext ctx) {
         String registerName = ctx.REGISTER().getText();
-        registerName = registerName.substring(1);
-        int index = Integer.parseInt(registerName);
+        int index = 0;
+        switch(registerName) {
+            case "SP": index = 28; break;
+            case "FP": index = 29; break;
+            case "LR": index = 30; break;
+            case "XZR": index = 31; break;
+            default:
+                registerName = registerName.substring(1);
+                index = Integer.parseInt(registerName);
+        }
+        
         Register register = null;
         try {
             register = simulator.getRegisters()[index];
