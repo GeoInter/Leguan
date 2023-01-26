@@ -27,7 +27,7 @@ branchInstruction : BranchInstruction;
 arithmeticParam : register COMMA register COMMA register SEMI ;
 shiftParam : register COMMA register COMMA num SEMI ; // seperated from arithemtic
 immediateParam : register COMMA register COMMA num SEMI ;
-datatransferParam : register COMMA register COMMA num SEMI ;
+datatransferParam : register COMMA SQUARE_BRACKET_LEFT register COMMA num SQUARE_BRACKET_RIGHT SEMI ;
 condBranchParam : register COMMA invocation SEMI;
 branchParam : invocation SEMI;
 
@@ -52,6 +52,8 @@ LINE_COMMENT: '//' ~[\r\n]* -> skip; // matches everything except tab and newlin
 // syntax relared
 COMMA : ',' ;
 SEMI : ';' ;
+SQUARE_BRACKET_LEFT : '[';
+SQUARE_BRACKET_RIGHT: ']';
 
 // Token for regsiter and number parameter
 REGISTER : 'X0' | 'X'[1-9][0-9]* ; // manual check required for range
