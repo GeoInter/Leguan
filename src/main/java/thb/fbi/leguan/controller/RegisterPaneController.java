@@ -1,6 +1,10 @@
 package thb.fbi.leguan.controller;
 
+import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -109,11 +113,34 @@ public class RegisterPaneController {
         r30Controller.setProperties(simulator.getRegisters()[30], showAllRegisters, displayUnsigned);
         r31Controller.setProperties(simulator.getRegisters()[31], showAllRegisters, displayUnsigned);
 
+        CFlagValue.setText(String.valueOf(FlagRegister.getCFlagProperty().get()));
+        NFlagValue.setText(String.valueOf(FlagRegister.getNFlagProperty().get()));
+        VFlagValue.setText(String.valueOf(FlagRegister.getVFlagProperty().get()));
+        ZFlagValue.setText(String.valueOf(FlagRegister.getZFlagProperty().get()));
+
         // bind value of flags to flag labels
-        NFlagValue.textProperty().bind(FlagRegister.getNFlagProperty().asString());
-        ZFlagValue.textProperty().bind(FlagRegister.getZFlagProperty().asString());
-        CFlagValue.textProperty().bind(FlagRegister.getCFlagProperty().asString());
-        VFlagValue.textProperty().bind(FlagRegister.getVFlagProperty().asString());
+        addFlagObserver(CFlagValue, FlagRegister.getCFlagProperty());
+        addFlagObserver(NFlagValue, FlagRegister.getNFlagProperty());
+        addFlagObserver(VFlagValue, FlagRegister.getVFlagProperty());
+        addFlagObserver(ZFlagValue, FlagRegister.getZFlagProperty());
+    }
+
+    /**
+     * Add Listener to FlagRegister Properties
+     * @param flagLabel label to update text
+     * @param booleanProperty property to add listener to
+     */
+    private void addFlagObserver(Label flagLabel, SimpleBooleanProperty booleanProperty) {
+        booleanProperty.addListener(new ChangeListener<Boolean>() {
+
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                Platform.runLater(() -> {
+                    System.out.println(newValue);
+                    flagLabel.setText(String.valueOf(newValue));
+                });
+            }
+        });
     }
 
     public Simulator getSimulator() {

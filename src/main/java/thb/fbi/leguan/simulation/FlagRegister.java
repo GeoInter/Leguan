@@ -155,6 +155,8 @@ public class FlagRegister {
             FlagRegister.v.set(true);
         } else if (op1 < 0 && op2 < 0 && result > 0) {
             FlagRegister.v.set(true);
+        } else {
+            FlagRegister.v.set(false);
         }
     }
 
