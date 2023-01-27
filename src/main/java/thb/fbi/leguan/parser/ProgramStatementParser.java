@@ -33,7 +33,7 @@ import thb.fbi.leguan.simulation.SimulatorSingleton;
 public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
 
     private static Simulator simulator = SimulatorSingleton.getSimulator();
-    private int sourceLine = 0; // current line of source code for jumpMark resolving
+    private int programIndex = 0; // current program statement in list
 
     private ArrayList<ParsingError> semanticErrors;
     private ArrayList<Register> usedRegisters;
@@ -49,8 +49,12 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
         this.unresolvedMarks = unresolvedMarks;
     }
 
-    public void setSourceLine(int sourceLine) {
-        this.sourceLine = sourceLine;
+    /**
+     * sets Index of ProgramStatement for jumpMarks and ArrayList in ARMProgram
+     * @param programIndex index of current ProgramStatement
+     */
+    public void setProgramIndex(int programIndex) {
+        this.programIndex = programIndex;
     }
 
     /**
@@ -150,7 +154,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
     public Object visitDeclaration(DeclarationContext ctx) {
         String id = ctx.JumpDeclaration().getText();
         id = id.substring(0, id.length()-1); //remove ":"
-        jumpMarks.put(id, this.sourceLine);
+        jumpMarks.put(id, this.programIndex);
         return null;
     }
 
@@ -161,7 +165,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
         if(address != null) {
             return address;
         } else {
-            unresolvedMarks.put(this.sourceLine, id);
+            unresolvedMarks.put(this.programIndex, id);
             return -1;
         }
     }
