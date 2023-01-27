@@ -137,7 +137,6 @@ public class SimulatorController {
         Memory.reset();
         FlagRegister.reset();
         simulator.reset();
-        setConsoleText(null);
     }
 
     @FXML
