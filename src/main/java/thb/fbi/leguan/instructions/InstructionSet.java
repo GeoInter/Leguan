@@ -73,8 +73,10 @@ public class InstructionSet {
                         long op1 = Rn.getValue();
                         long result = op1 + alu_immediate;
 
-                        // overflow check
+                        FlagRegister.checkAndSetCFlag(op1, op1);
+                        FlagRegister.checkAndSetNFlag(result);
                         FlagRegister.checkAndSetVFlag(op1, alu_immediate, result);
+                        FlagRegister.checkAndSetZFlag(result);
                         
                         Rd.setValue(result);
                     }
@@ -92,11 +94,10 @@ public class InstructionSet {
                         long op2 = Rn.getValue();
                         long result = op1 + op2;
 
-                        // carry check
                         FlagRegister.checkAndSetCFlag(op1, op2);
-
-                        // overflow check
+                        FlagRegister.checkAndSetNFlag(result);
                         FlagRegister.checkAndSetVFlag(op1, op2, result);
+                        FlagRegister.checkAndSetZFlag(result);
 
                         Rd.setValue(result);
                     }
@@ -141,6 +142,11 @@ public class InstructionSet {
                         long op1 = Rn.getValue();
                         long result = op1 & alu_immediate;
 
+                        FlagRegister.checkAndSetCFlag(op1, alu_immediate);
+                        FlagRegister.checkAndSetNFlag(result);
+                        FlagRegister.checkAndSetVFlag(op1, alu_immediate, result);
+                        FlagRegister.checkAndSetZFlag(result);
+
                         Rd.setValue(result);
                     }
                 })
@@ -155,6 +161,11 @@ public class InstructionSet {
                         long op1 = Rm.getValue();
                         long op2 = Rn.getValue();
                         long result = op1 & op2;
+
+                        FlagRegister.checkAndSetCFlag(op1, op2);
+                        FlagRegister.checkAndSetNFlag(result);
+                        FlagRegister.checkAndSetVFlag(op1, op2, result);
+                        FlagRegister.checkAndSetZFlag(result);
 
                         Rd.setValue(result);
                     }
@@ -324,6 +335,22 @@ public class InstructionSet {
                     public void simulate(int cond_br_address, Register Rt, PCRegister pc) {
                         long op = Rt.getValue();
                         if(op != 0) {
+                            pc.setValue(cond_br_address);
+                        } else {
+                            pc.increase();
+                        }
+                    }
+                })
+        );
+
+        instructionSet.add(
+            new ConditionalBranchInstruction("CBZ",
+                "Compare and Branch if Zero",
+                new IConditionalBranchCode() {
+                    @Override
+                    public void simulate(int cond_br_address, Register Rt, PCRegister pc) {
+                        long op = Rt.getValue();
+                        if(op == 0) {
                             pc.setValue(cond_br_address);
                         } else {
                             pc.increase();
@@ -566,12 +593,11 @@ public class InstructionSet {
                         long op1 = Rn.getValue();
                         long result = op1 - alu_immediate;
 
-                        // carry check
                         FlagRegister.checkAndSetCFlag(op1, -1*alu_immediate); // the only difference to ADDS
-
-                        // overflow check
+                        FlagRegister.checkAndSetNFlag(result);
                         FlagRegister.checkAndSetVFlag(op1, alu_immediate, result);
-
+                        FlagRegister.checkAndSetZFlag(result);
+                        
                         Rd.setValue(result);
                     }
                 })
@@ -588,11 +614,10 @@ public class InstructionSet {
                         long op2 = Rm.getValue();
                         long result = op1 - op2;
 
-                        // carry check
                         FlagRegister.checkAndSetCFlag(op1, -1*op2); // the only difference to ADDS
-
-                        // overflow check
+                        FlagRegister.checkAndSetNFlag(result);
                         FlagRegister.checkAndSetVFlag(op1, op2, result);
+                        FlagRegister.checkAndSetZFlag(result);
 
                         Rd.setValue(result);
                     }
