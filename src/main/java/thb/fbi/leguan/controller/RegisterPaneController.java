@@ -136,7 +136,6 @@ public class RegisterPaneController {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 Platform.runLater(() -> {
-                    System.out.println(newValue);
                     flagLabel.setText(String.valueOf(newValue));
                 });
             }

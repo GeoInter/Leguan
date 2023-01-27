@@ -192,6 +192,8 @@ public class InstructionSet {
                         // test Z == 1
                         if(FlagRegister.getZFlag()) {
                             pc.setValue(br_address);
+                        } else {
+                            pc.increase();
                         }
                     }
                 })
@@ -206,6 +208,8 @@ public class InstructionSet {
                         // test Z == 0
                         if(! FlagRegister.getZFlag()) {
                             pc.setValue(br_address);
+                        } else {
+                            pc.increase();
                         }
                     }
                 })
@@ -220,6 +224,8 @@ public class InstructionSet {
                         // test N != V
                         if(FlagRegister.getNFlag() != FlagRegister.getVFlag()) {
                             pc.setValue(br_address);
+                        } else {
+                            pc.increase();
                         }
                     }
                 })
@@ -234,6 +240,8 @@ public class InstructionSet {
                         // test ! (Z == 0 && N == V)
                         if(! (!FlagRegister.getZFlag() && FlagRegister.getNFlag() == FlagRegister.getVFlag())) {
                             pc.setValue(br_address);
+                        } else {
+                            pc.increase();
                         }
                     }
                 })
@@ -248,6 +256,8 @@ public class InstructionSet {
                         // test (Z == 0 && N == V)
                         if(!FlagRegister.getZFlag() && FlagRegister.getNFlag() == FlagRegister.getVFlag()) {
                             pc.setValue(br_address);
+                        } else {
+                            pc.increase();
                         }
                     }
                 })
@@ -262,6 +272,8 @@ public class InstructionSet {
                         // test N == V
                         if(FlagRegister.getNFlag() == FlagRegister.getVFlag()) {
                             pc.setValue(br_address);
+                        } else {
+                            pc.increase();
                         }
                     }
                 })
@@ -276,6 +288,8 @@ public class InstructionSet {
                         // test N == 1
                         if(FlagRegister.getNFlag()) {
                             pc.setValue(br_address);
+                        } else {
+                            pc.increase();
                         }
                     }
                 })
@@ -290,6 +304,8 @@ public class InstructionSet {
                         // test N == 0
                         if(! FlagRegister.getNFlag()) {
                             pc.setValue(br_address);
+                        } else {
+                            pc.increase();
                         }
                     }
                 })
@@ -304,6 +320,8 @@ public class InstructionSet {
                         // test V == 1
                         if(FlagRegister.getVFlag()) {
                             pc.setValue(br_address);
+                        } else {
+                            pc.increase();
                         }
                     }
                 })
@@ -318,6 +336,8 @@ public class InstructionSet {
                         // test V == 0
                         if(! FlagRegister.getVFlag()) {
                             pc.setValue(br_address);
+                        } else {
+                            pc.increase();
                         }
                     }
                 })
