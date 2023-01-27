@@ -615,7 +615,7 @@ public class InstructionSet {
 
                         FlagRegister.checkAndSetCFlag(op1, -1*alu_immediate); // the only difference to ADDS
                         FlagRegister.checkAndSetNFlag(result);
-                        FlagRegister.checkAndSetVFlag(op1, alu_immediate, result);
+                        FlagRegister.checkAndSetVFlag(op1, -1*alu_immediate, result);
                         FlagRegister.checkAndSetZFlag(result);
                         
                         Rd.setValue(result);
@@ -636,7 +636,7 @@ public class InstructionSet {
 
                         FlagRegister.checkAndSetCFlag(op1, -1*op2); // the only difference to ADDS
                         FlagRegister.checkAndSetNFlag(result);
-                        FlagRegister.checkAndSetVFlag(op1, op2, result);
+                        FlagRegister.checkAndSetVFlag(op1, -1*op2, result);
                         FlagRegister.checkAndSetZFlag(result);
 
                         Rd.setValue(result);

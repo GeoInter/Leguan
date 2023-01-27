@@ -151,9 +151,9 @@ public class FlagRegister {
      * @param result result of both operands
      */
     public static void checkAndSetVFlag(long op1, long op2, long result) {
-        if(op1 > 0 && op2 > 0 && result < 0) {
+        if(op1 >= 0 && op2 >= 0 && result < 0) {
             FlagRegister.v.set(true);
-        } else if (op1 < 0 && op2 < 0 && result > 0) {
+        } else if (op1 < 0 && op2 < 0 && result >= 0) {
             FlagRegister.v.set(true);
         } else {
             FlagRegister.v.set(false);
