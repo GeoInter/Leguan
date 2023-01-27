@@ -48,7 +48,6 @@ public class ProgramParser extends LegV8BaseVisitor<ARMProgram> {
         for(int i = 0; i < ctx.line().size(); i++) {
             statementVisitor.setSourceLine(i);
             ProgramStatement statement = statementVisitor.visitLine(ctx.line(i));
-            statement.setSourceLine(i);
             lines.add(statement);
         }
 

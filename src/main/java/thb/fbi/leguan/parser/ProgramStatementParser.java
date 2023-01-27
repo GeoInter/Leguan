@@ -90,7 +90,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
             instr = (Instruction) visit(ctx.getChild(1));
             args = (InstructionArguments) visit(ctx.getChild(2));
         }
-        return new ProgramStatement(instr, args, null, 0);
+        return new ProgramStatement(instr, args, null, ctx.start.getLine());
     }
 
     /**

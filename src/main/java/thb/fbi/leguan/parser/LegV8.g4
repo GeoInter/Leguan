@@ -25,7 +25,7 @@ condBranchInstruction : CondBranchInstruction;
 branchInstruction : BranchInstruction;
 
 arithmeticParam : register COMMA register COMMA register SEMI ;
-shiftParam : register COMMA register COMMA num SEMI ; // seperated from arithemtic
+shiftParam : register COMMA register COMMA num SEMI ; // separated from arithemtic
 immediateParam : register COMMA register COMMA num SEMI ;
 datatransferParam : register COMMA SQUARE_BRACKET_LEFT register COMMA num SQUARE_BRACKET_RIGHT SEMI ;
 condBranchParam : register COMMA invocation SEMI;
@@ -44,7 +44,7 @@ CondBranchInstruction : 'CBNZ' | 'CBZ' ;
 BranchInstruction : 'B' | 'B.EQ' | 'B.NE' | 'B.LT' | 'B.LE' | 'B.GT' | 'B.GE' | 'B.MI' | 'B.PL' | 'B.VS' | 'B.VC';
 
 
-// skip
+// skipped Tokens
 WS : [ \t\r\n\f] -> skip;
 COMMENT: '/*' .*? '*/' -> skip; // non-greedy wildcart (ends with trailing */)
 LINE_COMMENT: '//' ~[\r\n]* -> skip; // matches everything except tab and newline
