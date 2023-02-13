@@ -1,15 +1,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>thb.fbi</groupId>
-    <artifactId>Intrastellar</artifactId>
+    <groupId>thb.fbi.leguan</groupId>
+    <artifactId>Leguan</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-        <javafx.version>13</javafx.version>
+        <javafx.version>18</javafx.version> <!-- version of fxml files overridden by scene builder (and its version)-->
+        <antlr.version>4.11.1</antlr.version>
         <!-- Refers to the JDK on the system.
           The JRE in the final zip will be bundled from the system's JDK -->
         <sys.java.home>${env.JAVA_HOME}</sys.java.home>
@@ -36,6 +37,21 @@
             <artifactId>richtextfx</artifactId>
             <version>0.10.9</version>
         </dependency>
+        <dependency>
+          <groupId>org.fxmisc.flowless</groupId>
+          <artifactId>flowless</artifactId>
+          <version>0.7.0</version>
+        </dependency>
+        <dependency>
+          <groupId>org.antlr</groupId>
+          <artifactId>antlr4-runtime</artifactId>
+          <version>${antlr.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.reactfx</groupId>
+        <artifactId>reactfx</artifactId>
+        <version>2.0-M5</version>
+      </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -44,7 +60,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.10.1</version>
                 <configuration>
-                    <release>11</release>
+                    <release>${maven.compiler.target}</release>
                 </configuration>
             </plugin>
             <plugin>
@@ -58,7 +74,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <!--<mainClass>thb.fbi.App</mainClass> -->
-                            <mainClass>thb.fbi/thb.fbi.Launcher</mainClass>
+                            <mainClass>thb.fbi.leguan/thb.fbi.leguan.Launcher</mainClass>
                         </configuration>
                     </execution>
                 </executions>
@@ -77,7 +93,7 @@
                       <transformers>
                         <transformer
                           implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                          <mainClass>thb.fbi.Launcher</mainClass>
+                          <mainClass>thb.fbi.leguan.Launcher</mainClass>
                         </transformer>
                       </transformers>
                     </configuration>
@@ -103,7 +119,7 @@
                       <!--<manifest>${project.basedir}/src/main/resources/${project.artifactId}.manifest</manifest>-->
                       <classPath>
                         <!-- The main class to invoke on executing the .exe -->
-                        <mainClass>thb.fbi.Launcher</mainClass>
+                        <mainClass>thb.fbi.leguan.Launcher</mainClass>
               
                       </classPath>
                       <jre>
@@ -145,6 +161,23 @@
                   </execution>
                 </executions>
             </plugin>
+            <plugin>
+              <groupId>org.antlr</groupId>
+              <artifactId>antlr4-maven-plugin</artifactId>
+              <version>${antlr.version}</version>
+              <configuration>
+                <sourceDirectory>src/main/java/thb/fbi/leguan/parser</sourceDirectory>
+                <outputDirectory>src/main/java/thb/fbi/leguan/parser/antlr</outputDirectory>
+                <visitor>true</visitor>
+              </configuration>
+              <executions>
+                  <execution>
+                      <goals>
+                          <goal>antlr4</goal>
+                      </goals>
+                  </execution>
+              </executions>
+          </plugin>
         </plugins>
     </build>
 </project>

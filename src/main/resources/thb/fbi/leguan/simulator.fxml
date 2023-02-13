@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="1.7976931348623157E308" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="thb.fbi.leguan.controller.SimulatorController">
+   <children>
+      <MenuBar>
+        <menus>
+          <Menu fx:id="file_Menu" mnemonicParsing="false" text="%menubar.File">
+            <items>
+              <MenuItem mnemonicParsing="false" text="New" />
+                  <MenuItem mnemonicParsing="false" onAction="#saveFile" text="Save" />
+                  <MenuItem mnemonicParsing="false" onAction="#saveFileAs" text="Save as" />
+                  <MenuItem mnemonicParsing="false" onAction="#openFile" text="Open" />
+                  <MenuItem mnemonicParsing="false" text="Quit" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="%menubar.Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="%menubar.View">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+            <Menu mnemonicParsing="false" text="%menubar.Settings">
+              <items>
+                  <Menu mnemonicParsing="false" text="%menubar.Theme">
+                     <items>
+                        <MenuItem fx:id="lightThemeItem" mnemonicParsing="false" text="Light" />
+                        <MenuItem fx:id="darkThemeItem" mnemonicParsing="false" text="Dark" />
+                     </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="%menubar.Language">
+                    <items>
+                      <MenuItem fx:id="switchENButton" mnemonicParsing="false" text="English" />
+                        <MenuItem fx:id="switchDEButton" mnemonicParsing="false" text="Deutsch" />
+                    </items>
+                  </Menu>
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="%menubar.Help">
+              <items>
+                  <MenuItem mnemonicParsing="false" text="Load example" />
+                <MenuItem mnemonicParsing="false" text="About" />
+              </items>
+            </Menu>
+        </menus>
+      </MenuBar>
+      <VBox alignment="CENTER" maxHeight="1.7976931348623157E308">
+         <children>
+            <HBox alignment="CENTER" maxHeight="60.0" styleClass="simulator-bar">
+               <children>
+                  <HBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+                     <children>
+                        <ButtonBar maxWidth="1.7976931348623157E308">
+                          <buttons>
+                              <Button fx:id="runButton" mnemonicParsing="false" onAction="#runCode" styleClass="simulator-button" text="%buttonbar.Run" />
+                              <Button mnemonicParsing="false" onAction="#reset" styleClass="simulator-button" text="%buttonbar.Reset" />
+                              <Button mnemonicParsing="false" onAction="#stepForward" styleClass="simulator-button" text="%buttonbar.Forward" />
+                              <Button disable="true" mnemonicParsing="false" onAction="#stepBackward" styleClass="simulator-button" text="%buttonbar.Backward" />
+                              <Button fx:id="stopButton" mnemonicParsing="false" onAction="#stopThread" styleClass="simulator-button" text="Stop" />
+                          </buttons>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </ButtonBar>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="250.0" visible="false" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label prefHeight="17.0" prefWidth="62.0" text="Simulator" />
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <Label text="Line" />
+                              <Label text="--" />
+                           </children>
+                           <HBox.margin>
+                              <Insets left="2.0" right="4.0" />
+                           </HBox.margin>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <Label text="Issues" />
+                              <Label text="0" />
+                           </children>
+                           <HBox.margin>
+                              <Insets left="2.0" right="4.0" />
+                           </HBox.margin>
+                        </VBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                     </padding>
+                  </HBox>
+                  <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding></HBox>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <SplitPane fx:id="splitPane" dividerPositions="0.8" maxHeight="1.7976931348623157E308" prefWidth="1920.0" VBox.vgrow="ALWAYS">
+        <items>
+            <AnchorPane>
+               <children>
+                  <SplitPane fx:id="textSplitpane" dividerPositions="0.9" orientation="VERTICAL" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <items>
+                      <AnchorPane fx:id="codeAreaAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                           <children>
+                              <StackPane id="editor-stackpane" fx:id="codeStackPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children>
+                        </AnchorPane>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                           <children>
+                              <TextArea id="console" fx:id="console" editable="false" prefHeight="200.0" prefWidth="200.0" promptText="No errors" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font></TextArea>
+                           </children>
+                        </AnchorPane>
+                    </items>
+                  </SplitPane>
+               </children>
+            </AnchorPane>
+            <AnchorPane id="register-anchor-pane" fx:id="rightSideAnchorPane">
+               <children>
+                  <TabPane fx:id="tabPane" minWidth="420.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <tabs>
+                      <Tab text="%splitpane.Tab.Register">
+                           <content>
+                              <!-- content from RegisterPane.fxml included here -->
+                              <fx:include fx:id="registerPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" source="RegisterPane.fxml" />
+                           </content>
+                        </Tab>
+                      <Tab text="%splitpane.Tab.Memory">
+                           <content>
+                              <!-- content from RegisterPane.fxml included here -->
+                              <fx:include fx:id="memory" source="Memory.fxml" />
+                           </content>
+                        </Tab>
+                    </tabs>
+                  </TabPane>              
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</VBox>
