@@ -348,7 +348,6 @@
 
 .error {
     -rtfx-underline-color: red;
-    -rtfx-underline-dash-array: 2 2;
-    -rtfx-underline-width: 1;
-    -rtfx-underline-cap: butt;
+    -rtfx-underline-wave-radius: 5;
+    -rtfx-underline-width: 1.2;
 }

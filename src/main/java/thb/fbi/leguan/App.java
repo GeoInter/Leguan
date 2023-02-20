@@ -46,7 +46,7 @@ public class App extends Application {
 
         scene = new Scene(root);
         scene.getStylesheets().add(this.getClass().getResource("/thb/fbi/leguan/css/base.css").toExternalForm());
-        scene.getStylesheets().add(this.getClass().getResource("/thb/fbi/leguan/css/dark.css").toExternalForm());
+        scene.getStylesheets().add(this.getClass().getResource("/thb/fbi/leguan/css/light.css").toExternalForm());
 
         App.stage.setScene(scene);
         App.stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/thb/fbi/leguan/images/icon.png")));
