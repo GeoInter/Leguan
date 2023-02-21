@@ -44,7 +44,7 @@ public class Simulator {
     private ExecutorService executor;
     /** boolean for endless loop when running all code */
     private SimpleBooleanProperty isRunning = new SimpleBooleanProperty(false);
-    /** boolean indicating wheter code is changed (and unparsed) */
+    /** boolean indicating code is changed (and unparsed) */
     private SimpleBooleanProperty isCodeChanged = new SimpleBooleanProperty(true);
     /** boolean indicating code is correct and parse */
     private SimpleBooleanProperty isCodeParsed = new SimpleBooleanProperty(false);;
@@ -69,15 +69,6 @@ public class Simulator {
                 if(newValue) {
                     isCodeParsed.set(false);
                 }
-            }
-            
-        });
-
-        isCodeParsed.addListener(new ChangeListener<Boolean>() {
-
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                isCodeChanged.set(false);
             }
             
         });
@@ -170,6 +161,8 @@ public class Simulator {
      */
     public boolean parse(String code) {
         if(isCodeChanged.get()) {
+            isCodeChanged.set(false);
+
             LegV8Parser parser = getParser(code);
 
             // parse form start symbol 'main'
