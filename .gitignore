@@ -15,3 +15,6 @@ workspace.code-workspace
 
 # intellij
 /.idea
+
+# vscode
+/.vscode
