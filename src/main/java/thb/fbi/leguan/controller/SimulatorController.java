@@ -125,7 +125,11 @@ public class SimulatorController {
 
     @FXML
     private void runCode() {
-        setConsoleText(simulator.run(codeArea.getText()));
+        if(simulator.parse(codeArea.getText())) {
+            simulator.run(codeArea.getText());
+        } else {
+            setConsoleText(simulator.getErrors());
+        }
     }
 
     /**
@@ -140,7 +144,11 @@ public class SimulatorController {
 
     @FXML
     private void stepForward() {
-        setConsoleText(simulator.forwardStep(codeArea.getText()));
+        if(simulator.parse(codeArea.getText())) {
+            simulator.forwardStep(codeArea.getText());
+        } else {
+            setConsoleText(simulator.getErrors());
+        }
     }
 
     @FXML

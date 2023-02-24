@@ -88,55 +88,39 @@ public class Simulator {
         }
     }
 
-    public ArrayList<ParsingError> forwardStep(String code) {
-        // if not prior parsed - do it now
-        if(parse(code)) {
-            ProgramStatement statement = program.getProgramStatement((int) pc.getValue());
-            if(statement != null) {
-                Instruction instruction = statement.getInstruction();
-                if(instruction != null) {
-                    instruction.simulate(statement.getArguments(), pc);
-                }
-            }
-        } else {
-            if(! syntaxErrorListener.syntaxErrors.isEmpty()) {
-                return syntaxErrorListener.syntaxErrors;
-            } else if(! programParser.semanticErrors.isEmpty()) {
-                return programParser.semanticErrors;
+    /**
+     * executes exactly one instruction
+     * @param code program to execute
+     */
+    public void forwardStep(String code) {
+        ProgramStatement statement = program.getProgramStatement((int) pc.getValue());
+        statement.getSourceLine();
+        if(statement != null) {
+            Instruction instruction = statement.getInstruction();
+            if(instruction != null) {
+                instruction.simulate(statement.getArguments(), pc);
             }
         }
-        return null;
     }
 
     /**
      * parses and executes the whole written code 
      * @param code written text to parse
      */
-    public ArrayList<ParsingError> run(String code) {
-        if(parse(code)) {
-            executor.execute(new Runnable() {
-            
-                @Override
-                public void run() {
-                    runCode();
-                }
-
-            });
-        } else {
-            if(! syntaxErrorListener.syntaxErrors.isEmpty()) {
-                return syntaxErrorListener.syntaxErrors;
-            } else if(! programParser.semanticErrors.isEmpty()) {
-                return programParser.semanticErrors;
+    public void run(String code) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                runCode();
             }
-        }
-        return null;
+        });
     }
 
     /**
      * executes whole parsed program 
      * has hidden failsafe mechnism - preventing endless loops
      */
-    public void runCode() {
+    private void runCode() {
         isRunning.set(true);
         int failsafe = 0;
 
@@ -205,6 +189,19 @@ public class Simulator {
         parser.addErrorListener(syntaxErrorListener);
 
         return parser;
+    }
+
+    /**
+     * get list of errors (syntactic or semantic)
+     * @return list of occured errors while parsing
+     */
+    public ArrayList<ParsingError> getErrors() {
+        if(! syntaxErrorListener.syntaxErrors.isEmpty()) {
+            return syntaxErrorListener.syntaxErrors;
+        } else if(! programParser.semanticErrors.isEmpty()) {
+            return programParser.semanticErrors;
+        }
+        return null;
     }
 
     /**
