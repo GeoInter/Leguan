@@ -9,6 +9,8 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+<?import java.util.ArrayList?>
+
 <VBox id="register-pane" fx:id="RegisterPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="thb.fbi.leguan.controller.RegisterPaneController">
    <children>
       <HBox alignment="CENTER" prefHeight="50.0" spacing="50.0">
@@ -149,6 +151,42 @@
                      </padding>
                   </VBox>
                </children>
+               <fx:define>
+                  <ArrayList fx:id="registerControllerList">
+                     <fx:reference source="r0"/>
+                     <fx:reference source="r1"/>
+                     <fx:reference source="r2"/>
+                     <fx:reference source="r3"/>
+                     <fx:reference source="r4"/>
+                     <fx:reference source="r5"/>
+                     <fx:reference source="r6"/>
+                     <fx:reference source="r7"/>
+                     <fx:reference source="r8"/>
+                     <fx:reference source="r9"/>
+                     <fx:reference source="r10"/>
+                     <fx:reference source="r11"/>
+                     <fx:reference source="r12"/>
+                     <fx:reference source="r13"/>
+                     <fx:reference source="r14"/>
+                     <fx:reference source="r15"/>
+                     <fx:reference source="r16"/>
+                     <fx:reference source="r17"/>
+                     <fx:reference source="r18"/>
+                     <fx:reference source="r19"/>
+                     <fx:reference source="r20"/>
+                     <fx:reference source="r21"/>
+                     <fx:reference source="r22"/>
+                     <fx:reference source="r23"/>
+                     <fx:reference source="r24"/>
+                     <fx:reference source="r25"/>
+                     <fx:reference source="r26"/>
+                     <fx:reference source="r27"/>
+                     <fx:reference source="r28"/>
+                     <fx:reference source="r29"/>
+                     <fx:reference source="r30"/>
+                     <fx:reference source="r31"/>
+                  </ArrayList>
+               </fx:define>
             </VBox>
          </content>
       </ScrollPane>

@@ -24,19 +24,28 @@ public class RegisterTitleBarController {
     private Register register;
 
     private BooleanProperty displayUnsigned;
-
-    @FXML Label registerTitle;
-    @FXML Label registerValue;
-    @FXML Button decButton;
-    @FXML Button binButton;
-    @FXML Button hexButton;
-    @FXML HBox registerBox;
+    private RegisterPaneController registerPaneController;
 
     @FXML
-    public void initialize() { }
+    Label registerTitle;
+    @FXML
+    Label registerValue;
+    @FXML
+    Button decButton;
+    @FXML
+    Button binButton;
+    @FXML
+    Button hexButton;
+    @FXML
+    HBox registerBox;
+
+    @FXML
+    public void initialize() {
+    }
 
     /**
      * Adds an always visible register to this Controller
+     * 
      * @param register
      */
     public void setProperties(PCRegister register, BooleanProperty displayUnsigned) {
@@ -50,16 +59,19 @@ public class RegisterTitleBarController {
      * Adds a register and button to this Controller instance
      * 
      * binds value so it updates for every change and hides element when unused
+     * 
      * @param register
      * @param showAllRegisters
      */
-    public void setProperties(Register register, BooleanProperty showAllRegisters, BooleanProperty displayUnsigned) {
+    public void setProperties(Register register, BooleanProperty showAllRegisters, BooleanProperty displayUnsigned,
+            RegisterPaneController registerPaneController) {
         this.register = register;
         registerTitle.setText(register.getName());
         addValueObserver();
         registerBox.managedProperty().bind(register.getIsUsed().or(showAllRegisters));
         registerBox.visibleProperty().bind(register.getIsUsed().or(showAllRegisters));
         setDisplayUnsigned(displayUnsigned);
+        this.registerPaneController = registerPaneController;
     }
 
     /**
@@ -74,9 +86,18 @@ public class RegisterTitleBarController {
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 Platform.runLater(() -> {
                     registerValue.setText(register.getShownValue().get());
+                    if(registerPaneController != null) {
+                        registerPaneController.updateRegisterHighlighting(register.getID());
+                    }
                 });
             }
-            
+
+        });
+    }
+
+    public void clearHighlighting() {
+        Platform.runLater(() -> {
+            registerValue.setId(null);
         });
     }
 
@@ -86,10 +107,9 @@ public class RegisterTitleBarController {
 
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldState, Boolean newState) {
-                if(newState && register.getNumberFormat() == Base.DEC) {
+                if (newState && register.getNumberFormat() == Base.DEC) {
                     register.setNumberFormat(Base.uDEC);
-                }
-                else if((!newState) && register.getNumberFormat() == Base.uDEC) {
+                } else if ((!newState) && register.getNumberFormat() == Base.uDEC) {
                     register.setNumberFormat(Base.DEC);
                 }
             }
@@ -101,8 +121,8 @@ public class RegisterTitleBarController {
      * updates displayed value to decimal format and deactivates the DEC button
      */
     @FXML
-    private void updateToDec() { 
-        if(displayUnsigned.get() == true) {
+    private void updateToDec() {
+        if (displayUnsigned.get() == true) {
             register.setNumberFormat(Base.uDEC);
         } else {
             register.setNumberFormat(Base.DEC);
@@ -116,7 +136,7 @@ public class RegisterTitleBarController {
      * updates displayed value to binary format and deactivates the BIN button
      */
     @FXML
-    private void updateToBin() { 
+    private void updateToBin() {
         register.setNumberFormat(Base.BIN);
         decButton.setDisable(false);
         binButton.setDisable(true);
@@ -127,11 +147,11 @@ public class RegisterTitleBarController {
      * updates displayed value to hexadeciaml format and deactivates the HEX button
      */
     @FXML
-    private void updateToHex() { 
+    private void updateToHex() {
         register.setNumberFormat(Base.HEX);
         decButton.setDisable(false);
         binButton.setDisable(false);
         hexButton.setDisable(true);
     }
-    
+
 }

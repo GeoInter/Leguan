@@ -140,6 +140,7 @@ public class SimulatorController {
         Memory.reset();
         FlagRegister.reset();
         simulator.reset();
+        registerPaneController.clearRegisterHighlighting();
     }
 
     @FXML
@@ -164,6 +165,7 @@ public class SimulatorController {
     @FXML
     private void openFile() {
         FileManager.openFile();
+        registerPaneController.clearRegisterHighlighting();
     }
 
     @FXML

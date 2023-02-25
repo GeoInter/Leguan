@@ -351,3 +351,8 @@
     -rtfx-underline-wave-radius: 5;
     -rtfx-underline-width: 1.2;
 }
+
+#highlight-value {
+    -fx-background-color: yellow;
+    background-color: yellow;
+}

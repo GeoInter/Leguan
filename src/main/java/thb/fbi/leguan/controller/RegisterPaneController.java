@@ -1,5 +1,8 @@
 package thb.fbi.leguan.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -66,6 +69,7 @@ public class RegisterPaneController {
     @FXML CheckBox displayUnsignedCheckBox;
     
     private Simulator simulator = SimulatorSingleton.getSimulator();
+    private List<RegisterTitleBarController> registerControllerList = new ArrayList<RegisterTitleBarController>();
 
     /**
      * initializes all UI components and binds values of the register side pane
@@ -77,41 +81,74 @@ public class RegisterPaneController {
         BooleanProperty displayUnsigned = displayUnsignedCheckBox.selectedProperty();
 
         pcController.setProperties(simulator.getPC(), displayUnsigned);
-        r0Controller.setProperties(simulator.getRegisters()[0], showAllRegisters, displayUnsigned);
-        r1Controller.setProperties(simulator.getRegisters()[1], showAllRegisters, displayUnsigned);
-        r2Controller.setProperties(simulator.getRegisters()[2], showAllRegisters, displayUnsigned);
-        r3Controller.setProperties(simulator.getRegisters()[3], showAllRegisters, displayUnsigned);
-        r4Controller.setProperties(simulator.getRegisters()[4], showAllRegisters, displayUnsigned);
-        r5Controller.setProperties(simulator.getRegisters()[5], showAllRegisters, displayUnsigned);
-        r6Controller.setProperties(simulator.getRegisters()[6], showAllRegisters, displayUnsigned);
-        r7Controller.setProperties(simulator.getRegisters()[7], showAllRegisters, displayUnsigned);
-        r8Controller.setProperties(simulator.getRegisters()[8], showAllRegisters, displayUnsigned);
+        r0Controller.setProperties(simulator.getRegisters()[0], showAllRegisters, displayUnsigned, this);
+        r1Controller.setProperties(simulator.getRegisters()[1], showAllRegisters, displayUnsigned, this);
+        r2Controller.setProperties(simulator.getRegisters()[2], showAllRegisters, displayUnsigned, this);
+        r3Controller.setProperties(simulator.getRegisters()[3], showAllRegisters, displayUnsigned, this);
+        r4Controller.setProperties(simulator.getRegisters()[4], showAllRegisters, displayUnsigned, this);
+        r5Controller.setProperties(simulator.getRegisters()[5], showAllRegisters, displayUnsigned, this);
+        r6Controller.setProperties(simulator.getRegisters()[6], showAllRegisters, displayUnsigned, this);
+        r7Controller.setProperties(simulator.getRegisters()[7], showAllRegisters, displayUnsigned, this);
+        r8Controller.setProperties(simulator.getRegisters()[8], showAllRegisters, displayUnsigned, this);
 
-        r9Controller.setProperties(simulator.getRegisters()[9], showAllRegisters, displayUnsigned);
-        r10Controller.setProperties(simulator.getRegisters()[10], showAllRegisters, displayUnsigned);
-        r11Controller.setProperties(simulator.getRegisters()[11], showAllRegisters, displayUnsigned);
-        r12Controller.setProperties(simulator.getRegisters()[12], showAllRegisters, displayUnsigned);
-        r13Controller.setProperties(simulator.getRegisters()[13], showAllRegisters, displayUnsigned);
-        r14Controller.setProperties(simulator.getRegisters()[14], showAllRegisters, displayUnsigned);
-        r15Controller.setProperties(simulator.getRegisters()[15], showAllRegisters, displayUnsigned);
-        r16Controller.setProperties(simulator.getRegisters()[16], showAllRegisters, displayUnsigned);
-        r17Controller.setProperties(simulator.getRegisters()[17], showAllRegisters, displayUnsigned);
-        r18Controller.setProperties(simulator.getRegisters()[18], showAllRegisters, displayUnsigned);
+        r9Controller.setProperties(simulator.getRegisters()[9], showAllRegisters, displayUnsigned, this);
+        r10Controller.setProperties(simulator.getRegisters()[10], showAllRegisters, displayUnsigned, this);
+        r11Controller.setProperties(simulator.getRegisters()[11], showAllRegisters, displayUnsigned, this);
+        r12Controller.setProperties(simulator.getRegisters()[12], showAllRegisters, displayUnsigned, this);
+        r13Controller.setProperties(simulator.getRegisters()[13], showAllRegisters, displayUnsigned, this);
+        r14Controller.setProperties(simulator.getRegisters()[14], showAllRegisters, displayUnsigned, this);
+        r15Controller.setProperties(simulator.getRegisters()[15], showAllRegisters, displayUnsigned, this);
+        r16Controller.setProperties(simulator.getRegisters()[16], showAllRegisters, displayUnsigned, this);
+        r17Controller.setProperties(simulator.getRegisters()[17], showAllRegisters, displayUnsigned, this);
+        r18Controller.setProperties(simulator.getRegisters()[18], showAllRegisters, displayUnsigned, this);
 
-        r19Controller.setProperties(simulator.getRegisters()[19], showAllRegisters, displayUnsigned);
-        r20Controller.setProperties(simulator.getRegisters()[20], showAllRegisters, displayUnsigned);
-        r21Controller.setProperties(simulator.getRegisters()[21], showAllRegisters, displayUnsigned);
-        r22Controller.setProperties(simulator.getRegisters()[22], showAllRegisters, displayUnsigned);
-        r23Controller.setProperties(simulator.getRegisters()[23], showAllRegisters, displayUnsigned);
-        r24Controller.setProperties(simulator.getRegisters()[24], showAllRegisters, displayUnsigned);
-        r25Controller.setProperties(simulator.getRegisters()[25], showAllRegisters, displayUnsigned);
-        r26Controller.setProperties(simulator.getRegisters()[26], showAllRegisters, displayUnsigned);
-        r27Controller.setProperties(simulator.getRegisters()[27], showAllRegisters, displayUnsigned);
+        r19Controller.setProperties(simulator.getRegisters()[19], showAllRegisters, displayUnsigned, this);
+        r20Controller.setProperties(simulator.getRegisters()[20], showAllRegisters, displayUnsigned, this);
+        r21Controller.setProperties(simulator.getRegisters()[21], showAllRegisters, displayUnsigned, this);
+        r22Controller.setProperties(simulator.getRegisters()[22], showAllRegisters, displayUnsigned, this);
+        r23Controller.setProperties(simulator.getRegisters()[23], showAllRegisters, displayUnsigned, this);
+        r24Controller.setProperties(simulator.getRegisters()[24], showAllRegisters, displayUnsigned, this);
+        r25Controller.setProperties(simulator.getRegisters()[25], showAllRegisters, displayUnsigned, this);
+        r26Controller.setProperties(simulator.getRegisters()[26], showAllRegisters, displayUnsigned, this);
+        r27Controller.setProperties(simulator.getRegisters()[27], showAllRegisters, displayUnsigned, this);
 
-        r28Controller.setProperties(simulator.getRegisters()[28], showAllRegisters, displayUnsigned);
-        r29Controller.setProperties(simulator.getRegisters()[29], showAllRegisters, displayUnsigned);
-        r30Controller.setProperties(simulator.getRegisters()[30], showAllRegisters, displayUnsigned);
-        r31Controller.setProperties(simulator.getRegisters()[31], showAllRegisters, displayUnsigned);
+        r28Controller.setProperties(simulator.getRegisters()[28], showAllRegisters, displayUnsigned, this);
+        r29Controller.setProperties(simulator.getRegisters()[29], showAllRegisters, displayUnsigned, this);
+        r30Controller.setProperties(simulator.getRegisters()[30], showAllRegisters, displayUnsigned, this);
+        r31Controller.setProperties(simulator.getRegisters()[31], showAllRegisters, displayUnsigned, this);
+
+        registerControllerList.add(r0Controller);
+        registerControllerList.add(r1Controller);
+        registerControllerList.add(r2Controller);
+        registerControllerList.add(r3Controller);
+        registerControllerList.add(r4Controller);
+        registerControllerList.add(r5Controller);
+        registerControllerList.add(r6Controller);
+        registerControllerList.add(r7Controller);
+        registerControllerList.add(r8Controller);
+        registerControllerList.add(r9Controller);
+        registerControllerList.add(r10Controller);
+        registerControllerList.add(r11Controller);
+        registerControllerList.add(r12Controller);
+        registerControllerList.add(r13Controller);
+        registerControllerList.add(r14Controller);
+        registerControllerList.add(r15Controller);
+        registerControllerList.add(r16Controller);
+        registerControllerList.add(r17Controller);
+        registerControllerList.add(r18Controller);
+        registerControllerList.add(r19Controller);
+        registerControllerList.add(r20Controller);
+        registerControllerList.add(r21Controller);
+        registerControllerList.add(r22Controller);
+        registerControllerList.add(r23Controller);
+        registerControllerList.add(r24Controller);
+        registerControllerList.add(r25Controller);
+        registerControllerList.add(r26Controller);
+        registerControllerList.add(r27Controller);
+        registerControllerList.add(r28Controller);
+        registerControllerList.add(r29Controller);
+        registerControllerList.add(r30Controller);
+        registerControllerList.add(r31Controller);
 
         CFlagValue.setText(String.valueOf(FlagRegister.getCFlagProperty().get()));
         NFlagValue.setText(String.valueOf(FlagRegister.getNFlagProperty().get()));
@@ -140,6 +177,22 @@ public class RegisterPaneController {
                 });
             }
         });
+    }
+
+    public void updateRegisterHighlighting(int index) {
+        for(int i = 0; i < registerControllerList.size(); i++) {
+            if(i == index) {
+                registerControllerList.get(i).registerValue.setId("highlight-value");
+            } else {
+                registerControllerList.get(i).registerValue.setId(null);
+            }
+        }
+    }
+
+    public void clearRegisterHighlighting() {
+        for(RegisterTitleBarController controller : registerControllerList) {
+            controller.clearHighlighting();
+        }
     }
 
     public Simulator getSimulator() {
