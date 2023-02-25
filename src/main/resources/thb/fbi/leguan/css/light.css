@@ -353,6 +353,6 @@
 }
 
 #highlight-value {
-    -fx-background-color: yellow;
-    background-color: yellow;
+    -fx-background-color: #ffffba;
+    background-color: #ffffba;
 }

@@ -15,7 +15,7 @@ public class PCRegister extends Register {
      * increase the program count by Instruction.INSTRUCTION_LENGTH
      */
     public void increase() {
-        setValue(value + 1);
+        setValue(valueProperty.get() + 1);
     }
 
     /** 
@@ -23,7 +23,7 @@ public class PCRegister extends Register {
      */
     @Override
     public void setValue(long value) {
-        this.value = value;
+        valueProperty.set(value);
         super.updateShownValue(value * Instruction.INSTRUCTION_LENGTH);
     }
 
@@ -33,6 +33,6 @@ public class PCRegister extends Register {
     @Override
     public void setNumberFormat(Base format) {
         this.numberFormat = format;
-        updateShownValue(value * Instruction.INSTRUCTION_LENGTH);
+        updateShownValue(valueProperty.get() * Instruction.INSTRUCTION_LENGTH);
     }
 }

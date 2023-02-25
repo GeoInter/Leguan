@@ -3,6 +3,7 @@ package thb.fbi.leguan.simulation;
 import java.text.NumberFormat;
 
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 /**
@@ -16,7 +17,7 @@ public class Register {
     /** number/ id/ index of the register */
     protected int id;
     /** value in the register, Property instead of primitive for easier updating UI */
-    protected long value;
+    protected SimpleLongProperty valueProperty = new SimpleLongProperty(0);
     /** Property for indicating if register is in use or can be grayed out in UI */
     private SimpleBooleanProperty isUsed = new SimpleBooleanProperty(true);
     /** value and format as to be seen in UI */
@@ -26,15 +27,15 @@ public class Register {
 
     public Register(String name, long value, int id) {
         this.name = name;
-        this.value = value;
         this.id = id;
+        valueProperty.set(value);
     }
 
     /**
      * Updates the shown value in UI
      */
     public void updateShownValue() {
-        updateShownValue(this.value);
+        updateShownValue(this.valueProperty.get());
     }
 
     /**
@@ -89,8 +90,12 @@ public class Register {
         return id;
     }
 
+    public SimpleLongProperty getValueProperty() {
+        return valueProperty;
+    }
+
     public long getValue() {
-        return value;
+        return valueProperty.get();
     }
 
     public SimpleBooleanProperty getIsUsed() {
@@ -109,7 +114,7 @@ public class Register {
      * when value of register changes update shown value in UI 
      */
     public void setValue(long value) {
-        this.value = value;
+        valueProperty.set(value);
         updateShownValue();
     }
 

@@ -51,7 +51,7 @@ public class RegisterTitleBarController {
     public void setProperties(PCRegister register, BooleanProperty displayUnsigned) {
         this.register = register;
         registerTitle.setText(register.getName());
-        addValueObserver();
+        addShownValueObserver();
         setDisplayUnsigned(displayUnsigned);
     }
 
@@ -67,7 +67,8 @@ public class RegisterTitleBarController {
             RegisterPaneController registerPaneController) {
         this.register = register;
         registerTitle.setText(register.getName());
-        addValueObserver();
+        addShownValueObserver();
+        addValueObserver(register.getID());
         registerBox.managedProperty().bind(register.getIsUsed().or(showAllRegisters));
         registerBox.visibleProperty().bind(register.getIsUsed().or(showAllRegisters));
         setDisplayUnsigned(displayUnsigned);
@@ -79,19 +80,24 @@ public class RegisterTitleBarController {
      * listens to shownValue of register
      * uses Platform.runLater for threading
      */
-    public void addValueObserver() {
+    public void addShownValueObserver() {
         register.getShownValue().addListener(new ChangeListener<String>() {
 
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 Platform.runLater(() -> {
                     registerValue.setText(register.getShownValue().get());
-                    if(registerPaneController != null) {
-                        registerPaneController.updateRegisterHighlighting(register.getID());
-                    }
                 });
             }
 
+        });
+    }
+
+    private void addValueObserver(int index) {
+        register.getValueProperty().addListener((observable, oldValue, newValue) -> {
+            Platform.runLater(() -> {
+                registerPaneController.updateRegisterHighlighting(index);
+            });
         });
     }
 
