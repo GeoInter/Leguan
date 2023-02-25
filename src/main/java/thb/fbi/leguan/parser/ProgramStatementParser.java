@@ -154,7 +154,15 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
     public Object visitDeclaration(DeclarationContext ctx) {
         String id = ctx.JumpDeclaration().getText();
         id = id.substring(0, id.length()-1); //remove ":"
-        jumpMarks.put(id, this.programIndex);
+        if(jumpMarks.containsKey(id)) {
+            Token token = ctx.JumpDeclaration().getSymbol();
+            int line = token.getLine();
+            int pos = token.getCharPositionInLine();
+            ParsingError err = new ParsingError(line, pos, ParsingErrorType.DoubledMarkDeclaration);
+            semanticErrors.add(err);
+        } else {
+            jumpMarks.put(id, this.programIndex);
+        }
         return null;
     }
 

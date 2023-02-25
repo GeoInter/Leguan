@@ -22,6 +22,9 @@ public class ParsingError {
             case NumberFormatException:
                 this.msg = "Number has not appropriate format";
                 break;
+            case DoubledMarkDeclaration:
+                this.msg = "Duplicate label";
+                break;
             case RegisterOutOfRange:
                 this.msg = "Register not in allowed range"; // range of simulator.registerNr
                 break;

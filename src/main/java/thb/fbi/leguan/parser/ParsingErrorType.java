@@ -2,8 +2,10 @@ package thb.fbi.leguan.parser;
 
 public enum ParsingErrorType {
     UndefinedJumpInvocation(0),
-    RegisterOutOfRange(1),
-    NumberFormatException(2);
+    DoubledMarkDeclaration(1),
+    RegisterOutOfRange(2),
+    NumberFormatException(3);
+    
 
     private int value;
 
