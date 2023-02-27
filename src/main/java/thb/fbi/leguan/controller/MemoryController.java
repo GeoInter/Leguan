@@ -137,11 +137,11 @@ public class MemoryController implements MemoryObserver {
             public void updateItem(Map.Entry<Long, Long> map, boolean empty) {
                 super.updateItem(map, empty);
                 if (map == null) {
-                    setStyle("");
+                    getStyleClass().remove("highlight-memory");
                 } else if (map.getKey() >= lowerRange && map.getKey() <= upperRange) {
-                    setStyle("-fx-background-color: tomato;");
+                    getStyleClass().add("highlight-memory");
                 } else {
-                    setStyle("");
+                    getStyleClass().remove("highlight-memory");
                 }
             }
         });

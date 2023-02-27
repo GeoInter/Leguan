@@ -352,7 +352,14 @@
     -rtfx-underline-width: 1.2;
 }
 
+/* on change highlighting */
+
 #highlight-value {
+    -fx-background-color: #727224;
+    background-color: #727224;
+}
+
+.table-row-cell.highlight-memory {
     -fx-background-color: #727224;
     background-color: #727224;
 }
