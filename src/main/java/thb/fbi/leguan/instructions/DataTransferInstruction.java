@@ -18,6 +18,7 @@ public class DataTransferInstruction extends Instruction {
 
     @Override
     public void simulate(InstructionArguments argument, PCRegister pc) {
+        memoryController.clearMemoryHighlighting();
         int dt_address = argument.getDt_Address();
         String opcode2 = "00"; // not used by LegV8
         Register Rn = argument.getRn();

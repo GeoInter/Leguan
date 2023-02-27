@@ -18,7 +18,7 @@ public class Memory {
      */
     public static void reset() {
         dataStorage.clear();
-        notifyObserver();
+        notifyObserver(-1, -1);
     }
 
     /**
@@ -32,8 +32,8 @@ public class Memory {
     /**
      * notify Observer for changes in HashMap
      */
-    public static void notifyObserver() {
-        observer.update(dataStorage);
+    public static void notifyObserver(long address, int nrOfBytes) {
+        observer.update(dataStorage, address, nrOfBytes);
     }
 
     /**
@@ -128,7 +128,7 @@ public class Memory {
      */
     public static void storeByte(long address, byte value) {
         dataStorage.put(address, value);
-        notifyObserver();
+        notifyObserver(address, 1);
     }
 
     /**
@@ -141,7 +141,7 @@ public class Memory {
         for(int i = 0; i < bytes.length; i++) {
             dataStorage.put(address+i, bytes[i]);
         }
-        notifyObserver();
+        notifyObserver(address, 2);
     }
 
     /**
@@ -154,7 +154,7 @@ public class Memory {
         for(int i = 0; i < bytes.length; i++) {
             dataStorage.put(address+i, bytes[i]);
         }
-        notifyObserver();
+        notifyObserver(address, 4);
     }
 
     /**
@@ -167,6 +167,6 @@ public class Memory {
         for(int i = 0; i < bytes.length; i++) {
             dataStorage.put(address+i, bytes[i]);
         }
-        notifyObserver();
+        notifyObserver(address, 8);
     }
 }

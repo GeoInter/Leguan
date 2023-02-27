@@ -24,6 +24,7 @@ public class ImmediateInstruction extends Instruction {
         this.immediateCode.simulate(alu_immediate, Rn, Rd);
         pc.increase();
         registerPaneController.updateRegisterHighlighting(Rd.getID());
+        memoryController.clearMemoryHighlighting();
     }
 
     public IImmediateCode getImmediateCode() {

@@ -181,7 +181,8 @@ public class SimulatorController {
     }
 
     /**
-     * sets the text of the console text area
+     * sets/ clears console text
+     * @param errors parsingErrors
      */
     private void setConsoleText(ArrayList<ParsingError> errors) {
         if(errors == null) {

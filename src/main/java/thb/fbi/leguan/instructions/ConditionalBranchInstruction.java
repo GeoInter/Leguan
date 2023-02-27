@@ -22,6 +22,7 @@ public class ConditionalBranchInstruction extends Instruction {
         Register Rt = argument.getRt();
         this.conditionalBranchCode.simulate(cond_br_address, Rt, pc);
         registerPaneController.updateRegisterHighlighting(-1);
+        memoryController.clearMemoryHighlighting();
     }
 
     public IConditionalBranchCode getConditionalBranchCode() {

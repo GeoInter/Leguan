@@ -25,6 +25,7 @@ public class ArithmeticInstruction extends Instruction {
         this.arithmeticCode.simulate(Rm, shamt, Rn, Rd);
         pc.increase();
         registerPaneController.updateRegisterHighlighting(Rd.getID());
+        memoryController.clearMemoryHighlighting();
     }
 
     public IArithmeticCode getArithmeticCode() {
