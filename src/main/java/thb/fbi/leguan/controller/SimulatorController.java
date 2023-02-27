@@ -126,6 +126,7 @@ public class SimulatorController {
     @FXML
     private void runCode() {
         if(simulator.parse(codeArea.getText())) {
+            setConsoleText(simulator.getErrors());
             simulator.run(codeArea.getText());
         } else {
             setConsoleText(simulator.getErrors());
@@ -146,6 +147,7 @@ public class SimulatorController {
     @FXML
     private void stepForward() {
         if(simulator.parse(codeArea.getText())) {
+            setConsoleText(simulator.getErrors());
             simulator.forwardStep(codeArea.getText());
         } else {
             setConsoleText(simulator.getErrors());
@@ -183,7 +185,7 @@ public class SimulatorController {
      */
     private void setConsoleText(ArrayList<ParsingError> errors) {
         if(errors == null) {
-            console.setText(null);
+            console.clear();
         } else {
             String errorMessage = "";
             for (ParsingError parsingError : errors) {
