@@ -24,7 +24,6 @@ public class RegisterTitleBarController {
     private Register register;
 
     private BooleanProperty displayUnsigned;
-    private RegisterPaneController registerPaneController;
 
     @FXML
     Label registerTitle;
@@ -63,16 +62,13 @@ public class RegisterTitleBarController {
      * @param register
      * @param showAllRegisters
      */
-    public void setProperties(Register register, BooleanProperty showAllRegisters, BooleanProperty displayUnsigned,
-            RegisterPaneController registerPaneController) {
+    public void setProperties(Register register, BooleanProperty showAllRegisters, BooleanProperty displayUnsigned) {
         this.register = register;
         registerTitle.setText(register.getName());
         addShownValueObserver();
-        addValueObserver(register.getID());
         registerBox.managedProperty().bind(register.getIsUsed().or(showAllRegisters));
         registerBox.visibleProperty().bind(register.getIsUsed().or(showAllRegisters));
         setDisplayUnsigned(displayUnsigned);
-        this.registerPaneController = registerPaneController;
     }
 
     /**
@@ -90,14 +86,6 @@ public class RegisterTitleBarController {
                 });
             }
 
-        });
-    }
-
-    private void addValueObserver(int index) {
-        register.getValueProperty().addListener((observable, oldValue, newValue) -> {
-            Platform.runLater(() -> {
-                registerPaneController.updateRegisterHighlighting(index);
-            });
         });
     }
 

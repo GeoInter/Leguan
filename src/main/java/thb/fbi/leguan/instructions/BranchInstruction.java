@@ -1,5 +1,6 @@
 package thb.fbi.leguan.instructions;
 
+import thb.fbi.leguan.controller.RegisterPaneController;
 import thb.fbi.leguan.simulation.InstructionArguments;
 import thb.fbi.leguan.simulation.PCRegister;
 
@@ -19,6 +20,7 @@ public class BranchInstruction extends Instruction {
     public void simulate(InstructionArguments argument, PCRegister pc) {
         int br_address = argument.getBr_Address();
         this.branchCode.simulate(br_address, pc);
+        RegisterPaneController.updateRegisterHighlighting(-1);
     }
 
     public IBranchCode getBranchCode() {

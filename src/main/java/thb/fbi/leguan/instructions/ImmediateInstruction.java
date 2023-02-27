@@ -1,5 +1,6 @@
 package thb.fbi.leguan.instructions;
 
+import thb.fbi.leguan.controller.RegisterPaneController;
 import thb.fbi.leguan.simulation.InstructionArguments;
 import thb.fbi.leguan.simulation.PCRegister;
 import thb.fbi.leguan.simulation.Register;
@@ -23,6 +24,7 @@ public class ImmediateInstruction extends Instruction {
         Register Rd = argument.getRd();
         this.immediateCode.simulate(alu_immediate, Rn, Rd);
         pc.increase();
+        RegisterPaneController.updateRegisterHighlighting(Rd.getID());
     }
 
     public IImmediateCode getImmediateCode() {

@@ -1,5 +1,6 @@
 package thb.fbi.leguan.instructions;
 
+import thb.fbi.leguan.controller.RegisterPaneController;
 import thb.fbi.leguan.simulation.InstructionArguments;
 import thb.fbi.leguan.simulation.PCRegister;
 import thb.fbi.leguan.simulation.Register;
@@ -24,6 +25,7 @@ public class ArithmeticInstruction extends Instruction {
         Register Rd = argument.getRd();
         this.arithmeticCode.simulate(Rm, shamt, Rn, Rd);
         pc.increase();
+        RegisterPaneController.updateRegisterHighlighting(Rd.getID());
     }
 
     public IArithmeticCode getArithmeticCode() {
