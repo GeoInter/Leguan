@@ -1,6 +1,5 @@
 package thb.fbi.leguan.instructions;
 
-import thb.fbi.leguan.controller.RegisterPaneController;
 import thb.fbi.leguan.simulation.InstructionArguments;
 import thb.fbi.leguan.simulation.PCRegister;
 import thb.fbi.leguan.simulation.Register;
@@ -25,7 +24,7 @@ public class DataTransferInstruction extends Instruction {
         Register Rt = argument.getRt();
         this.dataTransferCode.simulate(dt_address, opcode2, Rn, Rt);
         pc.increase();
-        RegisterPaneController.updateRegisterHighlighting(-1);
+        registerPaneController.updateRegisterHighlighting(-1);
     }
 
     public IDataTransferCode getDataTransferCode() {

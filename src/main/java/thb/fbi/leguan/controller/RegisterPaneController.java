@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import thb.fbi.leguan.instructions.Instruction;
 import thb.fbi.leguan.simulation.FlagRegister;
 import thb.fbi.leguan.simulation.Simulator;
 import thb.fbi.leguan.simulation.SimulatorSingleton;
@@ -69,7 +70,7 @@ public class RegisterPaneController {
     @FXML CheckBox displayUnsignedCheckBox;
     
     private Simulator simulator = SimulatorSingleton.getSimulator();
-    private static List<RegisterTitleBarController> registerControllerList = new ArrayList<RegisterTitleBarController>();
+    private List<RegisterTitleBarController> registerControllerList = new ArrayList<RegisterTitleBarController>();
 
     /**
      * initializes all UI components and binds values of the register side pane
@@ -160,6 +161,8 @@ public class RegisterPaneController {
         addFlagObserver(NFlagValue, FlagRegister.getNFlagProperty());
         addFlagObserver(VFlagValue, FlagRegister.getVFlagProperty());
         addFlagObserver(ZFlagValue, FlagRegister.getZFlagProperty());
+
+        Instruction.setRegisterPaneController(this);
     }
 
     /**
@@ -183,7 +186,7 @@ public class RegisterPaneController {
      * Set highlighting for a specific register
      * @param index ID of register to highlight
      */
-    public static void updateRegisterHighlighting(int index) {
+    public void updateRegisterHighlighting(int index) {
         Platform.runLater(() -> {
             for(int i = 0; i < registerControllerList.size(); i++) {
                 if(i == index) {

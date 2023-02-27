@@ -1,6 +1,5 @@
 package thb.fbi.leguan.instructions;
 
-import thb.fbi.leguan.controller.RegisterPaneController;
 import thb.fbi.leguan.simulation.InstructionArguments;
 import thb.fbi.leguan.simulation.PCRegister;
 import thb.fbi.leguan.simulation.Register;
@@ -22,7 +21,7 @@ public class ConditionalBranchInstruction extends Instruction {
         int cond_br_address = argument.getCond_Br_Address();
         Register Rt = argument.getRt();
         this.conditionalBranchCode.simulate(cond_br_address, Rt, pc);
-        RegisterPaneController.updateRegisterHighlighting(-1);
+        registerPaneController.updateRegisterHighlighting(-1);
     }
 
     public IConditionalBranchCode getConditionalBranchCode() {
