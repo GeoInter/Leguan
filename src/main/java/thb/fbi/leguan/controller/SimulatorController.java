@@ -142,6 +142,7 @@ public class SimulatorController {
         FlagRegister.reset();
         simulator.reset();
         registerPaneController.clearRegisterHighlighting();
+        registerPaneController.clearFlagHighlighting();
     }
 
     @FXML

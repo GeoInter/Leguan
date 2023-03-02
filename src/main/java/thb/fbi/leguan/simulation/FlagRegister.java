@@ -33,6 +33,7 @@ public class FlagRegister {
         z = false;
         c = false;
         v = false;
+        observer.update(n, z, c, v);
     }
 
     /**

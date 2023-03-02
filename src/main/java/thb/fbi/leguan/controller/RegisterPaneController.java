@@ -245,7 +245,8 @@ public class RegisterPaneController implements FlagRegisterObserver {
     }
 
     public void clearFlagHighlighting() {
-        NFlagValue.setId(null);
+        Platform.runLater(() -> {
+            NFlagValue.setId(null);
             ZFlagValue.setId(null);
             CFlagValue.setId(null);
             VFlagValue.setId(null);
@@ -253,6 +254,7 @@ public class RegisterPaneController implements FlagRegisterObserver {
             ZFlagNameLabel.setId(null);
             CFlagNameLabel.setId(null);
             VFlagNameLabel.setId(null);
+        });
     }
 
     /**
