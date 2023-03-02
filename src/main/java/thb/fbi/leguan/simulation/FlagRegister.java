@@ -1,30 +1,38 @@
 package thb.fbi.leguan.simulation;
 
-import javafx.beans.property.SimpleBooleanProperty;
-
 /**
  * \brief class representing processor flags
  * 
  * class for representing flags for the simulation as well a model for UI
  */
 public class FlagRegister {
+    /** observer to notify when flags are changing */
+    private static FlagRegisterObserver observer;
     /** Negative condition flag, Observable for UI */
-    private static SimpleBooleanProperty n = new SimpleBooleanProperty(false);
+    private static boolean n = false;
     /** Zero condition flag, Observable for UI */
-    private static SimpleBooleanProperty z = new SimpleBooleanProperty(false);
+    private static boolean z = false;
     /** Carry condition flag, Observable for UI */
-    private static SimpleBooleanProperty c = new SimpleBooleanProperty(false);
+    private static boolean c = false;
     /** Overflow condition flag, Observable for UI */
-    private static SimpleBooleanProperty v = new SimpleBooleanProperty(false);
+    private static boolean v = false;
+
+    /**
+     * set Controller as observer
+     * @param observer controller class that implements the MemoryObserver
+     */
+    public static void setObserver(FlagRegisterObserver observer) {
+        FlagRegister.observer = observer;
+    }
 
     /**
      * resets all flags back to false
      */
     public static void reset() {
-        FlagRegister.n.set(false);
-        FlagRegister.z.set(false);
-        FlagRegister.c.set(false);
-        FlagRegister.v.set(false);
+        n = false;
+        z = false;
+        c = false;
+        v = false;
     }
 
     /**
@@ -32,7 +40,7 @@ public class FlagRegister {
      * @return boolean representing if flag is set
      */
     public static boolean getNFlag() {
-        return n.get();
+        return n;
     }
 
     /**
@@ -40,7 +48,7 @@ public class FlagRegister {
      * @return boolean representing if flag is set
      */
     public static boolean getZFlag() {
-        return z.get();
+        return z;
     }
 
     /**
@@ -48,7 +56,7 @@ public class FlagRegister {
      * @return boolean representing if flag is set
      */
     public static boolean getCFlag() {
-        return c.get();
+        return c;
     }
 
     /**
@@ -56,39 +64,47 @@ public class FlagRegister {
      * @return boolean representing if flag is set
      */
     public static boolean getVFlag() {
-        return v.get();
+        return v;
     }
 
     /**
      * sets the Negative condition flag
      * @param n boolean to change the flag to
      */
-    public static void setNFlag(boolean n) {
-        FlagRegister.n.set(n);
+    private static void setNFlag(boolean n) {
+        FlagRegister.n = n;
     }
 
     /**
      * sets the Zero condition flag
      * @param z boolean to change the flag to
      */
-    public static void setZFlag(boolean z) {
-        FlagRegister.z.set(z);
+    private static void setZFlag(boolean z) {
+        FlagRegister.z = z;
     }
 
     /**
      * sets the Carry condition flag
      * @param c boolean to change the flag to
      */
-    public static void setCFlag(boolean c) {
-        FlagRegister.c.set(c);
+    private static void setCFlag(boolean c) {
+        FlagRegister.c = c;
     }
 
     /**
      * sets the Overflow condition flag
      * @param v boolean to change the flag to
      */
-    public static void setVFlag(boolean v) {
-        FlagRegister.v.set(v);
+    private static void setVFlag(boolean v) {
+        FlagRegister.v = v;
+    }
+
+    public static void setAllFlags(long op1, long op2, long result) {
+        checkAndSetNFlag(result);
+        checkAndSetZFlag(result);
+        checkAndSetCFlag(op1, op2);
+        checkAndSetVFlag(op1, op2, result);
+        observer.update(n, z, c, v);
     }
 
     /**
@@ -97,8 +113,8 @@ public class FlagRegister {
      * (for this simulator all register values are signed, so no bitmask required)
      * @param value number to check if negative
      */
-    public static void checkAndSetNFlag(long value) {
-        FlagRegister.n.set(value < 0);
+    private static void checkAndSetNFlag(long value) {
+        FlagRegister.setNFlag(value < 0);
     }
 
     /**
@@ -106,8 +122,8 @@ public class FlagRegister {
      * 
      * @param value number to compare with 0
      */
-    public static void checkAndSetZFlag(long value) {
-        FlagRegister.z.set(value == 0);
+    private static void checkAndSetZFlag(long value) {
+        FlagRegister.setZFlag(value == 0);
     }
 
     /**
@@ -117,7 +133,7 @@ public class FlagRegister {
      * @param op1 first operand
      * @param op2 second operand
      */
-    public static void checkAndSetCFlag(long op1, long op2) {
+    private static void checkAndSetCFlag(long op1, long op2) {
         long op1Lower = (int) op1;// op1 << 32;
         long op2Lower = (int) op2;// op2 << 32;
         
@@ -135,9 +151,9 @@ public class FlagRegister {
             // include previous carry from lower half (carryLower just as helper, when lower half carry can affect upper half)
             boolean carryHigher = 0 < (op1Higher + op2Higher + (carryLower ? 1 : 0))>>32;
  
-            FlagRegister.c.set(carryHigher);
+            FlagRegister.setCFlag(carryHigher);
         } else {
-            FlagRegister.c.set(carryLower);
+            FlagRegister.setCFlag(carryLower);
         }
     }
 
@@ -150,29 +166,13 @@ public class FlagRegister {
      * @param op2 second operand
      * @param result result of both operands
      */
-    public static void checkAndSetVFlag(long op1, long op2, long result) {
+    private static void checkAndSetVFlag(long op1, long op2, long result) {
         if(op1 >= 0 && op2 >= 0 && result < 0) {
-            FlagRegister.v.set(true);
+            FlagRegister.setVFlag(true);
         } else if (op1 < 0 && op2 < 0 && result >= 0) {
-            FlagRegister.v.set(true);
+            FlagRegister.setVFlag(true);
         } else {
-            FlagRegister.v.set(false);
+            FlagRegister.setVFlag(false);
         }
-    }
-
-    public static SimpleBooleanProperty getNFlagProperty() {
-        return n;
-    }
-
-    public static SimpleBooleanProperty getZFlagProperty() {
-        return z;
-    }
-
-    public static SimpleBooleanProperty getCFlagProperty() {
-        return c;
-    }
-
-    public static SimpleBooleanProperty getVFlagProperty() {
-        return v;
     }
 }

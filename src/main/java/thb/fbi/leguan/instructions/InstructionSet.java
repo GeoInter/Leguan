@@ -73,10 +73,7 @@ public class InstructionSet {
                         long op1 = Rn.getValue();
                         long result = op1 + alu_immediate;
 
-                        FlagRegister.checkAndSetCFlag(op1, op1);
-                        FlagRegister.checkAndSetNFlag(result);
-                        FlagRegister.checkAndSetVFlag(op1, alu_immediate, result);
-                        FlagRegister.checkAndSetZFlag(result);
+                        FlagRegister.setAllFlags(op1, alu_immediate, result);
                         
                         Rd.setValue(result);
                     }
@@ -94,10 +91,7 @@ public class InstructionSet {
                         long op2 = Rn.getValue();
                         long result = op1 + op2;
 
-                        FlagRegister.checkAndSetCFlag(op1, op2);
-                        FlagRegister.checkAndSetNFlag(result);
-                        FlagRegister.checkAndSetVFlag(op1, op2, result);
-                        FlagRegister.checkAndSetZFlag(result);
+                        FlagRegister.setAllFlags(op1, op2, result);
 
                         Rd.setValue(result);
                     }
@@ -142,10 +136,7 @@ public class InstructionSet {
                         long op1 = Rn.getValue();
                         long result = op1 & alu_immediate;
 
-                        FlagRegister.checkAndSetCFlag(op1, alu_immediate);
-                        FlagRegister.checkAndSetNFlag(result);
-                        FlagRegister.checkAndSetVFlag(op1, alu_immediate, result);
-                        FlagRegister.checkAndSetZFlag(result);
+                        FlagRegister.setAllFlags(op1, alu_immediate, result);
 
                         Rd.setValue(result);
                     }
@@ -162,10 +153,7 @@ public class InstructionSet {
                         long op2 = Rn.getValue();
                         long result = op1 & op2;
 
-                        FlagRegister.checkAndSetCFlag(op1, op2);
-                        FlagRegister.checkAndSetNFlag(result);
-                        FlagRegister.checkAndSetVFlag(op1, op2, result);
-                        FlagRegister.checkAndSetZFlag(result);
+                        FlagRegister.setAllFlags(op1, op2, result);
 
                         Rd.setValue(result);
                     }
@@ -613,10 +601,7 @@ public class InstructionSet {
                         long op1 = Rn.getValue();
                         long result = op1 - alu_immediate;
 
-                        FlagRegister.checkAndSetCFlag(op1, -1*alu_immediate); // the only difference to ADDS
-                        FlagRegister.checkAndSetNFlag(result);
-                        FlagRegister.checkAndSetVFlag(op1, -1*alu_immediate, result);
-                        FlagRegister.checkAndSetZFlag(result);
+                        FlagRegister.setAllFlags(op1, -1*alu_immediate, result); // the only difference to ADDS
                         
                         Rd.setValue(result);
                     }
@@ -634,10 +619,7 @@ public class InstructionSet {
                         long op2 = Rm.getValue();
                         long result = op1 - op2;
 
-                        FlagRegister.checkAndSetCFlag(op1, -1*op2); // the only difference to ADDS
-                        FlagRegister.checkAndSetNFlag(result);
-                        FlagRegister.checkAndSetVFlag(op1, -1*op2, result);
-                        FlagRegister.checkAndSetZFlag(result);
+                        FlagRegister.setAllFlags(op1, -1*op2, result); // the only difference to ADDS
 
                         Rd.setValue(result);
                     }

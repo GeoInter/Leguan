@@ -5,70 +5,108 @@ import java.util.List;
 
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import thb.fbi.leguan.instructions.Instruction;
 import thb.fbi.leguan.simulation.FlagRegister;
+import thb.fbi.leguan.simulation.FlagRegisterObserver;
 import thb.fbi.leguan.simulation.Simulator;
 import thb.fbi.leguan.simulation.SimulatorSingleton;
 
 /**
  * UI Controller for the Register Sidepanel
  */
-public class RegisterPaneController {
+public class RegisterPaneController implements FlagRegisterObserver {
 
-    @FXML VBox RegisterPane;
+    @FXML
+    VBox RegisterPane;
 
-    @FXML RegisterTitleBarController pcController; 
-    @FXML RegisterTitleBarController r0Controller; 
-    @FXML RegisterTitleBarController r1Controller;  
-    @FXML RegisterTitleBarController r2Controller; 
-    @FXML RegisterTitleBarController r3Controller; 
-    @FXML RegisterTitleBarController r4Controller; 
-    @FXML RegisterTitleBarController r5Controller; 
-    @FXML RegisterTitleBarController r6Controller; 
-    @FXML RegisterTitleBarController r7Controller;
-    @FXML RegisterTitleBarController r8Controller;
+    @FXML
+    RegisterTitleBarController pcController;
+    @FXML
+    RegisterTitleBarController r0Controller;
+    @FXML
+    RegisterTitleBarController r1Controller;
+    @FXML
+    RegisterTitleBarController r2Controller;
+    @FXML
+    RegisterTitleBarController r3Controller;
+    @FXML
+    RegisterTitleBarController r4Controller;
+    @FXML
+    RegisterTitleBarController r5Controller;
+    @FXML
+    RegisterTitleBarController r6Controller;
+    @FXML
+    RegisterTitleBarController r7Controller;
+    @FXML
+    RegisterTitleBarController r8Controller;
 
-    @FXML RegisterTitleBarController r9Controller; 
-    @FXML RegisterTitleBarController r10Controller;  
-    @FXML RegisterTitleBarController r11Controller; 
-    @FXML RegisterTitleBarController r12Controller; 
-    @FXML RegisterTitleBarController r13Controller; 
-    @FXML RegisterTitleBarController r14Controller; 
-    @FXML RegisterTitleBarController r15Controller; 
-    @FXML RegisterTitleBarController r16Controller;
-    @FXML RegisterTitleBarController r17Controller;  
-    @FXML RegisterTitleBarController r18Controller;
+    @FXML
+    RegisterTitleBarController r9Controller;
+    @FXML
+    RegisterTitleBarController r10Controller;
+    @FXML
+    RegisterTitleBarController r11Controller;
+    @FXML
+    RegisterTitleBarController r12Controller;
+    @FXML
+    RegisterTitleBarController r13Controller;
+    @FXML
+    RegisterTitleBarController r14Controller;
+    @FXML
+    RegisterTitleBarController r15Controller;
+    @FXML
+    RegisterTitleBarController r16Controller;
+    @FXML
+    RegisterTitleBarController r17Controller;
+    @FXML
+    RegisterTitleBarController r18Controller;
 
-    @FXML RegisterTitleBarController r19Controller; 
-    @FXML RegisterTitleBarController r20Controller;  
-    @FXML RegisterTitleBarController r21Controller; 
-    @FXML RegisterTitleBarController r22Controller; 
-    @FXML RegisterTitleBarController r23Controller; 
-    @FXML RegisterTitleBarController r24Controller; 
-    @FXML RegisterTitleBarController r25Controller; 
-    @FXML RegisterTitleBarController r26Controller;
-    @FXML RegisterTitleBarController r27Controller;
-      
-    @FXML RegisterTitleBarController r28Controller; 
-    @FXML RegisterTitleBarController r29Controller; 
-    @FXML RegisterTitleBarController r30Controller;
-    @FXML RegisterTitleBarController r31Controller;
+    @FXML
+    RegisterTitleBarController r19Controller;
+    @FXML
+    RegisterTitleBarController r20Controller;
+    @FXML
+    RegisterTitleBarController r21Controller;
+    @FXML
+    RegisterTitleBarController r22Controller;
+    @FXML
+    RegisterTitleBarController r23Controller;
+    @FXML
+    RegisterTitleBarController r24Controller;
+    @FXML
+    RegisterTitleBarController r25Controller;
+    @FXML
+    RegisterTitleBarController r26Controller;
+    @FXML
+    RegisterTitleBarController r27Controller;
 
-    @FXML Label NFlagValue;
-    @FXML Label ZFlagValue;
-    @FXML Label CFlagValue;
-    @FXML Label VFlagValue;
+    @FXML
+    RegisterTitleBarController r28Controller;
+    @FXML
+    RegisterTitleBarController r29Controller;
+    @FXML
+    RegisterTitleBarController r30Controller;
+    @FXML
+    RegisterTitleBarController r31Controller;
 
-    @FXML CheckBox showUnusedRegisterCheckBox;
-    @FXML CheckBox displayUnsignedCheckBox;
-    
+    @FXML
+    Label NFlagValue;
+    @FXML
+    Label ZFlagValue;
+    @FXML
+    Label CFlagValue;
+    @FXML
+    Label VFlagValue;
+
+    @FXML
+    CheckBox showUnusedRegisterCheckBox;
+    @FXML
+    CheckBox displayUnsignedCheckBox;
+
     private Simulator simulator = SimulatorSingleton.getSimulator();
     private List<RegisterTitleBarController> registerControllerList = new ArrayList<RegisterTitleBarController>();
 
@@ -156,44 +194,55 @@ public class RegisterPaneController {
         VFlagValue.setText("0");
         ZFlagValue.setText("0");
 
-        // bind value of flags to flag labels
-        addFlagObserver(CFlagValue, FlagRegister.getCFlagProperty());
-        addFlagObserver(NFlagValue, FlagRegister.getNFlagProperty());
-        addFlagObserver(VFlagValue, FlagRegister.getVFlagProperty());
-        addFlagObserver(ZFlagValue, FlagRegister.getZFlagProperty());
-
         Instruction.setRegisterPaneController(this);
+        FlagRegister.setObserver(this);
     }
 
-    /**
-     * Add Listener to FlagRegister Properties
-     * @param flagLabel label to update text
-     * @param booleanProperty property to add listener to
-     */
-    private void addFlagObserver(Label flagLabel, SimpleBooleanProperty booleanProperty) {
-        booleanProperty.addListener(new ChangeListener<Boolean>() {
+    @Override
+    public void update(boolean n, boolean z, boolean c, boolean v) {
+        Platform.runLater(() -> {
+            if (n) {
+                NFlagValue.setText("1");
+            } else {
+                NFlagValue.setText("0");
+            }
 
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                Platform.runLater(() -> {
-                    if(newValue) {
-                        flagLabel.setText("1");
-                    } else {
-                        flagLabel.setText("0");
-                    }
-                });
+            if (z) {
+                ZFlagValue.setText("1");
+            } else {
+                ZFlagValue.setText("0");
+            }
+
+            if (c) {
+                CFlagValue.setText("1");
+            } else {
+                CFlagValue.setText("0");
+            }
+
+            if (v) {
+                VFlagValue.setText("1");
+            } else {
+                VFlagValue.setText("0");
             }
         });
     }
 
+    public void clearFlagHighlighting() {
+        CFlagValue.setId(null);
+        NFlagValue.setId(null);
+        VFlagValue.setId(null);
+        ZFlagValue.setId(null);
+    }
+
     /**
      * Set highlighting for a specific register
+     * 
      * @param index ID of register to highlight
      */
     public void updateRegisterHighlighting(int index) {
         Platform.runLater(() -> {
-            for(int i = 0; i < registerControllerList.size(); i++) {
-                if(i == index) {
+            for (int i = 0; i < registerControllerList.size(); i++) {
+                if (i == index) {
                     registerControllerList.get(i).registerValue.setId("highlight-value");
                 } else {
                     registerControllerList.get(i).registerValue.setId(null);
@@ -206,7 +255,7 @@ public class RegisterPaneController {
      * undo highlighting for all registers
      */
     public void clearRegisterHighlighting() {
-        for(RegisterTitleBarController controller : registerControllerList) {
+        for (RegisterTitleBarController controller : registerControllerList) {
             controller.clearHighlighting();
         }
     }
@@ -214,5 +263,5 @@ public class RegisterPaneController {
     public Simulator getSimulator() {
         return simulator;
     }
-    
+
 }
