@@ -151,10 +151,10 @@ public class RegisterPaneController {
         registerControllerList.add(r30Controller);
         registerControllerList.add(r31Controller);
 
-        CFlagValue.setText(String.valueOf(FlagRegister.getCFlagProperty().get()));
-        NFlagValue.setText(String.valueOf(FlagRegister.getNFlagProperty().get()));
-        VFlagValue.setText(String.valueOf(FlagRegister.getVFlagProperty().get()));
-        ZFlagValue.setText(String.valueOf(FlagRegister.getZFlagProperty().get()));
+        CFlagValue.setText("0");
+        NFlagValue.setText("0");
+        VFlagValue.setText("0");
+        ZFlagValue.setText("0");
 
         // bind value of flags to flag labels
         addFlagObserver(CFlagValue, FlagRegister.getCFlagProperty());
@@ -176,7 +176,11 @@ public class RegisterPaneController {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 Platform.runLater(() -> {
-                    flagLabel.setText(String.valueOf(newValue));
+                    if(newValue) {
+                        flagLabel.setText("1");
+                    } else {
+                        flagLabel.setText("0");
+                    }
                 });
             }
         });
