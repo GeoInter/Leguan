@@ -153,38 +153,38 @@
                </children>
                <fx:define>
                   <ArrayList fx:id="registerControllerList">
-                     <fx:reference source="r0"/>
-                     <fx:reference source="r1"/>
-                     <fx:reference source="r2"/>
-                     <fx:reference source="r3"/>
-                     <fx:reference source="r4"/>
-                     <fx:reference source="r5"/>
-                     <fx:reference source="r6"/>
-                     <fx:reference source="r7"/>
-                     <fx:reference source="r8"/>
-                     <fx:reference source="r9"/>
-                     <fx:reference source="r10"/>
-                     <fx:reference source="r11"/>
-                     <fx:reference source="r12"/>
-                     <fx:reference source="r13"/>
-                     <fx:reference source="r14"/>
-                     <fx:reference source="r15"/>
-                     <fx:reference source="r16"/>
-                     <fx:reference source="r17"/>
-                     <fx:reference source="r18"/>
-                     <fx:reference source="r19"/>
-                     <fx:reference source="r20"/>
-                     <fx:reference source="r21"/>
-                     <fx:reference source="r22"/>
-                     <fx:reference source="r23"/>
-                     <fx:reference source="r24"/>
-                     <fx:reference source="r25"/>
-                     <fx:reference source="r26"/>
-                     <fx:reference source="r27"/>
-                     <fx:reference source="r28"/>
-                     <fx:reference source="r29"/>
-                     <fx:reference source="r30"/>
-                     <fx:reference source="r31"/>
+                     <fx:reference source="r0" />
+                     <fx:reference source="r1" />
+                     <fx:reference source="r2" />
+                     <fx:reference source="r3" />
+                     <fx:reference source="r4" />
+                     <fx:reference source="r5" />
+                     <fx:reference source="r6" />
+                     <fx:reference source="r7" />
+                     <fx:reference source="r8" />
+                     <fx:reference source="r9" />
+                     <fx:reference source="r10" />
+                     <fx:reference source="r11" />
+                     <fx:reference source="r12" />
+                     <fx:reference source="r13" />
+                     <fx:reference source="r14" />
+                     <fx:reference source="r15" />
+                     <fx:reference source="r16" />
+                     <fx:reference source="r17" />
+                     <fx:reference source="r18" />
+                     <fx:reference source="r19" />
+                     <fx:reference source="r20" />
+                     <fx:reference source="r21" />
+                     <fx:reference source="r22" />
+                     <fx:reference source="r23" />
+                     <fx:reference source="r24" />
+                     <fx:reference source="r25" />
+                     <fx:reference source="r26" />
+                     <fx:reference source="r27" />
+                     <fx:reference source="r28" />
+                     <fx:reference source="r29" />
+                     <fx:reference source="r30" />
+                     <fx:reference source="r31" />
                   </ArrayList>
                </fx:define>
             </VBox>
@@ -194,54 +194,66 @@
          <children>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Label text="N">
-                     <padding>
-                        <Insets right="5.0" />
-                     </padding>
+                  <Label fx:id="NFlagNameLabel" text="N">
                      <tooltip>
                         <Tooltip text="Negative Condition Flag" />
                      </tooltip>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
                   </Label>
-                  <Label fx:id="NFlagValue" text="0" />
+                  <Label fx:id="NFlagValue" text="0">
+                     <padding>
+                        <Insets bottom="5.0" right="5.0" top="5.0" />
+                     </padding></Label>
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Label text="Z">
+                  <Label fx:id="ZFlagNameLabel" text="Z">
                      <padding>
-                        <Insets right="5.0" />
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </padding>
                      <tooltip>
                         <Tooltip text="Zero Condition Flag" />
                      </tooltip>
                   </Label>
-                  <Label fx:id="ZFlagValue" text="0" />
+                  <Label fx:id="ZFlagValue" text="0">
+                     <padding>
+                        <Insets bottom="5.0" right="5.0" top="5.0" />
+                     </padding></Label>
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Label text="C">
-                     <padding>
-                        <Insets right="5.0" />
-                     </padding>
+                  <Label fx:id="CFlagNameLabel" text="C">
                      <tooltip>
                         <Tooltip text="Carry Condition Flag" />
                      </tooltip>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
                   </Label>
-                  <Label fx:id="CFlagValue" text="0" />
+                  <Label fx:id="CFlagValue" text="0">
+                     <padding>
+                        <Insets bottom="5.0" right="5.0" top="5.0" />
+                     </padding></Label>
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Label text="V">
+                  <Label fx:id="VFlagNameLabel" text="V">
                      <padding>
-                        <Insets right="5.0" />
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </padding>
                      <tooltip>
                         <Tooltip text="Overflow Condition Flag" />
                      </tooltip>
                   </Label>
-                  <Label fx:id="VFlagValue" text="0" />
+                  <Label fx:id="VFlagValue" text="0">
+                     <padding>
+                        <Insets bottom="5.0" right="5.0" top="5.0" />
+                     </padding></Label>
                </children>
             </HBox>
          </children>

@@ -101,6 +101,14 @@ public class RegisterPaneController implements FlagRegisterObserver {
     Label CFlagValue;
     @FXML
     Label VFlagValue;
+    @FXML
+    Label NFlagNameLabel;
+    @FXML
+    Label ZFlagNameLabel;
+    @FXML
+    Label CFlagNameLabel;
+    @FXML
+    Label VFlagNameLabel;
 
     @FXML
     CheckBox showUnusedRegisterCheckBox;
@@ -224,14 +232,27 @@ public class RegisterPaneController implements FlagRegisterObserver {
             } else {
                 VFlagValue.setText("0");
             }
+
+            NFlagValue.setId("highlight-value");
+            ZFlagValue.setId("highlight-value");
+            CFlagValue.setId("highlight-value");
+            VFlagValue.setId("highlight-value");
+            NFlagNameLabel.setId("highlight-value");
+            ZFlagNameLabel.setId("highlight-value");
+            CFlagNameLabel.setId("highlight-value");
+            VFlagNameLabel.setId("highlight-value");
         });
     }
 
     public void clearFlagHighlighting() {
-        CFlagValue.setId(null);
         NFlagValue.setId(null);
-        VFlagValue.setId(null);
-        ZFlagValue.setId(null);
+            ZFlagValue.setId(null);
+            CFlagValue.setId(null);
+            VFlagValue.setId(null);
+            NFlagNameLabel.setId(null);
+            ZFlagNameLabel.setId(null);
+            CFlagNameLabel.setId(null);
+            VFlagNameLabel.setId(null);
     }
 
     /**

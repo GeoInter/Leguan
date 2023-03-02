@@ -18,6 +18,7 @@ public class ArithmeticInstruction extends Instruction {
 
     @Override
     public void simulate(InstructionArguments argument, PCRegister pc) {
+        registerPaneController.clearFlagHighlighting();
         Register Rm = argument.getRm();
         int shamt = argument.getShamt();
         Register Rn = argument.getRn();

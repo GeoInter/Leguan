@@ -18,6 +18,7 @@ public class ImmediateInstruction extends Instruction {
 
     @Override
     public void simulate(InstructionArguments argument, PCRegister pc) {
+        registerPaneController.clearFlagHighlighting();
         int alu_immediate = argument.getAlu_Immediate();
         Register Rn = argument.getRn();
         Register Rd = argument.getRd();
