@@ -98,6 +98,16 @@ public interface LegV8Listener extends ParseTreeListener {
 	 */
 	void exitDatatransferInstruction(LegV8Parser.DatatransferInstructionContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link LegV8Parser#exclusiveInstruction}.
+	 * @param ctx the parse tree
+	 */
+	void enterExclusiveInstruction(LegV8Parser.ExclusiveInstructionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LegV8Parser#exclusiveInstruction}.
+	 * @param ctx the parse tree
+	 */
+	void exitExclusiveInstruction(LegV8Parser.ExclusiveInstructionContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link LegV8Parser#condBranchInstruction}.
 	 * @param ctx the parse tree
 	 */
@@ -157,6 +167,16 @@ public interface LegV8Listener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitDatatransferParam(LegV8Parser.DatatransferParamContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link LegV8Parser#exclusiveParam}.
+	 * @param ctx the parse tree
+	 */
+	void enterExclusiveParam(LegV8Parser.ExclusiveParamContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LegV8Parser#exclusiveParam}.
+	 * @param ctx the parse tree
+	 */
+	void exitExclusiveParam(LegV8Parser.ExclusiveParamContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link LegV8Parser#condBranchParam}.
 	 * @param ctx the parse tree

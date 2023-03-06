@@ -1,6 +1,7 @@
 package thb.fbi.leguan.simulation;
 
 import java.nio.ByteBuffer;
+import java.util.HashMap;
 import java.util.TreeMap;
 
 /**
@@ -9,6 +10,8 @@ import java.util.TreeMap;
 public class Memory {
 
     private static TreeMap<Long, Byte> dataStorage = new TreeMap<Long, Byte>(); // uses keys -> keys as address
+    /** lock addresses; boolean indicates if changed by other store instruction than STXR */
+    private static HashMap<Long, Boolean> lockStorage = new HashMap<Long, Boolean>();
     public static long dataAdressMin = 10000;
 
     private static MemoryObserver observer;
@@ -37,9 +40,56 @@ public class Memory {
     }
 
     /**
+     * Adds address (double word) to locked storage
+     * @param address address of memory (double word) to lock
+     */
+    public static void addLockedStorage(long address) {
+        for(int i = 0; i < 8; i++) {
+            lockStorage.put(address+i, false);
+        }
+    }
+
+    /**
+     * update locked storage (STUR** instruction accessed locked memory)
+     * @param address address of memory
+     * @param size number of bytes changed (1, 2, 4 or 8)
+     */
+    public static void updateLockedStorage(long address, int size) {
+        for(int i = 0; i < size; i++) {
+            if(lockStorage.containsKey(address+i)) {
+                lockStorage.put(address+i, true);
+            }
+        }
+    }
+
+    /**
+     * check locked storage and returns whether lock storage was changes prior or not
+     * @param address
+     * @return boolean indicating if locked storage was changed by non-STXR instruction
+     */
+    public static boolean checkLockedStorage(long address) {
+        for(int i = 0; i < 8; i++) {
+            if(lockStorage.get(address)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * clear locked storage
+     * @param address address of memory (double word) to unlock
+     */
+    public static void clearLockedStorage(long address) {
+        for(int i = 0; i < 8; i++) {
+            lockStorage.remove(address+i);
+        }
+    }
+
+    /**
      * loads a single Byte from data
      * @param address to point to memory/ index/ key of hashmap 
-     * @return
+     * @return 1 byte value of memory
      */
     public static byte loadByte(long address) {
         return getByte(address);
@@ -48,7 +98,7 @@ public class Memory {
     /**
      * loads 2 Bytes/ half word from data
      * @param address to point to memory/ index/ key of hashmap
-     * @return
+     * @return 2 byte value of memory
      */
     public static long loadHalfword(long address) {
         byte[]bytes = new byte[2];
@@ -61,7 +111,7 @@ public class Memory {
     /**
      * loads 4 Bytes/ a word from data
      * @param address to point to memory/ index/ key of hashmap
-     * @return
+     * @return 4 byte value of memory
      */
     public static long loadWord(long address) {
         byte[]bytes = new byte[4];
@@ -74,9 +124,23 @@ public class Memory {
     /**
      * loads 8 Bytes/ a double word from data
      * @param address to point to memory/ index/ key of hashmap
-     * @return
+     * @return 8 byte value of memory
      */
     public static long loadDWord(long address) {
+        byte[]bytes = new byte[8];
+        for(int i = 0; i < bytes.length; i++) {
+            bytes[i] = getByte(address + i);
+        }
+        return combineBytes(bytes);
+    }
+
+    /**
+     * loads 8 Bytes/ a double word from data and locks the addresses
+     * @param address to point to memory/ index/ key of hashmap
+     * @return 8 byte value of memory
+     */
+    public static long loadExclusive(long address) {
+        addLockedStorage(address);
         byte[]bytes = new byte[8];
         for(int i = 0; i < bytes.length; i++) {
             bytes[i] = getByte(address + i);
@@ -128,6 +192,7 @@ public class Memory {
      */
     public static void storeByte(long address, byte value) {
         dataStorage.put(address, value);
+        updateLockedStorage(address, 1);
         notifyObserver(address, 1);
     }
 
@@ -141,6 +206,7 @@ public class Memory {
         for(int i = 0; i < bytes.length; i++) {
             dataStorage.put(address+i, bytes[i]);
         }
+        updateLockedStorage(address, 2);
         notifyObserver(address, 2);
     }
 
@@ -154,6 +220,7 @@ public class Memory {
         for(int i = 0; i < bytes.length; i++) {
             dataStorage.put(address+i, bytes[i]);
         }
+        updateLockedStorage(address, 4);
         notifyObserver(address, 4);
     }
 
@@ -167,6 +234,27 @@ public class Memory {
         for(int i = 0; i < bytes.length; i++) {
             dataStorage.put(address+i, bytes[i]);
         }
+        updateLockedStorage(address, 8);
         notifyObserver(address, 8);
+    }
+
+    /**
+     * store double word to memory and return boolean wheter operation was successful or not
+     * @param address to point to memory/ index/ key of hashmap
+     * @param value to be stored in memory
+     * @return boolean indicating if operation was successful or not 
+     */
+    public static boolean storeExclusive(long address, long value) {
+        if(! checkLockedStorage(address)) { // successful operation
+            byte[] bytes = ByteBuffer.allocate(8).putLong(value).array();
+            for(int i = 0; i < bytes.length; i++) {
+                dataStorage.put(address+i, bytes[i]);
+            }
+            clearLockedStorage(address);
+            notifyObserver(address, 8);
+            return true;
+        } else { // failed operation
+            return false;
+        }
     }
 }

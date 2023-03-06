@@ -453,6 +453,20 @@ public class InstructionSet {
         );
 
         instructionSet.add(
+            new DataTransferInstruction("LDXR", 
+            "Exclusive load a word from memory to register", 
+            new IDataTransferCode() {
+                @Override
+                public void simulate(int dt_address, Register Rn, Register Rt) {
+                    long op1 = Rn.getValue();
+                    long address = op1 + dt_address;
+                    long value = Memory.loadExclusive(address);
+                    Rt.setValue(value);
+                }
+            })
+        );
+
+        instructionSet.add(
             new ArithmeticInstruction("LSL", 
                 "Logical Shift Left", 
                 new IArithmeticCode() {
@@ -561,6 +575,22 @@ public class InstructionSet {
                     long op1 = Rn.getValue();
                     long address = op1 + dt_address;
                     Memory.storeWord(address, value);
+                }
+            })
+        );
+
+        instructionSet.add(
+            new ArithmeticInstruction("STXR", 
+            "Exclusive Store a word from register into memory", 
+            new IArithmeticCode() {
+                @Override
+                public void simulate(Register Rm, int shamt, Register Rn, Register Rd) {
+                    int value = (int) Rd.getValue();
+                    if(Memory.storeExclusive(Rm.getValue(), value)) {
+                        Rn.setValue(0);
+                    } else {
+                        Rn.setValue(1);
+                    }
                 }
             })
         );

@@ -16,6 +16,8 @@ import thb.fbi.leguan.parser.antlr.LegV8Parser.CondBranchParamContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.DatatransferInstructionContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.DatatransferParamContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.DeclarationContext;
+import thb.fbi.leguan.parser.antlr.LegV8Parser.ExclusiveInstructionContext;
+import thb.fbi.leguan.parser.antlr.LegV8Parser.ExclusiveParamContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.ImmediateInstructionContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.ImmediateParamContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.InvocationContext;
@@ -213,6 +215,12 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
     }
 
     @Override
+    public Object visitExclusiveInstruction(ExclusiveInstructionContext ctx) {
+        String instructionName = ctx.ExclusiveInstruction().getText();
+        return getInstructionByName(instructionName);
+    }
+
+    @Override
     public Instruction visitCondBranchInstruction(CondBranchInstructionContext ctx) {
         String instructionName = ctx.CondBranchInstruction().getText();
         return getInstructionByName(instructionName);
@@ -257,6 +265,18 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
         args.setRt(Rt);
         args.setRn(Rn);
         args.setDt_Address(dt_address);
+        return args;
+    }
+
+    @Override
+    public Object visitExclusiveParam(ExclusiveParamContext ctx) {
+        Register Rd = visitRegister(ctx.register(0));
+        Register Rn = visitRegister(ctx.register(1));
+        Register Rm = visitRegister(ctx.register(2));
+        InstructionArguments args = new InstructionArguments();
+        args.setRd(Rd);
+        args.setRn(Rn);
+        args.setRm(Rm);
         return args;
     }
 

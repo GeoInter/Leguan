@@ -125,6 +125,18 @@ public class LegV8BaseListener implements LegV8Listener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterExclusiveInstruction(LegV8Parser.ExclusiveInstructionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitExclusiveInstruction(LegV8Parser.ExclusiveInstructionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterCondBranchInstruction(LegV8Parser.CondBranchInstructionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -192,6 +204,18 @@ public class LegV8BaseListener implements LegV8Listener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitDatatransferParam(LegV8Parser.DatatransferParamContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterExclusiveParam(LegV8Parser.ExclusiveParamContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitExclusiveParam(LegV8Parser.ExclusiveParamContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

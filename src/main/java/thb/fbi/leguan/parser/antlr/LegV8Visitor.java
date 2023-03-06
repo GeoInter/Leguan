@@ -65,6 +65,12 @@ public interface LegV8Visitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitDatatransferInstruction(LegV8Parser.DatatransferInstructionContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link LegV8Parser#exclusiveInstruction}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExclusiveInstruction(LegV8Parser.ExclusiveInstructionContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link LegV8Parser#condBranchInstruction}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -100,6 +106,12 @@ public interface LegV8Visitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitDatatransferParam(LegV8Parser.DatatransferParamContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link LegV8Parser#exclusiveParam}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExclusiveParam(LegV8Parser.ExclusiveParamContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link LegV8Parser#condBranchParam}.
 	 * @param ctx the parse tree
