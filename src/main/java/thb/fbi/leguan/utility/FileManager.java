@@ -16,8 +16,6 @@ import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import thb.fbi.leguan.App;
-import thb.fbi.leguan.simulation.Simulator;
-import thb.fbi.leguan.simulation.SimulatorSingleton;
 
 /**
  * class for opening and saving files
@@ -25,9 +23,9 @@ import thb.fbi.leguan.simulation.SimulatorSingleton;
 public class FileManager {
 
     private static FileChooser fileChooser = new FileChooser();
-    private static Simulator simulator = SimulatorSingleton.getSimulator();
     private static CodeArea codeArea;
     private static boolean isSaved = true;
+    private static File currentFile = null;
 
     public static void init(CodeArea codeArea) {
         fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
@@ -66,9 +64,8 @@ public class FileManager {
     }
 
     public static void saveFile() {
-        if(simulator.getArmProgram() != null) {
-            String fileName = simulator.getArmProgram().getFileName();
-            fileChooser.setInitialFileName(fileName);
+        if(currentFile != null) {
+            fileChooser.setInitialFileName(currentFile.getName());
             saveDialog();
         } else {
             saveFileAs();
@@ -113,7 +110,7 @@ public class FileManager {
             String content = Files.readString(file.toPath());
             codeArea.replaceText(content);
             isSaved = true;
-            simulator.getArmProgram().setFilePath(file.getName());
+            currentFile = file;
         } catch(IOException e) {
             showErrorAlert("Could not read file", "File could not be read. Abort loading.");
         } catch(OutOfMemoryError m) {
