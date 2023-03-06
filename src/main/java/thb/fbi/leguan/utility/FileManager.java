@@ -67,8 +67,8 @@ public class FileManager {
 
     public static void saveFile() {
         if(simulator.getArmProgram() != null) {
-            String filePath = simulator.getArmProgram().getFullFilePath();
-            fileChooser.setInitialFileName(filePath);
+            String fileName = simulator.getArmProgram().getFileName();
+            fileChooser.setInitialFileName(fileName);
             saveDialog();
         } else {
             saveFileAs();
@@ -113,6 +113,7 @@ public class FileManager {
             String content = Files.readString(file.toPath());
             codeArea.replaceText(content);
             isSaved = true;
+            simulator.getArmProgram().setFilePath(file.getName());
         } catch(IOException e) {
             showErrorAlert("Could not read file", "File could not be read. Abort loading.");
         } catch(OutOfMemoryError m) {

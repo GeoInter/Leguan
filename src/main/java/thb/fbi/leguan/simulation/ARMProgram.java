@@ -1,5 +1,6 @@
 package thb.fbi.leguan.simulation;
 
+import java.io.File;
 import java.util.ArrayList;
 
 /** 
@@ -8,21 +9,13 @@ import java.util.ArrayList;
  * contains all lines of code as @see ProgramStatements
  */
 public class ARMProgram {
-    private String fileName;
-    private String fileExtension;
+    private File file;
 
     private ArrayList<ProgramStatement> statements = new ArrayList<ProgramStatement>();
     private ArrayList<Register> usedRegisters = new ArrayList<Register>();
 
     public ARMProgram() {
-        fileName = "MyARMProgram";
-        fileExtension = "txt";
-        statements.clear();
-    }
-
-    public ARMProgram(String fileName, String fileExtension) {
-        this.fileName = fileName;
-        this.fileExtension = fileExtension;
+        file = new File("MyARMProgram.txt");
         statements.clear();
     }
 
@@ -31,16 +24,11 @@ public class ARMProgram {
      * @return file name of the program
      */
     public String getFileName() {
-        return fileName;
+        return file.getName();
     }
 
-    public String getFileExtension() {
-        return fileExtension;
-    }
-
-    public String getFullFilePath() {
-        String path = fileName + "." + fileExtension;
-        return path;
+    public String getFilePath() {
+        return file.getAbsolutePath();
     }
 
     /**
@@ -71,6 +59,10 @@ public class ARMProgram {
      */
     public void addStatement(ProgramStatement statement) {
         statements.add(statement);
+    }
+
+    public void setFilePath(String filepath) {
+        file = new File(filepath);
     }
 
     /**
