@@ -113,6 +113,18 @@ public class LegV8BaseListener implements LegV8Listener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterWideImmediateInstruction(LegV8Parser.WideImmediateInstructionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitWideImmediateInstruction(LegV8Parser.WideImmediateInstructionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterDatatransferInstruction(LegV8Parser.DatatransferInstructionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -192,6 +204,18 @@ public class LegV8BaseListener implements LegV8Listener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitImmediateParam(LegV8Parser.ImmediateParamContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterWideImmediateParam(LegV8Parser.WideImmediateParamContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitWideImmediateParam(LegV8Parser.WideImmediateParamContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

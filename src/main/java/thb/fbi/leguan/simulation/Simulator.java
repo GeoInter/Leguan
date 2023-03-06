@@ -94,8 +94,8 @@ public class Simulator {
      */
     public void forwardStep(String code) {
         ProgramStatement statement = program.getProgramStatement((int) pc.getValue());
-        statement.getSourceLine();
         if(statement != null) {
+            statement.getSourceLine();
             Instruction instruction = statement.getInstruction();
             if(instruction != null) {
                 instruction.simulate(statement.getArguments(), pc);

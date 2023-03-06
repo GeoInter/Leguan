@@ -22,6 +22,7 @@ import thb.fbi.leguan.parser.antlr.LegV8Parser.MainContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.NumContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.RegisterContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.ShiftInstructionContext;
+import thb.fbi.leguan.parser.antlr.LegV8Parser.WideImmediateInstructionContext;
 
 /**
  * Listener for walking through Syntax Tree and adding styles to each node
@@ -98,6 +99,11 @@ public class SyntaxHighlighter extends LegV8BaseListener {
     @Override
     public void enterImmediateInstruction(ImmediateInstructionContext ctx) {
         addStyle(ctx.ImmediateInstruction(), "instruction");
+    }
+
+    @Override
+    public void enterWideImmediateInstruction(WideImmediateInstructionContext ctx) {
+        addStyle(ctx.WideImmediateInstrcution(), "instruction");
     }
 
     @Override

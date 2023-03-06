@@ -26,6 +26,8 @@ import thb.fbi.leguan.parser.antlr.LegV8Parser.NumContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.RegisterContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.ShiftInstructionContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.ShiftParamContext;
+import thb.fbi.leguan.parser.antlr.LegV8Parser.WideImmediateInstructionContext;
+import thb.fbi.leguan.parser.antlr.LegV8Parser.WideImmediateParamContext;
 import thb.fbi.leguan.simulation.InstructionArguments;
 import thb.fbi.leguan.simulation.ProgramStatement;
 import thb.fbi.leguan.simulation.Register;
@@ -209,6 +211,12 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
     }
 
     @Override
+    public Object visitWideImmediateInstruction(WideImmediateInstructionContext ctx) {
+        String instructionName = ctx.WideImmediateInstrcution().getText();
+        return getInstructionByName(instructionName);
+    }
+
+    @Override
     public Instruction visitDatatransferInstruction(DatatransferInstructionContext ctx) {
         String instructionName = ctx.DatatransferInstruction().getText();
         return getInstructionByName(instructionName);
@@ -253,6 +261,26 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
         args.setRd(Rd);
         args.setRn(Rn);
         args.setAlu_Immediate(alu_immediate);
+        return args;
+    }
+
+    @Override
+    public Object visitWideImmediateParam(WideImmediateParamContext ctx) {
+        Register Rd = visitRegister(ctx.register());
+        int immediate = visitNum(ctx.num(0));
+        int shamt = visitNum(ctx.num(1));
+        // only allows 0, 16, 32 and 48 as shift value
+        if(shamt != 0 && shamt != 16 && shamt != 32 && shamt != 48) {
+            Token token = ctx.num(1).NUMBER().getSymbol();
+            int line = token.getLine();
+            int pos = token.getCharPositionInLine();
+            ParsingError err = new ParsingError(line, pos, ParsingErrorType.WideImmediateShiftOutOfRange);
+            semanticErrors.add(err);
+        }
+        InstructionArguments args = new InstructionArguments();
+        args.setRd(Rd);
+        args.setAlu_Immediate(immediate);
+        args.setShamt(shamt);
         return args;
     }
 

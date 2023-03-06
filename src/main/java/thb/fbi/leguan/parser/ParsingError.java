@@ -31,8 +31,11 @@ public class ParsingError {
             case UndefinedJumpInvocation:
                 this.msg = "Cannot branch to undeclared mark"; // '" + id + "'";
                 break;
+            case WideImmediateShiftOutOfRange:
+                this.msg = "Shift value has to be either 0, 16, 32 or 48";
+                break;
             default:
-                this.msg = "";
+                this.msg = "Undefined Error occured";
                 break;
         }
     }

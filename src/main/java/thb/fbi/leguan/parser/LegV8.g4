@@ -10,6 +10,7 @@ program : line+ ;
 line : declaration? (arithmeticInstruction arithmeticParam | 
                     shiftInstruction shiftParam | 
                     immediateInstruction immediateParam | 
+                    wideImmediateInstruction wideImmediateParam |
                     datatransferInstruction datatransferParam | 
                     exclusiveInstruction exclusiveParam |
                     condBranchInstruction condBranchParam | 
@@ -21,6 +22,7 @@ invocation: JumpInvocation ;
 arithmeticInstruction : ArithmeticInstruction;
 shiftInstruction: ShiftInstruction;
 immediateInstruction : ImmediateInstruction;
+wideImmediateInstruction : WideImmediateInstrcution;
 datatransferInstruction : DatatransferInstruction;
 exclusiveInstruction : ExclusiveInstruction;
 condBranchInstruction : CondBranchInstruction;
@@ -29,6 +31,7 @@ branchInstruction : BranchInstruction;
 arithmeticParam : register COMMA register COMMA register SEMI ;
 shiftParam : register COMMA register COMMA num SEMI ; // separated from arithemtic
 immediateParam : register COMMA register COMMA num SEMI ;
+wideImmediateParam : register COMMA num COMMA 'LSL' num SEMI ;
 datatransferParam : register COMMA SQUARE_BRACKET_LEFT register COMMA num SQUARE_BRACKET_RIGHT SEMI ;
 exclusiveParam : register COMMA register SQUARE_BRACKET_LEFT register SQUARE_BRACKET_RIGHT SEMI;
 condBranchParam : register COMMA invocation SEMI;
@@ -42,6 +45,7 @@ register : REGISTER ;
 ArithmeticInstruction: 'ADD' | 'ADDS' | 'AND' | 'ANDS' | 'EOR' | 'EORI' | 'ORR' | 'SUB' | 'SUBS';
 ShiftInstruction: 'LSL' | 'LSR' ;
 ImmediateInstruction : 'ADDI' | 'ADDIS' | 'ANDI' | 'ANDIS' | 'ORRI' | 'SUBI' | 'SUBIS';
+WideImmediateInstrcution : 'MOVK' | 'MOVZ';
 DatatransferInstruction : 'LDUR' | 'LDURB' | 'LDURH' | 'LDURSW' | 'LDXR' | 'STUR' | 'STURB' | 'STURH' | 'STURW';
 ExclusiveInstruction : 'STXR';
 CondBranchInstruction : 'CBNZ' | 'CBZ' ;

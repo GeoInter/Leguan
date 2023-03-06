@@ -464,18 +464,29 @@ public class InstructionSet {
                             }
                         }));
 
-        // IW
-        // * MOVK
-        // * MOVZ
+        instructionSet.add(
+                new WideImmediateInstruction("MOVK",
+                        "Move wide with keep",
+                        new IWideImmediateCode() {
+                            @Override
+                            public void simulate(Register Rd, long immediate, int shamt) {
+                                long oldValue = Rd.getValue();
+                                long result = immediate << shamt;
+                                result += oldValue;
+                                
+                                Rd.setValue(result);
+                            }
+                        }));
 
         instructionSet.add(
-                new DataTransferInstruction("MOVK",
-                        "something ",
-                        new IDataTransferCode() {
+                new WideImmediateInstruction("MOVZ",
+                        "Move wide with zeroes",
+                        new IWideImmediateCode() {
                             @Override
-                            public void simulate(int dt_address, Register Rn, Register Rt) {
-                                // TODO Auto-generated method stub
-                                throw new UnsupportedOperationException("Unimplemented method 'simulate'");
+                            public void simulate(Register Rd, long immediate, int shamt) {
+                                long result = immediate << shamt;
+
+                                Rd.setValue(result);
                             }
                         }));
 
