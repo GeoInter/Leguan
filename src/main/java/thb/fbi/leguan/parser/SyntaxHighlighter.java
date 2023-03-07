@@ -11,6 +11,7 @@ import org.fxmisc.richtext.model.StyleSpansBuilder;
 
 import thb.fbi.leguan.parser.antlr.LegV8BaseListener;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.ArithmeticInstructionContext;
+import thb.fbi.leguan.parser.antlr.LegV8Parser.BranchByRegisterInstructionContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.BranchInstructionContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.CondBranchInstructionContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.DatatransferInstructionContext;
@@ -79,6 +80,11 @@ public class SyntaxHighlighter extends LegV8BaseListener {
     @Override
     public void enterBranchInstruction(BranchInstructionContext ctx) {
         addStyle(ctx.BranchInstruction(), "instruction");
+    }
+
+    @Override
+    public void enterBranchByRegisterInstruction(BranchByRegisterInstructionContext ctx) {
+        addStyle(ctx.BranchByRegisterInstruction(), "instruction");
     }
 
     @Override

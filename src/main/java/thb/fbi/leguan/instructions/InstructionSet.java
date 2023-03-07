@@ -312,8 +312,22 @@ public class InstructionSet {
                         }));
 
         /////////// BL Branch Instruction
+        // TODO: access R14/ Link Register
 
-        /////////// BR Branch Instruction
+        instructionSet.add(
+                new ConditionalBranchInstruction("BR",
+                        "Branch to register",
+                        new IConditionalBranchCode() {
+                            @Override
+                            public void simulate(int cond_br_address, Register Rt, PCRegister pc) {
+                                /* 
+                                * TODO: implement stack
+                                long address = Rt.getValue();
+                                address /= 4; // pc shows multiple of 4, but internally uses one quarter of shownValue
+                                pc.setValue(address);
+                                */
+                            }
+                        }));
 
         instructionSet.add(
                 new ConditionalBranchInstruction("CBNZ",

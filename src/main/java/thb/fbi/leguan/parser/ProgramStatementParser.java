@@ -9,6 +9,8 @@ import thb.fbi.leguan.instructions.Instruction;
 import thb.fbi.leguan.parser.antlr.LegV8BaseVisitor;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.ArithmeticInstructionContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.ArithmeticParamContext;
+import thb.fbi.leguan.parser.antlr.LegV8Parser.BranchByRegisterInstructionContext;
+import thb.fbi.leguan.parser.antlr.LegV8Parser.BranchByRegisterParamContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.BranchInstructionContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.BranchParamContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.CondBranchInstructionContext;
@@ -211,7 +213,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
     }
 
     @Override
-    public Object visitWideImmediateInstruction(WideImmediateInstructionContext ctx) {
+    public Instruction visitWideImmediateInstruction(WideImmediateInstructionContext ctx) {
         String instructionName = ctx.WideImmediateInstrcution().getText();
         return getInstructionByName(instructionName);
     }
@@ -223,7 +225,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
     }
 
     @Override
-    public Object visitExclusiveInstruction(ExclusiveInstructionContext ctx) {
+    public Instruction visitExclusiveInstruction(ExclusiveInstructionContext ctx) {
         String instructionName = ctx.ExclusiveInstruction().getText();
         return getInstructionByName(instructionName);
     }
@@ -237,6 +239,12 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
     @Override
     public Instruction visitBranchInstruction(BranchInstructionContext ctx) {
         String instructionName = ctx.BranchInstruction().getText();
+        return getInstructionByName(instructionName);
+    }
+
+    @Override
+    public Instruction visitBranchByRegisterInstruction(BranchByRegisterInstructionContext ctx) {
+        String instructionName = ctx.BranchByRegisterInstruction().getText();
         return getInstructionByName(instructionName);
     }
 
@@ -265,7 +273,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
     }
 
     @Override
-    public Object visitWideImmediateParam(WideImmediateParamContext ctx) {
+    public InstructionArguments visitWideImmediateParam(WideImmediateParamContext ctx) {
         Register Rd = visitRegister(ctx.register());
         int immediate = visitNum(ctx.num(0));
         int shamt = visitNum(ctx.num(1));
@@ -297,7 +305,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
     }
 
     @Override
-    public Object visitExclusiveParam(ExclusiveParamContext ctx) {
+    public InstructionArguments visitExclusiveParam(ExclusiveParamContext ctx) {
         Register Rd = visitRegister(ctx.register(0));
         Register Rn = visitRegister(ctx.register(1));
         Register Rm = visitRegister(ctx.register(2));
@@ -323,6 +331,14 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
         int br_address = visitInvocation(ctx.invocation());
         InstructionArguments args = new InstructionArguments();
         args.setBr_Address(br_address);
+        return args;
+    }
+
+    @Override
+    public InstructionArguments visitBranchByRegisterParam(BranchByRegisterParamContext ctx) {
+        Register Rt = visitRegister(ctx.register());
+        InstructionArguments args = new InstructionArguments();
+        args.setRt(Rt);
         return args;
     }
 

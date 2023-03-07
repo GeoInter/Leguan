@@ -14,7 +14,8 @@ line : declaration? (arithmeticInstruction arithmeticParam |
                     datatransferInstruction datatransferParam | 
                     exclusiveInstruction exclusiveParam |
                     condBranchInstruction condBranchParam | 
-                    branchInstruction branchParam);
+                    branchInstruction branchParam |
+                    branchByRegisterInstruction branchByRegisterParam);
 
 declaration: JumpDeclaration ;
 invocation: JumpInvocation ;
@@ -27,6 +28,7 @@ datatransferInstruction : DatatransferInstruction;
 exclusiveInstruction : ExclusiveInstruction;
 condBranchInstruction : CondBranchInstruction;
 branchInstruction : BranchInstruction;
+branchByRegisterInstruction : BranchByRegisterInstruction;
 
 arithmeticParam : register COMMA register COMMA register SEMI ;
 shiftParam : register COMMA register COMMA num SEMI ; // separated from arithemtic
@@ -36,6 +38,7 @@ datatransferParam : register COMMA SQUARE_BRACKET_LEFT register COMMA num SQUARE
 exclusiveParam : register COMMA register SQUARE_BRACKET_LEFT register SQUARE_BRACKET_RIGHT SEMI;
 condBranchParam : register COMMA invocation SEMI;
 branchParam : invocation SEMI;
+branchByRegisterParam : register SEMI;
 
 num: NUMBER ;
 register : REGISTER ;
@@ -50,6 +53,7 @@ DatatransferInstruction : 'LDUR' | 'LDURB' | 'LDURH' | 'LDURSW' | 'LDXR' | 'STUR
 ExclusiveInstruction : 'STXR';
 CondBranchInstruction : 'CBNZ' | 'CBZ' ;
 BranchInstruction : 'B' | 'B.EQ' | 'B.NE' | 'B.LT' | 'B.LE' | 'B.GT' | 'B.GE' | 'B.MI' | 'B.PL' | 'B.VS' | 'B.VC';
+BranchByRegisterInstruction : 'BR';
 
 
 // skipped Tokens

@@ -138,6 +138,16 @@ public interface LegV8Listener extends ParseTreeListener {
 	 */
 	void exitBranchInstruction(LegV8Parser.BranchInstructionContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link LegV8Parser#branchByRegisterInstruction}.
+	 * @param ctx the parse tree
+	 */
+	void enterBranchByRegisterInstruction(LegV8Parser.BranchByRegisterInstructionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LegV8Parser#branchByRegisterInstruction}.
+	 * @param ctx the parse tree
+	 */
+	void exitBranchByRegisterInstruction(LegV8Parser.BranchByRegisterInstructionContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link LegV8Parser#arithmeticParam}.
 	 * @param ctx the parse tree
 	 */
@@ -217,6 +227,16 @@ public interface LegV8Listener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitBranchParam(LegV8Parser.BranchParamContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link LegV8Parser#branchByRegisterParam}.
+	 * @param ctx the parse tree
+	 */
+	void enterBranchByRegisterParam(LegV8Parser.BranchByRegisterParamContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LegV8Parser#branchByRegisterParam}.
+	 * @param ctx the parse tree
+	 */
+	void exitBranchByRegisterParam(LegV8Parser.BranchByRegisterParamContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link LegV8Parser#num}.
 	 * @param ctx the parse tree
