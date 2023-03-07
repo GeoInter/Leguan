@@ -52,7 +52,7 @@ WideImmediateInstrcution : 'MOVK' | 'MOVZ';
 DatatransferInstruction : 'LDUR' | 'LDURB' | 'LDURH' | 'LDURSW' | 'LDXR' | 'STUR' | 'STURB' | 'STURH' | 'STURW';
 ExclusiveInstruction : 'STXR';
 CondBranchInstruction : 'CBNZ' | 'CBZ' ;
-BranchInstruction : 'B' | 'B.EQ' | 'B.NE' | 'B.LT' | 'B.LE' | 'B.GT' | 'B.GE' | 'B.MI' | 'B.PL' | 'B.VS' | 'B.VC';
+BranchInstruction : 'B' | 'BL' | 'B.EQ' | 'B.NE' | 'B.LT' | 'B.LE' | 'B.GT' | 'B.GE' | 'B.MI' | 'B.PL' | 'B.VS' | 'B.VC';
 BranchByRegisterInstruction : 'BR';
 
 

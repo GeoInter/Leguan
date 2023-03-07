@@ -7,6 +7,8 @@ import thb.fbi.leguan.simulation.FlagRegister;
 import thb.fbi.leguan.simulation.Memory;
 import thb.fbi.leguan.simulation.PCRegister;
 import thb.fbi.leguan.simulation.Register;
+import thb.fbi.leguan.simulation.Simulator;
+import thb.fbi.leguan.simulation.SimulatorSingleton;
 
 /**
  * List of usable ARMv8 Thumb Instructions.
@@ -311,8 +313,18 @@ public class InstructionSet {
                             }
                         }));
 
-        /////////// BL Branch Instruction
-        // TODO: access R14/ Link Register
+        instructionSet.add(
+            new BranchInstruction("BL",
+                    "Branch with Link",
+                    new IBranchCode() {
+                        @Override
+                        public void simulate(int br_address, PCRegister pc) {
+                            Simulator simulator = SimulatorSingleton.getSimulator();
+                            Register R30 = simulator.getRegisters()[30];
+                            R30.setValue(pc.getValue() + 1); // internal pc value is not multiplied by 4
+                            pc.setValue(pc.getValue() + br_address);
+                        }
+                    }));
 
         instructionSet.add(
                 new ConditionalBranchInstruction("BR",
@@ -320,12 +332,9 @@ public class InstructionSet {
                         new IConditionalBranchCode() {
                             @Override
                             public void simulate(int cond_br_address, Register Rt, PCRegister pc) {
-                                /* 
-                                * TODO: implement stack
                                 long address = Rt.getValue();
                                 address /= 4; // pc shows multiple of 4, but internally uses one quarter of shownValue
                                 pc.setValue(address);
-                                */
                             }
                         }));
 
