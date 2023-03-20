@@ -9,14 +9,13 @@ import javafx.scene.shape.Rectangle;
 
 public class EditorCanvas extends Pane {
 
-    private int lineNumber = 69;
+    private int lineNumber = 0;
     private Rectangle highlighRectangle;
     /* estimated line height constant, depends on CSS sytling of codeArea text */
-    private int estimatedLineHeight = 16;
+    private final int estimatedLineHeight = 16;
 
     public EditorCanvas(SplitPane splitPane, VirtualizedScrollPane<CodeArea> scrollPane) {
         super();
-        setPickOnBounds(false);
         highlighRectangle = new Rectangle();
         highlighRectangle.setHeight(18);
         highlighRectangle.widthProperty().bind(splitPane.widthProperty()); // maybe just set instead of bind? AND
@@ -25,7 +24,6 @@ public class EditorCanvas extends Pane {
         highlighRectangle.setId("highlight-code");
         highlighRectangle.setPickOnBounds(false);
         highlighRectangle.setDisable(true);
-        // highlighRectangle.setVisible(false);
         getChildren().add(highlighRectangle);
         setPickOnBounds(false);
     }
@@ -43,6 +41,12 @@ public class EditorCanvas extends Pane {
         return this.lineNumber;
     }
 
+    /**
+     * repositions the whole canvas for highlighting a different line in the text editor
+     * @param scrollPosition position of the scrollbar
+     * @param scrollPaneHeight height of scrollpane (not only viewport, but the overall (hidden) height)
+     * @param scrollAmount amount of scrolling (e.g. mousewheel movement equals x pixels)
+     */
     public void reposition(double scrollPosition, double scrollPaneHeight, double scrollAmount) {
         /*
          * add delta to estimatedScrollPosition to get an exact position when scrollbar

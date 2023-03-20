@@ -43,7 +43,11 @@ public class FileManager {
         });
     }
 
-    public static void openFile() {
+    /**
+     * opens a fileDialog and put file content in text editor
+     * @return boolean indicating if new file was succesful opened or not
+     */
+    public static boolean openFile() {
         if(! isSaved) {
             Alert alert = new Alert(AlertType.CONFIRMATION);
             alert.setTitle("Current project is modified");
@@ -60,7 +64,9 @@ public class FileManager {
         File selectedFile = fileChooser.showOpenDialog(App.getStage());
         if(selectedFile != null) {
             getTextFromFile(selectedFile);
+            return true;
         }
+        return false;
     }
 
     public static void saveFile() {

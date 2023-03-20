@@ -143,6 +143,7 @@ public class SimulatorController {
         } else {
             setConsoleText(simulator.getErrors());
         }
+        editorCanvas.setLineNumber(-1);
     }
 
     /**
@@ -155,17 +156,23 @@ public class SimulatorController {
         simulator.reset();
         registerPaneController.clearRegisterHighlighting();
         registerPaneController.clearFlagHighlighting();
+        editorCanvas.setLineNumber(0);
     }
 
     @FXML
     private void stepForward() {
         if(simulator.parse(codeArea.getText())) {
             setConsoleText(simulator.getErrors());
-            simulator.forwardStep(codeArea.getText());
+            int lineNumber = simulator.forwardStep(codeArea.getText());
+            editorCanvas.setLineNumber(lineNumber);
         } else {
             setConsoleText(simulator.getErrors());
+            editorCanvas.setLineNumber(-1);
         }
     }
+
+    // run clear line
+    // get instr, check for null, return lineNumber
 
     @FXML
     private void stepBackward() {
@@ -179,8 +186,9 @@ public class SimulatorController {
 
     @FXML
     private void openFile() {
-        FileManager.openFile();
-        registerPaneController.clearRegisterHighlighting();
+        if(FileManager.openFile()) {
+            reset();
+        }
     }
 
     @FXML

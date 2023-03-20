@@ -92,15 +92,21 @@ public class Simulator {
      * executes exactly one instruction
      * @param code program to execute
      */
-    public void forwardStep(String code) {
+    public int forwardStep(String code) {
         ProgramStatement statement = program.getProgramStatement((int) pc.getValue());
         if(statement != null) {
-            statement.getSourceLine();
             Instruction instruction = statement.getInstruction();
             if(instruction != null) {
                 instruction.simulate(statement.getArguments(), pc);
             }
         }
+
+        // get source line of next instruction
+        ProgramStatement nextStatement = program.getProgramStatement((int) pc.getValue());
+        if(nextStatement != null) {
+            return nextStatement.getSourceLine();
+        }
+        return -1;
     }
 
     /**
