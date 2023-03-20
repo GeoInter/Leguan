@@ -58,10 +58,14 @@ public class EditorCanvas extends Pane {
          * add delta to estimatedScrollPosition to get an exact position when scrollbar
          * is not at top or bottom. EstimatedScrollPosition is only correct for the
          * top/bottom position of scrollbar, but incorrect for all other positions
+         * 
+         * When scrollPosition is lower than scrollAmount causes a displacement
+         * (scrolling to top, but actually some pixels are missing)
          */
-        if(scrollPosition <= 0 && scrollAmount > 0) {
+        if(scrollPosition <= 39 && scrollAmount > 0) {
             scrollAmount = 0;
-        } else if((scrollPaneHeight - getHeight()) == scrollPosition && scrollAmount <= 0) {
+            scrollPosition = 0;
+        } else if((scrollPaneHeight - getHeight()) == scrollPosition && scrollAmount < 0) {
             scrollAmount = 0;
         }
         double  newYPos = (this.lineNumber * estimatedLineHeight) - scrollPosition + scrollAmount;
