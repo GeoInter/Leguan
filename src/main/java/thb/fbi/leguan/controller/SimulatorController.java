@@ -105,7 +105,7 @@ public class SimulatorController {
             .awaitLatest(textChanges)
             .subscribe(this::applyHighlighting);
 
-        editorCanvas = new EditorCanvas(splitPane, codeAreaScrollPane);
+        editorCanvas = new EditorCanvas(codeArea);
         codeStackPane.getChildren().add(editorCanvas);
 
         codeArea.addEventFilter(ScrollEvent.ANY, scroll -> {

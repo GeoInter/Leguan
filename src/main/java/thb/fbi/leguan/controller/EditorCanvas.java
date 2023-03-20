@@ -1,12 +1,14 @@
 package thb.fbi.leguan.controller;
 
-import org.fxmisc.flowless.VirtualizedScrollPane;
 import org.fxmisc.richtext.CodeArea;
 
-import javafx.scene.control.SplitPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 
+/**
+ * Overlay Canvas for CodeArea/ Text Editor
+ * Allows for highlighting a line
+ */
 public class EditorCanvas extends Pane {
 
     private int lineNumber = 0;
@@ -14,12 +16,11 @@ public class EditorCanvas extends Pane {
     /* estimated line height constant, depends on CSS sytling of codeArea text */
     private final int estimatedLineHeight = 16;
 
-    public EditorCanvas(SplitPane splitPane, VirtualizedScrollPane<CodeArea> scrollPane) {
+    public EditorCanvas(CodeArea codeArea) {
         super();
         highlighRectangle = new Rectangle();
         highlighRectangle.setHeight(18);
-        highlighRectangle.widthProperty().bind(splitPane.widthProperty()); // maybe just set instead of bind? AND
-                                                                           // subtract size of scrollbar
+        highlighRectangle.widthProperty().bind(codeArea.widthProperty());
         highlighRectangle.setY(0);
         highlighRectangle.setId("highlight-code");
         highlighRectangle.setPickOnBounds(false);
