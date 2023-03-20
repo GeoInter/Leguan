@@ -6,7 +6,6 @@ import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.Collection;
 import java.util.Collections;
-
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -32,6 +31,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import thb.fbi.leguan.parser.ParsingError;
@@ -78,12 +78,15 @@ public class SimulatorController {
 
     private Simulator simulator = SimulatorSingleton.getSimulator();
     private ExecutorService executorService;
+    private EditorCanvas editorCanvas;
+    private VirtualizedScrollPane<CodeArea> codeAreaScrollPane;
 
     @FXML
     public void initialize() {
         executorService = ExecutorServiceProvider.getExecutorService();
         codeArea = new CodeArea();
-        codeStackPane.getChildren().add(new VirtualizedScrollPane<CodeArea>(codeArea));
+        codeAreaScrollPane = new VirtualizedScrollPane<CodeArea>(codeArea);
+        codeStackPane.getChildren().add(codeAreaScrollPane);
         codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
         codeArea.setLineHighlighterOn(true);
         codeArea.textProperty().addListener(new ChangeListener<String>() {
@@ -101,6 +104,15 @@ public class SimulatorController {
             .supplyTask(this::computeHighlightingAsync)
             .awaitLatest(textChanges)
             .subscribe(this::applyHighlighting);
+
+        editorCanvas = new EditorCanvas(splitPane, codeAreaScrollPane);
+        codeStackPane.getChildren().add(editorCanvas);
+
+        codeArea.addEventFilter(ScrollEvent.ANY, scroll -> {
+            editorCanvas.reposition(codeAreaScrollPane.getEstimatedScrollY(), codeAreaScrollPane.getTotalHeightEstimate(), scroll.getDeltaY());
+        });
+            
+    
 
         // prevent rightside to resize (change divider position) when maximazing
         SplitPane.setResizableWithParent(rightSideAnchorPane, false);

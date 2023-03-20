@@ -327,8 +327,8 @@
 .instruction {
     -fx-fill: #dccd79 !important;
     fill: #dccd79;
-    -fx-font-weight: bold;
-    font-weight: bold;
+    /*-fx-font-weight: bold;
+    font-weight: bold;*/
 }
 
 .register {
@@ -362,4 +362,11 @@
 .table-row-cell.highlight-memory {
     -fx-background-color: #727224;
     background-color: #727224;
+}
+
+#highlight-code {
+    -fx-opacity: 0.5;
+    opacity: 0.5;
+    -fx-fill: #727224;
+    fill: #727224;
 }
