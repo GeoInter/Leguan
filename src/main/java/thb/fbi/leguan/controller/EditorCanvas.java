@@ -1,5 +1,6 @@
 package thb.fbi.leguan.controller;
 
+import org.fxmisc.flowless.VirtualizedScrollPane;
 import org.fxmisc.richtext.CodeArea;
 
 import javafx.scene.layout.Pane;
@@ -13,11 +14,13 @@ public class EditorCanvas extends Pane {
 
     private int lineNumber = 0;
     private Rectangle highlighRectangle;
+    private VirtualizedScrollPane<CodeArea> scrollpane;
     /* estimated line height constant, depends on CSS sytling of codeArea text */
     private final int estimatedLineHeight = 16;
 
-    public EditorCanvas(CodeArea codeArea) {
+    public EditorCanvas(CodeArea codeArea, VirtualizedScrollPane<CodeArea> scrollpane) {
         super();
+        this.scrollpane = scrollpane;
         highlighRectangle = new Rectangle();
         highlighRectangle.setHeight(18);
         highlighRectangle.widthProperty().bind(codeArea.widthProperty());
@@ -25,17 +28,19 @@ public class EditorCanvas extends Pane {
         highlighRectangle.setId("highlight-code");
         highlighRectangle.setPickOnBounds(false);
         highlighRectangle.setDisable(true);
+        highlighRectangle.setVisible(false);
         getChildren().add(highlighRectangle);
         setPickOnBounds(false);
     }
 
-    public void draw() {
-        highlighRectangle.setVisible(true);
+    public void setLineHighlightingVisible(boolean isVisible) {
+        highlighRectangle.setVisible(isVisible);
     }
 
     public void setLineNumber(int lineNumber) {
         this.lineNumber = lineNumber;
-        reposition(0, 0, 0);
+        highlighRectangle.setVisible(true);
+        reposition(scrollpane.getEstimatedScrollY(), 0, 0);
     }
 
     public int getLineNumber() {
@@ -54,9 +59,9 @@ public class EditorCanvas extends Pane {
          * is not at top or bottom. EstimatedScrollPosition is only correct for the
          * top/bottom position of scrollbar, but incorrect for all other positions
          */
-        if(scrollPosition <= 0) {
+        if(scrollPosition <= 0 && scrollAmount > 0) {
             scrollAmount = 0;
-        } else if((scrollPaneHeight - getHeight()) == scrollPosition) {
+        } else if((scrollPaneHeight - getHeight()) == scrollPosition && scrollAmount <= 0) {
             scrollAmount = 0;
         }
         double  newYPos = (this.lineNumber * estimatedLineHeight) - scrollPosition + scrollAmount;
