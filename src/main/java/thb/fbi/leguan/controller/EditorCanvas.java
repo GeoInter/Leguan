@@ -60,13 +60,19 @@ public class EditorCanvas extends Pane {
          * top/bottom position of scrollbar, but incorrect for all other positions
          * 
          * When scrollPosition is lower than scrollAmount causes a displacement
-         * (scrolling to top, but actually some pixels are missing)
+         * (scrolling to top, but actually some pixels are missing to reach top)
+         * 
+         * Similar displacement for bottom: When scrollbar almost at end, the highlighter
+         * is displaced. In that case set the position to the actual end
          */
         if(scrollPosition <= 39 && scrollAmount > 0) {
             scrollAmount = 0;
             scrollPosition = 0;
         } else if((scrollPaneHeight - getHeight()) == scrollPosition && scrollAmount < 0) {
             scrollAmount = 0;
+        } else if((scrollPaneHeight - getHeight()-39) <= scrollPosition && scrollAmount < 0) {
+            scrollAmount = 0;
+            scrollPosition = scrollPaneHeight - getHeight();
         }
         double  newYPos = (this.lineNumber * estimatedLineHeight) - scrollPosition + scrollAmount;
         translateYProperty().set(newYPos);
