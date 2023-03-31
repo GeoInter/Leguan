@@ -70,6 +70,8 @@ public class SimulatorController {
     @FXML MenuItem switchDEButton;
     @FXML MenuItem lightThemeItem;
     @FXML MenuItem darkThemeItem;
+    @FXML MenuItem enableLineHighlighterButton;
+    @FXML MenuItem disableLineHighlighterButton;
 
     @FXML Button runButton;
     @FXML Button stopButton;
@@ -127,6 +129,9 @@ public class SimulatorController {
 
         lightThemeItem.setOnAction((evt) -> switchStylesheets("light.css"));
         darkThemeItem.setOnAction((evt) -> switchStylesheets("dark.css"));
+
+        enableLineHighlighterButton.setOnAction((evt) -> enableLineHighlighter(true));
+        disableLineHighlighterButton.setOnAction((evt) -> enableLineHighlighter(false));
 
         runButton.disableProperty().bind(simulator.getIsRunning());
         stopButton.disableProperty().bind(simulator.getIsRunning().not());
@@ -277,5 +282,9 @@ public class SimulatorController {
         Scene scene = registerPane.getScene();
         scene.getStylesheets().remove(1); // remove except for base
         scene.getStylesheets().add(this.getClass().getResource("/thb/fbi/leguan/css/" + css).toExternalForm());
+    }
+
+    public void enableLineHighlighter(boolean isEnabled) {
+        editorCanvas.setVisible(isEnabled);
     }
 }
