@@ -64,8 +64,13 @@ public class EditorCanvas extends Pane {
          * 
          * Similar displacement for bottom: When scrollbar almost at end, the highlighter
          * is displaced. In that case set the position to the actual end
+         * 
+         * When Scrollbar is not present (all text fits into codeArea) no further 
+         * repositioning is needed
          */
-        if(scrollPosition <= 39 && scrollAmount > 0) {
+        if(scrollPaneHeight < getHeight()) {
+            scrollAmount = 0;
+        } else if(scrollPosition <= 39 && scrollAmount > 0) {
             scrollAmount = 0;
             scrollPosition = 0;
         } else if((scrollPaneHeight - getHeight()) == scrollPosition && scrollAmount < 0) {
