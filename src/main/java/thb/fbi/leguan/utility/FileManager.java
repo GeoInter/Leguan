@@ -2,7 +2,9 @@ package thb.fbi.leguan.utility;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
 import org.fxmisc.richtext.CodeArea;
@@ -67,6 +69,36 @@ public class FileManager {
             return true;
         }
         return false;
+    }
+
+    /**
+     * opens a predefined example file and put file content in text editor
+     * @return boolean indicating if new file was succesful opened or not
+     */
+    public static void openExample(String exampleFile) {
+        if(! isSaved) {
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("Current project is modified");
+            alert.setContentText("Current file has unsaved changes. Want to save current file before opening another file?");
+            ButtonType okButton = new ButtonType("YES", ButtonData.YES);
+            ButtonType noButton = new ButtonType("No", ButtonData.NO);
+            alert.getButtonTypes().setAll(okButton, noButton);
+            alert.showAndWait().ifPresent(response -> {
+                if(response == okButton) {
+                    FileManager.saveFile();
+                }
+            });
+        }
+
+        try {
+            InputStream textSource = FileManager.class.getResourceAsStream(exampleFile);
+            String content = new String(textSource.readAllBytes(), StandardCharsets.UTF_8);
+            codeArea.replaceText(content);
+        } catch (IOException e) {
+            showErrorAlert("Could not read file", "File could not be read. Abort loading.");
+        } catch(OutOfMemoryError m) {
+            showErrorAlert("Invalid file size", "File too large to handle. Abort loading.");
+        }
     }
 
     public static void saveFile() {

@@ -206,6 +206,11 @@ public class SimulatorController {
         FileManager.saveFileAs();
     }
 
+    @FXML
+    private void loadExample() {
+        FileManager.openExample("/thb/fbi/leguan/examples/counterExample.txt");
+    }
+
     /**
      * sets/ clears console text
      * @param errors parsingErrors

@@ -64,7 +64,7 @@
             </Menu>
             <Menu mnemonicParsing="false" text="%menubar.Help">
               <items>
-                  <MenuItem mnemonicParsing="false" text="Load example" />
+                  <MenuItem mnemonicParsing="false" onAction="#loadExample" text="Load example" />
                 <MenuItem mnemonicParsing="false" text="About" />
               </items>
             </Menu>
