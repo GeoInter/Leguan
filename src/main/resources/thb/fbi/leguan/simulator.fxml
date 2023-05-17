@@ -27,19 +27,10 @@
                   <MenuItem mnemonicParsing="false" onAction="#saveFile" text="Save" />
                   <MenuItem mnemonicParsing="false" onAction="#saveFileAs" text="Save as" />
                   <MenuItem mnemonicParsing="false" onAction="#openFile" text="Open" />
-                  <MenuItem mnemonicParsing="false" text="Quit" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="%menubar.Edit">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="%menubar.View">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
-            </items>
-          </Menu>
+          <Menu disable="true" mnemonicParsing="false" text="%menubar.Edit" visible="false" />
+          <Menu disable="true" mnemonicParsing="false" text="%menubar.View" visible="false" />
             <Menu mnemonicParsing="false" text="%menubar.Settings">
               <items>
                   <Menu mnemonicParsing="false" text="%menubar.Theme">
