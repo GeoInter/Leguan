@@ -19,6 +19,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TextFormatter.Change;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
@@ -55,6 +57,8 @@ public class MemoryController implements MemoryObserver {
     Button memoryByteButton;
     @FXML
     Button memoryDWordButton;
+
+    @FXML Button filterButton;
 
     private TreeMap<Long, Long> data = new TreeMap<Long, Long>();
 
@@ -163,6 +167,9 @@ public class MemoryController implements MemoryObserver {
 
         Memory.setObserver(this);
         Instruction.setMemoryController(this);
+
+        Image filterButtonImage = new Image(getClass().getResourceAsStream("/thb/fbi/leguan/images/filter.png"));
+        filterButton.setGraphic(new ImageView(filterButtonImage));
     }
 
     /**

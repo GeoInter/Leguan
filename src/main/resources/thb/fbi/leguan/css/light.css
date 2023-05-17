@@ -130,6 +130,7 @@
 .simulator-button {
     -fx-background-color: -fbi-blue;
     background-color: -fbi-blue;
+    -fx-font-size: 13px;
 }
 
 .simulator-bar {

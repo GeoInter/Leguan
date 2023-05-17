@@ -31,6 +31,8 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
@@ -74,7 +76,10 @@ public class SimulatorController {
     @FXML MenuItem disableLineHighlighterButton;
 
     @FXML Button runButton;
+    @FXML Button resetButton;
     @FXML Button stopButton;
+    @FXML Button stepForwardButton;
+    @FXML Button stepBackwardButton;
 
     private CodeArea codeArea;
 
@@ -136,6 +141,18 @@ public class SimulatorController {
         runButton.disableProperty().bind(simulator.getIsRunning());
         stopButton.disableProperty().bind(simulator.getIsRunning().not());
         // file_Menu.textProperty().bind(I18N.createStringBinding("menubar.File"));
+
+        // load images for buttons
+        Image runButtonImage = new Image(getClass().getResourceAsStream("/thb/fbi/leguan/images/run.png"));
+        runButton.setGraphic(new ImageView(runButtonImage));
+        Image resetButtonImage = new Image(getClass().getResourceAsStream("/thb/fbi/leguan/images/reset.png"));
+        resetButton.setGraphic(new ImageView(resetButtonImage));
+        Image stopButtonImage = new Image(getClass().getResourceAsStream("/thb/fbi/leguan/images/stop.png"));
+        stopButton.setGraphic(new ImageView(stopButtonImage));
+        Image stepForwardButtonImage = new Image(getClass().getResourceAsStream("/thb/fbi/leguan/images/forward.png"));
+        stepForwardButton.setGraphic(new ImageView(stepForwardButtonImage));
+        Image stepBackwardButtonImage = new Image(getClass().getResourceAsStream("/thb/fbi/leguan/images/backward.png"));
+        stepBackwardButton.setGraphic(new ImageView(stepBackwardButtonImage));
 
         FileManager.init(codeArea);
     }

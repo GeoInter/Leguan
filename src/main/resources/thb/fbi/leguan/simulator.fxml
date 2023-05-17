@@ -76,12 +76,12 @@
                <children>
                   <HBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
                      <children>
-                        <ButtonBar maxWidth="1.7976931348623157E308">
+                        <ButtonBar buttonMinWidth="100.0" maxWidth="1.7976931348623157E308">
                           <buttons>
                               <Button fx:id="runButton" mnemonicParsing="false" onAction="#runCode" styleClass="simulator-button" text="%buttonbar.Run" />
-                              <Button mnemonicParsing="false" onAction="#reset" styleClass="simulator-button" text="%buttonbar.Reset" />
-                              <Button mnemonicParsing="false" onAction="#stepForward" styleClass="simulator-button" text="%buttonbar.Forward" />
-                              <Button disable="true" mnemonicParsing="false" onAction="#stepBackward" styleClass="simulator-button" text="%buttonbar.Backward" />
+                              <Button fx:id="resetButton" mnemonicParsing="false" onAction="#reset" styleClass="simulator-button" text="%buttonbar.Reset" />
+                              <Button fx:id="stepBackwardButton" disable="true" mnemonicParsing="false" onAction="#stepBackward" styleClass="simulator-button" text="%buttonbar.Backward" />
+                              <Button fx:id="stepForwardButton" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#stepForward" styleClass="simulator-button" text="%buttonbar.Forward" />
                               <Button fx:id="stopButton" mnemonicParsing="false" onAction="#stopThread" styleClass="simulator-button" text="Stop" />
                           </buttons>
                            <padding>
