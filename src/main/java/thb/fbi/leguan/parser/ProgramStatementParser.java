@@ -285,6 +285,13 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
             ParsingError err = new ParsingError(line, pos, ParsingErrorType.WideImmediateShiftOutOfRange);
             semanticErrors.add(err);
         }
+        if(ctx.ShiftInstruction().getText().equals("LSR")) {
+            Token token = ctx.ShiftInstruction().getSymbol();
+            int line = token.getLine();
+            int pos = token.getCharPositionInLine();
+            ParsingError err = new ParsingError(line, pos, ParsingErrorType.WrongShiftforWideImmediate);
+            semanticErrors.add(err);
+        }
         InstructionArguments args = new InstructionArguments();
         args.setRd(Rd);
         args.setAlu_Immediate(immediate);

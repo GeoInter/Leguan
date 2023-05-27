@@ -33,7 +33,7 @@ branchByRegisterInstruction : BranchByRegisterInstruction;
 arithmeticParam : register COMMA register COMMA register SEMI ;
 shiftParam : register COMMA register COMMA num SEMI ; // separated from arithemtic
 immediateParam : register COMMA register COMMA num SEMI ;
-wideImmediateParam : register COMMA num COMMA 'LSL' num SEMI ;
+wideImmediateParam : register COMMA num COMMA ShiftInstruction num SEMI ;
 datatransferParam : register COMMA SQUARE_BRACKET_LEFT register COMMA num SQUARE_BRACKET_RIGHT SEMI ;
 exclusiveParam : register COMMA register SQUARE_BRACKET_LEFT register SQUARE_BRACKET_RIGHT SEMI;
 condBranchParam : register COMMA invocation SEMI;

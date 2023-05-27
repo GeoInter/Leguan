@@ -17,12 +17,12 @@ public class LegV8Parser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__0=1, ArithmeticInstruction=2, ShiftInstruction=3, ImmediateInstruction=4, 
-		WideImmediateInstrcution=5, DatatransferInstruction=6, ExclusiveInstruction=7, 
-		CondBranchInstruction=8, BranchInstruction=9, BranchByRegisterInstruction=10, 
-		WS=11, COMMENT=12, LINE_COMMENT=13, COMMA=14, SEMI=15, SQUARE_BRACKET_LEFT=16, 
-		SQUARE_BRACKET_RIGHT=17, REGISTER=18, NUMBER=19, SP=20, FP=21, LR=22, 
-		XZR=23, JumpDeclaration=24, JumpInvocation=25;
+		ArithmeticInstruction=1, ShiftInstruction=2, ImmediateInstruction=3, WideImmediateInstrcution=4, 
+		DatatransferInstruction=5, ExclusiveInstruction=6, CondBranchInstruction=7, 
+		BranchInstruction=8, BranchByRegisterInstruction=9, WS=10, COMMENT=11, 
+		LINE_COMMENT=12, COMMA=13, SEMI=14, SQUARE_BRACKET_LEFT=15, SQUARE_BRACKET_RIGHT=16, 
+		REGISTER=17, NUMBER=18, SP=19, FP=20, LR=21, XZR=22, JumpDeclaration=23, 
+		JumpInvocation=24;
 	public static final int
 		RULE_main = 0, RULE_program = 1, RULE_line = 2, RULE_declaration = 3, 
 		RULE_invocation = 4, RULE_arithmeticInstruction = 5, RULE_shiftInstruction = 6, 
@@ -47,15 +47,15 @@ public class LegV8Parser extends Parser {
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, "'LSL'", null, null, null, null, null, "'STXR'", null, null, "'BR'", 
-			null, null, null, "','", "';'", "'['", "']'", null, null, "'SP'", "'FP'", 
-			"'LR'", "'XZR'"
+			null, null, null, null, null, null, "'STXR'", null, null, "'BR'", null, 
+			null, null, "','", "';'", "'['", "']'", null, null, "'SP'", "'FP'", "'LR'", 
+			"'XZR'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, null, "ArithmeticInstruction", "ShiftInstruction", "ImmediateInstruction", 
+			null, "ArithmeticInstruction", "ShiftInstruction", "ImmediateInstruction", 
 			"WideImmediateInstrcution", "DatatransferInstruction", "ExclusiveInstruction", 
 			"CondBranchInstruction", "BranchInstruction", "BranchByRegisterInstruction", 
 			"WS", "COMMENT", "LINE_COMMENT", "COMMA", "SEMI", "SQUARE_BRACKET_LEFT", 
@@ -209,7 +209,7 @@ public class LegV8Parser extends Parser {
 				setState(56); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( ((_la) & ~0x3f) == 0 && ((1L << _la) & 16779260L) != 0 );
+			} while ( ((_la) & ~0x3f) == 0 && ((1L << _la) & 8389630L) != 0 );
 			}
 		}
 		catch (RecognitionException re) {
@@ -1092,6 +1092,7 @@ public class LegV8Parser extends Parser {
 		public NumContext num(int i) {
 			return getRuleContext(NumContext.class,i);
 		}
+		public TerminalNode ShiftInstruction() { return getToken(LegV8Parser.ShiftInstruction, 0); }
 		public TerminalNode SEMI() { return getToken(LegV8Parser.SEMI, 0); }
 		public WideImmediateParamContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -1127,7 +1128,7 @@ public class LegV8Parser extends Parser {
 			setState(136);
 			match(COMMA);
 			setState(137);
-			match(T__0);
+			match(ShiftInstruction);
 			setState(138);
 			num();
 			setState(139);
@@ -1520,7 +1521,7 @@ public class LegV8Parser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\u0004\u0001\u0019\u00ae\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001"+
+		"\u0004\u0001\u0018\u00ae\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001"+
 		"\u0002\u0002\u0007\u0002\u0002\u0003\u0007\u0003\u0002\u0004\u0007\u0004"+
 		"\u0002\u0005\u0007\u0005\u0002\u0006\u0007\u0006\u0002\u0007\u0007\u0007"+
 		"\u0002\b\u0007\b\u0002\t\u0007\t\u0002\n\u0007\n\u0002\u000b\u0007\u000b"+
@@ -1578,42 +1579,42 @@ public class LegV8Parser extends Parser {
 		"X@\u0001\u0000\u0000\u0000XC\u0001\u0000\u0000\u0000XF\u0001\u0000\u0000"+
 		"\u0000XI\u0001\u0000\u0000\u0000XL\u0001\u0000\u0000\u0000XO\u0001\u0000"+
 		"\u0000\u0000XR\u0001\u0000\u0000\u0000XU\u0001\u0000\u0000\u0000Y\u0005"+
-		"\u0001\u0000\u0000\u0000Z[\u0005\u0018\u0000\u0000[\u0007\u0001\u0000"+
-		"\u0000\u0000\\]\u0005\u0019\u0000\u0000]\t\u0001\u0000\u0000\u0000^_\u0005"+
-		"\u0002\u0000\u0000_\u000b\u0001\u0000\u0000\u0000`a\u0005\u0003\u0000"+
-		"\u0000a\r\u0001\u0000\u0000\u0000bc\u0005\u0004\u0000\u0000c\u000f\u0001"+
-		"\u0000\u0000\u0000de\u0005\u0005\u0000\u0000e\u0011\u0001\u0000\u0000"+
-		"\u0000fg\u0005\u0006\u0000\u0000g\u0013\u0001\u0000\u0000\u0000hi\u0005"+
-		"\u0007\u0000\u0000i\u0015\u0001\u0000\u0000\u0000jk\u0005\b\u0000\u0000"+
-		"k\u0017\u0001\u0000\u0000\u0000lm\u0005\t\u0000\u0000m\u0019\u0001\u0000"+
-		"\u0000\u0000no\u0005\n\u0000\u0000o\u001b\u0001\u0000\u0000\u0000pq\u0003"+
-		"0\u0018\u0000qr\u0005\u000e\u0000\u0000rs\u00030\u0018\u0000st\u0005\u000e"+
-		"\u0000\u0000tu\u00030\u0018\u0000uv\u0005\u000f\u0000\u0000v\u001d\u0001"+
-		"\u0000\u0000\u0000wx\u00030\u0018\u0000xy\u0005\u000e\u0000\u0000yz\u0003"+
-		"0\u0018\u0000z{\u0005\u000e\u0000\u0000{|\u0003.\u0017\u0000|}\u0005\u000f"+
+		"\u0001\u0000\u0000\u0000Z[\u0005\u0017\u0000\u0000[\u0007\u0001\u0000"+
+		"\u0000\u0000\\]\u0005\u0018\u0000\u0000]\t\u0001\u0000\u0000\u0000^_\u0005"+
+		"\u0001\u0000\u0000_\u000b\u0001\u0000\u0000\u0000`a\u0005\u0002\u0000"+
+		"\u0000a\r\u0001\u0000\u0000\u0000bc\u0005\u0003\u0000\u0000c\u000f\u0001"+
+		"\u0000\u0000\u0000de\u0005\u0004\u0000\u0000e\u0011\u0001\u0000\u0000"+
+		"\u0000fg\u0005\u0005\u0000\u0000g\u0013\u0001\u0000\u0000\u0000hi\u0005"+
+		"\u0006\u0000\u0000i\u0015\u0001\u0000\u0000\u0000jk\u0005\u0007\u0000"+
+		"\u0000k\u0017\u0001\u0000\u0000\u0000lm\u0005\b\u0000\u0000m\u0019\u0001"+
+		"\u0000\u0000\u0000no\u0005\t\u0000\u0000o\u001b\u0001\u0000\u0000\u0000"+
+		"pq\u00030\u0018\u0000qr\u0005\r\u0000\u0000rs\u00030\u0018\u0000st\u0005"+
+		"\r\u0000\u0000tu\u00030\u0018\u0000uv\u0005\u000e\u0000\u0000v\u001d\u0001"+
+		"\u0000\u0000\u0000wx\u00030\u0018\u0000xy\u0005\r\u0000\u0000yz\u0003"+
+		"0\u0018\u0000z{\u0005\r\u0000\u0000{|\u0003.\u0017\u0000|}\u0005\u000e"+
 		"\u0000\u0000}\u001f\u0001\u0000\u0000\u0000~\u007f\u00030\u0018\u0000"+
-		"\u007f\u0080\u0005\u000e\u0000\u0000\u0080\u0081\u00030\u0018\u0000\u0081"+
-		"\u0082\u0005\u000e\u0000\u0000\u0082\u0083\u0003.\u0017\u0000\u0083\u0084"+
-		"\u0005\u000f\u0000\u0000\u0084!\u0001\u0000\u0000\u0000\u0085\u0086\u0003"+
-		"0\u0018\u0000\u0086\u0087\u0005\u000e\u0000\u0000\u0087\u0088\u0003.\u0017"+
-		"\u0000\u0088\u0089\u0005\u000e\u0000\u0000\u0089\u008a\u0005\u0001\u0000"+
-		"\u0000\u008a\u008b\u0003.\u0017\u0000\u008b\u008c\u0005\u000f\u0000\u0000"+
-		"\u008c#\u0001\u0000\u0000\u0000\u008d\u008e\u00030\u0018\u0000\u008e\u008f"+
-		"\u0005\u000e\u0000\u0000\u008f\u0090\u0005\u0010\u0000\u0000\u0090\u0091"+
-		"\u00030\u0018\u0000\u0091\u0092\u0005\u000e\u0000\u0000\u0092\u0093\u0003"+
-		".\u0017\u0000\u0093\u0094\u0005\u0011\u0000\u0000\u0094\u0095\u0005\u000f"+
-		"\u0000\u0000\u0095%\u0001\u0000\u0000\u0000\u0096\u0097\u00030\u0018\u0000"+
-		"\u0097\u0098\u0005\u000e\u0000\u0000\u0098\u0099\u00030\u0018\u0000\u0099"+
-		"\u009a\u0005\u0010\u0000\u0000\u009a\u009b\u00030\u0018\u0000\u009b\u009c"+
-		"\u0005\u0011\u0000\u0000\u009c\u009d\u0005\u000f\u0000\u0000\u009d\'\u0001"+
-		"\u0000\u0000\u0000\u009e\u009f\u00030\u0018\u0000\u009f\u00a0\u0005\u000e"+
-		"\u0000\u0000\u00a0\u00a1\u0003\b\u0004\u0000\u00a1\u00a2\u0005\u000f\u0000"+
-		"\u0000\u00a2)\u0001\u0000\u0000\u0000\u00a3\u00a4\u0003\b\u0004\u0000"+
-		"\u00a4\u00a5\u0005\u000f\u0000\u0000\u00a5+\u0001\u0000\u0000\u0000\u00a6"+
-		"\u00a7\u00030\u0018\u0000\u00a7\u00a8\u0005\u000f\u0000\u0000\u00a8-\u0001"+
-		"\u0000\u0000\u0000\u00a9\u00aa\u0005\u0013\u0000\u0000\u00aa/\u0001\u0000"+
-		"\u0000\u0000\u00ab\u00ac\u0005\u0012\u0000\u0000\u00ac1\u0001\u0000\u0000"+
-		"\u0000\u00038;X";
+		"\u007f\u0080\u0005\r\u0000\u0000\u0080\u0081\u00030\u0018\u0000\u0081"+
+		"\u0082\u0005\r\u0000\u0000\u0082\u0083\u0003.\u0017\u0000\u0083\u0084"+
+		"\u0005\u000e\u0000\u0000\u0084!\u0001\u0000\u0000\u0000\u0085\u0086\u0003"+
+		"0\u0018\u0000\u0086\u0087\u0005\r\u0000\u0000\u0087\u0088\u0003.\u0017"+
+		"\u0000\u0088\u0089\u0005\r\u0000\u0000\u0089\u008a\u0005\u0002\u0000\u0000"+
+		"\u008a\u008b\u0003.\u0017\u0000\u008b\u008c\u0005\u000e\u0000\u0000\u008c"+
+		"#\u0001\u0000\u0000\u0000\u008d\u008e\u00030\u0018\u0000\u008e\u008f\u0005"+
+		"\r\u0000\u0000\u008f\u0090\u0005\u000f\u0000\u0000\u0090\u0091\u00030"+
+		"\u0018\u0000\u0091\u0092\u0005\r\u0000\u0000\u0092\u0093\u0003.\u0017"+
+		"\u0000\u0093\u0094\u0005\u0010\u0000\u0000\u0094\u0095\u0005\u000e\u0000"+
+		"\u0000\u0095%\u0001\u0000\u0000\u0000\u0096\u0097\u00030\u0018\u0000\u0097"+
+		"\u0098\u0005\r\u0000\u0000\u0098\u0099\u00030\u0018\u0000\u0099\u009a"+
+		"\u0005\u000f\u0000\u0000\u009a\u009b\u00030\u0018\u0000\u009b\u009c\u0005"+
+		"\u0010\u0000\u0000\u009c\u009d\u0005\u000e\u0000\u0000\u009d\'\u0001\u0000"+
+		"\u0000\u0000\u009e\u009f\u00030\u0018\u0000\u009f\u00a0\u0005\r\u0000"+
+		"\u0000\u00a0\u00a1\u0003\b\u0004\u0000\u00a1\u00a2\u0005\u000e\u0000\u0000"+
+		"\u00a2)\u0001\u0000\u0000\u0000\u00a3\u00a4\u0003\b\u0004\u0000\u00a4"+
+		"\u00a5\u0005\u000e\u0000\u0000\u00a5+\u0001\u0000\u0000\u0000\u00a6\u00a7"+
+		"\u00030\u0018\u0000\u00a7\u00a8\u0005\u000e\u0000\u0000\u00a8-\u0001\u0000"+
+		"\u0000\u0000\u00a9\u00aa\u0005\u0012\u0000\u0000\u00aa/\u0001\u0000\u0000"+
+		"\u0000\u00ab\u00ac\u0005\u0011\u0000\u0000\u00ac1\u0001\u0000\u0000\u0000"+
+		"\u00038;X";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

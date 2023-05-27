@@ -34,6 +34,9 @@ public class ParsingError {
             case WideImmediateShiftOutOfRange:
                 this.msg = "Shift value has to be either 0, 16, 32 or 48";
                 break;
+            case WrongShiftforWideImmediate:
+                this.msg = "Wide Immediate Shifting has to LSL";
+                break;
             default:
                 this.msg = "Undefined Error occured";
                 break;

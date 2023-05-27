@@ -5,7 +5,8 @@ public enum ParsingErrorType {
     DoubledMarkDeclaration(1),
     RegisterOutOfRange(2),
     NumberFormatException(3),
-    WideImmediateShiftOutOfRange(4);
+    WideImmediateShiftOutOfRange(4),
+    WrongShiftforWideImmediate(5);
     
 
     private int value;
