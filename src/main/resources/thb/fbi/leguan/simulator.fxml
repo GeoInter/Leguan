@@ -30,7 +30,10 @@
             </items>
           </Menu>
           <Menu disable="true" mnemonicParsing="false" text="%menubar.Edit" visible="false" />
-          <Menu disable="true" mnemonicParsing="false" text="%menubar.View" visible="false" />
+          <Menu mnemonicParsing="false" text="%menubar.View">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#openPipelineVisualizer" text="%menubar.View.Pipeline" />
+               </items></Menu>
             <Menu mnemonicParsing="false" text="%menubar.Settings">
               <items>
                   <Menu mnemonicParsing="false" text="%menubar.Theme">
@@ -69,11 +72,12 @@
                      <children>
                         <ButtonBar buttonMinWidth="100.0" maxWidth="1.7976931348623157E308">
                           <buttons>
-                              <Button fx:id="runButton" mnemonicParsing="false" onAction="#runCode" styleClass="simulator-button" text="%buttonbar.Run" />
+                              <Button mnemonicParsing="false" onAction="#assembleCode" styleClass="simulator-button" text="%buttonbar.Assemble" />
+                              <Button fx:id="runButton" disable="true" mnemonicParsing="false" onAction="#runCode" styleClass="simulator-button" text="%buttonbar.Run" />
                               <Button fx:id="resetButton" mnemonicParsing="false" onAction="#reset" styleClass="simulator-button" text="%buttonbar.Reset" />
                               <Button fx:id="stepBackwardButton" disable="true" mnemonicParsing="false" onAction="#stepBackward" styleClass="simulator-button" text="%buttonbar.Backward" />
-                              <Button fx:id="stepForwardButton" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#stepForward" styleClass="simulator-button" text="%buttonbar.Forward" />
-                              <Button fx:id="stopButton" mnemonicParsing="false" onAction="#stopThread" styleClass="simulator-button" text="Stop" />
+                              <Button fx:id="stepForwardButton" contentDisplay="RIGHT" disable="true" mnemonicParsing="false" onAction="#stepForward" styleClass="simulator-button" text="%buttonbar.Forward" />
+                              <Button fx:id="stopButton" disable="true" mnemonicParsing="false" onAction="#stopThread" styleClass="simulator-button" text="Stop" />
                           </buttons>
                            <padding>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

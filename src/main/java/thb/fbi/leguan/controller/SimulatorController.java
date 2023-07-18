@@ -158,6 +158,25 @@ public class SimulatorController {
     }
 
     @FXML
+    private void assembleCode() {
+        if(simulator.parse(codeArea.getText())) {
+            setConsoleText(simulator.getErrors());
+            //runButton.setDisable(false);
+            stepForwardButton.setDisable(false);
+            //stepBackwardButton.setDisable(false);
+
+            // set correct code to pipeline visualizer
+            // TODO: call pipeline visualizer
+        } else {
+            setConsoleText(simulator.getErrors());
+            editorCanvas.setLineNumber(-1);
+            //runButton.setDisable(true);
+            stepForwardButton.setDisable(true);
+            //stepBackwardButton.setDisable(true);
+        }
+    }
+
+    @FXML
     private void runCode() {
         if(simulator.parse(codeArea.getText())) {
             setConsoleText(simulator.getErrors());
@@ -183,14 +202,8 @@ public class SimulatorController {
 
     @FXML
     private void stepForward() {
-        if(simulator.parse(codeArea.getText())) {
-            setConsoleText(simulator.getErrors());
-            int lineNumber = simulator.forwardStep(codeArea.getText());
-            editorCanvas.setLineNumber(lineNumber);
-        } else {
-            setConsoleText(simulator.getErrors());
-            editorCanvas.setLineNumber(-1);
-        }
+        int lineNumber = simulator.forwardStep(codeArea.getText());
+        editorCanvas.setLineNumber(lineNumber);
     }
 
     // run clear line
@@ -300,13 +313,19 @@ public class SimulatorController {
      * switches to a stylesheet
      * @param css name of the css file to use
      */
-    public void switchStylesheets(String css) {
+    private void switchStylesheets(String css) {
         Scene scene = registerPane.getScene();
         scene.getStylesheets().remove(1); // remove except for base
         scene.getStylesheets().add(this.getClass().getResource("/thb/fbi/leguan/css/" + css).toExternalForm());
     }
 
-    public void enableLineHighlighter(boolean isEnabled) {
+    @FXML
+    private void enableLineHighlighter(boolean isEnabled) {
         editorCanvas.setVisible(isEnabled);
+    }
+
+    @FXML
+    private void openPipelineVisualizer() {
+        System.out.println("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
     }
 }
