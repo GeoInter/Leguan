@@ -261,11 +261,6 @@ public class PipelinePanel extends JPanel {
 
         g2d.drawArc(andArc.x, andArc.y, andArc.width, andArc.height, 270, 180);
         g2d.drawLine(andArc.x + andArc.width / 2, andArc.y, andArc.x + andArc.width / 2, andArc.y + andArc.height);
-
-        int z[] = {25, 343};
-        int zz[] = {15, 343};
-        g2d.drawPolyline(z, zz, 2);
-
     }
 
     private void initializeWires() {
