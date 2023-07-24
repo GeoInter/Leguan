@@ -6,6 +6,7 @@ module thb.fbi.leguan {
     requires org.antlr.antlr4.runtime;
     requires org.fxmisc.flowless;
     requires reactfx;
+    requires java.desktop;
 
     opens thb.fbi.leguan.controller to javafx.fxml;
     exports thb.fbi.leguan;
