@@ -38,8 +38,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
+import thb.fbi.leguan.App;
 import thb.fbi.leguan.parser.ParsingError;
 import thb.fbi.leguan.parser.SyntaxHighlighter;
 import thb.fbi.leguan.parser.antlr.LegV8Lexer;
@@ -357,8 +357,8 @@ public class SimulatorController {
             URL fxmlLocation = getClass().getResource("/thb/fbi/pipeline_visualizer/pipelineVisualizer.fxml");
             Parent pipelineVisualizer = FXMLLoader.load(fxmlLocation);
             Stage stage = new Stage();
-            stage.initModality(Modality.APPLICATION_MODAL);
             stage.setTitle("Pipeline Visualizer");
+            stage.initOwner(App.getStage());
             stage.setScene(new Scene(pipelineVisualizer));  
             stage.show();
         } catch(Exception e) {

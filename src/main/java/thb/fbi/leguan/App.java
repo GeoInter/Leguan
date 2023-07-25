@@ -1,6 +1,7 @@
 package thb.fbi.leguan;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -93,6 +94,7 @@ public class App extends Application {
             alert.showAndWait().ifPresent(response -> {
                 if(response == okButton) {
                     FileManager.saveFile();
+                    Platform.exit();
                 } else if(response == cancelButton) { 
                     // cancel closing
                     event.consume();
