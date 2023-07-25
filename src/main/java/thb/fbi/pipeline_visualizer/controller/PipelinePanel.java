@@ -31,7 +31,7 @@ public class PipelinePanel extends JPanel {
     int width = 1024;
     int wireNumber = 76;
     WireLabel wire[] = new WireLabel[wireNumber];
-    MFrame Frames[];
+    MFrame frames[];
     MFrame currentFrame;
     PipelineSimulator simulator;
     TwoBitPredictorPanel twoBitPredictorPanel;
@@ -79,31 +79,28 @@ public class PipelinePanel extends JPanel {
                         }
                     }
                 });
-        //this.add(comboBox);
+        this.add(comboBox);
 
         nBtn = new JButton("Next Clock Pulse >");
         nBtn.setBounds(20, 480, 140, 30);
         nBtn.addMouseListener(mHandler);
-        //this.add(nBtn);
+        this.add(nBtn);
 
         pBtn = new JButton("< Previous Clock Pulse");
         pBtn.setBounds(20, 520, 140, 30);
         pBtn.addMouseListener(mHandler);
-        //this.add(pBtn);
+        this.add(pBtn);
 
         this.addMouseMotionListener(mHandler);
         this.addMouseListener(mHandler);
         this.addMouseWheelListener(mHandler);
 
-        for (int i = 0; i < this.wire.length; i++) {
-            add(wire[i]);
-        }
     }
 
     public void updateMFrames(MFrame frames[]) {
-        Frames = frames;
+        this.frames = frames;
         clockPulse = 0;
-        currentFrame = Frames[clockPulse];
+        currentFrame = frames[clockPulse];
         twoBitPredictorPanel.clearTable();
     }
 
@@ -133,6 +130,11 @@ public class PipelinePanel extends JPanel {
         g2d.setColor(Color.BLACK);
 
         this.drawText(g2d);
+
+        // Only in JavaFX this does not increase RAM usage and is actually needed for rendering the wires
+        for (int i = 0; i < this.wire.length; i++) {
+            add(wire[i]);
+        }
     }
 
     private void drawElements(Graphics2D g2d) {
@@ -1586,17 +1588,17 @@ public class PipelinePanel extends JPanel {
 
         public void mousePressed(MouseEvent e) {
             if (e.getSource() == nBtn) { // nextClockPulse
-                if (clockPulse < Frames.length - 1) {
+                if (clockPulse < frames.length - 1) {
                     clockPulse++;
                     repaint();
-                    currentFrame = Frames[clockPulse];
+                    currentFrame = frames[clockPulse];
                     twoBitPredictorPanel.update(currentFrame.twoBitPredictionTable);
                 }
             } else if (e.getSource() == pBtn) { // previous clockPulse
                 if (clockPulse > 0) {
                     clockPulse--;
                     repaint();
-                    currentFrame = Frames[clockPulse];
+                    currentFrame = frames[clockPulse];
                     twoBitPredictorPanel.update(currentFrame.twoBitPredictionTable);
                 }
             } else if (e.getX() > regFile.x && e.getX() < regFile.x + regFile.width)

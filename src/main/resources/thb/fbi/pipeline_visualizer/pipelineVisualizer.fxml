@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.embed.swing.SwingNode?>
+<?import javafx.scene.layout.StackPane?>
+
+
+<StackPane fx:id="stackPane" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="thb.fbi.pipeline_visualizer.controller.PipelineVisualizerController">
+   <children>
+      <SwingNode fx:id="swingNode" />
+   </children>
+</StackPane>

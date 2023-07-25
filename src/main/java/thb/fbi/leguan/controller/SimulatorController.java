@@ -3,12 +3,7 @@ package thb.fbi.leguan.controller;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Locale;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.FutureTask;
-
-import javax.swing.SwingUtilities;
-
 import java.util.Collection;
 import java.util.Collections;
 import org.antlr.v4.runtime.CharStream;
@@ -53,7 +48,6 @@ import thb.fbi.leguan.utility.ExecutorServiceProvider;
 import thb.fbi.leguan.utility.FileManager;
 import thb.fbi.leguan.utility.I18N;
 import thb.fbi.leguan.utility.ILeguanTools;
-import thb.fbi.pipeline_visualizer.PipelineVisualizer;
 
 /**
  * UI Controller of the app
@@ -94,8 +88,6 @@ public class SimulatorController {
     private ExecutorService executorService;
     private EditorCanvas editorCanvas;
     private VirtualizedScrollPane<CodeArea> codeAreaScrollPane;
-
-    private ILeguanTools pipelineVisualizer;
 
     @FXML
     public void initialize() {
@@ -164,18 +156,6 @@ public class SimulatorController {
         stepBackwardButton.setGraphic(new ImageView(stepBackwardButtonImage));
 
         FileManager.init(codeArea);
-
-        FutureTask<PipelineVisualizer> swingTask = new FutureTask<>(PipelineVisualizer::new);
-        SwingUtilities.invokeLater(swingTask);
-        try {
-            pipelineVisualizer = swingTask.get();
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
     }
 
     @FXML
@@ -185,9 +165,6 @@ public class SimulatorController {
             //runButton.setDisable(false);
             stepForwardButton.setDisable(false);
             //stepBackwardButton.setDisable(false);
-
-            // set correct code to pipeline visualizer
-            pipelineVisualizer.updateCode(codeArea.getText());
         } else {
             setConsoleText(simulator.getErrors());
             editorCanvas.setLineNumber(-1);
@@ -347,6 +324,6 @@ public class SimulatorController {
 
     @FXML
     private void openPipelineVisualizer() {
-        pipelineVisualizer.buildGUI();
+        
     }
 }
