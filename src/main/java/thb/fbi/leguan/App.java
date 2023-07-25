@@ -41,8 +41,7 @@ public class App extends Application {
         Locale locale = I18N.getDefaultLocale();
         ResourceBundle bundle = ResourceBundle.getBundle("thb/fbi/leguan/languages/language", locale);
         
-        //URL fxmlLocation = getClass().getResource("simulator.fxml");
-        URL fxmlLocation = getClass().getResource("/thb/fbi/pipeline_visualizer/pipelineVisualizer.fxml");
+        URL fxmlLocation = getClass().getResource("simulator.fxml");
         Parent root = FXMLLoader.load(fxmlLocation, bundle);
 
         scene = new Scene(root);
