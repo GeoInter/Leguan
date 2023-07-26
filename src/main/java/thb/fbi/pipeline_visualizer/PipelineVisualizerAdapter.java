@@ -16,28 +16,31 @@ public class PipelineVisualizerAdapter implements ILeguanTools {
 
     @Override
     public void display() {
-        try {
-            URL fxmlLocation = getClass().getResource("/thb/fbi/pipeline_visualizer/pipelineVisualizer.fxml");
-            FXMLLoader loader = new FXMLLoader(fxmlLocation);
-            Parent pipelineVisualizer = loader.load();
-            pipelineVisualizerController = loader.getController();
-            Stage stage = new Stage();
-            stage.setTitle("Pipeline Visualizer");
-            stage.initOwner(App.getStage());
-            stage.setScene(new Scene(pipelineVisualizer)); 
-            stage.setOnCloseRequest(event -> {
-                unsetPipelineVisualizerController();
-            }); 
-            stage.show();
-        } catch(Exception e) {
-            pipelineVisualizerController = null;
-            e.printStackTrace();
+        if (pipelineVisualizerController == null) {
+            try {
+                URL fxmlLocation = getClass().getResource("/thb/fbi/pipeline_visualizer/pipelineVisualizer.fxml");
+                FXMLLoader loader = new FXMLLoader(fxmlLocation);
+                Parent pipelineVisualizer = loader.load();
+                pipelineVisualizerController = loader.getController();
+                Stage stage = new Stage();
+                stage.setTitle("Pipeline Visualizer");
+                stage.initOwner(App.getStage());
+                stage.setScene(new Scene(pipelineVisualizer));
+                stage.setOnCloseRequest(event -> {
+                    unsetPipelineVisualizerController();
+                });
+                stage.show();
+            } catch (Exception e) {
+                pipelineVisualizerController = null;
+                e.printStackTrace();
+            }
         }
+
     }
 
     @Override
     public void updateCode(String code) {
-        if(pipelineVisualizerController != null) {
+        if (pipelineVisualizerController != null) {
             pipelineVisualizerController.updateCode(code);
         }
     }
