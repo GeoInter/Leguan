@@ -37,7 +37,7 @@ public class PipelineVisualizerController {
     @FXML
     public void initialize() {
         pipelineSimulator = new PipelineSimulator();
-        pipelinePanel = new PipelinePanel(code, pipelineSimulator);
+        pipelinePanel = new PipelinePanel(pipelineSimulator);
         createAndSetSwingContent(swingNode);
     }
 
@@ -51,7 +51,7 @@ public class PipelineVisualizerController {
 
                 TwoBitPredictorPanel twoBitPredictorPanel = new TwoBitPredictorPanel();
                 StatsPanel statsPanel = new StatsPanel();
-                pipelinePanel = new PipelinePanel(code, pipelineSimulator);
+                pipelinePanel = new PipelinePanel(pipelineSimulator);
                 pipelinePanel.setTwoBitPredictorPanel(twoBitPredictorPanel);
                 HazardOptionsPanel hazardOptionsPanel = new HazardOptionsPanel(pipelineSimulator, pipelinePanel,
                         statsPanel);

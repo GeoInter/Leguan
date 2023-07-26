@@ -58,7 +58,7 @@ public class PipelinePanel extends JPanel {
             "X23", "X24", "X25", "X26", "X27", "X28(SP)", "X29(FP)", "X30(LR)",
             "XZR" };
 
-    PipelinePanel(String ins, PipelineSimulator simulator) {
+    PipelinePanel(PipelineSimulator simulator) {
 
         this.setSize(width + 15, height + 15);
         this.simulator = simulator;
