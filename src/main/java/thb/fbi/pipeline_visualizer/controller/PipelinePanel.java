@@ -59,8 +59,6 @@ public class PipelinePanel extends JPanel {
             "XZR" };
 
     PipelinePanel(PipelineSimulator simulator) {
-
-        this.setSize(width + 15, height + 15);
         this.simulator = simulator;
         mHandler = new MouseEventHandler();
         clockPulse = 0;

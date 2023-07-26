@@ -1,14 +1,9 @@
 package thb.fbi.pipeline_visualizer.controller;
 
-import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
-
-import java.awt.BorderLayout;
-import java.awt.GridBagConstraints;
 
 import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXML;
-import javafx.scene.layout.StackPane;
 import thb.fbi.pipeline_visualizer.pipeline.PipelineSimulator;
 
 public class PipelineVisualizerController {
@@ -30,24 +25,24 @@ public class PipelineVisualizerController {
             "ADDI X10, X10, 420;\n";
 
     @FXML
-    StackPane stackPane;
+    SwingNode pipelineSwingNode;
     @FXML
-    SwingNode swingNode;
+    SwingNode statsSwingNode;
+    @FXML
+    SwingNode hazardSwingNode;
+    @FXML
+    SwingNode tableSwingNode;
 
     @FXML
     public void initialize() {
         pipelineSimulator = new PipelineSimulator();
-        createAndSetSwingContent(swingNode);
+        createAndSetSwingContent(pipelineSwingNode, statsSwingNode, hazardSwingNode, tableSwingNode);
     }
 
-    private void createAndSetSwingContent(final SwingNode swingNode) {
+    private void createAndSetSwingContent(final SwingNode pipelineSwingNode, final SwingNode statsSwingNode, final SwingNode hazardSwingNode, final SwingNode tableSwingNode) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
-            public void run() { 
-                JPanel mainPanel = new JPanel();
-                JPanel sidePanel = new JPanel();
-                JPanel centerPanel = new JPanel();
-
+            public void run() {
                 TwoBitPredictorPanel twoBitPredictorPanel = new TwoBitPredictorPanel();
                 StatsPanel statsPanel = new StatsPanel();
                 pipelinePanel = new PipelinePanel(pipelineSimulator);
@@ -61,30 +56,10 @@ public class PipelineVisualizerController {
                         pipelineSimulator.cpi,
                         pipelineSimulator.sf);
 
-                // add to sidePanel
-                GridBagConstraints gbc = new GridBagConstraints();
-                gbc.anchor = GridBagConstraints.NORTHWEST;
-                gbc.gridx = 0;
-                gbc.gridy = 0;
-                sidePanel.add(statsPanel, gbc);
-                gbc.gridx = 0;
-                gbc.gridy = 1;
-                sidePanel.add(hazardOptionsPanel, gbc);
-                gbc.gridx = 0;
-                gbc.gridy = 2;
-                gbc.weightx = 1;
-                gbc.weighty = 1; // last element in side panel needs weight for filling the side, thus placing it
-                                 // in the upper corner
-                sidePanel.add(twoBitPredictorPanel, gbc);
-
-                // add to centerPanel
-                centerPanel.add(pipelinePanel);
-
-                // add center and side panel to main panel
-                //mainPanel.add(sidePanel, BorderLayout.WEST);
-                mainPanel.add(centerPanel, BorderLayout.CENTER);
-
-                swingNode.setContent(pipelinePanel);
+                pipelineSwingNode.setContent(pipelinePanel);
+                statsSwingNode.setContent(statsPanel);
+                hazardSwingNode.setContent(hazardOptionsPanel);
+                tableSwingNode.setContent(twoBitPredictorPanel);
             }
         });
     }

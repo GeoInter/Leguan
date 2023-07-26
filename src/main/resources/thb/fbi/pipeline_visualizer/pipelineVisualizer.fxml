@@ -1,10 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.embed.swing.SwingNode?>
-<?import javafx.scene.layout.StackPane?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.layout.VBox?>
 
-<StackPane fx:id="stackPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="thb.fbi.pipeline_visualizer.controller.PipelineVisualizerController">
-   <children>
-      <SwingNode fx:id="swingNode" />
-   </children>
-</StackPane>
+
+<SplitPane dividerPositions="0.2" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="thb.fbi.pipeline_visualizer.controller.PipelineVisualizerController">
+   <items>
+      <VBox maxWidth="-Infinity" prefHeight="200.0" prefWidth="350.0">
+         <children>
+            <SwingNode fx:id="statsSwingNode">
+               <VBox.margin>
+                  <Insets bottom="20.0" />
+               </VBox.margin>
+            </SwingNode>
+            <SwingNode fx:id="hazardSwingNode">
+               <VBox.margin>
+                  <Insets bottom="40.0" />
+               </VBox.margin>
+            </SwingNode>
+            <SwingNode fx:id="tableSwingNode">
+               <VBox.margin>
+                  <Insets bottom="20.0" />
+               </VBox.margin>
+            </SwingNode>
+         </children>
+      </VBox>
+      <SwingNode fx:id="pipelineSwingNode" />
+   </items>
+</SplitPane>
