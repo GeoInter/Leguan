@@ -18,8 +18,12 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.WindowConstants;
 
 import thb.fbi.pipeline_visualizer.pipeline.MFrame;
 import thb.fbi.pipeline_visualizer.pipeline.PipelineSimulator;
@@ -1602,7 +1606,7 @@ public class PipelinePanel extends JPanel {
                     currentFrame = frames[clockPulse];
                     twoBitPredictorPanel.update(currentFrame.twoBitPredictionTable);
                 }
-            } else if (e.getX() > regFile.x && e.getX() < regFile.x + regFile.width)
+            } else if (e.getX() > regFile.x && e.getX() < regFile.x + regFile.width) {
                 if (e.getY() > regFile.y && e.getY() < regFile.y + regFile.height) {
                     String regOut = "Register: Value\n";
                     for (int i = 0; i < currentFrame.register.length; i++) {
@@ -1617,6 +1621,20 @@ public class PipelinePanel extends JPanel {
                     }
                     JOptionPane.showMessageDialog(null, regOut);
                 }
+            } else if (e.getX() > memUnit.x && e.getX() < memUnit.x + memUnit.width) {
+                if (e.getY() > memUnit.y && e.getY() < memUnit.y + memUnit.height) {
+                    JDialog memoryDialog = new JDialog();
+                    memoryDialog.setTitle("Memory");
+                    memoryDialog.setSize(300, 400);
+
+                    String columnNames[] = {"Adress", "Value"};
+                    JTable memoryTable = new JTable(currentFrame.Memory.to2DStringArray(), columnNames);
+                    JScrollPane memoryScrollPane = new JScrollPane(memoryTable);
+                    memoryDialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+                    memoryDialog.add(memoryScrollPane);
+                    memoryDialog.setVisible(true);
+                }
+            }
         }
 
         public void mouseMoved(MouseEvent e) {

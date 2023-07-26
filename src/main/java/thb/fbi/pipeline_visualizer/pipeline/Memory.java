@@ -182,4 +182,15 @@ public class Memory implements Serializable {
     public String toString() {
         return this.dataStorage.toString();
     }
+
+    public String[][] to2DStringArray() {
+        String memoryString[][] = new String[dataStorage.size()][2];
+        int i = 0;
+        for (Long index : dataStorage.keySet()) {
+            memoryString[i][0] = index.toString();
+            memoryString[i][1] = Byte.toString(getByte(index));
+            i++;
+        }
+        return memoryString;
+    }
 }
