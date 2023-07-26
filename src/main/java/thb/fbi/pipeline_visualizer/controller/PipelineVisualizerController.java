@@ -37,7 +37,6 @@ public class PipelineVisualizerController {
     @FXML
     public void initialize() {
         pipelineSimulator = new PipelineSimulator();
-        pipelinePanel = new PipelinePanel(pipelineSimulator);
         createAndSetSwingContent(swingNode);
     }
 

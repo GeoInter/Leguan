@@ -5,6 +5,7 @@ import java.net.URL;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import thb.fbi.leguan.App;
 import thb.fbi.leguan.utility.ILeguanTools;
@@ -23,9 +24,12 @@ public class PipelineVisualizerAdapter implements ILeguanTools {
                 Parent pipelineVisualizer = loader.load();
                 pipelineVisualizerController = loader.getController();
                 Stage stage = new Stage();
-                stage.setTitle("Pipeline Visualizer");
+                
                 stage.initOwner(App.getStage());
                 stage.setScene(new Scene(pipelineVisualizer));
+                stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/thb/fbi/leguan/images/Leguan.png")));
+                stage.setTitle("Pipeline Visualizer");
+                stage.setMaximized(true);
                 stage.setOnCloseRequest(event -> {
                     unsetPipelineVisualizerController();
                 });
