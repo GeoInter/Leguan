@@ -107,6 +107,7 @@ public class PipelineSimulator {
         LegV8Parser parser = getParser(str);
         ParseTree antlTree = parser.main();
         Instruction[] ins;
+        programParser.clear();
         ins = programParser.visit(antlTree);
         this.instructions = ins;
         programParser.printCode();
@@ -121,12 +122,6 @@ public class PipelineSimulator {
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         parser = new LegV8Parser(tokens);
 
-        // TODO syntax error handling
-        /*
-         * syntaxErrorListener.clearSyntaxErrors();
-         * parser.removeErrorListeners();
-         * parser.addErrorListener(syntaxErrorListener);
-         */
         return parser;
     }
 

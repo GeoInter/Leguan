@@ -44,15 +44,7 @@ public class ProgramParser extends LegV8BaseVisitor<Instruction[]> {
                 String id = unresolvedMarks.get(index);
                 Integer sourceLine = jumpMarks.get(id);
 
-                if(sourceLine == null) {
-                    /* TODO add error handling
-                    Token token = ctx.line(index).condBranchParam().invocation().JumpInvocation().getSymbol();
-                    int line = token.getLine();
-                    int pos = token.getCharPositionInLine();
-                    ParsingError err = new ParsingError(line, pos, ParsingErrorType.UndefinedJumpInvocation);
-                    semanticErrors.add(err);
-                    */
-                } else {
+                if(sourceLine != null) {
                     // resolve jump labels for forward branching (skip code)
                     // instead of a target address calculate distance between 
                     // branch instruction and label to jump to
@@ -65,6 +57,15 @@ public class ProgramParser extends LegV8BaseVisitor<Instruction[]> {
             }
         }
         return instructions;
+    }
+
+    /**
+     * clears all arrays and maps
+     * resetting found jumpMarks
+     */
+    public void clear() {
+        jumpMarks.clear();
+        unresolvedMarks.clear();
     }
 
     public void printCode() {
