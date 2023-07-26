@@ -199,7 +199,15 @@ public class MFrame implements Serializable {
             this.exMemPipeline.PC = this.idExPipeline.PC;
             int operand1 = this.fwdUnit.valueMuxA();
             int operand2 = this.fwdUnit.valueMuxB();
-            this.exMemPipeline.MemDataWrite = operand2;
+
+            // Store uses Rd instead of forwarded value for Rt
+            // Store instruction should be only one that uses this value from cUnit
+            if (this.idExPipeline.RegDest) {
+                this.exMemPipeline.MemDataWrite = operand2;
+            } else {
+                this.exMemPipeline.MemDataWrite = this.idExPipeline.rd;
+            }
+            
             if (this.idExPipeline.ALUSrc)
                 operand2 = this.idExPipeline.Offset;
 

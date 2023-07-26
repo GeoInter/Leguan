@@ -69,7 +69,7 @@ public class ControlUnit implements Serializable {
                 this.MEM.branch = false;
                 this.ALUOp = 0;
                 this.ALUSource = true;
-                this.RegDest = true;
+                this.RegDest = false;
             } else if (op == 3) { // immediate
                 this.WB.RegWrite = true;
                 this.WB.MemToReg = false;
