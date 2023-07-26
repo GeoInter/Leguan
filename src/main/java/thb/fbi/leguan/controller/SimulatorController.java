@@ -1,6 +1,5 @@
 package thb.fbi.leguan.controller;
 
-import java.net.URL;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -24,7 +23,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -38,8 +36,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
-import thb.fbi.leguan.App;
 import thb.fbi.leguan.parser.ParsingError;
 import thb.fbi.leguan.parser.SyntaxHighlighter;
 import thb.fbi.leguan.parser.antlr.LegV8Lexer;
@@ -51,6 +47,8 @@ import thb.fbi.leguan.simulation.SimulatorSingleton;
 import thb.fbi.leguan.utility.ExecutorServiceProvider;
 import thb.fbi.leguan.utility.FileManager;
 import thb.fbi.leguan.utility.I18N;
+import thb.fbi.leguan.utility.ILeguanTools;
+import thb.fbi.pipeline_visualizer.PipelineVisualizerAdapter;
 
 /**
  * UI Controller of the app
@@ -112,6 +110,8 @@ public class SimulatorController {
     private ExecutorService executorService;
     private EditorCanvas editorCanvas;
     private VirtualizedScrollPane<CodeArea> codeAreaScrollPane;
+
+    private ILeguanTools pipelineVisualizer;
 
     @FXML
     public void initialize() {
@@ -183,6 +183,8 @@ public class SimulatorController {
         stepBackwardButton.setGraphic(new ImageView(stepBackwardButtonImage));
 
         FileManager.init(codeArea);
+
+        pipelineVisualizer = new PipelineVisualizerAdapter();
     }
 
     @FXML
@@ -192,6 +194,9 @@ public class SimulatorController {
             // runButton.setDisable(false);
             stepForwardButton.setDisable(false);
             // stepBackwardButton.setDisable(false);
+            
+            // Update Tool
+            pipelineVisualizer.updateCode(codeArea.getText());
         } else {
             setConsoleText(simulator.getErrors());
             editorCanvas.setLineNumber(-1);
@@ -353,16 +358,6 @@ public class SimulatorController {
 
     @FXML
     private void openPipelineVisualizer() {
-        try {
-            URL fxmlLocation = getClass().getResource("/thb/fbi/pipeline_visualizer/pipelineVisualizer.fxml");
-            Parent pipelineVisualizer = FXMLLoader.load(fxmlLocation);
-            Stage stage = new Stage();
-            stage.setTitle("Pipeline Visualizer");
-            stage.initOwner(App.getStage());
-            stage.setScene(new Scene(pipelineVisualizer));  
-            stage.show();
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
+        pipelineVisualizer.display();
     }
 }

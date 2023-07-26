@@ -14,6 +14,7 @@ import thb.fbi.pipeline_visualizer.pipeline.PipelineSimulator;
 public class PipelineVisualizerController {
 
     private PipelineSimulator pipelineSimulator;
+    private PipelinePanel pipelinePanel;
 
     private String code = "ADDI X0, X0, 1;\n" +
             "ADDI X7, X7, 20;\n" +
@@ -36,6 +37,7 @@ public class PipelineVisualizerController {
     @FXML
     public void initialize() {
         pipelineSimulator = new PipelineSimulator();
+        pipelinePanel = new PipelinePanel(code, pipelineSimulator);
         createAndSetSwingContent(swingNode);
     }
 
@@ -49,7 +51,8 @@ public class PipelineVisualizerController {
 
                 TwoBitPredictorPanel twoBitPredictorPanel = new TwoBitPredictorPanel();
                 StatsPanel statsPanel = new StatsPanel();
-                PipelinePanel pipelinePanel = new PipelinePanel(code, pipelineSimulator, twoBitPredictorPanel);
+                pipelinePanel = new PipelinePanel(code, pipelineSimulator);
+                pipelinePanel.setTwoBitPredictorPanel(twoBitPredictorPanel);
                 HazardOptionsPanel hazardOptionsPanel = new HazardOptionsPanel(pipelineSimulator, pipelinePanel,
                         statsPanel);
 
@@ -87,4 +90,7 @@ public class PipelineVisualizerController {
         });
     }
 
+    public void updateCode(String code) {
+        pipelinePanel.updateMFrames(pipelineSimulator.execute(code));
+    }
 }

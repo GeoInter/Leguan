@@ -58,11 +58,10 @@ public class PipelinePanel extends JPanel {
             "X23", "X24", "X25", "X26", "X27", "X28(SP)", "X29(FP)", "X30(LR)",
             "XZR" };
 
-    PipelinePanel(String ins, PipelineSimulator simulator, TwoBitPredictorPanel twoBitPredictorPanel) {
+    PipelinePanel(String ins, PipelineSimulator simulator) {
 
         this.setSize(width + 15, height + 15);
         this.simulator = simulator;
-        this.twoBitPredictorPanel = twoBitPredictorPanel;
         mHandler = new MouseEventHandler();
         clockPulse = 0;
 
@@ -95,6 +94,10 @@ public class PipelinePanel extends JPanel {
         this.addMouseListener(mHandler);
         this.addMouseWheelListener(mHandler);
 
+    }
+
+    public void setTwoBitPredictorPanel(TwoBitPredictorPanel twoBitPredictorPanel) {
+        this.twoBitPredictorPanel = twoBitPredictorPanel;
     }
 
     public void updateMFrames(MFrame frames[]) {
