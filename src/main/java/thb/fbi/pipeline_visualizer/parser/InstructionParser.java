@@ -91,17 +91,7 @@ public class InstructionParser extends LegV8BaseVisitor<Object> {
     public Object visitDeclaration(DeclarationContext ctx) {
         String id = ctx.JumpDeclaration().getText();
         id = id.substring(0, id.length() - 1); // remove ":"
-        if (jumpMarks.containsKey(id)) {
-            /*
-             * TODO error handling label declaration
-             * Token token = ctx.JumpDeclaration().getSymbol();
-             * int line = token.getLine();
-             * int pos = token.getCharPositionInLine();
-             * ParsingError err = new ParsingError(line, pos,
-             * ParsingErrorType.DoubledMarkDeclaration);
-             * semanticErrors.add(err);
-             */
-        } else {
+        if (! jumpMarks.containsKey(id)) {
             jumpMarks.put(id, this.programIndex);
         }
         return null;
@@ -129,12 +119,6 @@ public class InstructionParser extends LegV8BaseVisitor<Object> {
             Token token = ctx.NUMBER().getSymbol();
             int line = token.getLine();
             int pos = token.getCharPositionInLine();
-            // TODO Error Handling Number Parsing
-            /*
-             * ParsingError err = new ParsingError(line, pos,
-             * ParsingErrorType.NumberFormatException);
-             * semanticErrors.add(err);
-             */
             System.out.println("Error at (" + line + ", " + pos + ") for Token: " + token);
         }
         return number;
@@ -160,7 +144,6 @@ public class InstructionParser extends LegV8BaseVisitor<Object> {
             default:
                 registerName = registerName.substring(1);
                 index = Integer.parseInt(registerName);
-                // TODO Error Handling Register Index Parsing
         }
         return index;
     }
@@ -229,7 +212,6 @@ public class InstructionParser extends LegV8BaseVisitor<Object> {
 
     @Override
     public Object visitWideImmediateParam(WideImmediateParamContext ctx) {
-        // TODO Auto-generated method stub
         return super.visitWideImmediateParam(ctx);
     }
 
@@ -405,13 +387,11 @@ public class InstructionParser extends LegV8BaseVisitor<Object> {
         } else if (ctx.getText().equals("LSR")) {
             this.instruction.setFunction(2);
         }
-        // TODO add error handling for wrong instruction
         return null;
     }
 
     @Override
     public Object visitWideImmediateInstruction(WideImmediateInstructionContext ctx) {
-        // TODO Auto-generated method stub
         return super.visitWideImmediateInstruction(ctx);
     }
 
