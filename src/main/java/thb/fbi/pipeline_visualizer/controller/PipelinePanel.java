@@ -15,7 +15,6 @@ import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JDialog;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -1582,18 +1581,28 @@ public class PipelinePanel extends JPanel {
         public void mousePressed(MouseEvent e) {
             if (e.getX() > regFile.x && e.getX() < regFile.x + regFile.width) {
                 if (e.getY() > regFile.y && e.getY() < regFile.y + regFile.height) {
-                    String regOut = "Register: Value\n";
+                    JDialog registerDialog = new JDialog();
+                    registerDialog.setTitle("Register");
+                    registerDialog.setSize(250, 250);
+
+                    String columnNames[] = {"Register", "Value"};
+                    String registerValues[][] = new String[currentFrame.register.length][2];
+
                     for (int i = 0; i < currentFrame.register.length; i++) {
-
-                        if (currentFrame.regFlag[i] == true)
-                            regOut += Registers[i] + ": " + currentFrame.register[i] + "           \t";
-                        else
-                            regOut += Registers[i] + ": X           ";
-
-                        if ((i + 1) % 4 == 0)
-                            regOut += "\n";
+                        
+                        registerValues[i][0] = Integer.toString(i);
+                        if (currentFrame.regFlag[i] == true) {
+                            registerValues[i][1] = Integer.toString(currentFrame.register[i]);
+                        } else {
+                            registerValues[i][1] = "X";
+                        }
                     }
-                    JOptionPane.showMessageDialog(null, regOut);
+
+                    JTable registerTable = new JTable(registerValues, columnNames);
+                    JScrollPane registerScrollPane = new JScrollPane(registerTable);
+                    registerDialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+                    registerDialog.add(registerScrollPane);
+                    registerDialog.setVisible(true);
                 }
             } else if (e.getX() > memUnit.x && e.getX() < memUnit.x + memUnit.width) {
                 if (e.getY() > memUnit.y && e.getY() < memUnit.y + memUnit.height) {
