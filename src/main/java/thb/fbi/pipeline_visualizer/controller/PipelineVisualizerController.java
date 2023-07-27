@@ -11,19 +11,6 @@ public class PipelineVisualizerController {
     private PipelineSimulator pipelineSimulator;
     private PipelinePanel pipelinePanel;
 
-    private String code = "ADDI X0, X0, 1;\n" +
-            "ADDI X7, X7, 20;\n" +
-            "ADDI X12, X12, 0;\n" +
-            "loop: STUR X1, [X12, 0];\n" +
-            "ADD X2, X0, X1;\n" +
-            "ADDI X0, X1, 0;\n" +
-            "ADDI X1, X2, 0;\n" +
-            "ADDI X5, X5, 1; // counter\n" +
-            "ADDI X12, X12, 8; // storing address\n" +
-            "SUB X8, X7, X5;\n" +
-            "CBNZ X8, loop;\n" +
-            "ADDI X10, X10, 420;\n";
-
     @FXML
     SwingNode pipelineSwingNode;
     @FXML
@@ -47,17 +34,13 @@ public class PipelineVisualizerController {
             public void run() {
                 TwoBitPredictorPanel twoBitPredictorPanel = new TwoBitPredictorPanel();
                 StatsPanel statsPanel = new StatsPanel();
-                pipelinePanel = new PipelinePanel(pipelineSimulator);
+                pipelinePanel = new PipelinePanel();
                 pipelinePanel.setTwoBitPredictorPanel(twoBitPredictorPanel);
                 HazardOptionsPanel hazardOptionsPanel = new HazardOptionsPanel(pipelineSimulator, pipelinePanel,
                         statsPanel);
                 TopBarPanel topBarPanel = new TopBarPanel(pipelinePanel);
-
-                pipelinePanel.updateMFrames(pipelineSimulator.execute(code));
-                statsPanel.updateStats(pipelineSimulator.clockCycleCounter, pipelineSimulator.instructionCounter,
-                        pipelineSimulator.dataHazardCounter, pipelineSimulator.controlHazardCounter,
-                        pipelineSimulator.cpi,
-                        pipelineSimulator.sf);
+ 
+                pipelinePanel.updateMFrames(pipelineSimulator.execute(""));
 
                 topBarSwingNode.setContent(topBarPanel);
                 pipelineSwingNode.setContent(pipelinePanel);

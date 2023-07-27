@@ -22,7 +22,6 @@ import javax.swing.JTable;
 import javax.swing.WindowConstants;
 
 import thb.fbi.pipeline_visualizer.pipeline.MFrame;
-import thb.fbi.pipeline_visualizer.pipeline.PipelineSimulator;
 import thb.fbi.pipeline_visualizer.pipeline.WireLabel;
 
 public class PipelinePanel extends JPanel {
@@ -33,7 +32,6 @@ public class PipelinePanel extends JPanel {
     WireLabel wire[] = new WireLabel[wireNumber];
     MFrame frames[];
     MFrame currentFrame;
-    PipelineSimulator simulator;
     TwoBitPredictorPanel twoBitPredictorPanel;
     int clockPulse;
     MouseEventHandler mHandler;
@@ -55,8 +53,7 @@ public class PipelinePanel extends JPanel {
             "X23", "X24", "X25", "X26", "X27", "X28(SP)", "X29(FP)", "X30(LR)",
             "XZR" };
 
-    PipelinePanel(PipelineSimulator simulator) {
-        this.simulator = simulator;
+    PipelinePanel() {
         mHandler = new MouseEventHandler();
         clockPulse = 0;
 
