@@ -10,6 +10,7 @@ public class PipelineVisualizerController {
 
     private PipelineSimulator pipelineSimulator;
     private PipelinePanel pipelinePanel;
+    private StatsPanel statsPanel;
 
     @FXML
     SwingNode pipelineSwingNode;
@@ -25,21 +26,22 @@ public class PipelineVisualizerController {
     @FXML
     public void initialize() {
         pipelineSimulator = new PipelineSimulator();
+        statsPanel = new StatsPanel();
         createAndSetSwingContent(pipelineSwingNode, statsSwingNode, hazardSwingNode, tableSwingNode);
     }
 
-    private void createAndSetSwingContent(final SwingNode pipelineSwingNode, final SwingNode statsSwingNode, final SwingNode hazardSwingNode, final SwingNode tableSwingNode) {
+    private void createAndSetSwingContent(final SwingNode pipelineSwingNode, final SwingNode statsSwingNode,
+            final SwingNode hazardSwingNode, final SwingNode tableSwingNode) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
                 TwoBitPredictorPanel twoBitPredictorPanel = new TwoBitPredictorPanel();
-                StatsPanel statsPanel = new StatsPanel();
                 pipelinePanel = new PipelinePanel();
                 pipelinePanel.setTwoBitPredictorPanel(twoBitPredictorPanel);
                 HazardOptionsPanel hazardOptionsPanel = new HazardOptionsPanel(pipelineSimulator, pipelinePanel,
                         statsPanel);
                 TopBarPanel topBarPanel = new TopBarPanel(pipelinePanel);
- 
+
                 pipelinePanel.updateMFrames(pipelineSimulator.execute(""));
 
                 topBarSwingNode.setContent(topBarPanel);
@@ -53,5 +55,8 @@ public class PipelineVisualizerController {
 
     public void updateCode(String code) {
         pipelinePanel.updateMFrames(pipelineSimulator.execute(code));
+        statsPanel.updateStats(pipelineSimulator.clockCycleCounter, pipelineSimulator.instructionCounter,
+                pipelineSimulator.dataHazardCounter, pipelineSimulator.controlHazardCounter, pipelineSimulator.cpi,
+                pipelineSimulator.sf);
     }
 }
