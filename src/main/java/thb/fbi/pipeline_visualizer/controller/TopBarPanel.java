@@ -1,15 +1,18 @@
 package thb.fbi.pipeline_visualizer.controller;
 
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import java.awt.Insets;
 
 public class TopBarPanel extends JPanel {
 
@@ -31,7 +34,6 @@ public class TopBarPanel extends JPanel {
                         }
                     }
                 });
-        this.add(comboBox);
 
         JButton nBtn = new JButton("Next Clock Pulse >");
         nBtn.setBounds(20, 480, 140, 30);
@@ -43,7 +45,6 @@ public class TopBarPanel extends JPanel {
             }
             
         });
-        this.add(nBtn);
 
         JButton pBtn = new JButton("< Previous Clock Pulse");
         pBtn.setBounds(20, 520, 140, 30);
@@ -55,14 +56,24 @@ public class TopBarPanel extends JPanel {
             }
             
         });
-        this.add(pBtn);
 
-
-        this.setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
-        this.add(modeLabel);
-        this.add(comboBox);
-        this.add(nBtn);
-        this.add(pBtn);
+        this.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        c.insets = new Insets(5, 1, 5, 5);
+        c.gridx = 0;
+        c.gridy = 0;
+        this.add(modeLabel, c);
+        c.insets = new Insets(5, 1, 5, 15);
+        c.gridx = 1;
+        c.gridy = 0;
+        this.add(comboBox, c);
+        c.insets = new Insets(5, 1, 5, 5);
+        c.gridx = 2;
+        c.gridy = 0;
+        this.add(pBtn, c);
+        c.gridx = 3;
+        c.gridy = 0;
+        this.add(nBtn, c);
     }
     
 }
