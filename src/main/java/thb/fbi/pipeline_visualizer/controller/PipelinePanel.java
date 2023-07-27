@@ -12,12 +12,8 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -40,11 +36,8 @@ public class PipelinePanel extends JPanel {
     PipelineSimulator simulator;
     TwoBitPredictorPanel twoBitPredictorPanel;
     int clockPulse;
-    JButton nBtn, pBtn, modeChange;
-    JComboBox<String> comboBox;
     MouseEventHandler mHandler;
     int mode = 1;
-    String comboText[] = { " Decimal", " Binary", " Help" };
 
     int x;
     int y;
@@ -69,33 +62,9 @@ public class PipelinePanel extends JPanel {
 
         this.initializeWires();
 
-        comboBox = new JComboBox<String>(comboText);
-        comboBox.setBounds(79, 560, 80, 30);
-        comboBox.addItemListener(
-                new ItemListener() {
-                    public void itemStateChanged(ItemEvent event) {
-                        if (event.getStateChange() == ItemEvent.SELECTED) {
-
-                            mode = comboBox.getSelectedIndex() + 1;
-                        }
-                    }
-                });
-        this.add(comboBox);
-
-        nBtn = new JButton("Next Clock Pulse >");
-        nBtn.setBounds(20, 480, 140, 30);
-        nBtn.addMouseListener(mHandler);
-        this.add(nBtn);
-
-        pBtn = new JButton("< Previous Clock Pulse");
-        pBtn.setBounds(20, 520, 140, 30);
-        pBtn.addMouseListener(mHandler);
-        this.add(pBtn);
-
         this.addMouseMotionListener(mHandler);
         this.addMouseListener(mHandler);
         this.addMouseWheelListener(mHandler);
-
     }
 
     public void setTwoBitPredictorPanel(TwoBitPredictorPanel twoBitPredictorPanel) {
@@ -1589,24 +1558,32 @@ public class PipelinePanel extends JPanel {
         return " ";
     }
 
+    public void nextClockPulse() {
+        if (clockPulse < frames.length - 1) {
+            clockPulse++;
+            repaint();
+            currentFrame = frames[clockPulse];
+            twoBitPredictorPanel.update(currentFrame.twoBitPredictionTable);
+        }
+    }
+
+    public void previousClockPulse() {
+        if (clockPulse > 0) {
+            clockPulse--;
+            repaint();
+            currentFrame = frames[clockPulse];
+            twoBitPredictorPanel.update(currentFrame.twoBitPredictionTable);
+        }
+    }
+
+    public void setMode(int mode) {
+        this.mode = mode;
+    }
+    
     public class MouseEventHandler extends MouseAdapter {
 
         public void mousePressed(MouseEvent e) {
-            if (e.getSource() == nBtn) { // nextClockPulse
-                if (clockPulse < frames.length - 1) {
-                    clockPulse++;
-                    repaint();
-                    currentFrame = frames[clockPulse];
-                    twoBitPredictorPanel.update(currentFrame.twoBitPredictionTable);
-                }
-            } else if (e.getSource() == pBtn) { // previous clockPulse
-                if (clockPulse > 0) {
-                    clockPulse--;
-                    repaint();
-                    currentFrame = frames[clockPulse];
-                    twoBitPredictorPanel.update(currentFrame.twoBitPredictionTable);
-                }
-            } else if (e.getX() > regFile.x && e.getX() < regFile.x + regFile.width) {
+            if (e.getX() > regFile.x && e.getX() < regFile.x + regFile.width) {
                 if (e.getY() > regFile.y && e.getY() < regFile.y + regFile.height) {
                     String regOut = "Register: Value\n";
                     for (int i = 0; i < currentFrame.register.length; i++) {
@@ -1691,9 +1668,6 @@ public class PipelinePanel extends JPanel {
         g2d.setFont(font);
 
         g2d.drawString("Clock Pulse: " + (clockPulse + 1), 20, 460);
-
-        g2d.drawString("Mode: ", 20, 582);
-
     }
 
     public int convX(int X) {

@@ -32,6 +32,8 @@ public class PipelineVisualizerController {
     SwingNode hazardSwingNode;
     @FXML
     SwingNode tableSwingNode;
+    @FXML
+    SwingNode topBarSwingNode;
 
     @FXML
     public void initialize() {
@@ -49,6 +51,7 @@ public class PipelineVisualizerController {
                 pipelinePanel.setTwoBitPredictorPanel(twoBitPredictorPanel);
                 HazardOptionsPanel hazardOptionsPanel = new HazardOptionsPanel(pipelineSimulator, pipelinePanel,
                         statsPanel);
+                TopBarPanel topBarPanel = new TopBarPanel(pipelinePanel);
 
                 pipelinePanel.updateMFrames(pipelineSimulator.execute(code));
                 statsPanel.updateStats(pipelineSimulator.clockCycleCounter, pipelineSimulator.instructionCounter,
@@ -56,6 +59,7 @@ public class PipelineVisualizerController {
                         pipelineSimulator.cpi,
                         pipelineSimulator.sf);
 
+                topBarSwingNode.setContent(topBarPanel);
                 pipelineSwingNode.setContent(pipelinePanel);
                 statsSwingNode.setContent(statsPanel);
                 hazardSwingNode.setContent(hazardOptionsPanel);
