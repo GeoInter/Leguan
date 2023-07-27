@@ -12,9 +12,11 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
+import java.awt.Dialog.ModalityType;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -1601,6 +1603,8 @@ public class PipelinePanel extends JPanel {
                     JTable registerTable = new JTable(registerValues, columnNames);
                     JScrollPane registerScrollPane = new JScrollPane(registerTable);
                     registerDialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+                    registerDialog.setModalityType(ModalityType.APPLICATION_MODAL);
+                    registerDialog.setAlwaysOnTop(true);
                     registerDialog.add(registerScrollPane);
                     registerDialog.setVisible(true);
                 }
@@ -1614,8 +1618,19 @@ public class PipelinePanel extends JPanel {
                     JTable memoryTable = new JTable(currentFrame.Memory.to2DStringArray(), columnNames);
                     JScrollPane memoryScrollPane = new JScrollPane(memoryTable);
                     memoryDialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+                    memoryDialog.setModalityType(ModalityType.APPLICATION_MODAL);
+                    memoryDialog.setAlwaysOnTop(true);
                     memoryDialog.add(memoryScrollPane);
                     memoryDialog.setVisible(true);
+                }
+            } else if (e.getX() > ex_Mem.x && e.getX() < ex_Mem.x + ex_Mem.width) {
+                if (e.getY() > ex_Mem.y && e.getY() < ex_Mem.y + ex_Mem.height) {
+                    String flagString = "";
+                    flagString += "Negative: " + currentFrame.ALUnit.nFlag + "\n";
+                    flagString += "Zero: " + currentFrame.ALUnit.zFlag + "\n";
+                    flagString += "Carry: " + currentFrame.ALUnit.cFlag + "\n";
+                    flagString += "Overflow: " + currentFrame.ALUnit.vFlag + "\n";
+                    JOptionPane.showMessageDialog(null, flagString);
                 }
             }
         }
