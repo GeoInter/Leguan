@@ -6,7 +6,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-
 <VBox xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="thb.fbi.pipeline_visualizer.controller.PipelineVisualizerController">
    <children>
       <SwingNode fx:id="topBarSwingNode" />
@@ -29,6 +28,11 @@
                         <SwingNode fx:id="tableSwingNode">
                            <VBox.margin>
                               <Insets bottom="20.0" />
+                           </VBox.margin>
+                        </SwingNode>
+                        <SwingNode fx:id="codeSwingNode">
+                           <VBox.margin>
+                              <Insets />
                            </VBox.margin>
                         </SwingNode>
                      </children>
