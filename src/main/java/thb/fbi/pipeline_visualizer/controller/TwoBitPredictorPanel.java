@@ -5,11 +5,13 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.HashMap;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
 import thb.fbi.pipeline_visualizer.pipeline.TwoBitPrecitionEntry;
@@ -39,6 +41,8 @@ public class TwoBitPredictorPanel extends JPanel {
         predictionTable.setFillsViewportHeight(true);
         scrollPane = new JScrollPane(predictionTable);
 
+        this.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "2 Bit Predictor Table",
+                TitledBorder.LEFT, TitledBorder.TOP));
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         this.add(showTableCheckBox);
         this.add(scrollPane);
