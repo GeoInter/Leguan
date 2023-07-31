@@ -55,7 +55,7 @@ public class HazardDetectionUnit implements Serializable {
 
     public boolean checkDataHazard() {
         if (idExMemRead) {
-            if (ifIdRs == idExRd || ifIdRt == exMemRd) {
+            if (ifIdRs == idExRd && idExRd != 31 || ifIdRt == exMemRd && exMemRd != 31) {
                 return true;
             }
         }
