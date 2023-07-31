@@ -183,15 +183,7 @@ public class MFrame implements Serializable {
             this.fwdUnit.rsValue = this.idExPipeline.rsValue;
             this.fwdUnit.rtValue = this.idExPipeline.rtValue;
             this.fwdUnit.rs = this.idExPipeline.rs;
-            
-            // use byteSizeMemoryAcces (only set by D format)
-            // forwarding for Store Instruction, Register to stored, has been change one/two cycles prior
-            // forward result to Store
-            if (this.idExPipeline.byteSizeMemoryAccess <= 0) {
-                this.fwdUnit.rt = this.idExPipeline.rt;
-            } else {
-                this.fwdUnit.rt = this.idExPipeline.rd;
-            }
+            this.fwdUnit.rt = this.idExPipeline.rt;
 
             this.exMemPipeline = new EX_MEM_Pipeline();
             this.exMemPipeline.WB = this.idExPipeline.WB;
@@ -199,14 +191,8 @@ public class MFrame implements Serializable {
             this.exMemPipeline.PC = this.idExPipeline.PC;
             int operand1 = this.fwdUnit.valueMuxA();
             int operand2 = this.fwdUnit.valueMuxB();
-
-            // Store uses Rd instead of forwarded value for Rt
-            // Store instruction should be only one that uses this value from cUnit
-            if (this.idExPipeline.RegDest) {
-                this.exMemPipeline.MemDataWrite = operand2;
-            } else {
-                this.exMemPipeline.MemDataWrite = this.register[this.idExPipeline.rd];
-            }
+            this.exMemPipeline.MemDataWrite = operand2;
+            
             
             if (this.idExPipeline.ALUSrc)
                 operand2 = this.idExPipeline.Offset;
@@ -277,6 +263,8 @@ public class MFrame implements Serializable {
             // BR is the only exception, where Rt needs to be forwarded
             if (this.idExPipeline.RegDest)
                 this.exMemPipeline.destReg = this.idExPipeline.rd;
+            else 
+                this.exMemPipeline.destReg = this.idExPipeline.rt;
 
             this.exMemPipeline.iString = this.idExPipeline.iString;
             this.exMemPipeline.byteSizeMemoryAccess = this.idExPipeline.byteSizeMemoryAccess;

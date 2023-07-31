@@ -177,7 +177,7 @@ public class InstructionParser extends LegV8BaseVisitor<Object> {
 
     @Override
     public Object visitDatatransferParam(DatatransferParamContext ctx) {
-        this.instruction.setRd(visitRegister(ctx.register(0)));
+        this.instruction.setRt(visitRegister(ctx.register(0)));
         this.instruction.setRs(visitRegister(ctx.register(1)));
         short address = visitNum(ctx.num()).shortValue();
         this.instruction.setOffsetIJ(address);
