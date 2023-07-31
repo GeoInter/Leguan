@@ -205,7 +205,7 @@ public class MFrame implements Serializable {
             if (this.idExPipeline.RegDest) {
                 this.exMemPipeline.MemDataWrite = operand2;
             } else {
-                this.exMemPipeline.MemDataWrite = this.idExPipeline.rd;
+                this.exMemPipeline.MemDataWrite = this.register[this.idExPipeline.rd];
             }
             
             if (this.idExPipeline.ALUSrc)
