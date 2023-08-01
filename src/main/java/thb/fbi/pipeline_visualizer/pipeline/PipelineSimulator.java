@@ -39,6 +39,7 @@ public class PipelineSimulator {
 
     private boolean isForwardingEnabled = true;
     private boolean is2BitPredictorEnabled = false;
+    private boolean debugOutput = false;
 
     public PipelineSimulator() {}
 
@@ -55,7 +56,8 @@ public class PipelineSimulator {
             } catch (ArrayIndexOutOfBoundsException a) {
                 instruction = null;
             }
-            System.out.println("clock: " + (Frames.size() + 1) + " PC: " + (i * 4));
+
+            if(debugOutput) System.out.println("clock: " + (Frames.size() + 1) + " PC: " + (i * 4));
             i = this.Frame.insertInstruction(instruction, i * 4) / 4;
 
             if (i < 0) {
@@ -79,23 +81,27 @@ public class PipelineSimulator {
         this.controlHazardCounter = Frame.controlHazardCounter;
         this.dataHazardCounter = Frame.dataHazardCounter;
 
-        for (int j = 0; j < 8; j++) {
-            System.out.print(this.Registers[j] + ":\t" + this.Frame.register[j] + "\t");
-            System.out.print(this.Registers[8 + j] + ":\t" + this.Frame.register[8 + j] + "\t");
-            System.out.print(this.Registers[16 + j] + ":\t" + this.Frame.register[16 + j] + "\t");
-            System.out.print(this.Registers[24 + j] + ":\t" + this.Frame.register[24 + j] + "\t");
-            System.out.println();
+        if(debugOutput) {
+            for (int j = 0; j < 8; j++) {
+                System.out.print(this.Registers[j] + ":\t" + this.Frame.register[j] + "\t");
+                System.out.print(this.Registers[8 + j] + ":\t" + this.Frame.register[8 + j] + "\t");
+                System.out.print(this.Registers[16 + j] + ":\t" + this.Frame.register[16 + j] + "\t");
+                System.out.print(this.Registers[24 + j] + ":\t" + this.Frame.register[24 + j] + "\t");
+                System.out.println();
+            }
         }
+        
         i = 0;
         this.FramesRet = new MFrame[k];
         while (i < k) {
             FramesRet[i] = (MFrame) Frames.get(i);
-            if (FramesRet[i].ifIdPipeline == null)
-                System.out.println("IfId null at " + i);
-            else if (FramesRet[i].ifIdPipeline.Instruction == null)
-                System.out.println("IfId not null but ins null at " + i);
-            //else
-                //System.out.println("Instruction : " + FramesRet[i].ifIdPipeline.Instruction.iString + " | at " + i);
+
+            if(debugOutput) {
+                if (FramesRet[i].ifIdPipeline == null)
+                    System.out.println("IfId null at " + i);
+                else if (FramesRet[i].ifIdPipeline.Instruction == null)
+                    System.out.println("IfId not null but ins null at " + i);
+            }
 
             i++;
         }
@@ -110,7 +116,7 @@ public class PipelineSimulator {
         programParser.clear();
         ins = programParser.visit(antlTree);
         this.instructions = ins;
-        programParser.printCode();
+        if(debugOutput) programParser.printCode();
         return this.execute(ins);
     }
 
