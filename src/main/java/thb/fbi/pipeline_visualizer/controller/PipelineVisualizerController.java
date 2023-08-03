@@ -59,10 +59,16 @@ public class PipelineVisualizerController {
     }
 
     public void updateCode(String code) {
-        pipelinePanel.updateMFrames(pipelineSimulator.execute(code));
-        statsPanel.updateStats(pipelineSimulator.clockCycleCounter, pipelineSimulator.instructionCounter,
-                pipelineSimulator.dataHazardCounter, pipelineSimulator.controlHazardCounter, pipelineSimulator.cpi,
-                pipelineSimulator.sf);
-        codePanel.updateCodeTextArea(code);
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                pipelinePanel.updateMFrames(pipelineSimulator.execute(code));
+                statsPanel.updateStats(pipelineSimulator.clockCycleCounter, pipelineSimulator.instructionCounter,
+                        pipelineSimulator.dataHazardCounter, pipelineSimulator.controlHazardCounter,
+                        pipelineSimulator.cpi,
+                        pipelineSimulator.sf);
+                codePanel.updateCodeTextArea(code);
+            }
+        });
     }
 }
