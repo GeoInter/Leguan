@@ -23,6 +23,7 @@ public class HazardOptionsPanel extends JPanel {
 
     private PipelinePanel pipelinePanel;
     private StatsPanel statsPanel;
+    private TwoBitPredictorPanel twoBitPredictorPanel;
 
     private PipelineSimulator simulator;
 
@@ -80,6 +81,9 @@ public class HazardOptionsPanel extends JPanel {
                         statsPanel.updateStats(simulator.clockCycleCounter, simulator.instructionCounter,
                                 simulator.dataHazardCounter, simulator.controlHazardCounter, simulator.cpi,
                                 simulator.sf);
+                        if(twoBitPredictorPanel != null) {
+                            twoBitPredictorPanel.setVisible(false);
+                        }
                         break;
                     case 1: // 2 bit Predictor
                         frames = simulator.setIs2BitPredictorEnabled(true);
@@ -87,6 +91,9 @@ public class HazardOptionsPanel extends JPanel {
                         statsPanel.updateStats(simulator.clockCycleCounter, simulator.instructionCounter,
                                 simulator.dataHazardCounter, simulator.controlHazardCounter, simulator.cpi,
                                 simulator.sf);
+                        if(twoBitPredictorPanel != null) {
+                            twoBitPredictorPanel.setVisible(true);
+                        }
                         break;
                 }
             }
@@ -99,6 +106,10 @@ public class HazardOptionsPanel extends JPanel {
         this.add(dataHazardComboBox);
         this.add(controlHazardLabel);
         this.add(controlHazardComboBox);
+    }
+
+    public void setTwoBitPredictorPanel(TwoBitPredictorPanel twoBitPredictorPanel) {
+        this.twoBitPredictorPanel = twoBitPredictorPanel;
     }
     
 }

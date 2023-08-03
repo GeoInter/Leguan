@@ -31,7 +31,6 @@ public class TwoBitPredictorPanel extends JPanel {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 scrollPane.setVisible(e.getStateChange() == 1);
-                System.out.println(scrollPane.isVisible());
             }
             
         });

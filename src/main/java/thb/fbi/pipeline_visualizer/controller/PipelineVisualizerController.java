@@ -4,6 +4,7 @@ import javax.swing.SwingUtilities;
 
 import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXML;
+import thb.fbi.pipeline_visualizer.pipeline.MFrame;
 import thb.fbi.pipeline_visualizer.pipeline.PipelineSimulator;
 
 public class PipelineVisualizerController {
@@ -40,11 +41,13 @@ public class PipelineVisualizerController {
             @Override
             public void run() {
                 TwoBitPredictorPanel twoBitPredictorPanel = new TwoBitPredictorPanel();
+                twoBitPredictorPanel.setVisible(false);
                 pipelinePanel = new PipelinePanel();
                 pipelinePanel.setTwoBitPredictorPanel(twoBitPredictorPanel);
                 HazardOptionsPanel hazardOptionsPanel = new HazardOptionsPanel(pipelineSimulator, pipelinePanel,
                         statsPanel);
                 TopBarPanel topBarPanel = new TopBarPanel(pipelinePanel);
+                hazardOptionsPanel.setTwoBitPredictorPanel(twoBitPredictorPanel);
 
                 pipelinePanel.updateMFrames(pipelineSimulator.execute(""));
 
@@ -59,10 +62,12 @@ public class PipelineVisualizerController {
     }
 
     public void updateCode(String code) {
+        MFrame frames[] = pipelineSimulator.execute(code);
+
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                pipelinePanel.updateMFrames(pipelineSimulator.execute(code));
+                pipelinePanel.updateMFrames(frames);
                 statsPanel.updateStats(pipelineSimulator.clockCycleCounter, pipelineSimulator.instructionCounter,
                         pipelineSimulator.dataHazardCounter, pipelineSimulator.controlHazardCounter,
                         pipelineSimulator.cpi,
