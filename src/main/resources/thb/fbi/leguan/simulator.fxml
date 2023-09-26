@@ -42,7 +42,7 @@
                         <MenuItem fx:id="darkThemeItem" mnemonicParsing="false" text="Dark" />
                      </items>
                   </Menu>
-                  <Menu mnemonicParsing="false" text="%menubar.Language">
+                  <Menu disable="true" mnemonicParsing="false" text="%menubar.Language" visible="false">
                     <items>
                       <MenuItem fx:id="switchENButton" mnemonicParsing="false" text="English" />
                         <MenuItem fx:id="switchDEButton" mnemonicParsing="false" text="Deutsch" />
