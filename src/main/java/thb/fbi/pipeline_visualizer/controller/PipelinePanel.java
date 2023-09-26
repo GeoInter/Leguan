@@ -15,6 +15,8 @@ import java.awt.RenderingHints;
 import java.awt.Dialog.ModalityType;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import javax.swing.FocusManager;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -1583,7 +1585,8 @@ public class PipelinePanel extends JPanel {
         public void mousePressed(MouseEvent e) {
             if (e.getX() > regFile.x && e.getX() < regFile.x + regFile.width) {
                 if (e.getY() > regFile.y && e.getY() < regFile.y + regFile.height) {
-                    JDialog registerDialog = new JDialog();
+                    JDialog registerDialog = new JDialog(FocusManager.getCurrentKeyboardFocusManager().getActiveWindow(),
+                            ModalityType.APPLICATION_MODAL);
                     registerDialog.setTitle("Register");
                     registerDialog.setSize(250, 250);
 
@@ -1603,14 +1606,14 @@ public class PipelinePanel extends JPanel {
                     JTable registerTable = new JTable(registerValues, columnNames);
                     JScrollPane registerScrollPane = new JScrollPane(registerTable);
                     registerDialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-                    //registerDialog.setModalityType(ModalityType.APPLICATION_MODAL); breaks app, unless tap out and back in
                     registerDialog.setAlwaysOnTop(true);
                     registerDialog.add(registerScrollPane);
                     registerDialog.setVisible(true);
                 }
             } else if (e.getX() > memUnit.x && e.getX() < memUnit.x + memUnit.width) {
                 if (e.getY() > memUnit.y && e.getY() < memUnit.y + memUnit.height) {
-                    JDialog memoryDialog = new JDialog();
+                    JDialog memoryDialog = new JDialog(FocusManager.getCurrentKeyboardFocusManager().getActiveWindow(),
+                            ModalityType.APPLICATION_MODAL);
                     memoryDialog.setTitle("Memory");
                     memoryDialog.setSize(300, 400);
 
@@ -1618,7 +1621,6 @@ public class PipelinePanel extends JPanel {
                     JTable memoryTable = new JTable(currentFrame.Memory.to2DStringArray(), columnNames);
                     JScrollPane memoryScrollPane = new JScrollPane(memoryTable);
                     memoryDialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-                    //memoryDialog.setModalityType(ModalityType.APPLICATION_MODAL); breaks app, unless tap out and back in
                     memoryDialog.setAlwaysOnTop(true);
                     memoryDialog.add(memoryScrollPane);
                     memoryDialog.setVisible(true);
