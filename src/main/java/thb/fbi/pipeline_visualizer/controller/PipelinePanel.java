@@ -1603,7 +1603,7 @@ public class PipelinePanel extends JPanel {
                     JTable registerTable = new JTable(registerValues, columnNames);
                     JScrollPane registerScrollPane = new JScrollPane(registerTable);
                     registerDialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-                    registerDialog.setModalityType(ModalityType.APPLICATION_MODAL);
+                    //registerDialog.setModalityType(ModalityType.APPLICATION_MODAL); breaks app, unless tap out and back in
                     registerDialog.setAlwaysOnTop(true);
                     registerDialog.add(registerScrollPane);
                     registerDialog.setVisible(true);
@@ -1618,7 +1618,7 @@ public class PipelinePanel extends JPanel {
                     JTable memoryTable = new JTable(currentFrame.Memory.to2DStringArray(), columnNames);
                     JScrollPane memoryScrollPane = new JScrollPane(memoryTable);
                     memoryDialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-                    memoryDialog.setModalityType(ModalityType.APPLICATION_MODAL);
+                    //memoryDialog.setModalityType(ModalityType.APPLICATION_MODAL); breaks app, unless tap out and back in
                     memoryDialog.setAlwaysOnTop(true);
                     memoryDialog.add(memoryScrollPane);
                     memoryDialog.setVisible(true);
