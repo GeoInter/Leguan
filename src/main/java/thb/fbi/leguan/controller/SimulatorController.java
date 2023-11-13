@@ -47,6 +47,8 @@ import thb.fbi.leguan.simulation.SimulatorSingleton;
 import thb.fbi.leguan.utility.ExecutorServiceProvider;
 import thb.fbi.leguan.utility.FileManager;
 import thb.fbi.leguan.utility.I18N;
+import thb.fbi.leguan.utility.ILeguanTools;
+import thb.fbi.pipeline_visualizer.PipelineVisualizerAdapter;
 
 /**
  * UI Controller of the app
@@ -55,31 +57,52 @@ import thb.fbi.leguan.utility.I18N;
  */
 public class SimulatorController {
 
-    @FXML RegisterPaneController registerPaneController;
-    @FXML Parent registerPane;
+    @FXML
+    RegisterPaneController registerPaneController;
+    @FXML
+    Parent registerPane;
 
-    @FXML StackPane codeStackPane;
-    @FXML SplitPane splitPane;
-    @FXML SplitPane textSplitpane;
-    @FXML AnchorPane rightSideAnchorPane;
-    @FXML AnchorPane codeAreaAnchorPane;
-    @FXML TabPane tabPane;
-    @FXML TextArea console;
+    @FXML
+    StackPane codeStackPane;
+    @FXML
+    SplitPane splitPane;
+    @FXML
+    SplitPane textSplitpane;
+    @FXML
+    AnchorPane rightSideAnchorPane;
+    @FXML
+    AnchorPane codeAreaAnchorPane;
+    @FXML
+    TabPane tabPane;
+    @FXML
+    TextArea console;
 
-    @FXML Menu file_Menu;
+    @FXML
+    Menu file_Menu;
 
-    @FXML MenuItem switchENButton;
-    @FXML MenuItem switchDEButton;
-    @FXML MenuItem lightThemeItem;
-    @FXML MenuItem darkThemeItem;
-    @FXML MenuItem enableLineHighlighterButton;
-    @FXML MenuItem disableLineHighlighterButton;
+    @FXML
+    MenuItem switchENButton;
+    @FXML
+    MenuItem switchDEButton;
+    @FXML
+    MenuItem lightThemeItem;
+    @FXML
+    MenuItem darkThemeItem;
+    @FXML
+    MenuItem enableLineHighlighterButton;
+    @FXML
+    MenuItem disableLineHighlighterButton;
 
-    @FXML Button runButton;
-    @FXML Button resetButton;
-    @FXML Button stopButton;
-    @FXML Button stepForwardButton;
-    @FXML Button stepBackwardButton;
+    @FXML
+    Button runButton;
+    @FXML
+    Button resetButton;
+    @FXML
+    Button stopButton;
+    @FXML
+    Button stepForwardButton;
+    @FXML
+    Button stepBackwardButton;
 
     private CodeArea codeArea;
 
@@ -87,6 +110,8 @@ public class SimulatorController {
     private ExecutorService executorService;
     private EditorCanvas editorCanvas;
     private VirtualizedScrollPane<CodeArea> codeAreaScrollPane;
+
+    private ILeguanTools pipelineVisualizer;
 
     @FXML
     public void initialize() {
@@ -102,32 +127,34 @@ public class SimulatorController {
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 simulator.getIsCodeChanged().set(true);
             }
-            
+
         });
 
         EventStream<PlainTextChange> textChanges = codeArea.plainTextChanges();
 
         textChanges.successionEnds(Duration.ofMillis(500))
-            .supplyTask(this::computeHighlightingAsync)
-            .awaitLatest(textChanges)
-            .subscribe(this::applyHighlighting);
+                .supplyTask(this::computeHighlightingAsync)
+                .awaitLatest(textChanges)
+                .subscribe(this::applyHighlighting);
 
         editorCanvas = new EditorCanvas(codeArea, codeAreaScrollPane);
         codeStackPane.getChildren().add(editorCanvas);
 
         codeArea.addEventFilter(ScrollEvent.ANY, scroll -> {
-            editorCanvas.reposition(codeAreaScrollPane.getEstimatedScrollY(), codeAreaScrollPane.getTotalHeightEstimate(), scroll.getDeltaY());
+            editorCanvas.reposition(codeAreaScrollPane.getEstimatedScrollY(),
+                    codeAreaScrollPane.getTotalHeightEstimate(), scroll.getDeltaY());
         });
-            
-    
 
         // prevent rightside to resize (change divider position) when maximazing
         SplitPane.setResizableWithParent(rightSideAnchorPane, false);
 
         // tabs fill header of tabPane
-        // BUG: Switching Tabs (which are filling the tabPane) leaves empty extra space at right side; subtract 20 to prevent
-        tabPane.tabMaxWidthProperty().bind((rightSideAnchorPane.widthProperty().divide(tabPane.getTabs().size())).subtract(20));
-        tabPane.tabMinWidthProperty().bind((rightSideAnchorPane.widthProperty().divide(tabPane.getTabs().size())).subtract(20));
+        // BUG: Switching Tabs (which are filling the tabPane) leaves empty extra space
+        // at right side; subtract 20 to prevent
+        tabPane.tabMaxWidthProperty()
+                .bind((rightSideAnchorPane.widthProperty().divide(tabPane.getTabs().size())).subtract(20));
+        tabPane.tabMinWidthProperty()
+                .bind((rightSideAnchorPane.widthProperty().divide(tabPane.getTabs().size())).subtract(20));
 
         switchENButton.setOnAction((evt) -> switchLanguage(Locale.ENGLISH));
         switchDEButton.setOnAction((evt) -> switchLanguage(Locale.GERMAN));
@@ -151,15 +178,37 @@ public class SimulatorController {
         stopButton.setGraphic(new ImageView(stopButtonImage));
         Image stepForwardButtonImage = new Image(getClass().getResourceAsStream("/thb/fbi/leguan/images/forward.png"));
         stepForwardButton.setGraphic(new ImageView(stepForwardButtonImage));
-        Image stepBackwardButtonImage = new Image(getClass().getResourceAsStream("/thb/fbi/leguan/images/backward.png"));
+        Image stepBackwardButtonImage = new Image(
+                getClass().getResourceAsStream("/thb/fbi/leguan/images/backward.png"));
         stepBackwardButton.setGraphic(new ImageView(stepBackwardButtonImage));
 
         FileManager.init(codeArea);
+
+        pipelineVisualizer = new PipelineVisualizerAdapter();
+    }
+
+    @FXML
+    private void assembleCode() {
+        if (simulator.parse(codeArea.getText())) {
+            setConsoleText(simulator.getErrors());
+            // runButton.setDisable(false);
+            stepForwardButton.setDisable(false);
+            // stepBackwardButton.setDisable(false);
+            
+            // Update Tool
+            pipelineVisualizer.updateCode(codeArea.getText());
+        } else {
+            setConsoleText(simulator.getErrors());
+            editorCanvas.setLineNumber(-1);
+            // runButton.setDisable(true);
+            stepForwardButton.setDisable(true);
+            // stepBackwardButton.setDisable(true);
+        }
     }
 
     @FXML
     private void runCode() {
-        if(simulator.parse(codeArea.getText())) {
+        if (simulator.parse(codeArea.getText())) {
             setConsoleText(simulator.getErrors());
             simulator.run(codeArea.getText());
         } else {
@@ -183,14 +232,8 @@ public class SimulatorController {
 
     @FXML
     private void stepForward() {
-        if(simulator.parse(codeArea.getText())) {
-            setConsoleText(simulator.getErrors());
-            int lineNumber = simulator.forwardStep(codeArea.getText());
-            editorCanvas.setLineNumber(lineNumber);
-        } else {
-            setConsoleText(simulator.getErrors());
-            editorCanvas.setLineNumber(-1);
-        }
+        int lineNumber = simulator.forwardStep(codeArea.getText());
+        editorCanvas.setLineNumber(lineNumber);
     }
 
     // run clear line
@@ -199,7 +242,7 @@ public class SimulatorController {
     @FXML
     private void stepBackward() {
         System.out.println("step backward");
-    }   
+    }
 
     @FXML
     private void stopThread() {
@@ -208,7 +251,7 @@ public class SimulatorController {
 
     @FXML
     private void openFile() {
-        if(FileManager.openFile()) {
+        if (FileManager.openFile()) {
             reset();
         }
     }
@@ -230,10 +273,11 @@ public class SimulatorController {
 
     /**
      * sets/ clears console text
+     * 
      * @param errors parsingErrors
      */
     private void setConsoleText(ArrayList<ParsingError> errors) {
-        if(errors == null) {
+        if (errors == null) {
             console.clear();
         } else {
             String errorMessage = "";
@@ -241,10 +285,10 @@ public class SimulatorController {
                 errorMessage += parsingError.getErrorMessage() + "\n";
             }
             console.setText(errorMessage);
-        }   
+        }
     }
 
-    private Task<StyleSpans<Collection<String>>> computeHighlightingAsync(){
+    private Task<StyleSpans<Collection<String>>> computeHighlightingAsync() {
         String code = codeArea.getText();
 
         Task<StyleSpans<Collection<String>>> task = new Task<StyleSpans<Collection<String>>>() {
@@ -257,8 +301,8 @@ public class SimulatorController {
         return task;
     }
 
-    private static StyleSpans<Collection<String>> computeHighlighting(String text){
-        if(text.length() > 0){
+    private static StyleSpans<Collection<String>> computeHighlighting(String text) {
+        if (text.length() > 0) {
             CharStream input = CharStreams.fromString(text);
             LegV8Lexer lexer = new LegV8Lexer(input);
             lexer.getErrorListeners().clear();
@@ -273,8 +317,7 @@ public class SimulatorController {
             SyntaxHighlighter syntaxHighlighter = new SyntaxHighlighter(text.length());
             walker.walk(syntaxHighlighter, mainContext);
             return syntaxHighlighter.getStyles();
-        } 
-        else {
+        } else {
             StyleSpansBuilder<Collection<String>> objectStyleSpansBuilder = new StyleSpansBuilder<>();
             objectStyleSpansBuilder.add(Collections.emptyList(), 0);
             return objectStyleSpansBuilder.create();
@@ -283,13 +326,14 @@ public class SimulatorController {
 
     private void applyHighlighting(Try<StyleSpans<Collection<String>>> taskTry) {
         StyleSpans<Collection<String>> highlighting = taskTry.get();
-        if(highlighting.getSpanCount() > 0) {
+        if (highlighting.getSpanCount() > 0) {
             codeArea.setStyleSpans(0, highlighting);
         }
     }
-    
+
     /**
      * sets the given Locale in the I18N class
+     * 
      * @param locale the new local to set
      */
     private void switchLanguage(Locale locale) {
@@ -298,15 +342,22 @@ public class SimulatorController {
 
     /**
      * switches to a stylesheet
+     * 
      * @param css name of the css file to use
      */
-    public void switchStylesheets(String css) {
+    private void switchStylesheets(String css) {
         Scene scene = registerPane.getScene();
         scene.getStylesheets().remove(1); // remove except for base
         scene.getStylesheets().add(this.getClass().getResource("/thb/fbi/leguan/css/" + css).toExternalForm());
     }
 
-    public void enableLineHighlighter(boolean isEnabled) {
+    @FXML
+    private void enableLineHighlighter(boolean isEnabled) {
         editorCanvas.setVisible(isEnabled);
+    }
+
+    @FXML
+    private void openPipelineVisualizer() {
+        pipelineVisualizer.display();
     }
 }

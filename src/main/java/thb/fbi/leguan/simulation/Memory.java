@@ -69,8 +69,10 @@ public class Memory {
      */
     public static boolean checkLockedStorage(long address) {
         for(int i = 0; i < 8; i++) {
-            if(lockStorage.get(address)) {
-                return true;
+            if(lockStorage.containsKey(address)) {
+                if(lockStorage.get(address)) {
+                    return true;
+                }
             }
         }
         return false;
