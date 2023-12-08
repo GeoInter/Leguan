@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.concurrent.ExecutorService;
+import java.util.function.IntFunction;
 import java.util.Collection;
 import java.util.Collections;
 import org.antlr.v4.runtime.CharStream;
@@ -119,7 +120,8 @@ public class SimulatorController {
         codeArea = new CodeArea();
         codeAreaScrollPane = new VirtualizedScrollPane<CodeArea>(codeArea);
         codeStackPane.getChildren().add(codeAreaScrollPane);
-        codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
+        IntFunction<String> lineNumberFormat = (digits -> " %" + digits + "d\t");
+        codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea, lineNumberFormat));
         codeArea.setLineHighlighterOn(true);
         codeArea.textProperty().addListener(new ChangeListener<String>() {
 
