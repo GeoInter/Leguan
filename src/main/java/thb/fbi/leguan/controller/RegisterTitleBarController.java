@@ -7,7 +7,9 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import thb.fbi.leguan.instructions.Instruction;
 import thb.fbi.leguan.simulation.Base;
 import thb.fbi.leguan.simulation.PCRegister;
 import thb.fbi.leguan.simulation.Register;
@@ -28,7 +30,7 @@ public class RegisterTitleBarController {
     @FXML
     Label registerTitle;
     @FXML
-    Label registerValue;
+    TextField registerValue;
     @FXML
     Button decButton;
     @FXML
@@ -40,6 +42,26 @@ public class RegisterTitleBarController {
 
     @FXML
     public void initialize() {
+        registerValue.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+            if(!newValue) {
+                if(!registerValue.getText().matches("^[0-9]*$")) {
+                    // when text not a number
+                    registerValue.setText("0");
+                } else {
+                    try {
+                        long parsedValue = Long.parseLong(registerValue.getText());
+                        if(register instanceof PCRegister) {
+                            // internally not multiple of INSTRUCTION_LENGTH
+                            register.setValue(parsedValue / Instruction.INSTRUCTION_LENGTH);
+                        } else {
+                            register.setValue(parsedValue);
+                        }
+                    } catch(NumberFormatException e) {
+                        registerValue.setText("0");
+                    }
+                }
+            }
+        });
     }
 
     /**

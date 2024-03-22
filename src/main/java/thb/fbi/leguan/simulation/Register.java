@@ -113,7 +113,7 @@ public class Register {
     /** 
      * when value of register changes update shown value in UI 
      */
-    public void setValue(long value) {
+    public synchronized void setValue(long value) {
         valueProperty.set(value);
         updateShownValue();
     }

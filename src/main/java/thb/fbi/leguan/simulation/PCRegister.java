@@ -22,7 +22,7 @@ public class PCRegister extends Register {
      * when value of pc register changes update shown value in UI (in UI multiple of instruction length)
      */
     @Override
-    public void setValue(long value) {
+    public synchronized void setValue(long value) {
         valueProperty.set(value);
         super.updateShownValue(value * Instruction.INSTRUCTION_LENGTH);
     }
