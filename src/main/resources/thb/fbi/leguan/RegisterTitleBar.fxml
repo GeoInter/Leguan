@@ -25,21 +25,21 @@
             <Insets left="8.0" right="8.0" />
          </padding>
       </TextField>
-      <Button id="register-value-button" fx:id="decButton" disable="true" maxHeight="1.7976931348623157E308" mnemonicParsing="false" onAction="#updateToDec" prefWidth="46.0" text="Dec">
+      <Button id="register-value-button" fx:id="decButton" disable="true" focusTraversable="false" maxHeight="1.7976931348623157E308" mnemonicParsing="false" onAction="#updateToDec" prefWidth="46.0" text="Dec">
          <HBox.margin>
             <Insets bottom="5.0" />
          </HBox.margin>
          <font>
             <Font size="13.0" />
          </font></Button>
-      <Button id="register-value-button" fx:id="binButton" maxHeight="1.7976931348623157E308" mnemonicParsing="false" onAction="#updateToBin" prefWidth="46.0" text="Bin">
+      <Button id="register-value-button" fx:id="binButton" focusTraversable="false" maxHeight="1.7976931348623157E308" mnemonicParsing="false" onAction="#updateToBin" prefWidth="46.0" text="Bin">
          <HBox.margin>
             <Insets bottom="5.0" />
          </HBox.margin>
          <font>
             <Font size="13.0" />
          </font></Button>
-      <Button id="register-value-button" fx:id="hexButton" maxHeight="1.7976931348623157E308" mnemonicParsing="false" onAction="#updateToHex" prefWidth="46.0" text="Hex">
+      <Button id="register-value-button" fx:id="hexButton" focusTraversable="false" maxHeight="1.7976931348623157E308" mnemonicParsing="false" onAction="#updateToHex" prefWidth="46.0" text="Hex">
          <HBox.margin>
             <Insets bottom="5.0" />
          </HBox.margin>

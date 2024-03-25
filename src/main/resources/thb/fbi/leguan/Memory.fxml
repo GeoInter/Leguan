@@ -23,12 +23,12 @@
                   </Label>
                   <HBox alignment="CENTER">
                      <children>
-                        <Button fx:id="DecAddressButton" disable="true" mnemonicParsing="false" onAction="#switchAddressToDec" styleClass="memory-button" text="Dec">
+                        <Button fx:id="DecAddressButton" disable="true" focusTraversable="false" mnemonicParsing="false" onAction="#switchAddressToDec" styleClass="memory-button" text="Dec">
                            <HBox.margin>
                               <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                            </HBox.margin>
                         </Button>
-                        <Button fx:id="HexAddressButton" mnemonicParsing="false" onAction="#switchAddressToHex" styleClass="memory-button" text="Hex">
+                        <Button fx:id="HexAddressButton" focusTraversable="false" mnemonicParsing="false" onAction="#switchAddressToHex" styleClass="memory-button" text="Hex">
                            <HBox.margin>
                               <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                            </HBox.margin>
@@ -46,12 +46,12 @@
                   </Label>
                   <HBox alignment="CENTER">
                      <children>
-                        <Button fx:id="DecValueButton" disable="true" mnemonicParsing="false" onAction="#switchValueToDec" styleClass="memory-button" text="Dec">
+                        <Button fx:id="DecValueButton" disable="true" focusTraversable="false" mnemonicParsing="false" onAction="#switchValueToDec" styleClass="memory-button" text="Dec">
                            <HBox.margin>
                               <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                            </HBox.margin>
                         </Button>
-                        <Button fx:id="ASCIIValueButton" mnemonicParsing="false" onAction="#switchValueToASCII" styleClass="memory-button" text="ASCII">
+                        <Button fx:id="ASCIIValueButton" focusTraversable="false" mnemonicParsing="false" onAction="#switchValueToASCII" styleClass="memory-button" text="ASCII">
                            <HBox.margin>
                               <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                            </HBox.margin>
@@ -108,12 +108,12 @@
                   <Insets right="8.0" />
                </HBox.margin>
             </Label>
-            <Button fx:id="memoryByteButton" disable="true" mnemonicParsing="false" onAction="#switchMemoryToByte" styleClass="memory-button" text="Byte">
+            <Button fx:id="memoryByteButton" disable="true" focusTraversable="false" mnemonicParsing="false" onAction="#switchMemoryToByte" styleClass="memory-button" text="Byte">
                <HBox.margin>
                   <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                </HBox.margin>
             </Button>
-            <Button fx:id="memoryDWordButton" mnemonicParsing="false" onAction="#DWordButtonFired" styleClass="memory-button" text="DWord">
+            <Button fx:id="memoryDWordButton" focusTraversable="false" mnemonicParsing="false" onAction="#DWordButtonFired" styleClass="memory-button" text="DWord">
                <HBox.margin>
                   <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                </HBox.margin>
