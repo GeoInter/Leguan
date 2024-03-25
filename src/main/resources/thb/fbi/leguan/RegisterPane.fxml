@@ -19,7 +19,7 @@
             <CheckBox fx:id="displayUnsignedCheckBox" mnemonicParsing="false" text="%register.Label.showUnsigned" />
          </children>
       </HBox>
-      <ScrollPane id="register-scrollpane" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" maxHeight="800.0" pannable="true" vbarPolicy="ALWAYS" VBox.vgrow="ALWAYS">
+      <ScrollPane id="register-scrollpane" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" maxHeight="800.0" pannable="true" prefViewportHeight="400.0" vbarPolicy="ALWAYS" VBox.vgrow="ALWAYS">
          <content>
             <VBox id="register-vbox" spacing="12.0">
                <children>
