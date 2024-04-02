@@ -8,6 +8,8 @@ import javafx.beans.property.BooleanProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import thb.fbi.leguan.instructions.Instruction;
 import thb.fbi.leguan.simulation.FlagRegister;
@@ -22,6 +24,8 @@ public class RegisterPaneController implements FlagRegisterObserver {
 
     @FXML
     VBox RegisterPane;
+    @FXML 
+    HBox flagRegisterPane;
 
     @FXML
     RegisterTitleBarController pcController;
@@ -94,13 +98,13 @@ public class RegisterPaneController implements FlagRegisterObserver {
     RegisterTitleBarController r31Controller;
 
     @FXML
-    Label NFlagValue;
+    ToggleButton NFlagValue;
     @FXML
-    Label ZFlagValue;
+    ToggleButton ZFlagValue;
     @FXML
-    Label CFlagValue;
+    ToggleButton CFlagValue;
     @FXML
-    Label VFlagValue;
+    ToggleButton VFlagValue;
     @FXML
     Label NFlagNameLabel;
     @FXML
@@ -214,46 +218,36 @@ public class RegisterPaneController implements FlagRegisterObserver {
             } else {
                 NFlagValue.setText("0");
             }
+            NFlagValue.selectedProperty().set(n);
 
             if (z) {
                 ZFlagValue.setText("1");
             } else {
                 ZFlagValue.setText("0");
             }
+            ZFlagValue.selectedProperty().set(z);
 
             if (c) {
                 CFlagValue.setText("1");
             } else {
                 CFlagValue.setText("0");
             }
+            CFlagValue.selectedProperty().set(c);
 
             if (v) {
                 VFlagValue.setText("1");
             } else {
                 VFlagValue.setText("0");
             }
+            VFlagValue.selectedProperty().set(v);
 
-            NFlagValue.setId("highlight-value");
-            ZFlagValue.setId("highlight-value");
-            CFlagValue.setId("highlight-value");
-            VFlagValue.setId("highlight-value");
-            NFlagNameLabel.setId("highlight-value");
-            ZFlagNameLabel.setId("highlight-value");
-            CFlagNameLabel.setId("highlight-value");
-            VFlagNameLabel.setId("highlight-value");
+            flagRegisterPane.setId("highlight-value");
         });
     }
 
     public void clearFlagHighlighting() {
         Platform.runLater(() -> {
-            NFlagValue.setId(null);
-            ZFlagValue.setId(null);
-            CFlagValue.setId(null);
-            VFlagValue.setId(null);
-            NFlagNameLabel.setId(null);
-            ZFlagNameLabel.setId(null);
-            CFlagNameLabel.setId(null);
-            VFlagNameLabel.setId(null);
+            flagRegisterPane.setId(null);
         });
     }
 

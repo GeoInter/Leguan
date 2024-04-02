@@ -161,9 +161,20 @@
 }
 
 /* Flag Regsiter HBox */
-#flag-register {
+.flag-register {
     -fx-background-color: -fx-secondary-color;
     background-color: -fx-secondary-color;
+}
+
+.toggle-button {
+    -fx-text-fill: -fx-textcolor;
+    -fx-background-color: rgb(201, 201, 201);
+    background-color: rgb(201, 201, 201);
+}
+
+.toggle-button:selected {
+    -fx-background-color: -fbi-blue;
+    background-color: -fbi-blue;
 }
 
 /* Memory VBox */

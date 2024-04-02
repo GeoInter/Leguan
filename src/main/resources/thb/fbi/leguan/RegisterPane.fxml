@@ -4,6 +4,7 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -190,7 +191,7 @@
             </VBox>
          </content>
       </ScrollPane>
-      <HBox id="flag-register" alignment="BOTTOM_CENTER" fillHeight="false" prefHeight="60.0" prefWidth="300.0">
+      <HBox fx:id="flagRegisterPane" alignment="BOTTOM_CENTER" fillHeight="false" prefHeight="60.0" prefWidth="300.0" styleClass="flag-register">
          <children>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
@@ -202,10 +203,7 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </padding>
                   </Label>
-                  <Label fx:id="NFlagValue" text="0">
-                     <padding>
-                        <Insets bottom="5.0" right="5.0" top="5.0" />
-                     </padding></Label>
+                  <ToggleButton fx:id="NFlagValue" mnemonicParsing="false" text="0" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
@@ -218,10 +216,7 @@
                         <Tooltip text="Zero Condition Flag" />
                      </tooltip>
                   </Label>
-                  <Label fx:id="ZFlagValue" text="0">
-                     <padding>
-                        <Insets bottom="5.0" right="5.0" top="5.0" />
-                     </padding></Label>
+                  <ToggleButton fx:id="ZFlagValue" mnemonicParsing="false" text="0" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
@@ -234,10 +229,7 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </padding>
                   </Label>
-                  <Label fx:id="CFlagValue" text="0">
-                     <padding>
-                        <Insets bottom="5.0" right="5.0" top="5.0" />
-                     </padding></Label>
+                  <ToggleButton fx:id="CFlagValue" mnemonicParsing="false" text="0" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
@@ -250,10 +242,7 @@
                         <Tooltip text="Overflow Condition Flag" />
                      </tooltip>
                   </Label>
-                  <Label fx:id="VFlagValue" text="0">
-                     <padding>
-                        <Insets bottom="5.0" right="5.0" top="5.0" />
-                     </padding></Label>
+                  <ToggleButton fx:id="VFlagValue" mnemonicParsing="false" text="0" />
                </children>
             </HBox>
          </children>
