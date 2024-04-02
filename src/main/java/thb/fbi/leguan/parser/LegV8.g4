@@ -30,15 +30,15 @@ condBranchInstruction : CondBranchInstruction;
 branchInstruction : BranchInstruction;
 branchByRegisterInstruction : BranchByRegisterInstruction;
 
-arithmeticParam : register COMMA register COMMA register SEMI ;
-shiftParam : register COMMA register COMMA num SEMI ; // separated from arithemtic
-immediateParam : register COMMA register COMMA num SEMI ;
-wideImmediateParam : register COMMA num COMMA ShiftInstruction num SEMI ;
-datatransferParam : register COMMA SQUARE_BRACKET_LEFT register COMMA num SQUARE_BRACKET_RIGHT SEMI ;
-exclusiveParam : register COMMA register SQUARE_BRACKET_LEFT register SQUARE_BRACKET_RIGHT SEMI;
-condBranchParam : register COMMA invocation SEMI;
-branchParam : invocation SEMI;
-branchByRegisterParam : register SEMI;
+arithmeticParam : register COMMA register COMMA register ;
+shiftParam : register COMMA register COMMA num ; // separated from arithemtic
+immediateParam : register COMMA register COMMA num ;
+wideImmediateParam : register COMMA num COMMA ShiftInstruction num ;
+datatransferParam : register COMMA SQUARE_BRACKET_LEFT register COMMA num SQUARE_BRACKET_RIGHT ;
+exclusiveParam : register COMMA register SQUARE_BRACKET_LEFT register SQUARE_BRACKET_RIGHT ;
+condBranchParam : register COMMA invocation ;
+branchParam : invocation ;
+branchByRegisterParam : register ;
 
 num: NUMBER ;
 register : REGISTER ;
@@ -61,7 +61,7 @@ WS : [ \t\r\n\f] -> skip;
 COMMENT: '/*' .*? '*/' -> skip; // non-greedy wildcart (ends with trailing */)
 LINE_COMMENT: '//' ~[\r\n]* -> skip; // matches everything except tab and newline
 
-// syntax relared
+// syntax related
 COMMA : ',' ;
 SEMI : ';' ;
 SQUARE_BRACKET_LEFT : '[';
