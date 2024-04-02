@@ -53,7 +53,7 @@ public class Simulator {
         registers = new Register[registerNr];
         instructionSet.populate();
         for (int i = 0; i < registers.length; i++) {
-            registers[i] = new Register("R"+i, 0, i);
+            registers[i] = new Register("X"+i, 0, i);
             registers[i].setNumberFormat(Base.DEC);
         }
         pc.setValue(0);
