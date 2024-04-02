@@ -100,12 +100,16 @@ public class FlagRegister {
         FlagRegister.v = v;
     }
 
-    public static void setAllFlags(long op1, long op2, long result) {
-        checkAndSetNFlag(result);
-        checkAndSetZFlag(result);
-        checkAndSetCFlag(op1, op2);
-        checkAndSetVFlag(op1, op2, result);
+    public static synchronized void setAllFlags(boolean n, boolean z, boolean c, boolean v) {
+        setNFlag(n);
+        setZFlag(z);
+        setCFlag(c);
+        setVFlag(v);
         observer.update(n, z, c, v);
+    }
+
+    public static void setAllFlags(long op1, long op2, long result) {
+        setAllFlags(checkNFlag(result), checkZFlag(result), checkCFlag(op1, op2), checkVFlag(op1, op2, result));
     }
 
     /**
@@ -114,8 +118,8 @@ public class FlagRegister {
      * (for this simulator all register values are signed, so no bitmask required)
      * @param value number to check if negative
      */
-    private static void checkAndSetNFlag(long value) {
-        FlagRegister.setNFlag(value < 0);
+    private static boolean checkNFlag(long value) {
+        return value < 0;
     }
 
     /**
@@ -123,8 +127,8 @@ public class FlagRegister {
      * 
      * @param value number to compare with 0
      */
-    private static void checkAndSetZFlag(long value) {
-        FlagRegister.setZFlag(value == 0);
+    private static boolean checkZFlag(long value) {
+        return value == 0;
     }
 
     /**
@@ -134,7 +138,7 @@ public class FlagRegister {
      * @param op1 first operand
      * @param op2 second operand
      */
-    private static void checkAndSetCFlag(long op1, long op2) {
+    private static boolean checkCFlag(long op1, long op2) {
         long op1Lower = (int) op1;// op1 << 32;
         long op2Lower = (int) op2;// op2 << 32;
         
@@ -152,9 +156,9 @@ public class FlagRegister {
             // include previous carry from lower half (carryLower just as helper, when lower half carry can affect upper half)
             boolean carryHigher = 0 < (op1Higher + op2Higher + (carryLower ? 1 : 0))>>32;
  
-            FlagRegister.setCFlag(carryHigher);
+            return carryHigher;
         } else {
-            FlagRegister.setCFlag(carryLower);
+            return carryLower;
         }
     }
 
@@ -167,13 +171,13 @@ public class FlagRegister {
      * @param op2 second operand
      * @param result result of both operands
      */
-    private static void checkAndSetVFlag(long op1, long op2, long result) {
+    private static boolean checkVFlag(long op1, long op2, long result) {
         if(op1 >= 0 && op2 >= 0 && result < 0) {
-            FlagRegister.setVFlag(true);
+            return true;
         } else if (op1 < 0 && op2 < 0 && result >= 0) {
-            FlagRegister.setVFlag(true);
+            return true;
         } else {
-            FlagRegister.setVFlag(false);
+            return false;
         }
     }
 }

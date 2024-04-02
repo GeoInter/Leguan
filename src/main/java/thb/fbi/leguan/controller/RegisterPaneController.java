@@ -5,6 +5,8 @@ import java.util.List;
 
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -205,6 +207,20 @@ public class RegisterPaneController implements FlagRegisterObserver {
         NFlagValue.setText("0");
         VFlagValue.setText("0");
         ZFlagValue.setText("0");
+
+        ChangeListener<Boolean> flagRegisterToggleListener = new ChangeListener<Boolean>() {
+
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                FlagRegister.setAllFlags(NFlagValue.isSelected(), ZFlagValue.isSelected(), CFlagValue.isSelected(), VFlagValue.isSelected());
+            }
+            
+        };
+
+        CFlagValue.selectedProperty().addListener(flagRegisterToggleListener);
+        NFlagValue.selectedProperty().addListener(flagRegisterToggleListener);
+        VFlagValue.selectedProperty().addListener(flagRegisterToggleListener);
+        ZFlagValue.selectedProperty().addListener(flagRegisterToggleListener);
 
         Instruction.setRegisterPaneController(this);
         FlagRegister.setObserver(this);
