@@ -31,9 +31,10 @@ public class FileManager {
 
     public static void init(CodeArea codeArea) {
         fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
-        fileChooser.getExtensionFilters().add(new ExtensionFilter("All Files", "*.txt", "*.asm"));
-        fileChooser.getExtensionFilters().add(new ExtensionFilter("Text Files", "*.txt"));
-        fileChooser.getExtensionFilters().add(new ExtensionFilter("Assembly Language Source Code File", "*.asm"));
+        fileChooser.getExtensionFilters().add(new ExtensionFilter("Assembly Code", "*.txt", "*.asm", "*.s", "*.S"));
+        fileChooser.getExtensionFilters().add(new ExtensionFilter("All Files", "*.*"));
+        fileChooser.getExtensionFilters().add(new ExtensionFilter("Text File", "*.txt"));
+        fileChooser.getExtensionFilters().add(new ExtensionFilter("Assembly Language Source Code File", "*.asm", "*.s", "*.S"));
         FileManager.codeArea = codeArea;
         FileManager.codeArea.textProperty().addListener(new ChangeListener<String>() {
 
