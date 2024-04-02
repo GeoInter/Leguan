@@ -151,6 +151,11 @@
     opacity: 1.0;
 }
 
+#register-value-button:hover, .memory-button:hover {
+    -fx-background-color: #cacaca, #ffffff;
+    background-color: #cacaca, #ffffff;
+}
+
 #register-value-button {
     -fx-background-radius: 0;
 }
@@ -175,6 +180,11 @@
 .toggle-button:selected {
     -fx-background-color: -fbi-blue;
     background-color: -fbi-blue;
+}
+
+.toggle-button:hover {
+    -fx-background-color: #cacaca, #ffffff;
+    background-color: #cacaca, #ffffff;
 }
 
 /* Memory VBox */
