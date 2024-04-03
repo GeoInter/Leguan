@@ -57,6 +57,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
 
     /**
      * sets Index of ProgramStatement for jumpMarks and ArrayList in ARMProgram
+     * 
      * @param programIndex index of current ProgramStatement
      */
     public void setProgramIndex(int programIndex) {
@@ -65,6 +66,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
 
     /**
      * returns list of declared jump marks
+     * 
      * @return all jump marks
      */
     public HashMap<String, Integer> getJumpMarks() {
@@ -73,6 +75,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
 
     /**
      * return list of unresolved jump marks (invocation came before declaration)
+     * 
      * @return all unresolved jump marks
      */
     public HashMap<Integer, String> getUnresolvedMarks() {
@@ -81,7 +84,8 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
 
     /**
      * return list of used registers
-     * @return list of (used) parsed registers 
+     * 
+     * @return list of (used) parsed registers
      */
     public ArrayList<Register> getUsedRegisters() {
         return usedRegisters;
@@ -92,7 +96,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
         Instruction instr = null;
         InstructionArguments args = null;
         // generic access to nodes
-        if(ctx.declaration() == null) {
+        if (ctx.declaration() == null) {
             instr = (Instruction) visit(ctx.getChild(0));
             args = (InstructionArguments) visit(ctx.getChild(1));
         } else {
@@ -100,7 +104,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
             instr = (Instruction) visit(ctx.getChild(1));
             args = (InstructionArguments) visit(ctx.getChild(2));
         }
-        return new ProgramStatement(instr, args, null, ctx.start.getLine()-1); // lines are off by 1
+        return new ProgramStatement(instr, args, null, ctx.start.getLine() - 1); // lines are off by 1
     }
 
     /**
@@ -111,23 +115,31 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
     public Register visitRegister(RegisterContext ctx) {
         String registerName = ctx.REGISTER().getText();
         int index = 0;
-        switch(registerName) {
-            case "SP": index = 28; break;
-            case "FP": index = 29; break;
-            case "LR": index = 30; break;
-            case "XZR": index = 31; break;
+        switch (registerName) {
+            case "SP":
+                index = 28;
+                break;
+            case "FP":
+                index = 29;
+                break;
+            case "LR":
+                index = 30;
+                break;
+            case "XZR":
+                index = 31;
+                break;
             default:
                 registerName = registerName.substring(1);
                 index = Integer.parseInt(registerName);
         }
-        
+
         Register register = null;
         try {
             register = simulator.getRegisters()[index];
-            if(! usedRegisters.contains(register)) {
+            if (!usedRegisters.contains(register)) {
                 usedRegisters.add(register);
             }
-        } catch(ArrayIndexOutOfBoundsException  e) {
+        } catch (ArrayIndexOutOfBoundsException e) {
             Token token = ctx.REGISTER().getSymbol();
             int line = token.getLine();
             int pos = token.getCharPositionInLine();
@@ -144,9 +156,17 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
     public Integer visitNum(NumContext ctx) {
         String numberText = ctx.NUMBER().getText();
         int number = 0;
+        int radix = 0;
+        if (numberText.startsWith("0x")) { // hex number
+            radix = 16;
+            numberText = numberText.substring(2);
+        } else { // dec number
+            radix = 10;
+        }
+
         try {
-            number = Integer.parseInt(numberText);
-        } catch(NumberFormatException e) {
+            number = Integer.parseInt(numberText, radix);
+        } catch (NumberFormatException e) {
             Token token = ctx.NUMBER().getSymbol();
             int line = token.getLine();
             int pos = token.getCharPositionInLine();
@@ -159,8 +179,8 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
     @Override
     public Object visitDeclaration(DeclarationContext ctx) {
         String id = ctx.JumpDeclaration().getText();
-        id = id.substring(0, id.length()-1); //remove ":"
-        if(jumpMarks.containsKey(id)) {
+        id = id.substring(0, id.length() - 1); // remove ":"
+        if (jumpMarks.containsKey(id)) {
             Token token = ctx.JumpDeclaration().getSymbol();
             int line = token.getLine();
             int pos = token.getCharPositionInLine();
@@ -176,7 +196,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
     public Integer visitInvocation(InvocationContext ctx) {
         String id = ctx.JumpInvocation().getText();
         Integer address = jumpMarks.get(id);
-        if(address != null) {
+        if (address != null) {
             return address;
         } else {
             unresolvedMarks.put(this.programIndex, id);
@@ -186,6 +206,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
 
     /**
      * helper function for retrieving Instruction object
+     * 
      * @param instructionName
      * @return
      */
@@ -259,7 +280,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
         args.setRm(Rm);
         return args;
     }
-    
+
     @Override
     public InstructionArguments visitImmediateParam(ImmediateParamContext ctx) {
         Register Rd = visitRegister(ctx.register(0));
@@ -278,14 +299,14 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
         int immediate = visitNum(ctx.num(0));
         int shamt = visitNum(ctx.num(1));
         // only allows 0, 16, 32 and 48 as shift value
-        if(shamt != 0 && shamt != 16 && shamt != 32 && shamt != 48) {
+        if (shamt != 0 && shamt != 16 && shamt != 32 && shamt != 48) {
             Token token = ctx.num(1).NUMBER().getSymbol();
             int line = token.getLine();
             int pos = token.getCharPositionInLine();
             ParsingError err = new ParsingError(line, pos, ParsingErrorType.WideImmediateShiftOutOfRange);
             semanticErrors.add(err);
         }
-        if(ctx.ShiftInstruction().getText().equals("LSR")) {
+        if (ctx.ShiftInstruction().getText().equals("LSR")) {
             Token token = ctx.ShiftInstruction().getSymbol();
             int line = token.getLine();
             int pos = token.getCharPositionInLine();

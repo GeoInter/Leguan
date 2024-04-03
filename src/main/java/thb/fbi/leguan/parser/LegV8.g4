@@ -69,7 +69,7 @@ SQUARE_BRACKET_RIGHT: ']';
 
 // Token for regsiter and number parameter
 REGISTER : SP | FP | LR | XZR | 'X0' | 'X'[1-9][0-9]* ; // manual check required for range
-NUMBER : '0' | '-'? [1-9][0-9]* ;
+NUMBER : '0' | '-'? [1-9][0-9]* | '0x' [1-9a-fA-F][0-9a-fA-F]*;
 
 SP: 'SP' ;
 FP: 'FP' ;
