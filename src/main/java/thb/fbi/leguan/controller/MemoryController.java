@@ -137,11 +137,17 @@ public class MemoryController implements MemoryObserver {
                                 StringBuilder str;
                                 String hex = Long.toHexString(arg.getValue().getValue()).toUpperCase();
                                 str = new StringBuilder(hex);
-                                for(int i = hex.length()-4; i > 0; i-= 4) {
-                                    str.insert(i, " ");
+                                if(displayMemoryAsDWord) {
+                                    for(int i = hex.length()-4; i > 0; i-= 4) {
+                                        str.insert(i, " ");
+                                    }
+                                } else { // only show as actual byte
+                                    if(str.length() > 2) {
+                                        str = str.delete(0, str.length()-2);
+                                    }
                                 }
-                                str.insert(0, "0x");
 
+                                str.insert(0, "0x");
                                 return new SimpleStringProperty(str.toString());
                             case DEC:
                             default:
