@@ -1,5 +1,5 @@
 // count to 20
-ADDI X7, X7, 20; // maximum to loop to
-loop: ADDI X0, X0, 1;
-SUB X8, X7, X0; // check if counter is higher
-CBNZ X8, loop;
+ADDI X7, X7, 20 // maximum to loop to
+loop: ADDI X0, X0, 1
+SUB X8, X7, X0 // check if counter is higher
+CBNZ X8, loop
