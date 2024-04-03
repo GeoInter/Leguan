@@ -321,8 +321,8 @@ public class InstructionSet {
                         public void simulate(int br_address, PCRegister pc) {
                             Simulator simulator = SimulatorSingleton.getSimulator();
                             Register R30 = simulator.getRegisters()[30];
-                            R30.setValue(pc.getValue() + 1); // internal pc value is not multiplied by 4
-                            pc.setValue(pc.getValue() + br_address);
+                            R30.setValue((pc.getValue() + 1) * 4); // internal pc value is not multiplied by 4
+                            pc.setValue(br_address);
                         }
                     }));
 
