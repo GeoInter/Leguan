@@ -72,7 +72,7 @@ public class FlagRegister {
      * sets the Negative condition flag
      * @param n boolean to change the flag to
      */
-    private static void setNFlag(boolean n) {
+    public static synchronized void setNFlag(boolean n) {
         FlagRegister.n = n;
     }
 
@@ -80,7 +80,7 @@ public class FlagRegister {
      * sets the Zero condition flag
      * @param z boolean to change the flag to
      */
-    private static void setZFlag(boolean z) {
+    public static synchronized void setZFlag(boolean z) {
         FlagRegister.z = z;
     }
 
@@ -88,7 +88,7 @@ public class FlagRegister {
      * sets the Carry condition flag
      * @param c boolean to change the flag to
      */
-    private static void setCFlag(boolean c) {
+    public static synchronized void setCFlag(boolean c) {
         FlagRegister.c = c;
     }
 
@@ -96,20 +96,16 @@ public class FlagRegister {
      * sets the Overflow condition flag
      * @param v boolean to change the flag to
      */
-    private static void setVFlag(boolean v) {
+    public static synchronized void setVFlag(boolean v) {
         FlagRegister.v = v;
     }
 
-    public static synchronized void setAllFlags(boolean n, boolean z, boolean c, boolean v) {
-        setNFlag(n);
-        setZFlag(z);
-        setCFlag(c);
-        setVFlag(v);
-        observer.update(n, z, c, v);
-    }
-
     public static void setAllFlags(long op1, long op2, long result) {
-        setAllFlags(checkNFlag(result), checkZFlag(result), checkCFlag(op1, op2), checkVFlag(op1, op2, result));
+        setNFlag(checkNFlag(result));
+        setZFlag(checkZFlag(result));
+        setCFlag(checkCFlag(op1, op2));
+        setVFlag(checkVFlag(op1, op2, result));
+        observer.update(n, z, c, v);
     }
 
     /**

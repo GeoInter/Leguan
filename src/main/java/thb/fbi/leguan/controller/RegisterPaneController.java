@@ -208,19 +208,38 @@ public class RegisterPaneController implements FlagRegisterObserver {
         VFlagValue.setText("0");
         ZFlagValue.setText("0");
 
-        ChangeListener<Boolean> flagRegisterToggleListener = new ChangeListener<Boolean>() {
-
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                FlagRegister.setAllFlags(NFlagValue.isSelected(), ZFlagValue.isSelected(), CFlagValue.isSelected(), VFlagValue.isSelected());
+        CFlagValue.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            FlagRegister.setCFlag(newValue);
+            if(newValue) {
+                CFlagValue.setText("1");
+            } else {
+                CFlagValue.setText("0");
             }
-            
-        };
-
-        CFlagValue.selectedProperty().addListener(flagRegisterToggleListener);
-        NFlagValue.selectedProperty().addListener(flagRegisterToggleListener);
-        VFlagValue.selectedProperty().addListener(flagRegisterToggleListener);
-        ZFlagValue.selectedProperty().addListener(flagRegisterToggleListener);
+        });
+        NFlagValue.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            FlagRegister.setNFlag(newValue);
+            if(newValue) {
+                NFlagValue.setText("1");
+            } else {
+                NFlagValue.setText("0");
+            }
+        });
+        VFlagValue.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            FlagRegister.setVFlag(newValue);
+            if(newValue) {
+                VFlagValue.setText("1");
+            } else {
+                VFlagValue.setText("0");
+            }
+        });
+        ZFlagValue.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            FlagRegister.setZFlag(newValue);
+            if(newValue) {
+                ZFlagValue.setText("1");
+            } else {
+                ZFlagValue.setText("0");
+            }
+        });
 
         Instruction.setRegisterPaneController(this);
         FlagRegister.setObserver(this);
