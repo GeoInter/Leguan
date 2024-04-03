@@ -74,6 +74,8 @@ public class Register {
                 str.insert(0, "u ");
                 this.shownValue.set(str.toString());
                 break;
+            case ASCII: 
+                throw new IllegalArgumentException("Usage of ASCII in register is not yet supported");
             case DEC: // signed decimal
             default:
                 NumberFormat nf = NumberFormat.getInstance();

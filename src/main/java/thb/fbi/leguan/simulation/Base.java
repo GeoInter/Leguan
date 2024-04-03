@@ -10,7 +10,8 @@ public enum Base
     BIN(2),
     DEC(10), 
     uDEC(0),
-    HEX(16);
+    HEX(16),
+    ASCII(-1);
     
     private int value;
     

@@ -46,12 +46,13 @@
                   </Label>
                   <HBox alignment="CENTER">
                      <children>
-                        <Button fx:id="DecValueButton" disable="true" focusTraversable="false" mnemonicParsing="false" onAction="#switchValueToDec" styleClass="memory-button" text="Dec">
+                        <Button fx:id="DecValueButton" disable="true" focusTraversable="false" mnemonicParsing="false" onAction="#displayValueAsDec" styleClass="memory-button" text="Dec">
                            <HBox.margin>
                               <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                            </HBox.margin>
                         </Button>
-                        <Button fx:id="ASCIIValueButton" focusTraversable="false" mnemonicParsing="false" onAction="#switchValueToASCII" styleClass="memory-button" text="ASCII">
+                        <Button fx:id="hexValueButton" focusTraversable="false" mnemonicParsing="false" onAction="#displayValueAsHex" styleClass="memory-button" text="Hex" />
+                        <Button fx:id="ASCIIValueButton" focusTraversable="false" mnemonicParsing="false" onAction="#displayValueAsASCII" styleClass="memory-button" text="ASCII">
                            <HBox.margin>
                               <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                            </HBox.margin>

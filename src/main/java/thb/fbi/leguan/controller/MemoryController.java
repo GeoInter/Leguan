@@ -27,6 +27,7 @@ import javafx.scene.control.TextFormatter;
 import javafx.util.Callback;
 import javafx.util.converter.IntegerStringConverter;
 import thb.fbi.leguan.instructions.Instruction;
+import thb.fbi.leguan.simulation.Base;
 import thb.fbi.leguan.simulation.Memory;
 import thb.fbi.leguan.simulation.MemoryObserver;
 import thb.fbi.leguan.utility.NumberComparator;
@@ -50,6 +51,8 @@ public class MemoryController implements MemoryObserver {
     @FXML
     Button ASCIIValueButton;
     @FXML
+    Button hexValueButton;
+    @FXML
     Button DecAddressButton;
     @FXML
     Button HexAddressButton;
@@ -58,7 +61,8 @@ public class MemoryController implements MemoryObserver {
     @FXML
     Button memoryDWordButton;
 
-    @FXML Button filterButton;
+    @FXML
+    Button filterButton;
 
     private TreeMap<Long, Long> data = new TreeMap<Long, Long>();
 
@@ -69,7 +73,7 @@ public class MemoryController implements MemoryObserver {
     private int maxLengthOfTextFields = 6;
 
     /** determines if values of memory should be displayed as ASCII chars */
-    private boolean displayValueAsASCII = false;
+    private Base displayValueNumberformat = Base.DEC;
 
     /** dertemines if address of memory should be displayed as hex values */
     private boolean displayAddressAsHex = false;
@@ -108,28 +112,40 @@ public class MemoryController implements MemoryObserver {
 
                     @Override
                     public ObservableValue<String> call(CellDataFeatures<Entry<Long, Long>, String> arg) {
-                        if (displayValueAsASCII) {
-                            long l = arg.getValue().getValue();
-                            String s = "";
-                            // for single byte
-                            if (l <= 127 && l >= -128) {
-                                byte b = (byte) l;
-                                s = byteToString(b) + "";
-                                return new SimpleStringProperty(s);
-                            }
+                        switch(displayValueNumberformat) {
+                            case ASCII:
+                                long l = arg.getValue().getValue();
+                                String s = "";
+                                // for single byte
+                                if (l <= 127 && l >= -128) {
+                                    byte b = (byte) l;
+                                    s = byteToString(b) + "";
+                                    return new SimpleStringProperty(s);
+                                }
 
-                            // for long (dword)
-                            ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES);
-                            buffer.clear();
-                            buffer.putLong(l);
-                            byte[] array = buffer.array();
-                            for (byte b : array) {
-                                s += byteToString(b) + " ";
-                            }
-                            buffer.clear();
-                            return new SimpleStringProperty(s);
-                        } else {
-                            return new SimpleStringProperty(arg.getValue().getValue().toString());
+                                // for long (dword)
+                                ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES);
+                                buffer.clear();
+                                buffer.putLong(l);
+                                byte[] array = buffer.array();
+                                for (byte b : array) {
+                                    s += byteToString(b) + " ";
+                                }
+                                buffer.clear();
+                                return new SimpleStringProperty(s);
+                            case HEX:
+                                StringBuilder str;
+                                String hex = Long.toHexString(arg.getValue().getValue()).toUpperCase();
+                                str = new StringBuilder(hex);
+                                for(int i = hex.length()-4; i > 0; i-= 4) {
+                                    str.insert(i, " ");
+                                }
+                                str.insert(0, "0x");
+
+                                return new SimpleStringProperty(str.toString());
+                            case DEC:
+                            default:
+                                return new SimpleStringProperty(arg.getValue().getValue().toString());
                         }
                     }
 
@@ -297,10 +313,11 @@ public class MemoryController implements MemoryObserver {
      * display content row as ASCII chars
      */
     @FXML
-    public void switchValueToASCII() {
-        displayValueAsASCII = true;
+    public void displayValueAsASCII() {
+        displayValueNumberformat = Base.ASCII;
         ASCIIValueButton.setDisable(true);
         DecValueButton.setDisable(false);
+        hexValueButton.setDisable(false);
         // force refresh so each cell is updated by cellValueFactory
         memoryTable.refresh();
     }
@@ -309,10 +326,24 @@ public class MemoryController implements MemoryObserver {
      * display content row as decimal numbers
      */
     @FXML
-    public void switchValueToDec() {
-        displayValueAsASCII = false;
+    public void displayValueAsDec() {
+        displayValueNumberformat = Base.DEC;
         ASCIIValueButton.setDisable(false);
         DecValueButton.setDisable(true);
+        hexValueButton.setDisable(false);
+        // force refresh so each cell is updated by cellValueFactory
+        memoryTable.refresh();
+    }
+
+    /**
+     * display content row as hexadecimal numbers
+     */
+    @FXML
+    public void displayValueAsHex() {
+        displayValueNumberformat = Base.HEX;
+        ASCIIValueButton.setDisable(false);
+        DecValueButton.setDisable(false);
+        hexValueButton.setDisable(true);
         // force refresh so each cell is updated by cellValueFactory
         memoryTable.refresh();
     }
