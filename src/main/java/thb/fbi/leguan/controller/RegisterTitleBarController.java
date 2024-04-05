@@ -44,12 +44,15 @@ public class RegisterTitleBarController {
     public void initialize() {
         registerValue.focusedProperty().addListener((arg0, oldValue, newValue) -> {
             if(!newValue) {
-                if(!registerValue.getText().matches("^[0-9]*$")) {
+                if(!registerValue.getText().matches("^[0-9.]*$")) {
                     // when text not a number
                     registerValue.setText("0");
                 } else {
                     try {
-                        long parsedValue = Long.parseLong(registerValue.getText());
+                        String valueString = registerValue.getText();
+                        valueString = valueString.replace(".", "");
+
+                        long parsedValue = Long.parseLong(valueString);
                         if(register instanceof PCRegister) {
                             // internally not multiple of INSTRUCTION_LENGTH
                             register.setValue(parsedValue / Instruction.INSTRUCTION_LENGTH);
