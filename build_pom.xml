@@ -18,15 +18,88 @@
     <sys.java.home>${env.JAVA_HOME}</sys.java.home>
   </properties>
 
+  <profiles>
+    <profile>
+      <id>exe</id>
+      <!-- build executable windows -->
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>com.akathist.maven.plugins.launch4j</groupId>
+            <artifactId>launch4j-maven-plugin</artifactId>
+            <version>2.1.2</version>
+            <executions>
+              <execution>
+                <id>jar-to-exe</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>launch4j</goal>
+                </goals>
+                <configuration>
+                  <headerType>gui</headerType>
+                  <stayAlive>true</stayAlive>
+                  <jar>${project.build.directory}/${project.build.finalName}.jar</jar>
+                  <outfile>${project.build.directory}/${project.build.finalName}.exe</outfile>
+                  <!--<manifest>${project.basedir}/src/main/resources/${project.artifactId}.manifest</manifest>-->
+                  <classPath>
+                    <!-- The main class to invoke on executing the .exe -->
+                    <mainClass>thb.fbi.leguan.Launcher</mainClass>
+
+                  </classPath>
+                  <icon>src/main/resources/thb/fbi/leguan/images/Leguan.ico</icon>
+                  <jre>
+                    <minVersion>1.11.0</minVersion>
+                    <jdkPreference>preferJre</jdkPreference>
+
+                    <!-- Relative path to the JRE in the final zip bundle, to launch the exe/jar-->
+                    <path>./lib/jre</path>
+
+                    <!-- Runtime arguments -->
+                    <opts>
+                      <!-- Run time arguments can be passed using <opt> as below -->
+                      <!--<opt>-Dparam=value</opt>-->
+                    </opts>
+
+                  </jre>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <profile>
+      <id>shell</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.skife.maven</groupId>
+            <artifactId>really-executable-jar-maven-plugin</artifactId>
+            <version>2.1.1</version>
+            <configuration>
+              <flags>-Xmx1G</flags>
+              <inputFile>target/${project.build.finalName}.jar</inputFile>
+              <programFile>${project.build.finalName}.sh</programFile>
+            </configuration>
+            <executions>
+              <execution>
+                <phase>package</phase>
+                <goals>
+                  <goal>really-executable-jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
   <dependencies>
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-controls</artifactId>
-      <version>${javafx.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.openjfx</groupId>
-      <artifactId>javafx-graphics</artifactId>
       <version>${javafx.version}</version>
     </dependency>
     <dependency>
@@ -108,48 +181,25 @@
           </execution>
         </executions>
       </plugin>
-      <!-- build executable -->
+
+      <!-- build executable linux/ mac 
       <plugin>
-        <groupId>com.akathist.maven.plugins.launch4j</groupId>
-        <artifactId>launch4j-maven-plugin</artifactId>
-        <version>2.1.2</version>
+        <groupId>org.skife.maven</groupId>
+        <artifactId>really-executable-jar-maven-plugin</artifactId>
+        <version>2.1.1</version>
+        <configuration>
+          <flags>-Xmx1G</flags>
+          <programFile>${project.artifactId}</programFile>
+        </configuration>
         <executions>
           <execution>
-            <id>jar-to-exe</id>
             <phase>package</phase>
             <goals>
-              <goal>launch4j</goal>
+              <goal>really-executable-jar</goal>
             </goals>
-            <configuration>
-              <headerType>gui</headerType>
-              <stayAlive>true</stayAlive>
-              <jar>${project.build.directory}/${project.build.finalName}.jar</jar>
-              <outfile>${project.build.directory}/${project.build.finalName}.exe</outfile>
-              <!--<manifest>${project.basedir}/src/main/resources/${project.artifactId}.manifest</manifest>-->
-              <classPath>
-                <!-- The main class to invoke on executing the .exe -->
-                <mainClass>thb.fbi.leguan.Launcher</mainClass>
-
-              </classPath>
-              <icon>src/main/resources/thb/fbi/leguan/images/Leguan.ico</icon>
-              <jre>
-                <minVersion>1.11.0</minVersion>
-                <jdkPreference>preferJre</jdkPreference>
-
-                <!-- Relative path to the JRE in the final zip bundle, to launch the exe/jar-->
-                <path>./lib/jre</path>
-
-                <!-- Runtime arguments -->
-                <opts>
-                  <!-- Run time arguments can be passed using <opt> as below -->
-                  <!--<opt>-Dparam=value</opt>-->
-                </opts>
-
-              </jre>
-            </configuration>
           </execution>
         </executions>
-      </plugin>
+      </plugin>-->
       <plugin>
         <groupId>org.antlr</groupId>
         <artifactId>antlr4-maven-plugin</artifactId>
