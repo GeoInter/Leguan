@@ -16,6 +16,7 @@
     <!-- Refers to the JDK on the system.
           The JRE in the final zip will be bundled from the system's JDK -->
     <sys.java.home>${env.JAVA_HOME}</sys.java.home>
+    <app.name>Leguan</app.name>
   </properties>
 
   <profiles>
@@ -39,7 +40,7 @@
                   <headerType>gui</headerType>
                   <stayAlive>true</stayAlive>
                   <jar>${project.build.directory}/${project.build.finalName}.jar</jar>
-                  <outfile>${project.build.directory}/${project.build.finalName}.exe</outfile>
+                  <outfile>${project.build.directory}/${app.name}</outfile>
                   <!--<manifest>${project.basedir}/src/main/resources/${project.artifactId}.manifest</manifest>-->
                   <classPath>
                     <!-- The main class to invoke on executing the .exe -->
@@ -80,7 +81,7 @@
             <configuration>
               <flags>-Xmx1G</flags>
               <inputFile>target/${project.build.finalName}.jar</inputFile>
-              <programFile>${project.build.finalName}.sh</programFile>
+              <programFile>${app.name}</programFile>
             </configuration>
             <executions>
               <execution>

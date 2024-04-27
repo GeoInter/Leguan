@@ -84,7 +84,7 @@
                   <headerType>gui</headerType>
                   <stayAlive>true</stayAlive>
                   <jar>${project.build.directory}/${project.build.finalName}.jar</jar>
-                  <outfile>${project.build.directory}/${project.build.finalName}.exe</outfile>
+                  <outfile>${project.build.directory}/${app.name}</outfile>
                   <classPath>
                     <mainClass>thb.fbi.leguan.Launcher</mainClass>
                   </classPath>
@@ -121,7 +121,7 @@
             <configuration>
               <flags>-Xmx1G</flags>
               <inputFile>target/${project.build.finalName}.jar</inputFile>
-              <programFile>${project.build.finalName}.sh</programFile>
+              <programFile>${app.name}</programFile>
             </configuration>
           </plugin>
         </plugins>
@@ -135,5 +135,6 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <javafx.version>18</javafx.version>
     <antlr.version>4.11.1</antlr.version>
+    <app.name>Leguan</app.name>
   </properties>
 </project>
