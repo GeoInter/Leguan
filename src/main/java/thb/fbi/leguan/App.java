@@ -50,7 +50,7 @@ public class App extends Application {
         scene.getStylesheets().add(this.getClass().getResource("/thb/fbi/leguan/css/light.css").toExternalForm());
 
         App.stage.setScene(scene);
-        App.stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/thb/fbi/leguan/images/Leguan.png")));
+        App.stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/thb/fbi/leguan/images/leguan.png")));
         App.stage.setTitle("Leguan - a LEGv8 Simulator");
         App.stage.setMaximized(true);
         // following gets called when app is about to be closed 
