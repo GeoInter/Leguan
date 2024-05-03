@@ -133,18 +133,8 @@
               </classPath>
               <icon>src/main/resources/thb/fbi/leguan/images/Leguan.ico</icon>
               <jre>
-                <minVersion>1.11.0</minVersion>
-                <jdkPreference>preferJre</jdkPreference>
-
-                <!-- Relative path to the JRE in the final zip bundle, to launch the exe/jar-->
-                <path>./lib/jre</path>
-
-                <!-- Runtime arguments -->
-                <opts>
-                  <!-- Run time arguments can be passed using <opt> as below -->
-                  <!--<opt>-Dparam=value</opt>-->
-                </opts>
-
+                <minVersion>11</minVersion>
+                <path>%JAVA_HOME%;%PATH%</path>
               </jre>
             </configuration>
           </execution>

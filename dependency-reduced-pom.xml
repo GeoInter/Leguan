@@ -90,10 +90,8 @@
                   </classPath>
                   <icon>src/main/resources/thb/fbi/leguan/images/Leguan.ico</icon>
                   <jre>
-                    <minVersion>1.11.0</minVersion>
-                    <jdkPreference>preferJre</jdkPreference>
-                    <path>./lib/jre</path>
-                    <opts />
+                    <minVersion>11</minVersion>
+                    <path>%JAVA_HOME%;%PATH%</path>
                   </jre>
                 </configuration>
               </execution>
