@@ -27,7 +27,7 @@ public class PipelineVisualizerAdapter implements ILeguanTools {
                 
                 stage.initOwner(App.getStage());
                 stage.setScene(new Scene(pipelineVisualizer));
-                stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/thb/fbi/leguan/images/Leguan.png")));
+                stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/thb/fbi/leguan/images/leguan.png")));
                 stage.setTitle("Pipeline-Visualizer");
                 stage.setMaximized(true);
                 stage.setOnCloseRequest(event -> {
