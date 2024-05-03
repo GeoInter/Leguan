@@ -5,12 +5,12 @@ import java.util.HashMap;
 
 import org.antlr.v4.runtime.Token;
 
+import thb.fbi.leguan.data.ARMProgram;
+import thb.fbi.leguan.data.InstructionArguments;
+import thb.fbi.leguan.data.ProgramStatement;
 import thb.fbi.leguan.parser.antlr.LegV8BaseVisitor;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.MainContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.ProgramContext;
-import thb.fbi.leguan.simulation.ARMProgram;
-import thb.fbi.leguan.simulation.InstructionArguments;
-import thb.fbi.leguan.simulation.ProgramStatement;
 import thb.fbi.leguan.simulation.Register;
 
 public class ProgramParser extends LegV8BaseVisitor<ARMProgram> {

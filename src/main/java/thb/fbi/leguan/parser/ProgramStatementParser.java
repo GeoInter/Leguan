@@ -5,6 +5,8 @@ import java.util.HashMap;
 
 import org.antlr.v4.runtime.Token;
 
+import thb.fbi.leguan.data.InstructionArguments;
+import thb.fbi.leguan.data.ProgramStatement;
 import thb.fbi.leguan.instructions.Instruction;
 import thb.fbi.leguan.parser.antlr.LegV8BaseVisitor;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.ArithmeticInstructionContext;
@@ -30,8 +32,6 @@ import thb.fbi.leguan.parser.antlr.LegV8Parser.ShiftInstructionContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.ShiftParamContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.WideImmediateInstructionContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.WideImmediateParamContext;
-import thb.fbi.leguan.simulation.InstructionArguments;
-import thb.fbi.leguan.simulation.ProgramStatement;
 import thb.fbi.leguan.simulation.Register;
 import thb.fbi.leguan.simulation.Simulator;
 import thb.fbi.leguan.simulation.SimulatorSingleton;

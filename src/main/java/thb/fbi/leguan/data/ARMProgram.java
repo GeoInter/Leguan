@@ -1,6 +1,8 @@
-package thb.fbi.leguan.simulation;
+package thb.fbi.leguan.data;
 
 import java.util.ArrayList;
+
+import thb.fbi.leguan.simulation.Register;
 
 /** 
  * Models the entire source code

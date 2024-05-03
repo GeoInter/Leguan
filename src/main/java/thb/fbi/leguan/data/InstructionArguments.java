@@ -1,4 +1,6 @@
-package thb.fbi.leguan.simulation;
+package thb.fbi.leguan.data;
+
+import thb.fbi.leguan.simulation.Register;
 
 /**
  * Class for holding all kinds of arguments for all instruction formats.

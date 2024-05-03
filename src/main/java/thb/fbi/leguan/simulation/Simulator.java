@@ -10,6 +10,8 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import thb.fbi.leguan.data.ARMProgram;
+import thb.fbi.leguan.data.ProgramStatement;
 import thb.fbi.leguan.instructions.Instruction;
 import thb.fbi.leguan.instructions.InstructionSet;
 import thb.fbi.leguan.parser.ParsingError;

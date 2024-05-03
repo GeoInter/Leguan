@@ -1,6 +1,6 @@
 package thb.fbi.leguan.instructions;
 
-import thb.fbi.leguan.simulation.InstructionArguments;
+import thb.fbi.leguan.data.InstructionArguments;
 import thb.fbi.leguan.simulation.PCRegister;
 import thb.fbi.leguan.simulation.Register;
 
