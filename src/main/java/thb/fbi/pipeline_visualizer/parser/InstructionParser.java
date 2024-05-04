@@ -89,7 +89,7 @@ public class InstructionParser extends LegV8BaseVisitor<Object> {
 
     @Override
     public Object visitDeclaration(DeclarationContext ctx) {
-        String id = ctx.JumpDeclaration().getText();
+        String id = ctx.PointerDeclaration().getText();
         id = id.substring(0, id.length() - 1); // remove ":"
         if (! jumpMarks.containsKey(id)) {
             jumpMarks.put(id, this.programIndex);
@@ -99,7 +99,7 @@ public class InstructionParser extends LegV8BaseVisitor<Object> {
 
     @Override
     public Integer visitInvocation(InvocationContext ctx) {
-        String id = ctx.JumpInvocation().getText();
+        String id = ctx.PointerReference().getText();
         Integer address = jumpMarks.get(id);
         if (address != null) { // calculate difference and multiply by -1
             return (programIndex - address + 1) * -1;

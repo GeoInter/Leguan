@@ -65,7 +65,7 @@ public class ProgramParser extends LegV8BaseVisitor<ARMProgram> {
                 Integer sourceLine = jumpMarks.get(id);
 
                 if(sourceLine == null) {
-                    Token token = ctx.line(index).condBranchParam().invocation().JumpInvocation().getSymbol();
+                    Token token = ctx.line(index).condBranchParam().invocation().PointerReference().getSymbol();
                     int line = token.getLine();
                     int pos = token.getCharPositionInLine();
                     ParsingError err = new ParsingError(line, pos, ParsingErrorType.UndefinedJumpInvocation);
@@ -79,7 +79,7 @@ public class ProgramParser extends LegV8BaseVisitor<ARMProgram> {
                 Integer sourceLine = jumpMarks.get(id);
 
                 if(sourceLine == null) {
-                    Token token = ctx.line(index).branchParam().invocation().JumpInvocation().getSymbol();
+                    Token token = ctx.line(index).branchParam().invocation().PointerReference().getSymbol();
                     int line = token.getLine();
                     int pos = token.getCharPositionInLine();
                     ParsingError err = new ParsingError(line, pos, ParsingErrorType.UndefinedJumpInvocation);

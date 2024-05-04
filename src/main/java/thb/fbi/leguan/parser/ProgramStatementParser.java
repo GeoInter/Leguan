@@ -178,10 +178,10 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
 
     @Override
     public Object visitDeclaration(DeclarationContext ctx) {
-        String id = ctx.JumpDeclaration().getText();
+        String id = ctx.PointerDeclaration().getText();
         id = id.substring(0, id.length() - 1); // remove ":"
         if (jumpMarks.containsKey(id)) {
-            Token token = ctx.JumpDeclaration().getSymbol();
+            Token token = ctx.PointerDeclaration().getSymbol();
             int line = token.getLine();
             int pos = token.getCharPositionInLine();
             ParsingError err = new ParsingError(line, pos, ParsingErrorType.DoubledMarkDeclaration);
@@ -194,7 +194,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
 
     @Override
     public Integer visitInvocation(InvocationContext ctx) {
-        String id = ctx.JumpInvocation().getText();
+        String id = ctx.PointerReference().getText();
         Integer address = jumpMarks.get(id);
         if (address != null) {
             return address;

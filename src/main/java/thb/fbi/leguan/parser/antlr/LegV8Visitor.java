@@ -23,6 +23,30 @@ public interface LegV8Visitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitProgram(LegV8Parser.ProgramContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link LegV8Parser#dataSegment}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDataSegment(LegV8Parser.DataSegmentContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link LegV8Parser#dataSegmentVariable}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDataSegmentVariable(LegV8Parser.DataSegmentVariableContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link LegV8Parser#dataSegmentType}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDataSegmentType(LegV8Parser.DataSegmentTypeContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link LegV8Parser#dataSegmentValue}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDataSegmentValue(LegV8Parser.DataSegmentValueContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link LegV8Parser#line}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

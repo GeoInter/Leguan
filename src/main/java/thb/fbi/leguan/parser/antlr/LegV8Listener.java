@@ -28,6 +28,46 @@ public interface LegV8Listener extends ParseTreeListener {
 	 */
 	void exitProgram(LegV8Parser.ProgramContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link LegV8Parser#dataSegment}.
+	 * @param ctx the parse tree
+	 */
+	void enterDataSegment(LegV8Parser.DataSegmentContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LegV8Parser#dataSegment}.
+	 * @param ctx the parse tree
+	 */
+	void exitDataSegment(LegV8Parser.DataSegmentContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link LegV8Parser#dataSegmentVariable}.
+	 * @param ctx the parse tree
+	 */
+	void enterDataSegmentVariable(LegV8Parser.DataSegmentVariableContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LegV8Parser#dataSegmentVariable}.
+	 * @param ctx the parse tree
+	 */
+	void exitDataSegmentVariable(LegV8Parser.DataSegmentVariableContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link LegV8Parser#dataSegmentType}.
+	 * @param ctx the parse tree
+	 */
+	void enterDataSegmentType(LegV8Parser.DataSegmentTypeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LegV8Parser#dataSegmentType}.
+	 * @param ctx the parse tree
+	 */
+	void exitDataSegmentType(LegV8Parser.DataSegmentTypeContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link LegV8Parser#dataSegmentValue}.
+	 * @param ctx the parse tree
+	 */
+	void enterDataSegmentValue(LegV8Parser.DataSegmentValueContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LegV8Parser#dataSegmentValue}.
+	 * @param ctx the parse tree
+	 */
+	void exitDataSegmentValue(LegV8Parser.DataSegmentValueContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link LegV8Parser#line}.
 	 * @param ctx the parse tree
 	 */

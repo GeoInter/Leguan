@@ -21,20 +21,22 @@ public class LegV8Parser extends Parser {
 		DatatransferInstruction=5, ExclusiveInstruction=6, CondBranchInstruction=7, 
 		BranchInstruction=8, BranchByRegisterInstruction=9, WS=10, COMMENT=11, 
 		LINE_COMMENT=12, COMMA=13, SEMI=14, SQUARE_BRACKET_LEFT=15, SQUARE_BRACKET_RIGHT=16, 
-		REGISTER=17, NUMBER=18, SP=19, FP=20, LR=21, XZR=22, JumpDeclaration=23, 
-		JumpInvocation=24;
+		REGISTER=17, NUMBER=18, SP=19, FP=20, LR=21, XZR=22, PointerDeclaration=23, 
+		PointerReference=24, DataSegmentTypes=25;
 	public static final int
-		RULE_main = 0, RULE_program = 1, RULE_line = 2, RULE_declaration = 3, 
-		RULE_invocation = 4, RULE_arithmeticInstruction = 5, RULE_shiftInstruction = 6, 
-		RULE_immediateInstruction = 7, RULE_wideImmediateInstruction = 8, RULE_datatransferInstruction = 9, 
-		RULE_exclusiveInstruction = 10, RULE_condBranchInstruction = 11, RULE_branchInstruction = 12, 
-		RULE_branchByRegisterInstruction = 13, RULE_arithmeticParam = 14, RULE_shiftParam = 15, 
-		RULE_immediateParam = 16, RULE_wideImmediateParam = 17, RULE_datatransferParam = 18, 
-		RULE_exclusiveParam = 19, RULE_condBranchParam = 20, RULE_branchParam = 21, 
-		RULE_branchByRegisterParam = 22, RULE_num = 23, RULE_register = 24;
+		RULE_main = 0, RULE_program = 1, RULE_dataSegment = 2, RULE_dataSegmentVariable = 3, 
+		RULE_dataSegmentType = 4, RULE_dataSegmentValue = 5, RULE_line = 6, RULE_declaration = 7, 
+		RULE_invocation = 8, RULE_arithmeticInstruction = 9, RULE_shiftInstruction = 10, 
+		RULE_immediateInstruction = 11, RULE_wideImmediateInstruction = 12, RULE_datatransferInstruction = 13, 
+		RULE_exclusiveInstruction = 14, RULE_condBranchInstruction = 15, RULE_branchInstruction = 16, 
+		RULE_branchByRegisterInstruction = 17, RULE_arithmeticParam = 18, RULE_shiftParam = 19, 
+		RULE_immediateParam = 20, RULE_wideImmediateParam = 21, RULE_datatransferParam = 22, 
+		RULE_exclusiveParam = 23, RULE_condBranchParam = 24, RULE_branchParam = 25, 
+		RULE_branchByRegisterParam = 26, RULE_num = 27, RULE_register = 28;
 	private static String[] makeRuleNames() {
 		return new String[] {
-			"main", "program", "line", "declaration", "invocation", "arithmeticInstruction", 
+			"main", "program", "dataSegment", "dataSegmentVariable", "dataSegmentType", 
+			"dataSegmentValue", "line", "declaration", "invocation", "arithmeticInstruction", 
 			"shiftInstruction", "immediateInstruction", "wideImmediateInstruction", 
 			"datatransferInstruction", "exclusiveInstruction", "condBranchInstruction", 
 			"branchInstruction", "branchByRegisterInstruction", "arithmeticParam", 
@@ -60,7 +62,7 @@ public class LegV8Parser extends Parser {
 			"CondBranchInstruction", "BranchInstruction", "BranchByRegisterInstruction", 
 			"WS", "COMMENT", "LINE_COMMENT", "COMMA", "SEMI", "SQUARE_BRACKET_LEFT", 
 			"SQUARE_BRACKET_RIGHT", "REGISTER", "NUMBER", "SP", "FP", "LR", "XZR", 
-			"JumpDeclaration", "JumpInvocation"
+			"PointerDeclaration", "PointerReference", "DataSegmentTypes"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -145,9 +147,9 @@ public class LegV8Parser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(50);
+			setState(58);
 			program();
-			setState(51);
+			setState(59);
 			match(EOF);
 			}
 		}
@@ -164,6 +166,12 @@ public class LegV8Parser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class ProgramContext extends ParserRuleContext {
+		public List<DataSegmentContext> dataSegment() {
+			return getRuleContexts(DataSegmentContext.class);
+		}
+		public DataSegmentContext dataSegment(int i) {
+			return getRuleContext(DataSegmentContext.class,i);
+		}
 		public List<LineContext> line() {
 			return getRuleContexts(LineContext.class);
 		}
@@ -194,22 +202,246 @@ public class LegV8Parser extends Parser {
 		enterRule(_localctx, 2, RULE_program);
 		int _la;
 		try {
+			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(54); 
+			setState(62); 
+			_errHandler.sync(this);
+			_alt = 1;
+			do {
+				switch (_alt) {
+				case 1:
+					{
+					{
+					setState(61);
+					dataSegment();
+					}
+					}
+					break;
+				default:
+					throw new NoViableAltException(this);
+				}
+				setState(64); 
+				_errHandler.sync(this);
+				_alt = getInterpreter().adaptivePredict(_input,0,_ctx);
+			} while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
+			setState(67); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(53);
+				setState(66);
 				line();
 				}
 				}
-				setState(56); 
+				setState(69); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			} while ( ((_la) & ~0x3f) == 0 && ((1L << _la) & 8389630L) != 0 );
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	@SuppressWarnings("CheckReturnValue")
+	public static class DataSegmentContext extends ParserRuleContext {
+		public DataSegmentVariableContext dataSegmentVariable() {
+			return getRuleContext(DataSegmentVariableContext.class,0);
+		}
+		public List<DataSegmentTypeContext> dataSegmentType() {
+			return getRuleContexts(DataSegmentTypeContext.class);
+		}
+		public DataSegmentTypeContext dataSegmentType(int i) {
+			return getRuleContext(DataSegmentTypeContext.class,i);
+		}
+		public List<DataSegmentValueContext> dataSegmentValue() {
+			return getRuleContexts(DataSegmentValueContext.class);
+		}
+		public DataSegmentValueContext dataSegmentValue(int i) {
+			return getRuleContext(DataSegmentValueContext.class,i);
+		}
+		public DataSegmentContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_dataSegment; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LegV8Listener ) ((LegV8Listener)listener).enterDataSegment(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LegV8Listener ) ((LegV8Listener)listener).exitDataSegment(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof LegV8Visitor ) return ((LegV8Visitor<? extends T>)visitor).visitDataSegment(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final DataSegmentContext dataSegment() throws RecognitionException {
+		DataSegmentContext _localctx = new DataSegmentContext(_ctx, getState());
+		enterRule(_localctx, 4, RULE_dataSegment);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(71);
+			dataSegmentVariable();
+			setState(75); 
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			do {
+				{
+				{
+				setState(72);
+				dataSegmentType();
+				setState(73);
+				dataSegmentValue();
+				}
+				}
+				setState(77); 
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			} while ( _la==DataSegmentTypes );
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	@SuppressWarnings("CheckReturnValue")
+	public static class DataSegmentVariableContext extends ParserRuleContext {
+		public TerminalNode PointerDeclaration() { return getToken(LegV8Parser.PointerDeclaration, 0); }
+		public DataSegmentVariableContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_dataSegmentVariable; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LegV8Listener ) ((LegV8Listener)listener).enterDataSegmentVariable(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LegV8Listener ) ((LegV8Listener)listener).exitDataSegmentVariable(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof LegV8Visitor ) return ((LegV8Visitor<? extends T>)visitor).visitDataSegmentVariable(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final DataSegmentVariableContext dataSegmentVariable() throws RecognitionException {
+		DataSegmentVariableContext _localctx = new DataSegmentVariableContext(_ctx, getState());
+		enterRule(_localctx, 6, RULE_dataSegmentVariable);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(79);
+			match(PointerDeclaration);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	@SuppressWarnings("CheckReturnValue")
+	public static class DataSegmentTypeContext extends ParserRuleContext {
+		public TerminalNode DataSegmentTypes() { return getToken(LegV8Parser.DataSegmentTypes, 0); }
+		public DataSegmentTypeContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_dataSegmentType; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LegV8Listener ) ((LegV8Listener)listener).enterDataSegmentType(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LegV8Listener ) ((LegV8Listener)listener).exitDataSegmentType(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof LegV8Visitor ) return ((LegV8Visitor<? extends T>)visitor).visitDataSegmentType(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final DataSegmentTypeContext dataSegmentType() throws RecognitionException {
+		DataSegmentTypeContext _localctx = new DataSegmentTypeContext(_ctx, getState());
+		enterRule(_localctx, 8, RULE_dataSegmentType);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(81);
+			match(DataSegmentTypes);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	@SuppressWarnings("CheckReturnValue")
+	public static class DataSegmentValueContext extends ParserRuleContext {
+		public TerminalNode NUMBER() { return getToken(LegV8Parser.NUMBER, 0); }
+		public DataSegmentValueContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_dataSegmentValue; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LegV8Listener ) ((LegV8Listener)listener).enterDataSegmentValue(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LegV8Listener ) ((LegV8Listener)listener).exitDataSegmentValue(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof LegV8Visitor ) return ((LegV8Visitor<? extends T>)visitor).visitDataSegmentValue(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final DataSegmentValueContext dataSegmentValue() throws RecognitionException {
+		DataSegmentValueContext _localctx = new DataSegmentValueContext(_ctx, getState());
+		enterRule(_localctx, 10, RULE_dataSegmentValue);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(83);
+			match(NUMBER);
 			}
 		}
 		catch (RecognitionException re) {
@@ -303,93 +535,93 @@ public class LegV8Parser extends Parser {
 
 	public final LineContext line() throws RecognitionException {
 		LineContext _localctx = new LineContext(_ctx, getState());
-		enterRule(_localctx, 4, RULE_line);
+		enterRule(_localctx, 12, RULE_line);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(59);
+			setState(86);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if (_la==JumpDeclaration) {
+			if (_la==PointerDeclaration) {
 				{
-				setState(58);
+				setState(85);
 				declaration();
 				}
 			}
 
-			setState(88);
+			setState(115);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case ArithmeticInstruction:
 				{
-				setState(61);
+				setState(88);
 				arithmeticInstruction();
-				setState(62);
+				setState(89);
 				arithmeticParam();
 				}
 				break;
 			case ShiftInstruction:
 				{
-				setState(64);
+				setState(91);
 				shiftInstruction();
-				setState(65);
+				setState(92);
 				shiftParam();
 				}
 				break;
 			case ImmediateInstruction:
 				{
-				setState(67);
+				setState(94);
 				immediateInstruction();
-				setState(68);
+				setState(95);
 				immediateParam();
 				}
 				break;
 			case WideImmediateInstrcution:
 				{
-				setState(70);
+				setState(97);
 				wideImmediateInstruction();
-				setState(71);
+				setState(98);
 				wideImmediateParam();
 				}
 				break;
 			case DatatransferInstruction:
 				{
-				setState(73);
+				setState(100);
 				datatransferInstruction();
-				setState(74);
+				setState(101);
 				datatransferParam();
 				}
 				break;
 			case ExclusiveInstruction:
 				{
-				setState(76);
+				setState(103);
 				exclusiveInstruction();
-				setState(77);
+				setState(104);
 				exclusiveParam();
 				}
 				break;
 			case CondBranchInstruction:
 				{
-				setState(79);
+				setState(106);
 				condBranchInstruction();
-				setState(80);
+				setState(107);
 				condBranchParam();
 				}
 				break;
 			case BranchInstruction:
 				{
-				setState(82);
+				setState(109);
 				branchInstruction();
-				setState(83);
+				setState(110);
 				branchParam();
 				}
 				break;
 			case BranchByRegisterInstruction:
 				{
-				setState(85);
+				setState(112);
 				branchByRegisterInstruction();
-				setState(86);
+				setState(113);
 				branchByRegisterParam();
 				}
 				break;
@@ -411,7 +643,7 @@ public class LegV8Parser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class DeclarationContext extends ParserRuleContext {
-		public TerminalNode JumpDeclaration() { return getToken(LegV8Parser.JumpDeclaration, 0); }
+		public TerminalNode PointerDeclaration() { return getToken(LegV8Parser.PointerDeclaration, 0); }
 		public DeclarationContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -433,12 +665,12 @@ public class LegV8Parser extends Parser {
 
 	public final DeclarationContext declaration() throws RecognitionException {
 		DeclarationContext _localctx = new DeclarationContext(_ctx, getState());
-		enterRule(_localctx, 6, RULE_declaration);
+		enterRule(_localctx, 14, RULE_declaration);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(90);
-			match(JumpDeclaration);
+			setState(117);
+			match(PointerDeclaration);
 			}
 		}
 		catch (RecognitionException re) {
@@ -454,7 +686,7 @@ public class LegV8Parser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class InvocationContext extends ParserRuleContext {
-		public TerminalNode JumpInvocation() { return getToken(LegV8Parser.JumpInvocation, 0); }
+		public TerminalNode PointerReference() { return getToken(LegV8Parser.PointerReference, 0); }
 		public InvocationContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -476,12 +708,12 @@ public class LegV8Parser extends Parser {
 
 	public final InvocationContext invocation() throws RecognitionException {
 		InvocationContext _localctx = new InvocationContext(_ctx, getState());
-		enterRule(_localctx, 8, RULE_invocation);
+		enterRule(_localctx, 16, RULE_invocation);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(92);
-			match(JumpInvocation);
+			setState(119);
+			match(PointerReference);
 			}
 		}
 		catch (RecognitionException re) {
@@ -519,11 +751,11 @@ public class LegV8Parser extends Parser {
 
 	public final ArithmeticInstructionContext arithmeticInstruction() throws RecognitionException {
 		ArithmeticInstructionContext _localctx = new ArithmeticInstructionContext(_ctx, getState());
-		enterRule(_localctx, 10, RULE_arithmeticInstruction);
+		enterRule(_localctx, 18, RULE_arithmeticInstruction);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(94);
+			setState(121);
 			match(ArithmeticInstruction);
 			}
 		}
@@ -562,11 +794,11 @@ public class LegV8Parser extends Parser {
 
 	public final ShiftInstructionContext shiftInstruction() throws RecognitionException {
 		ShiftInstructionContext _localctx = new ShiftInstructionContext(_ctx, getState());
-		enterRule(_localctx, 12, RULE_shiftInstruction);
+		enterRule(_localctx, 20, RULE_shiftInstruction);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(96);
+			setState(123);
 			match(ShiftInstruction);
 			}
 		}
@@ -605,11 +837,11 @@ public class LegV8Parser extends Parser {
 
 	public final ImmediateInstructionContext immediateInstruction() throws RecognitionException {
 		ImmediateInstructionContext _localctx = new ImmediateInstructionContext(_ctx, getState());
-		enterRule(_localctx, 14, RULE_immediateInstruction);
+		enterRule(_localctx, 22, RULE_immediateInstruction);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(98);
+			setState(125);
 			match(ImmediateInstruction);
 			}
 		}
@@ -648,11 +880,11 @@ public class LegV8Parser extends Parser {
 
 	public final WideImmediateInstructionContext wideImmediateInstruction() throws RecognitionException {
 		WideImmediateInstructionContext _localctx = new WideImmediateInstructionContext(_ctx, getState());
-		enterRule(_localctx, 16, RULE_wideImmediateInstruction);
+		enterRule(_localctx, 24, RULE_wideImmediateInstruction);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(100);
+			setState(127);
 			match(WideImmediateInstrcution);
 			}
 		}
@@ -691,11 +923,11 @@ public class LegV8Parser extends Parser {
 
 	public final DatatransferInstructionContext datatransferInstruction() throws RecognitionException {
 		DatatransferInstructionContext _localctx = new DatatransferInstructionContext(_ctx, getState());
-		enterRule(_localctx, 18, RULE_datatransferInstruction);
+		enterRule(_localctx, 26, RULE_datatransferInstruction);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(102);
+			setState(129);
 			match(DatatransferInstruction);
 			}
 		}
@@ -734,11 +966,11 @@ public class LegV8Parser extends Parser {
 
 	public final ExclusiveInstructionContext exclusiveInstruction() throws RecognitionException {
 		ExclusiveInstructionContext _localctx = new ExclusiveInstructionContext(_ctx, getState());
-		enterRule(_localctx, 20, RULE_exclusiveInstruction);
+		enterRule(_localctx, 28, RULE_exclusiveInstruction);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(104);
+			setState(131);
 			match(ExclusiveInstruction);
 			}
 		}
@@ -777,11 +1009,11 @@ public class LegV8Parser extends Parser {
 
 	public final CondBranchInstructionContext condBranchInstruction() throws RecognitionException {
 		CondBranchInstructionContext _localctx = new CondBranchInstructionContext(_ctx, getState());
-		enterRule(_localctx, 22, RULE_condBranchInstruction);
+		enterRule(_localctx, 30, RULE_condBranchInstruction);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(106);
+			setState(133);
 			match(CondBranchInstruction);
 			}
 		}
@@ -820,11 +1052,11 @@ public class LegV8Parser extends Parser {
 
 	public final BranchInstructionContext branchInstruction() throws RecognitionException {
 		BranchInstructionContext _localctx = new BranchInstructionContext(_ctx, getState());
-		enterRule(_localctx, 24, RULE_branchInstruction);
+		enterRule(_localctx, 32, RULE_branchInstruction);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(108);
+			setState(135);
 			match(BranchInstruction);
 			}
 		}
@@ -863,11 +1095,11 @@ public class LegV8Parser extends Parser {
 
 	public final BranchByRegisterInstructionContext branchByRegisterInstruction() throws RecognitionException {
 		BranchByRegisterInstructionContext _localctx = new BranchByRegisterInstructionContext(_ctx, getState());
-		enterRule(_localctx, 26, RULE_branchByRegisterInstruction);
+		enterRule(_localctx, 34, RULE_branchByRegisterInstruction);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(110);
+			setState(137);
 			match(BranchByRegisterInstruction);
 			}
 		}
@@ -915,19 +1147,19 @@ public class LegV8Parser extends Parser {
 
 	public final ArithmeticParamContext arithmeticParam() throws RecognitionException {
 		ArithmeticParamContext _localctx = new ArithmeticParamContext(_ctx, getState());
-		enterRule(_localctx, 28, RULE_arithmeticParam);
+		enterRule(_localctx, 36, RULE_arithmeticParam);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(112);
+			setState(139);
 			register();
-			setState(113);
+			setState(140);
 			match(COMMA);
-			setState(114);
+			setState(141);
 			register();
-			setState(115);
+			setState(142);
 			match(COMMA);
-			setState(116);
+			setState(143);
 			register();
 			}
 		}
@@ -978,19 +1210,19 @@ public class LegV8Parser extends Parser {
 
 	public final ShiftParamContext shiftParam() throws RecognitionException {
 		ShiftParamContext _localctx = new ShiftParamContext(_ctx, getState());
-		enterRule(_localctx, 30, RULE_shiftParam);
+		enterRule(_localctx, 38, RULE_shiftParam);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(118);
+			setState(145);
 			register();
-			setState(119);
+			setState(146);
 			match(COMMA);
-			setState(120);
+			setState(147);
 			register();
-			setState(121);
+			setState(148);
 			match(COMMA);
-			setState(122);
+			setState(149);
 			num();
 			}
 		}
@@ -1041,19 +1273,19 @@ public class LegV8Parser extends Parser {
 
 	public final ImmediateParamContext immediateParam() throws RecognitionException {
 		ImmediateParamContext _localctx = new ImmediateParamContext(_ctx, getState());
-		enterRule(_localctx, 32, RULE_immediateParam);
+		enterRule(_localctx, 40, RULE_immediateParam);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(124);
+			setState(151);
 			register();
-			setState(125);
+			setState(152);
 			match(COMMA);
-			setState(126);
+			setState(153);
 			register();
-			setState(127);
+			setState(154);
 			match(COMMA);
-			setState(128);
+			setState(155);
 			num();
 			}
 		}
@@ -1105,21 +1337,21 @@ public class LegV8Parser extends Parser {
 
 	public final WideImmediateParamContext wideImmediateParam() throws RecognitionException {
 		WideImmediateParamContext _localctx = new WideImmediateParamContext(_ctx, getState());
-		enterRule(_localctx, 34, RULE_wideImmediateParam);
+		enterRule(_localctx, 42, RULE_wideImmediateParam);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(130);
+			setState(157);
 			register();
-			setState(131);
+			setState(158);
 			match(COMMA);
-			setState(132);
+			setState(159);
 			num();
-			setState(133);
+			setState(160);
 			match(COMMA);
-			setState(134);
+			setState(161);
 			match(ShiftInstruction);
-			setState(135);
+			setState(162);
 			num();
 			}
 		}
@@ -1172,23 +1404,23 @@ public class LegV8Parser extends Parser {
 
 	public final DatatransferParamContext datatransferParam() throws RecognitionException {
 		DatatransferParamContext _localctx = new DatatransferParamContext(_ctx, getState());
-		enterRule(_localctx, 36, RULE_datatransferParam);
+		enterRule(_localctx, 44, RULE_datatransferParam);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(137);
+			setState(164);
 			register();
-			setState(138);
+			setState(165);
 			match(COMMA);
-			setState(139);
+			setState(166);
 			match(SQUARE_BRACKET_LEFT);
-			setState(140);
+			setState(167);
 			register();
-			setState(141);
+			setState(168);
 			match(COMMA);
-			setState(142);
+			setState(169);
 			num();
-			setState(143);
+			setState(170);
 			match(SQUARE_BRACKET_RIGHT);
 			}
 		}
@@ -1235,21 +1467,21 @@ public class LegV8Parser extends Parser {
 
 	public final ExclusiveParamContext exclusiveParam() throws RecognitionException {
 		ExclusiveParamContext _localctx = new ExclusiveParamContext(_ctx, getState());
-		enterRule(_localctx, 38, RULE_exclusiveParam);
+		enterRule(_localctx, 46, RULE_exclusiveParam);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(145);
+			setState(172);
 			register();
-			setState(146);
+			setState(173);
 			match(COMMA);
-			setState(147);
+			setState(174);
 			register();
-			setState(148);
+			setState(175);
 			match(SQUARE_BRACKET_LEFT);
-			setState(149);
+			setState(176);
 			register();
-			setState(150);
+			setState(177);
 			match(SQUARE_BRACKET_RIGHT);
 			}
 		}
@@ -1294,15 +1526,15 @@ public class LegV8Parser extends Parser {
 
 	public final CondBranchParamContext condBranchParam() throws RecognitionException {
 		CondBranchParamContext _localctx = new CondBranchParamContext(_ctx, getState());
-		enterRule(_localctx, 40, RULE_condBranchParam);
+		enterRule(_localctx, 48, RULE_condBranchParam);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(152);
+			setState(179);
 			register();
-			setState(153);
+			setState(180);
 			match(COMMA);
-			setState(154);
+			setState(181);
 			invocation();
 			}
 		}
@@ -1343,11 +1575,11 @@ public class LegV8Parser extends Parser {
 
 	public final BranchParamContext branchParam() throws RecognitionException {
 		BranchParamContext _localctx = new BranchParamContext(_ctx, getState());
-		enterRule(_localctx, 42, RULE_branchParam);
+		enterRule(_localctx, 50, RULE_branchParam);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(156);
+			setState(183);
 			invocation();
 			}
 		}
@@ -1388,11 +1620,11 @@ public class LegV8Parser extends Parser {
 
 	public final BranchByRegisterParamContext branchByRegisterParam() throws RecognitionException {
 		BranchByRegisterParamContext _localctx = new BranchByRegisterParamContext(_ctx, getState());
-		enterRule(_localctx, 44, RULE_branchByRegisterParam);
+		enterRule(_localctx, 52, RULE_branchByRegisterParam);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(158);
+			setState(185);
 			register();
 			}
 		}
@@ -1431,11 +1663,11 @@ public class LegV8Parser extends Parser {
 
 	public final NumContext num() throws RecognitionException {
 		NumContext _localctx = new NumContext(_ctx, getState());
-		enterRule(_localctx, 46, RULE_num);
+		enterRule(_localctx, 54, RULE_num);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(160);
+			setState(187);
 			match(NUMBER);
 			}
 		}
@@ -1474,11 +1706,11 @@ public class LegV8Parser extends Parser {
 
 	public final RegisterContext register() throws RecognitionException {
 		RegisterContext _localctx = new RegisterContext(_ctx, getState());
-		enterRule(_localctx, 48, RULE_register);
+		enterRule(_localctx, 56, RULE_register);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(162);
+			setState(189);
 			match(REGISTER);
 			}
 		}
@@ -1494,7 +1726,7 @@ public class LegV8Parser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\u0004\u0001\u0018\u00a5\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001"+
+		"\u0004\u0001\u0019\u00c0\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001"+
 		"\u0002\u0002\u0007\u0002\u0002\u0003\u0007\u0003\u0002\u0004\u0007\u0004"+
 		"\u0002\u0005\u0007\u0005\u0002\u0006\u0007\u0006\u0002\u0007\u0007\u0007"+
 		"\u0002\b\u0007\b\u0002\t\u0007\t\u0002\n\u0007\n\u0002\u000b\u0007\u000b"+
@@ -1502,86 +1734,102 @@ public class LegV8Parser extends Parser {
 		"\u000f\u0002\u0010\u0007\u0010\u0002\u0011\u0007\u0011\u0002\u0012\u0007"+
 		"\u0012\u0002\u0013\u0007\u0013\u0002\u0014\u0007\u0014\u0002\u0015\u0007"+
 		"\u0015\u0002\u0016\u0007\u0016\u0002\u0017\u0007\u0017\u0002\u0018\u0007"+
-		"\u0018\u0001\u0000\u0001\u0000\u0001\u0000\u0001\u0001\u0004\u00017\b"+
-		"\u0001\u000b\u0001\f\u00018\u0001\u0002\u0003\u0002<\b\u0002\u0001\u0002"+
-		"\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002"+
-		"\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002"+
-		"\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002"+
-		"\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002"+
-		"\u0001\u0002\u0001\u0002\u0003\u0002Y\b\u0002\u0001\u0003\u0001\u0003"+
-		"\u0001\u0004\u0001\u0004\u0001\u0005\u0001\u0005\u0001\u0006\u0001\u0006"+
+		"\u0018\u0002\u0019\u0007\u0019\u0002\u001a\u0007\u001a\u0002\u001b\u0007"+
+		"\u001b\u0002\u001c\u0007\u001c\u0001\u0000\u0001\u0000\u0001\u0000\u0001"+
+		"\u0001\u0004\u0001?\b\u0001\u000b\u0001\f\u0001@\u0001\u0001\u0004\u0001"+
+		"D\b\u0001\u000b\u0001\f\u0001E\u0001\u0002\u0001\u0002\u0001\u0002\u0001"+
+		"\u0002\u0004\u0002L\b\u0002\u000b\u0002\f\u0002M\u0001\u0003\u0001\u0003"+
+		"\u0001\u0004\u0001\u0004\u0001\u0005\u0001\u0005\u0001\u0006\u0003\u0006"+
+		"W\b\u0006\u0001\u0006\u0001\u0006\u0001\u0006\u0001\u0006\u0001\u0006"+
+		"\u0001\u0006\u0001\u0006\u0001\u0006\u0001\u0006\u0001\u0006\u0001\u0006"+
+		"\u0001\u0006\u0001\u0006\u0001\u0006\u0001\u0006\u0001\u0006\u0001\u0006"+
+		"\u0001\u0006\u0001\u0006\u0001\u0006\u0001\u0006\u0001\u0006\u0001\u0006"+
+		"\u0001\u0006\u0001\u0006\u0001\u0006\u0001\u0006\u0003\u0006t\b\u0006"+
 		"\u0001\u0007\u0001\u0007\u0001\b\u0001\b\u0001\t\u0001\t\u0001\n\u0001"+
 		"\n\u0001\u000b\u0001\u000b\u0001\f\u0001\f\u0001\r\u0001\r\u0001\u000e"+
-		"\u0001\u000e\u0001\u000e\u0001\u000e\u0001\u000e\u0001\u000e\u0001\u000f"+
-		"\u0001\u000f\u0001\u000f\u0001\u000f\u0001\u000f\u0001\u000f\u0001\u0010"+
-		"\u0001\u0010\u0001\u0010\u0001\u0010\u0001\u0010\u0001\u0010\u0001\u0011"+
-		"\u0001\u0011\u0001\u0011\u0001\u0011\u0001\u0011\u0001\u0011\u0001\u0011"+
-		"\u0001\u0012\u0001\u0012\u0001\u0012\u0001\u0012\u0001\u0012\u0001\u0012"+
-		"\u0001\u0012\u0001\u0012\u0001\u0013\u0001\u0013\u0001\u0013\u0001\u0013"+
-		"\u0001\u0013\u0001\u0013\u0001\u0013\u0001\u0014\u0001\u0014\u0001\u0014"+
-		"\u0001\u0014\u0001\u0015\u0001\u0015\u0001\u0016\u0001\u0016\u0001\u0017"+
-		"\u0001\u0017\u0001\u0018\u0001\u0018\u0001\u0018\u0000\u0000\u0019\u0000"+
-		"\u0002\u0004\u0006\b\n\f\u000e\u0010\u0012\u0014\u0016\u0018\u001a\u001c"+
-		"\u001e \"$&(*,.0\u0000\u0000\u0095\u00002\u0001\u0000\u0000\u0000\u0002"+
-		"6\u0001\u0000\u0000\u0000\u0004;\u0001\u0000\u0000\u0000\u0006Z\u0001"+
-		"\u0000\u0000\u0000\b\\\u0001\u0000\u0000\u0000\n^\u0001\u0000\u0000\u0000"+
-		"\f`\u0001\u0000\u0000\u0000\u000eb\u0001\u0000\u0000\u0000\u0010d\u0001"+
-		"\u0000\u0000\u0000\u0012f\u0001\u0000\u0000\u0000\u0014h\u0001\u0000\u0000"+
-		"\u0000\u0016j\u0001\u0000\u0000\u0000\u0018l\u0001\u0000\u0000\u0000\u001a"+
-		"n\u0001\u0000\u0000\u0000\u001cp\u0001\u0000\u0000\u0000\u001ev\u0001"+
-		"\u0000\u0000\u0000 |\u0001\u0000\u0000\u0000\"\u0082\u0001\u0000\u0000"+
-		"\u0000$\u0089\u0001\u0000\u0000\u0000&\u0091\u0001\u0000\u0000\u0000("+
-		"\u0098\u0001\u0000\u0000\u0000*\u009c\u0001\u0000\u0000\u0000,\u009e\u0001"+
-		"\u0000\u0000\u0000.\u00a0\u0001\u0000\u0000\u00000\u00a2\u0001\u0000\u0000"+
-		"\u000023\u0003\u0002\u0001\u000034\u0005\u0000\u0000\u00014\u0001\u0001"+
-		"\u0000\u0000\u000057\u0003\u0004\u0002\u000065\u0001\u0000\u0000\u0000"+
-		"78\u0001\u0000\u0000\u000086\u0001\u0000\u0000\u000089\u0001\u0000\u0000"+
-		"\u00009\u0003\u0001\u0000\u0000\u0000:<\u0003\u0006\u0003\u0000;:\u0001"+
-		"\u0000\u0000\u0000;<\u0001\u0000\u0000\u0000<X\u0001\u0000\u0000\u0000"+
-		"=>\u0003\n\u0005\u0000>?\u0003\u001c\u000e\u0000?Y\u0001\u0000\u0000\u0000"+
-		"@A\u0003\f\u0006\u0000AB\u0003\u001e\u000f\u0000BY\u0001\u0000\u0000\u0000"+
-		"CD\u0003\u000e\u0007\u0000DE\u0003 \u0010\u0000EY\u0001\u0000\u0000\u0000"+
-		"FG\u0003\u0010\b\u0000GH\u0003\"\u0011\u0000HY\u0001\u0000\u0000\u0000"+
-		"IJ\u0003\u0012\t\u0000JK\u0003$\u0012\u0000KY\u0001\u0000\u0000\u0000"+
-		"LM\u0003\u0014\n\u0000MN\u0003&\u0013\u0000NY\u0001\u0000\u0000\u0000"+
-		"OP\u0003\u0016\u000b\u0000PQ\u0003(\u0014\u0000QY\u0001\u0000\u0000\u0000"+
-		"RS\u0003\u0018\f\u0000ST\u0003*\u0015\u0000TY\u0001\u0000\u0000\u0000"+
-		"UV\u0003\u001a\r\u0000VW\u0003,\u0016\u0000WY\u0001\u0000\u0000\u0000"+
-		"X=\u0001\u0000\u0000\u0000X@\u0001\u0000\u0000\u0000XC\u0001\u0000\u0000"+
-		"\u0000XF\u0001\u0000\u0000\u0000XI\u0001\u0000\u0000\u0000XL\u0001\u0000"+
-		"\u0000\u0000XO\u0001\u0000\u0000\u0000XR\u0001\u0000\u0000\u0000XU\u0001"+
-		"\u0000\u0000\u0000Y\u0005\u0001\u0000\u0000\u0000Z[\u0005\u0017\u0000"+
-		"\u0000[\u0007\u0001\u0000\u0000\u0000\\]\u0005\u0018\u0000\u0000]\t\u0001"+
-		"\u0000\u0000\u0000^_\u0005\u0001\u0000\u0000_\u000b\u0001\u0000\u0000"+
-		"\u0000`a\u0005\u0002\u0000\u0000a\r\u0001\u0000\u0000\u0000bc\u0005\u0003"+
-		"\u0000\u0000c\u000f\u0001\u0000\u0000\u0000de\u0005\u0004\u0000\u0000"+
-		"e\u0011\u0001\u0000\u0000\u0000fg\u0005\u0005\u0000\u0000g\u0013\u0001"+
-		"\u0000\u0000\u0000hi\u0005\u0006\u0000\u0000i\u0015\u0001\u0000\u0000"+
-		"\u0000jk\u0005\u0007\u0000\u0000k\u0017\u0001\u0000\u0000\u0000lm\u0005"+
-		"\b\u0000\u0000m\u0019\u0001\u0000\u0000\u0000no\u0005\t\u0000\u0000o\u001b"+
-		"\u0001\u0000\u0000\u0000pq\u00030\u0018\u0000qr\u0005\r\u0000\u0000rs"+
-		"\u00030\u0018\u0000st\u0005\r\u0000\u0000tu\u00030\u0018\u0000u\u001d"+
-		"\u0001\u0000\u0000\u0000vw\u00030\u0018\u0000wx\u0005\r\u0000\u0000xy"+
-		"\u00030\u0018\u0000yz\u0005\r\u0000\u0000z{\u0003.\u0017\u0000{\u001f"+
-		"\u0001\u0000\u0000\u0000|}\u00030\u0018\u0000}~\u0005\r\u0000\u0000~\u007f"+
-		"\u00030\u0018\u0000\u007f\u0080\u0005\r\u0000\u0000\u0080\u0081\u0003"+
-		".\u0017\u0000\u0081!\u0001\u0000\u0000\u0000\u0082\u0083\u00030\u0018"+
-		"\u0000\u0083\u0084\u0005\r\u0000\u0000\u0084\u0085\u0003.\u0017\u0000"+
-		"\u0085\u0086\u0005\r\u0000\u0000\u0086\u0087\u0005\u0002\u0000\u0000\u0087"+
-		"\u0088\u0003.\u0017\u0000\u0088#\u0001\u0000\u0000\u0000\u0089\u008a\u0003"+
-		"0\u0018\u0000\u008a\u008b\u0005\r\u0000\u0000\u008b\u008c\u0005\u000f"+
-		"\u0000\u0000\u008c\u008d\u00030\u0018\u0000\u008d\u008e\u0005\r\u0000"+
-		"\u0000\u008e\u008f\u0003.\u0017\u0000\u008f\u0090\u0005\u0010\u0000\u0000"+
-		"\u0090%\u0001\u0000\u0000\u0000\u0091\u0092\u00030\u0018\u0000\u0092\u0093"+
-		"\u0005\r\u0000\u0000\u0093\u0094\u00030\u0018\u0000\u0094\u0095\u0005"+
-		"\u000f\u0000\u0000\u0095\u0096\u00030\u0018\u0000\u0096\u0097\u0005\u0010"+
-		"\u0000\u0000\u0097\'\u0001\u0000\u0000\u0000\u0098\u0099\u00030\u0018"+
-		"\u0000\u0099\u009a\u0005\r\u0000\u0000\u009a\u009b\u0003\b\u0004\u0000"+
-		"\u009b)\u0001\u0000\u0000\u0000\u009c\u009d\u0003\b\u0004\u0000\u009d"+
-		"+\u0001\u0000\u0000\u0000\u009e\u009f\u00030\u0018\u0000\u009f-\u0001"+
-		"\u0000\u0000\u0000\u00a0\u00a1\u0005\u0012\u0000\u0000\u00a1/\u0001\u0000"+
-		"\u0000\u0000\u00a2\u00a3\u0005\u0011\u0000\u0000\u00a31\u0001\u0000\u0000"+
-		"\u0000\u00038;X";
+		"\u0001\u000e\u0001\u000f\u0001\u000f\u0001\u0010\u0001\u0010\u0001\u0011"+
+		"\u0001\u0011\u0001\u0012\u0001\u0012\u0001\u0012\u0001\u0012\u0001\u0012"+
+		"\u0001\u0012\u0001\u0013\u0001\u0013\u0001\u0013\u0001\u0013\u0001\u0013"+
+		"\u0001\u0013\u0001\u0014\u0001\u0014\u0001\u0014\u0001\u0014\u0001\u0014"+
+		"\u0001\u0014\u0001\u0015\u0001\u0015\u0001\u0015\u0001\u0015\u0001\u0015"+
+		"\u0001\u0015\u0001\u0015\u0001\u0016\u0001\u0016\u0001\u0016\u0001\u0016"+
+		"\u0001\u0016\u0001\u0016\u0001\u0016\u0001\u0016\u0001\u0017\u0001\u0017"+
+		"\u0001\u0017\u0001\u0017\u0001\u0017\u0001\u0017\u0001\u0017\u0001\u0018"+
+		"\u0001\u0018\u0001\u0018\u0001\u0018\u0001\u0019\u0001\u0019\u0001\u001a"+
+		"\u0001\u001a\u0001\u001b\u0001\u001b\u0001\u001c\u0001\u001c\u0001\u001c"+
+		"\u0000\u0000\u001d\u0000\u0002\u0004\u0006\b\n\f\u000e\u0010\u0012\u0014"+
+		"\u0016\u0018\u001a\u001c\u001e \"$&(*,.02468\u0000\u0000\u00ae\u0000:"+
+		"\u0001\u0000\u0000\u0000\u0002>\u0001\u0000\u0000\u0000\u0004G\u0001\u0000"+
+		"\u0000\u0000\u0006O\u0001\u0000\u0000\u0000\bQ\u0001\u0000\u0000\u0000"+
+		"\nS\u0001\u0000\u0000\u0000\fV\u0001\u0000\u0000\u0000\u000eu\u0001\u0000"+
+		"\u0000\u0000\u0010w\u0001\u0000\u0000\u0000\u0012y\u0001\u0000\u0000\u0000"+
+		"\u0014{\u0001\u0000\u0000\u0000\u0016}\u0001\u0000\u0000\u0000\u0018\u007f"+
+		"\u0001\u0000\u0000\u0000\u001a\u0081\u0001\u0000\u0000\u0000\u001c\u0083"+
+		"\u0001\u0000\u0000\u0000\u001e\u0085\u0001\u0000\u0000\u0000 \u0087\u0001"+
+		"\u0000\u0000\u0000\"\u0089\u0001\u0000\u0000\u0000$\u008b\u0001\u0000"+
+		"\u0000\u0000&\u0091\u0001\u0000\u0000\u0000(\u0097\u0001\u0000\u0000\u0000"+
+		"*\u009d\u0001\u0000\u0000\u0000,\u00a4\u0001\u0000\u0000\u0000.\u00ac"+
+		"\u0001\u0000\u0000\u00000\u00b3\u0001\u0000\u0000\u00002\u00b7\u0001\u0000"+
+		"\u0000\u00004\u00b9\u0001\u0000\u0000\u00006\u00bb\u0001\u0000\u0000\u0000"+
+		"8\u00bd\u0001\u0000\u0000\u0000:;\u0003\u0002\u0001\u0000;<\u0005\u0000"+
+		"\u0000\u0001<\u0001\u0001\u0000\u0000\u0000=?\u0003\u0004\u0002\u0000"+
+		">=\u0001\u0000\u0000\u0000?@\u0001\u0000\u0000\u0000@>\u0001\u0000\u0000"+
+		"\u0000@A\u0001\u0000\u0000\u0000AC\u0001\u0000\u0000\u0000BD\u0003\f\u0006"+
+		"\u0000CB\u0001\u0000\u0000\u0000DE\u0001\u0000\u0000\u0000EC\u0001\u0000"+
+		"\u0000\u0000EF\u0001\u0000\u0000\u0000F\u0003\u0001\u0000\u0000\u0000"+
+		"GK\u0003\u0006\u0003\u0000HI\u0003\b\u0004\u0000IJ\u0003\n\u0005\u0000"+
+		"JL\u0001\u0000\u0000\u0000KH\u0001\u0000\u0000\u0000LM\u0001\u0000\u0000"+
+		"\u0000MK\u0001\u0000\u0000\u0000MN\u0001\u0000\u0000\u0000N\u0005\u0001"+
+		"\u0000\u0000\u0000OP\u0005\u0017\u0000\u0000P\u0007\u0001\u0000\u0000"+
+		"\u0000QR\u0005\u0019\u0000\u0000R\t\u0001\u0000\u0000\u0000ST\u0005\u0012"+
+		"\u0000\u0000T\u000b\u0001\u0000\u0000\u0000UW\u0003\u000e\u0007\u0000"+
+		"VU\u0001\u0000\u0000\u0000VW\u0001\u0000\u0000\u0000Ws\u0001\u0000\u0000"+
+		"\u0000XY\u0003\u0012\t\u0000YZ\u0003$\u0012\u0000Zt\u0001\u0000\u0000"+
+		"\u0000[\\\u0003\u0014\n\u0000\\]\u0003&\u0013\u0000]t\u0001\u0000\u0000"+
+		"\u0000^_\u0003\u0016\u000b\u0000_`\u0003(\u0014\u0000`t\u0001\u0000\u0000"+
+		"\u0000ab\u0003\u0018\f\u0000bc\u0003*\u0015\u0000ct\u0001\u0000\u0000"+
+		"\u0000de\u0003\u001a\r\u0000ef\u0003,\u0016\u0000ft\u0001\u0000\u0000"+
+		"\u0000gh\u0003\u001c\u000e\u0000hi\u0003.\u0017\u0000it\u0001\u0000\u0000"+
+		"\u0000jk\u0003\u001e\u000f\u0000kl\u00030\u0018\u0000lt\u0001\u0000\u0000"+
+		"\u0000mn\u0003 \u0010\u0000no\u00032\u0019\u0000ot\u0001\u0000\u0000\u0000"+
+		"pq\u0003\"\u0011\u0000qr\u00034\u001a\u0000rt\u0001\u0000\u0000\u0000"+
+		"sX\u0001\u0000\u0000\u0000s[\u0001\u0000\u0000\u0000s^\u0001\u0000\u0000"+
+		"\u0000sa\u0001\u0000\u0000\u0000sd\u0001\u0000\u0000\u0000sg\u0001\u0000"+
+		"\u0000\u0000sj\u0001\u0000\u0000\u0000sm\u0001\u0000\u0000\u0000sp\u0001"+
+		"\u0000\u0000\u0000t\r\u0001\u0000\u0000\u0000uv\u0005\u0017\u0000\u0000"+
+		"v\u000f\u0001\u0000\u0000\u0000wx\u0005\u0018\u0000\u0000x\u0011\u0001"+
+		"\u0000\u0000\u0000yz\u0005\u0001\u0000\u0000z\u0013\u0001\u0000\u0000"+
+		"\u0000{|\u0005\u0002\u0000\u0000|\u0015\u0001\u0000\u0000\u0000}~\u0005"+
+		"\u0003\u0000\u0000~\u0017\u0001\u0000\u0000\u0000\u007f\u0080\u0005\u0004"+
+		"\u0000\u0000\u0080\u0019\u0001\u0000\u0000\u0000\u0081\u0082\u0005\u0005"+
+		"\u0000\u0000\u0082\u001b\u0001\u0000\u0000\u0000\u0083\u0084\u0005\u0006"+
+		"\u0000\u0000\u0084\u001d\u0001\u0000\u0000\u0000\u0085\u0086\u0005\u0007"+
+		"\u0000\u0000\u0086\u001f\u0001\u0000\u0000\u0000\u0087\u0088\u0005\b\u0000"+
+		"\u0000\u0088!\u0001\u0000\u0000\u0000\u0089\u008a\u0005\t\u0000\u0000"+
+		"\u008a#\u0001\u0000\u0000\u0000\u008b\u008c\u00038\u001c\u0000\u008c\u008d"+
+		"\u0005\r\u0000\u0000\u008d\u008e\u00038\u001c\u0000\u008e\u008f\u0005"+
+		"\r\u0000\u0000\u008f\u0090\u00038\u001c\u0000\u0090%\u0001\u0000\u0000"+
+		"\u0000\u0091\u0092\u00038\u001c\u0000\u0092\u0093\u0005\r\u0000\u0000"+
+		"\u0093\u0094\u00038\u001c\u0000\u0094\u0095\u0005\r\u0000\u0000\u0095"+
+		"\u0096\u00036\u001b\u0000\u0096\'\u0001\u0000\u0000\u0000\u0097\u0098"+
+		"\u00038\u001c\u0000\u0098\u0099\u0005\r\u0000\u0000\u0099\u009a\u0003"+
+		"8\u001c\u0000\u009a\u009b\u0005\r\u0000\u0000\u009b\u009c\u00036\u001b"+
+		"\u0000\u009c)\u0001\u0000\u0000\u0000\u009d\u009e\u00038\u001c\u0000\u009e"+
+		"\u009f\u0005\r\u0000\u0000\u009f\u00a0\u00036\u001b\u0000\u00a0\u00a1"+
+		"\u0005\r\u0000\u0000\u00a1\u00a2\u0005\u0002\u0000\u0000\u00a2\u00a3\u0003"+
+		"6\u001b\u0000\u00a3+\u0001\u0000\u0000\u0000\u00a4\u00a5\u00038\u001c"+
+		"\u0000\u00a5\u00a6\u0005\r\u0000\u0000\u00a6\u00a7\u0005\u000f\u0000\u0000"+
+		"\u00a7\u00a8\u00038\u001c\u0000\u00a8\u00a9\u0005\r\u0000\u0000\u00a9"+
+		"\u00aa\u00036\u001b\u0000\u00aa\u00ab\u0005\u0010\u0000\u0000\u00ab-\u0001"+
+		"\u0000\u0000\u0000\u00ac\u00ad\u00038\u001c\u0000\u00ad\u00ae\u0005\r"+
+		"\u0000\u0000\u00ae\u00af\u00038\u001c\u0000\u00af\u00b0\u0005\u000f\u0000"+
+		"\u0000\u00b0\u00b1\u00038\u001c\u0000\u00b1\u00b2\u0005\u0010\u0000\u0000"+
+		"\u00b2/\u0001\u0000\u0000\u0000\u00b3\u00b4\u00038\u001c\u0000\u00b4\u00b5"+
+		"\u0005\r\u0000\u0000\u00b5\u00b6\u0003\u0010\b\u0000\u00b61\u0001\u0000"+
+		"\u0000\u0000\u00b7\u00b8\u0003\u0010\b\u0000\u00b83\u0001\u0000\u0000"+
+		"\u0000\u00b9\u00ba\u00038\u001c\u0000\u00ba5\u0001\u0000\u0000\u0000\u00bb"+
+		"\u00bc\u0005\u0012\u0000\u0000\u00bc7\u0001\u0000\u0000\u0000\u00bd\u00be"+
+		"\u0005\u0011\u0000\u0000\u00be9\u0001\u0000\u0000\u0000\u0005@EMVs";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

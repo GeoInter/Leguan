@@ -5,8 +5,17 @@ grammar LegV8;
 // ** Rules ** 
 main : program EOF;
 
-program : line+ ;
+//program : ('.data' dataSegment+)? line+ ;
+program : dataSegment+ line+ ;
 
+// data segment
+dataSegment: dataSegmentVariable (dataSegmentType dataSegmentValue)+;
+
+dataSegmentVariable: PointerDeclaration ;
+dataSegmentType: DataSegmentTypes ;
+dataSegmentValue: NUMBER;
+
+// code segment
 line : declaration? (arithmeticInstruction arithmeticParam | 
                     shiftInstruction shiftParam | 
                     immediateInstruction immediateParam | 
@@ -17,8 +26,8 @@ line : declaration? (arithmeticInstruction arithmeticParam |
                     branchInstruction branchParam |
                     branchByRegisterInstruction branchByRegisterParam);
 
-declaration: JumpDeclaration ;
-invocation: JumpInvocation ;
+declaration: PointerDeclaration ;
+invocation: PointerReference ;
 
 arithmeticInstruction : ArithmeticInstruction;
 shiftInstruction: ShiftInstruction;
@@ -76,6 +85,8 @@ FP: 'FP' ;
 LR: 'LR' ;
 XZR: 'XZR' ;
 
-// jump mark usage
-JumpDeclaration: [a-zA-Z]+ ':' ;
-JumpInvocation: [a-zA-Z]+ ;
+// 
+PointerDeclaration: [a-zA-Z]+ ':' ;
+PointerReference: [a-zA-Z]+ ;
+
+DataSegmentTypes: '.byte' | '.halfword' | '.word' | '.dword' ;

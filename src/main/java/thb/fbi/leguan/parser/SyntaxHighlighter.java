@@ -129,12 +129,12 @@ public class SyntaxHighlighter extends LegV8BaseListener {
 
     @Override
     public void enterDeclaration(DeclarationContext ctx) {
-        addStyle(ctx.JumpDeclaration(), "jump-mark");
+        addStyle(ctx.PointerDeclaration(), "jump-mark");
     }
 
     @Override
     public void enterInvocation(InvocationContext ctx) {
-        addStyle(ctx.JumpInvocation(), "jump-mark");
+        addStyle(ctx.PointerReference(), "jump-mark");
     }
 
     @Override
