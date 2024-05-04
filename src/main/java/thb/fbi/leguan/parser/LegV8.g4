@@ -2,14 +2,13 @@ grammar LegV8;
 
 @header{package thb.fbi.leguan.parser.antlr;}
 
-// ** Rules ** 
+// ** Rules **
 main : program EOF;
 
-//program : ('.data' dataSegment+)? line+ ;
 program : dataSegment? line+ ;
 
 // data segment
-dataSegment: dataSegmentVariable (dataSegmentType dataSegmentValue)+;
+dataSegment: (dataSegmentVariable (dataSegmentType dataSegmentValue)+)+;
 
 dataSegmentVariable: PointerDeclaration ;
 dataSegmentType: DataSegmentTypes ;
@@ -85,7 +84,7 @@ FP: 'FP' ;
 LR: 'LR' ;
 XZR: 'XZR' ;
 
-// 
+// Pointer Token (data segment variable names and jump label names)
 PointerDeclaration: [a-zA-Z]+ ':' ;
 PointerReference: [a-zA-Z]+ ;
 
