@@ -6,7 +6,7 @@ grammar LegV8;
 main : program EOF;
 
 //program : ('.data' dataSegment+)? line+ ;
-program : dataSegment+ line+ ;
+program : dataSegment? line+ ;
 
 // data segment
 dataSegment: dataSegmentVariable (dataSegmentType dataSegmentValue)+;
@@ -16,7 +16,7 @@ dataSegmentType: DataSegmentTypes ;
 dataSegmentValue: NUMBER;
 
 // code segment
-line : declaration? (arithmeticInstruction arithmeticParam | 
+line : jumpLabelDeclaration? (arithmeticInstruction arithmeticParam | 
                     shiftInstruction shiftParam | 
                     immediateInstruction immediateParam | 
                     wideImmediateInstruction wideImmediateParam |
@@ -26,8 +26,8 @@ line : declaration? (arithmeticInstruction arithmeticParam |
                     branchInstruction branchParam |
                     branchByRegisterInstruction branchByRegisterParam);
 
-declaration: PointerDeclaration ;
-invocation: PointerReference ;
+jumpLabelDeclaration: PointerDeclaration ;
+jumpLabelReference: PointerReference ;
 
 arithmeticInstruction : ArithmeticInstruction;
 shiftInstruction: ShiftInstruction;
@@ -45,8 +45,8 @@ immediateParam : register COMMA register COMMA num ;
 wideImmediateParam : register COMMA num COMMA ShiftInstruction num ;
 datatransferParam : register COMMA SQUARE_BRACKET_LEFT register COMMA num SQUARE_BRACKET_RIGHT ;
 exclusiveParam : register COMMA register SQUARE_BRACKET_LEFT register SQUARE_BRACKET_RIGHT ;
-condBranchParam : register COMMA invocation ;
-branchParam : invocation ;
+condBranchParam : register COMMA jumpLabelReference ;
+branchParam : jumpLabelReference ;
 branchByRegisterParam : register ;
 
 num: NUMBER ;

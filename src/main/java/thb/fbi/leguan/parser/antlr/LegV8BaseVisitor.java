@@ -67,14 +67,14 @@ public class LegV8BaseVisitor<T> extends AbstractParseTreeVisitor<T> implements 
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitDeclaration(LegV8Parser.DeclarationContext ctx) { return visitChildren(ctx); }
+	@Override public T visitJumpLabelDeclaration(LegV8Parser.JumpLabelDeclarationContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitInvocation(LegV8Parser.InvocationContext ctx) { return visitChildren(ctx); }
+	@Override public T visitJumpLabelReference(LegV8Parser.JumpLabelReferenceContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

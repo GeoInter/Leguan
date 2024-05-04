@@ -19,12 +19,12 @@ import thb.fbi.leguan.parser.antlr.LegV8Parser.CondBranchInstructionContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.CondBranchParamContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.DatatransferInstructionContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.DatatransferParamContext;
-import thb.fbi.leguan.parser.antlr.LegV8Parser.DeclarationContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.ExclusiveInstructionContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.ExclusiveParamContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.ImmediateInstructionContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.ImmediateParamContext;
-import thb.fbi.leguan.parser.antlr.LegV8Parser.InvocationContext;
+import thb.fbi.leguan.parser.antlr.LegV8Parser.JumpLabelDeclarationContext;
+import thb.fbi.leguan.parser.antlr.LegV8Parser.JumpLabelReferenceContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.LineContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.NumContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.RegisterContext;
@@ -96,11 +96,11 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
         Instruction instr = null;
         InstructionArguments args = null;
         // generic access to nodes
-        if (ctx.declaration() == null) {
+        if (ctx.jumpLabelDeclaration() == null) {
             instr = (Instruction) visit(ctx.getChild(0));
             args = (InstructionArguments) visit(ctx.getChild(1));
         } else {
-            visitDeclaration(ctx.declaration());
+            visitJumpLabelDeclaration(ctx.jumpLabelDeclaration());
             instr = (Instruction) visit(ctx.getChild(1));
             args = (InstructionArguments) visit(ctx.getChild(2));
         }
@@ -177,7 +177,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
     }
 
     @Override
-    public Object visitDeclaration(DeclarationContext ctx) {
+    public Object visitJumpLabelDeclaration(JumpLabelDeclarationContext ctx) {
         String id = ctx.PointerDeclaration().getText();
         id = id.substring(0, id.length() - 1); // remove ":"
         if (jumpMarks.containsKey(id)) {
@@ -193,7 +193,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
     }
 
     @Override
-    public Integer visitInvocation(InvocationContext ctx) {
+    public Integer visitJumpLabelReference(JumpLabelReferenceContext ctx) {
         String id = ctx.PointerReference().getText();
         Integer address = jumpMarks.get(id);
         if (address != null) {
@@ -347,7 +347,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
     @Override
     public InstructionArguments visitCondBranchParam(CondBranchParamContext ctx) {
         Register Rt = visitRegister(ctx.register());
-        int cond_br_address = visitInvocation(ctx.invocation());
+        int cond_br_address = visitJumpLabelReference(ctx.jumpLabelReference());
         InstructionArguments args = new InstructionArguments();
         args.setRt(Rt);
         args.setCond_Br_Address(cond_br_address);
@@ -356,7 +356,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
 
     @Override
     public InstructionArguments visitBranchParam(BranchParamContext ctx) {
-        int br_address = visitInvocation(ctx.invocation());
+        int br_address = visitJumpLabelReference(ctx.jumpLabelReference());
         InstructionArguments args = new InstructionArguments();
         args.setBr_Address(br_address);
         return args;

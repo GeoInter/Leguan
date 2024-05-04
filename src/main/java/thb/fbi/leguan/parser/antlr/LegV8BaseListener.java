@@ -101,25 +101,25 @@ public class LegV8BaseListener implements LegV8Listener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDeclaration(LegV8Parser.DeclarationContext ctx) { }
+	@Override public void enterJumpLabelDeclaration(LegV8Parser.JumpLabelDeclarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDeclaration(LegV8Parser.DeclarationContext ctx) { }
+	@Override public void exitJumpLabelDeclaration(LegV8Parser.JumpLabelDeclarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterInvocation(LegV8Parser.InvocationContext ctx) { }
+	@Override public void enterJumpLabelReference(LegV8Parser.JumpLabelReferenceContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitInvocation(LegV8Parser.InvocationContext ctx) { }
+	@Override public void exitJumpLabelReference(LegV8Parser.JumpLabelReferenceContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

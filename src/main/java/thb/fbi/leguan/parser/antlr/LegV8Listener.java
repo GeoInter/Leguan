@@ -78,25 +78,25 @@ public interface LegV8Listener extends ParseTreeListener {
 	 */
 	void exitLine(LegV8Parser.LineContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link LegV8Parser#declaration}.
+	 * Enter a parse tree produced by {@link LegV8Parser#jumpLabelDeclaration}.
 	 * @param ctx the parse tree
 	 */
-	void enterDeclaration(LegV8Parser.DeclarationContext ctx);
+	void enterJumpLabelDeclaration(LegV8Parser.JumpLabelDeclarationContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link LegV8Parser#declaration}.
+	 * Exit a parse tree produced by {@link LegV8Parser#jumpLabelDeclaration}.
 	 * @param ctx the parse tree
 	 */
-	void exitDeclaration(LegV8Parser.DeclarationContext ctx);
+	void exitJumpLabelDeclaration(LegV8Parser.JumpLabelDeclarationContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link LegV8Parser#invocation}.
+	 * Enter a parse tree produced by {@link LegV8Parser#jumpLabelReference}.
 	 * @param ctx the parse tree
 	 */
-	void enterInvocation(LegV8Parser.InvocationContext ctx);
+	void enterJumpLabelReference(LegV8Parser.JumpLabelReferenceContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link LegV8Parser#invocation}.
+	 * Exit a parse tree produced by {@link LegV8Parser#jumpLabelReference}.
 	 * @param ctx the parse tree
 	 */
-	void exitInvocation(LegV8Parser.InvocationContext ctx);
+	void exitJumpLabelReference(LegV8Parser.JumpLabelReferenceContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link LegV8Parser#arithmeticInstruction}.
 	 * @param ctx the parse tree

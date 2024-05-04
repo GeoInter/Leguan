@@ -53,17 +53,17 @@ public interface LegV8Visitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitLine(LegV8Parser.LineContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link LegV8Parser#declaration}.
+	 * Visit a parse tree produced by {@link LegV8Parser#jumpLabelDeclaration}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitDeclaration(LegV8Parser.DeclarationContext ctx);
+	T visitJumpLabelDeclaration(LegV8Parser.JumpLabelDeclarationContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link LegV8Parser#invocation}.
+	 * Visit a parse tree produced by {@link LegV8Parser#jumpLabelReference}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitInvocation(LegV8Parser.InvocationContext ctx);
+	T visitJumpLabelReference(LegV8Parser.JumpLabelReferenceContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link LegV8Parser#arithmeticInstruction}.
 	 * @param ctx the parse tree
