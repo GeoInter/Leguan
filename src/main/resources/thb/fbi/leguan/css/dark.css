@@ -72,6 +72,11 @@
     background-color: -fx-main-color;
 }
 
+/* Color of the text selection within the editor */
+.code-area .selection {
+    -fx-fill: #264f78;
+}
+
 .styled-text-area .paragraph-text .text {
     -fx-font-size: 14px;
     font-size: 14px;
