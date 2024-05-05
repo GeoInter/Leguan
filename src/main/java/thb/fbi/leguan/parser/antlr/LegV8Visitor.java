@@ -29,17 +29,29 @@ public interface LegV8Visitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitDataSegment(LegV8Parser.DataSegmentContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link LegV8Parser#dataSegmentVariable}.
+	 * Visit a parse tree produced by {@link LegV8Parser#dataSegmentEntry}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitDataSegmentVariable(LegV8Parser.DataSegmentVariableContext ctx);
+	T visitDataSegmentEntry(LegV8Parser.DataSegmentEntryContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link LegV8Parser#dataSegmentPairing}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDataSegmentPairing(LegV8Parser.DataSegmentPairingContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link LegV8Parser#dataSegmentType}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitDataSegmentType(LegV8Parser.DataSegmentTypeContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link LegV8Parser#dataSegmentVariable}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDataSegmentVariable(LegV8Parser.DataSegmentVariableContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link LegV8Parser#dataSegmentValue}.
 	 * @param ctx the parse tree
@@ -184,4 +196,10 @@ public interface LegV8Visitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitRegister(LegV8Parser.RegisterContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link LegV8Parser#ascii}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAscii(LegV8Parser.AsciiContext ctx);
 }

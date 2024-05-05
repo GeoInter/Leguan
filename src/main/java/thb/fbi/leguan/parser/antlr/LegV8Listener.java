@@ -38,15 +38,25 @@ public interface LegV8Listener extends ParseTreeListener {
 	 */
 	void exitDataSegment(LegV8Parser.DataSegmentContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link LegV8Parser#dataSegmentVariable}.
+	 * Enter a parse tree produced by {@link LegV8Parser#dataSegmentEntry}.
 	 * @param ctx the parse tree
 	 */
-	void enterDataSegmentVariable(LegV8Parser.DataSegmentVariableContext ctx);
+	void enterDataSegmentEntry(LegV8Parser.DataSegmentEntryContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link LegV8Parser#dataSegmentVariable}.
+	 * Exit a parse tree produced by {@link LegV8Parser#dataSegmentEntry}.
 	 * @param ctx the parse tree
 	 */
-	void exitDataSegmentVariable(LegV8Parser.DataSegmentVariableContext ctx);
+	void exitDataSegmentEntry(LegV8Parser.DataSegmentEntryContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link LegV8Parser#dataSegmentPairing}.
+	 * @param ctx the parse tree
+	 */
+	void enterDataSegmentPairing(LegV8Parser.DataSegmentPairingContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LegV8Parser#dataSegmentPairing}.
+	 * @param ctx the parse tree
+	 */
+	void exitDataSegmentPairing(LegV8Parser.DataSegmentPairingContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link LegV8Parser#dataSegmentType}.
 	 * @param ctx the parse tree
@@ -57,6 +67,16 @@ public interface LegV8Listener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitDataSegmentType(LegV8Parser.DataSegmentTypeContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link LegV8Parser#dataSegmentVariable}.
+	 * @param ctx the parse tree
+	 */
+	void enterDataSegmentVariable(LegV8Parser.DataSegmentVariableContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LegV8Parser#dataSegmentVariable}.
+	 * @param ctx the parse tree
+	 */
+	void exitDataSegmentVariable(LegV8Parser.DataSegmentVariableContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link LegV8Parser#dataSegmentValue}.
 	 * @param ctx the parse tree
@@ -297,4 +317,14 @@ public interface LegV8Listener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitRegister(LegV8Parser.RegisterContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link LegV8Parser#ascii}.
+	 * @param ctx the parse tree
+	 */
+	void enterAscii(LegV8Parser.AsciiContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LegV8Parser#ascii}.
+	 * @param ctx the parse tree
+	 */
+	void exitAscii(LegV8Parser.AsciiContext ctx);
 }

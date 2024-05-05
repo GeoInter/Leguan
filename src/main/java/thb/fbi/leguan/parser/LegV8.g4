@@ -8,11 +8,15 @@ main : program EOF;
 program : dataSegment? line+ ;
 
 // data segment
-dataSegment: (dataSegmentVariable (dataSegmentType dataSegmentValue)+)+;
+dataSegment: (dataSegmentEntry)+;
 
-dataSegmentVariable: PointerDeclaration ;
-dataSegmentType: DataSegmentTypes ;
-dataSegmentValue: NUMBER;
+dataSegmentEntry: dataSegmentVariable dataSegmentPairing+;
+dataSegmentPairing: dataSegmentType dataSegmentValue;
+
+dataSegmentType: DataSegmentTypes;
+dataSegmentVariable: PointerDeclaration;
+
+dataSegmentValue: num | ascii;
 
 // code segment
 line : jumpLabelDeclaration? (arithmeticInstruction arithmeticParam | 
@@ -50,6 +54,7 @@ branchByRegisterParam : register ;
 
 num: NUMBER ;
 register : REGISTER ;
+ascii: ASCII_String ;
 
 
 // ** Tokens **
@@ -88,4 +93,5 @@ XZR: 'XZR' ;
 PointerDeclaration: [a-zA-Z]+ ':' ;
 PointerReference: [a-zA-Z]+ ;
 
-DataSegmentTypes: '.byte' | '.halfword' | '.word' | '.dword' ;
+DataSegmentTypes: '.byte' | '.halfword' | '.word' | '.dword' | '.ascii';
+ASCII_String: '"' [a-zA-Z]+ '"';

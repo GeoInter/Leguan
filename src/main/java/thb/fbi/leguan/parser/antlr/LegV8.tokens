@@ -23,6 +23,7 @@ XZR=22
 PointerDeclaration=23
 PointerReference=24
 DataSegmentTypes=25
+ASCII_String=26
 'STXR'=6
 'BR'=9
 ','=13

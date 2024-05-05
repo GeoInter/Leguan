@@ -53,13 +53,25 @@ public class LegV8BaseListener implements LegV8Listener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDataSegmentVariable(LegV8Parser.DataSegmentVariableContext ctx) { }
+	@Override public void enterDataSegmentEntry(LegV8Parser.DataSegmentEntryContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDataSegmentVariable(LegV8Parser.DataSegmentVariableContext ctx) { }
+	@Override public void exitDataSegmentEntry(LegV8Parser.DataSegmentEntryContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDataSegmentPairing(LegV8Parser.DataSegmentPairingContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDataSegmentPairing(LegV8Parser.DataSegmentPairingContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -72,6 +84,18 @@ public class LegV8BaseListener implements LegV8Listener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitDataSegmentType(LegV8Parser.DataSegmentTypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDataSegmentVariable(LegV8Parser.DataSegmentVariableContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDataSegmentVariable(LegV8Parser.DataSegmentVariableContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -360,6 +384,18 @@ public class LegV8BaseListener implements LegV8Listener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitRegister(LegV8Parser.RegisterContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAscii(LegV8Parser.AsciiContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAscii(LegV8Parser.AsciiContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

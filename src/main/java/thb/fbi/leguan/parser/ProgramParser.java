@@ -1,7 +1,9 @@
 package thb.fbi.leguan.parser;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.TreeMap;
 
 import org.antlr.v4.runtime.Token;
 
@@ -15,9 +17,17 @@ import thb.fbi.leguan.simulation.Register;
 
 public class ProgramParser extends LegV8BaseVisitor<ARMProgram> {
 
+    /** Map of all entries in the dataSegment (Name, Address) */
+    private HashMap<String, Long> dataSegmentVariables = new HashMap<String, Long>();
+    /** TreeMap of all static values being stored in memory defined within the dataSegment (address, value) */
+    private TreeMap<Long, Byte> dataSegment = new TreeMap<Long, Byte>();
+    /** List of all occured semantic Errors (occuring during parser/ non-syntax errors) */
     public ArrayList<ParsingError> semanticErrors = new ArrayList<ParsingError>();
+    /** List of all used registers */
     private ArrayList<Register> usedRegisters = new ArrayList<Register>();
+    /** Map of all (resolved) jump labels */
     private HashMap<String, Integer> jumpMarks = new HashMap<String, Integer>();
+    /** Map of all (unresolved) jump label (=labels that were referenced before they were declared aka downward jump */
     private HashMap<Integer, String> unresolvedMarks = new HashMap<Integer, String>();
 
     /**
@@ -42,8 +52,14 @@ public class ProgramParser extends LegV8BaseVisitor<ARMProgram> {
 
     @Override
     public ARMProgram visitProgram(ProgramContext ctx) {
+        DataSegmentParser dataSegmentParser = new DataSegmentParser(semanticErrors, dataSegmentVariables);
         ProgramStatementParser statementVisitor = new ProgramStatementParser(semanticErrors, usedRegisters, jumpMarks, unresolvedMarks);
         ArrayList<ProgramStatement> lines = new ArrayList<ProgramStatement>();
+
+        dataSegment = dataSegmentParser.visitDataSegment(ctx.dataSegment());
+        System.out.println("");
+        System.out.println(Arrays.toString(dataSegment.entrySet().toArray()));
+        System.out.println(Arrays.toString(dataSegmentVariables.entrySet().toArray()));
 
         for(int i = 0; i < ctx.line().size(); i++) {
             statementVisitor.setProgramIndex(i);
@@ -92,6 +108,7 @@ public class ProgramParser extends LegV8BaseVisitor<ARMProgram> {
         
 
         ARMProgram program = new ARMProgram();
+        program.setDataSegmentValues(dataSegment);
         program.setStatement(lines);
         program.setUsedRegister(statementVisitor.getUsedRegisters());
         return program;
