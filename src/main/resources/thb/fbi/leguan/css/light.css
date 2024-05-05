@@ -368,6 +368,16 @@
     fill: #26aad7;
 }
 
+.datatype {
+    -fx-fill: #1e42b8 !important;
+    fill: #1e42b8;
+}
+
+.segment-variable {
+    -fx-fill: #b80ca1 !important;
+    fill: #b80ca1;
+}
+
 .error {
     -rtfx-underline-color: red;
     -rtfx-underline-wave-radius: 5;

@@ -364,8 +364,18 @@
 }
 
 .number {
-    -fx-fill: #1b8fff !important;
-    fill: #1b8fff;
+    -fx-fill: #569cd6 !important;
+    fill: #569cd6;
+}
+
+.datatype {
+    -fx-fill: #6f66c0 !important;
+    fill: #6f66c0;
+}
+
+.segment-variable {
+    -fx-fill: #cc5abd !important;
+    fill: #cc5abd;
 }
 
 .error {
