@@ -8,6 +8,7 @@ import java.util.TreeMap;
 import org.antlr.v4.runtime.Token;
 
 import thb.fbi.leguan.parser.antlr.LegV8BaseVisitor;
+import thb.fbi.leguan.parser.antlr.LegV8Parser.AsciiContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.DataSegmentContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.DataSegmentPairingContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.DataSegmentTypeContext;
@@ -59,8 +60,12 @@ public class DataSegmentParser extends LegV8BaseVisitor<Object> {
                             address = addDWord(dataSegment, lv, address);
                             break;
                         case ".ascii":
-                            String asciiString = "";
-                            address = addASCII(dataSegment, asciiString, address);
+                            AsciiContext asciiContext = pair.dataSegmentValue().ascii();
+                            if(asciiContext != null) {
+                                String asciiString = asciiContext.getText();
+                                asciiString = asciiString.replace("\"", ""); // remove quotes
+                                address = addASCII(dataSegment, asciiString, address);
+                            }
                             break;
                     }
                 }
@@ -141,9 +146,11 @@ public class DataSegmentParser extends LegV8BaseVisitor<Object> {
         return address + bytes.length;
     }
 
-    // TODO: Add support for Strings (stored as byte, but handling until the actual
-    // saving)
     private long addASCII(TreeMap<Long, Byte> dataSegment, String value, long address) {
-        return address;
+        byte[] bytes = value.getBytes();
+        for (int i = 0; i < bytes.length; i++) {
+            dataSegment.put(address + i, bytes[i]);
+        }
+        return address + bytes.length;
     }
 }

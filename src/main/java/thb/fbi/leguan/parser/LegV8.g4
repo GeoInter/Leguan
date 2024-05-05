@@ -94,4 +94,4 @@ PointerDeclaration: [a-zA-Z]+ ':' ;
 PointerReference: [a-zA-Z]+ ;
 
 DataSegmentTypes: '.byte' | '.halfword' | '.word' | '.dword' | '.ascii';
-ASCII_String: '"' [a-zA-Z]+ '"';
+ASCII_String: '"' [a-zA-Z_,.;: ]+ '"';
