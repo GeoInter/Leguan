@@ -57,9 +57,6 @@ public class ProgramParser extends LegV8BaseVisitor<ARMProgram> {
         ArrayList<ProgramStatement> lines = new ArrayList<ProgramStatement>();
 
         dataSegment = dataSegmentParser.visitDataSegment(ctx.dataSegment());
-        System.out.println("");
-        System.out.println(Arrays.toString(dataSegment.entrySet().toArray()));
-        System.out.println(Arrays.toString(dataSegmentVariables.entrySet().toArray()));
 
         for(int i = 0; i < ctx.line().size(); i++) {
             statementVisitor.setProgramIndex(i);
@@ -108,7 +105,7 @@ public class ProgramParser extends LegV8BaseVisitor<ARMProgram> {
         
 
         ARMProgram program = new ARMProgram();
-        program.setDataSegmentValues(dataSegment);
+        program.setDataSegment(dataSegment);
         program.setStatement(lines);
         program.setUsedRegister(statementVisitor.getUsedRegisters());
         return program;

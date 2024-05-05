@@ -229,6 +229,7 @@ public class Simulator {
             register.setValue(0);
         }
         pc.setValue(0);
+        Memory.storeDataSegment(this.program.getDataSegment());
         stopThread();
     }
 

@@ -14,6 +14,7 @@ import thb.fbi.leguan.parser.antlr.LegV8Parser.DataSegmentTypeContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.DataSegmentValueContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.DataSegmentVariableContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.NumContext;
+import thb.fbi.leguan.simulation.Memory;
 
 public class DataSegmentParser extends LegV8BaseVisitor<Object> {
 
@@ -29,7 +30,7 @@ public class DataSegmentParser extends LegV8BaseVisitor<Object> {
     @Override
     public TreeMap<Long, Byte> visitDataSegment(DataSegmentContext ctx) {
         TreeMap<Long, Byte> dataSegment = new TreeMap<Long, Byte>();
-        long address = 40000;
+        long address = Memory.dataSegmentStart;
 
         if (ctx != null) {
             // for each Variable
@@ -37,10 +38,8 @@ public class DataSegmentParser extends LegV8BaseVisitor<Object> {
 
                 dataSegmentMap.put(ctx.dataSegmentEntry(i).dataSegmentVariable().getText(), address);
 
-                System.out.print(ctx.dataSegmentEntry(i).dataSegmentVariable().getText() + " has value: \n[\n");
                 for (int j = 0; j < ctx.dataSegmentEntry(i).dataSegmentPairing().size(); j++) {
                     DataSegmentPairingContext pair = ctx.dataSegmentEntry(i).dataSegmentPairing(j);
-                    System.out.print(pair.getText() + "\n");
 
                     switch (visitDataSegmentType(pair.dataSegmentType())) {
                         case ".byte":
@@ -65,8 +64,6 @@ public class DataSegmentParser extends LegV8BaseVisitor<Object> {
                             break;
                     }
                 }
-                System.out.print("]");
-                System.out.print("\n");
             }
         }
         return dataSegment;

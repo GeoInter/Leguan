@@ -9,10 +9,11 @@ import java.util.TreeMap;
  */
 public class Memory {
 
-    private static TreeMap<Long, Byte> dataStorage = new TreeMap<Long, Byte>(); // uses keys -> keys as address
+    private static TreeMap<Long, Byte> dataStorage = new TreeMap<Long, Byte>(); // address used as key
     /** lock addresses; boolean indicates if changed by other store instruction than STXR */
     private static HashMap<Long, Boolean> lockStorage = new HashMap<Long, Boolean>();
-    public static long dataAdressMin = 10000;
+    /** predefined start address of the dataSegment */
+    public final static long dataSegmentStart = 40000;
 
     private static MemoryObserver observer;
 
@@ -258,5 +259,10 @@ public class Memory {
         } else { // failed operation
             return false;
         }
+    }
+
+    public static void storeDataSegment(TreeMap<Long, Byte> dataSegment) {
+        dataStorage.putAll(dataSegment); // can potentially override keys
+        notifyObserver(dataSegmentStart, dataSegment.size());
     }
 }
