@@ -3,8 +3,10 @@ package thb.fbi.leguan.parser;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.antlr.v4.runtime.Token;
+import org.antlr.v4.runtime.tree.TerminalNode;
 
+import thb.fbi.leguan.data.InstructionArguments;
+import thb.fbi.leguan.data.ProgramStatement;
 import thb.fbi.leguan.instructions.Instruction;
 import thb.fbi.leguan.parser.antlr.LegV8BaseVisitor;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.ArithmeticInstructionContext;
@@ -17,12 +19,12 @@ import thb.fbi.leguan.parser.antlr.LegV8Parser.CondBranchInstructionContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.CondBranchParamContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.DatatransferInstructionContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.DatatransferParamContext;
-import thb.fbi.leguan.parser.antlr.LegV8Parser.DeclarationContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.ExclusiveInstructionContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.ExclusiveParamContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.ImmediateInstructionContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.ImmediateParamContext;
-import thb.fbi.leguan.parser.antlr.LegV8Parser.InvocationContext;
+import thb.fbi.leguan.parser.antlr.LegV8Parser.JumpLabelDeclarationContext;
+import thb.fbi.leguan.parser.antlr.LegV8Parser.JumpLabelReferenceContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.LineContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.NumContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.RegisterContext;
@@ -30,8 +32,6 @@ import thb.fbi.leguan.parser.antlr.LegV8Parser.ShiftInstructionContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.ShiftParamContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.WideImmediateInstructionContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.WideImmediateParamContext;
-import thb.fbi.leguan.simulation.InstructionArguments;
-import thb.fbi.leguan.simulation.ProgramStatement;
 import thb.fbi.leguan.simulation.Register;
 import thb.fbi.leguan.simulation.Simulator;
 import thb.fbi.leguan.simulation.SimulatorSingleton;
@@ -96,11 +96,11 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
         Instruction instr = null;
         InstructionArguments args = null;
         // generic access to nodes
-        if (ctx.declaration() == null) {
+        if (ctx.jumpLabelDeclaration() == null) {
             instr = (Instruction) visit(ctx.getChild(0));
             args = (InstructionArguments) visit(ctx.getChild(1));
         } else {
-            visitDeclaration(ctx.declaration());
+            visitJumpLabelDeclaration(ctx.jumpLabelDeclaration());
             instr = (Instruction) visit(ctx.getChild(1));
             args = (InstructionArguments) visit(ctx.getChild(2));
         }
@@ -140,11 +140,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
                 usedRegisters.add(register);
             }
         } catch (ArrayIndexOutOfBoundsException e) {
-            Token token = ctx.REGISTER().getSymbol();
-            int line = token.getLine();
-            int pos = token.getCharPositionInLine();
-            ParsingError err = new ParsingError(line, pos, ParsingErrorType.RegisterOutOfRange);
-            semanticErrors.add(err);
+            addSemanticError(ctx.REGISTER(), ParsingErrorType.RegisterOutOfRange);
         }
         return register;
     }
@@ -167,25 +163,17 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
         try {
             number = Integer.parseInt(numberText, radix);
         } catch (NumberFormatException e) {
-            Token token = ctx.NUMBER().getSymbol();
-            int line = token.getLine();
-            int pos = token.getCharPositionInLine();
-            ParsingError err = new ParsingError(line, pos, ParsingErrorType.NumberFormatException);
-            semanticErrors.add(err);
+            addSemanticError(ctx.NUMBER(), ParsingErrorType.NumberFormatException);
         }
         return number;
     }
 
     @Override
-    public Object visitDeclaration(DeclarationContext ctx) {
-        String id = ctx.JumpDeclaration().getText();
+    public Object visitJumpLabelDeclaration(JumpLabelDeclarationContext ctx) {
+        String id = ctx.PointerDeclaration().getText();
         id = id.substring(0, id.length() - 1); // remove ":"
         if (jumpMarks.containsKey(id)) {
-            Token token = ctx.JumpDeclaration().getSymbol();
-            int line = token.getLine();
-            int pos = token.getCharPositionInLine();
-            ParsingError err = new ParsingError(line, pos, ParsingErrorType.DoubledMarkDeclaration);
-            semanticErrors.add(err);
+            addSemanticError(ctx.PointerDeclaration(), ParsingErrorType.DoubledJumpLabelDeclaration);
         } else {
             jumpMarks.put(id, this.programIndex);
         }
@@ -193,8 +181,8 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
     }
 
     @Override
-    public Integer visitInvocation(InvocationContext ctx) {
-        String id = ctx.JumpInvocation().getText();
+    public Integer visitJumpLabelReference(JumpLabelReferenceContext ctx) {
+        String id = ctx.PointerReference().getText();
         Integer address = jumpMarks.get(id);
         if (address != null) {
             return address;
@@ -300,18 +288,10 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
         int shamt = visitNum(ctx.num(1));
         // only allows 0, 16, 32 and 48 as shift value
         if (shamt != 0 && shamt != 16 && shamt != 32 && shamt != 48) {
-            Token token = ctx.num(1).NUMBER().getSymbol();
-            int line = token.getLine();
-            int pos = token.getCharPositionInLine();
-            ParsingError err = new ParsingError(line, pos, ParsingErrorType.WideImmediateShiftOutOfRange);
-            semanticErrors.add(err);
+            addSemanticError(ctx.num(1).NUMBER(), ParsingErrorType.WideImmediateShiftOutOfRange);
         }
         if (ctx.ShiftInstruction().getText().equals("LSR")) {
-            Token token = ctx.ShiftInstruction().getSymbol();
-            int line = token.getLine();
-            int pos = token.getCharPositionInLine();
-            ParsingError err = new ParsingError(line, pos, ParsingErrorType.WrongShiftforWideImmediate);
-            semanticErrors.add(err);
+            addSemanticError(ctx.ShiftInstruction(), ParsingErrorType.WrongShiftforWideImmediate);
         }
         InstructionArguments args = new InstructionArguments();
         args.setRd(Rd);
@@ -347,7 +327,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
     @Override
     public InstructionArguments visitCondBranchParam(CondBranchParamContext ctx) {
         Register Rt = visitRegister(ctx.register());
-        int cond_br_address = visitInvocation(ctx.invocation());
+        int cond_br_address = visitJumpLabelReference(ctx.jumpLabelReference());
         InstructionArguments args = new InstructionArguments();
         args.setRt(Rt);
         args.setCond_Br_Address(cond_br_address);
@@ -356,7 +336,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
 
     @Override
     public InstructionArguments visitBranchParam(BranchParamContext ctx) {
-        int br_address = visitInvocation(ctx.invocation());
+        int br_address = visitJumpLabelReference(ctx.jumpLabelReference());
         InstructionArguments args = new InstructionArguments();
         args.setBr_Address(br_address);
         return args;
@@ -380,6 +360,16 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
         args.setRn(Rn);
         args.setShamt(shamt);
         return args;
+    }
+
+    /**
+     * helper function for adding parser error to list
+     * @param token the token of the parse tree which is responsible for throwing the error 
+     * @param errorType type of parsing error
+     */
+    private void addSemanticError(TerminalNode node, ParsingErrorType errorType) {
+        ParsingError err = new ParsingError(node, errorType);
+        semanticErrors.add(err);
     }
 
 }

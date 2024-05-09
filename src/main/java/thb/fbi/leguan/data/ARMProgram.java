@@ -1,6 +1,9 @@
-package thb.fbi.leguan.simulation;
+package thb.fbi.leguan.data;
 
 import java.util.ArrayList;
+import java.util.TreeMap;
+
+import thb.fbi.leguan.simulation.Register;
 
 /** 
  * Models the entire source code
@@ -11,6 +14,7 @@ public class ARMProgram {
 
     private ArrayList<ProgramStatement> statements = new ArrayList<ProgramStatement>();
     private ArrayList<Register> usedRegisters = new ArrayList<Register>();
+    private TreeMap<Long, Byte> dataSegment = new TreeMap<Long, Byte>();
 
     public ARMProgram() {
         statements.clear();
@@ -35,7 +39,6 @@ public class ARMProgram {
         } catch (IndexOutOfBoundsException e) {
             return null;
         }
-        
     }
 
     /**
@@ -60,5 +63,13 @@ public class ARMProgram {
      */
     public void setUsedRegister(ArrayList<Register> usedRegisters) {
         this.usedRegisters = usedRegisters;
+    }
+
+    public TreeMap<Long, Byte> getDataSegment() {
+        return dataSegment;
+    }
+
+    public void setDataSegment(TreeMap<Long, Byte> dataSegmentValues) {
+        this.dataSegment = dataSegmentValues;
     }
 }

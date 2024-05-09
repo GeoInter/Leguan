@@ -13,7 +13,7 @@ workspace.code-workspace
 /src/main/resources/*.jar
 
 # ignore local .antlr package (duplicate since pom.xml defines an antlr package already
-/src/main/java/thb/fbi/parser/.antlr 
+/src/main/java/thb/fbi/leguan/parser/.antlr 
 
 # intellij
 /.idea

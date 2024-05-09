@@ -72,6 +72,11 @@
     background-color: -fx-main-color;
 }
 
+/* Color of the text selection within the editor */
+.code-area .selection {
+    -fx-fill: #264f78;
+}
+
 .styled-text-area .paragraph-text .text {
     -fx-font-size: 14px;
     font-size: 14px;
@@ -358,14 +363,24 @@
     fill: #4ec9b0;
 }
 
-.jump-mark {
+.jump-label {
     -fx-fill: #c586c0ed !important;
     fill: #c586c0;
 }
 
 .number {
-    -fx-fill: #1b8fff !important;
-    fill: #1b8fff;
+    -fx-fill: #569cd6 !important;
+    fill: #569cd6;
+}
+
+.datatype {
+    -fx-fill: #6f66c0 !important;
+    fill: #6f66c0;
+}
+
+.segment-variable {
+    -fx-fill: #cc5abd !important;
+    fill: #cc5abd;
 }
 
 .error {

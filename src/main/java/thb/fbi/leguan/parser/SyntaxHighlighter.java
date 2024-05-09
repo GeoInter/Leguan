@@ -14,11 +14,13 @@ import thb.fbi.leguan.parser.antlr.LegV8Parser.ArithmeticInstructionContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.BranchByRegisterInstructionContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.BranchInstructionContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.CondBranchInstructionContext;
+import thb.fbi.leguan.parser.antlr.LegV8Parser.DataSegmentTypeContext;
+import thb.fbi.leguan.parser.antlr.LegV8Parser.DataSegmentVariableContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.DatatransferInstructionContext;
-import thb.fbi.leguan.parser.antlr.LegV8Parser.DeclarationContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.ExclusiveInstructionContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.ImmediateInstructionContext;
-import thb.fbi.leguan.parser.antlr.LegV8Parser.InvocationContext;
+import thb.fbi.leguan.parser.antlr.LegV8Parser.JumpLabelDeclarationContext;
+import thb.fbi.leguan.parser.antlr.LegV8Parser.JumpLabelReferenceContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.MainContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.NumContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.RegisterContext;
@@ -128,13 +130,23 @@ public class SyntaxHighlighter extends LegV8BaseListener {
     }
 
     @Override
-    public void enterDeclaration(DeclarationContext ctx) {
-        addStyle(ctx.JumpDeclaration(), "jump-mark");
+    public void enterJumpLabelDeclaration(JumpLabelDeclarationContext ctx) {
+        addStyle(ctx.PointerDeclaration(), "jump-label");
     }
 
     @Override
-    public void enterInvocation(InvocationContext ctx) {
-        addStyle(ctx.JumpInvocation(), "jump-mark");
+    public void enterJumpLabelReference(JumpLabelReferenceContext ctx) {
+        addStyle(ctx.PointerReference(), "jump-label");
+    }
+
+    @Override
+    public void enterDataSegmentType(DataSegmentTypeContext ctx) {
+        addStyle(ctx.DataSegmentTypes(), "datatype");
+    }
+
+    @Override
+    public void enterDataSegmentVariable(DataSegmentVariableContext ctx) {
+        addStyle(ctx.PointerDeclaration(), "segment-variable");
     }
 
     @Override

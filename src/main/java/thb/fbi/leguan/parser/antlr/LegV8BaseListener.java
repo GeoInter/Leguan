@@ -41,6 +41,78 @@ public class LegV8BaseListener implements LegV8Listener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterDataSegment(LegV8Parser.DataSegmentContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDataSegment(LegV8Parser.DataSegmentContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDataSegmentEntry(LegV8Parser.DataSegmentEntryContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDataSegmentEntry(LegV8Parser.DataSegmentEntryContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDataSegmentPairing(LegV8Parser.DataSegmentPairingContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDataSegmentPairing(LegV8Parser.DataSegmentPairingContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDataSegmentType(LegV8Parser.DataSegmentTypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDataSegmentType(LegV8Parser.DataSegmentTypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDataSegmentVariable(LegV8Parser.DataSegmentVariableContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDataSegmentVariable(LegV8Parser.DataSegmentVariableContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDataSegmentValue(LegV8Parser.DataSegmentValueContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDataSegmentValue(LegV8Parser.DataSegmentValueContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterLine(LegV8Parser.LineContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -53,25 +125,25 @@ public class LegV8BaseListener implements LegV8Listener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDeclaration(LegV8Parser.DeclarationContext ctx) { }
+	@Override public void enterJumpLabelDeclaration(LegV8Parser.JumpLabelDeclarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDeclaration(LegV8Parser.DeclarationContext ctx) { }
+	@Override public void exitJumpLabelDeclaration(LegV8Parser.JumpLabelDeclarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterInvocation(LegV8Parser.InvocationContext ctx) { }
+	@Override public void enterJumpLabelReference(LegV8Parser.JumpLabelReferenceContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitInvocation(LegV8Parser.InvocationContext ctx) { }
+	@Override public void exitJumpLabelReference(LegV8Parser.JumpLabelReferenceContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -312,6 +384,18 @@ public class LegV8BaseListener implements LegV8Listener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitRegister(LegV8Parser.RegisterContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAscii(LegV8Parser.AsciiContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAscii(LegV8Parser.AsciiContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

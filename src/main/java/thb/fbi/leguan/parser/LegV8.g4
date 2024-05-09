@@ -2,12 +2,24 @@ grammar LegV8;
 
 @header{package thb.fbi.leguan.parser.antlr;}
 
-// ** Rules ** 
+// ** Rules **
 main : program EOF;
 
-program : line+ ;
+program : dataSegment? line+ ;
 
-line : declaration? (arithmeticInstruction arithmeticParam | 
+// data segment
+dataSegment: (dataSegmentEntry)+;
+
+dataSegmentEntry: dataSegmentVariable dataSegmentPairing+;
+dataSegmentPairing: dataSegmentType dataSegmentValue;
+
+dataSegmentType: DataSegmentTypes;
+dataSegmentVariable: PointerDeclaration;
+
+dataSegmentValue: num | ascii;
+
+// code segment
+line : jumpLabelDeclaration? (arithmeticInstruction arithmeticParam | 
                     shiftInstruction shiftParam | 
                     immediateInstruction immediateParam | 
                     wideImmediateInstruction wideImmediateParam |
@@ -17,8 +29,8 @@ line : declaration? (arithmeticInstruction arithmeticParam |
                     branchInstruction branchParam |
                     branchByRegisterInstruction branchByRegisterParam);
 
-declaration: JumpDeclaration ;
-invocation: JumpInvocation ;
+jumpLabelDeclaration: PointerDeclaration ;
+jumpLabelReference: PointerReference ;
 
 arithmeticInstruction : ArithmeticInstruction;
 shiftInstruction: ShiftInstruction;
@@ -36,12 +48,13 @@ immediateParam : register COMMA register COMMA num ;
 wideImmediateParam : register COMMA num COMMA ShiftInstruction num ;
 datatransferParam : register COMMA SQUARE_BRACKET_LEFT register COMMA num SQUARE_BRACKET_RIGHT ;
 exclusiveParam : register COMMA register SQUARE_BRACKET_LEFT register SQUARE_BRACKET_RIGHT ;
-condBranchParam : register COMMA invocation ;
-branchParam : invocation ;
+condBranchParam : register COMMA jumpLabelReference ;
+branchParam : jumpLabelReference ;
 branchByRegisterParam : register ;
 
 num: NUMBER ;
 register : REGISTER ;
+ascii: ASCII_String ;
 
 
 // ** Tokens **
@@ -76,6 +89,9 @@ FP: 'FP' ;
 LR: 'LR' ;
 XZR: 'XZR' ;
 
-// jump mark usage
-JumpDeclaration: [a-zA-Z]+ ':' ;
-JumpInvocation: [a-zA-Z]+ ;
+// Pointer Token (data segment variable names and jump label names)
+PointerDeclaration: [a-zA-Z]+ ':' ;
+PointerReference: [a-zA-Z]+ ;
+
+DataSegmentTypes: '.byte' | '.halfword' | '.word' | '.dword' | '.ascii';
+ASCII_String: '"' [a-zA-Z_,.;: ]+ '"';

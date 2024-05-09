@@ -2,22 +2,31 @@ package thb.fbi.leguan.parser;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.TreeMap;
 
-import org.antlr.v4.runtime.Token;
+import org.antlr.v4.runtime.tree.TerminalNode;
 
+import thb.fbi.leguan.data.ARMProgram;
+import thb.fbi.leguan.data.InstructionArguments;
+import thb.fbi.leguan.data.ProgramStatement;
 import thb.fbi.leguan.parser.antlr.LegV8BaseVisitor;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.MainContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.ProgramContext;
-import thb.fbi.leguan.simulation.ARMProgram;
-import thb.fbi.leguan.simulation.InstructionArguments;
-import thb.fbi.leguan.simulation.ProgramStatement;
 import thb.fbi.leguan.simulation.Register;
 
 public class ProgramParser extends LegV8BaseVisitor<ARMProgram> {
 
+    /** Map of all entries in the dataSegment (Name, Address) */
+    private HashMap<String, Long> dataSegmentVariables = new HashMap<String, Long>();
+    /** TreeMap of all static values being stored in memory defined within the dataSegment (address, value) */
+    private TreeMap<Long, Byte> dataSegment = new TreeMap<Long, Byte>();
+    /** List of all occured semantic Errors (occuring during parser/ non-syntax errors) */
     public ArrayList<ParsingError> semanticErrors = new ArrayList<ParsingError>();
+    /** List of all used registers */
     private ArrayList<Register> usedRegisters = new ArrayList<Register>();
+    /** Map of all (resolved) jump labels */
     private HashMap<String, Integer> jumpMarks = new HashMap<String, Integer>();
+    /** Map of all (unresolved) jump label (=labels that were referenced before they were declared aka downward jump */
     private HashMap<Integer, String> unresolvedMarks = new HashMap<Integer, String>();
 
     /**
@@ -42,8 +51,11 @@ public class ProgramParser extends LegV8BaseVisitor<ARMProgram> {
 
     @Override
     public ARMProgram visitProgram(ProgramContext ctx) {
+        DataSegmentParser dataSegmentParser = new DataSegmentParser(semanticErrors, dataSegmentVariables);
         ProgramStatementParser statementVisitor = new ProgramStatementParser(semanticErrors, usedRegisters, jumpMarks, unresolvedMarks);
         ArrayList<ProgramStatement> lines = new ArrayList<ProgramStatement>();
+
+        dataSegment = dataSegmentParser.visitDataSegment(ctx.dataSegment());
 
         for(int i = 0; i < ctx.line().size(); i++) {
             statementVisitor.setProgramIndex(i);
@@ -65,11 +77,7 @@ public class ProgramParser extends LegV8BaseVisitor<ARMProgram> {
                 Integer sourceLine = jumpMarks.get(id);
 
                 if(sourceLine == null) {
-                    Token token = ctx.line(index).condBranchParam().invocation().JumpInvocation().getSymbol();
-                    int line = token.getLine();
-                    int pos = token.getCharPositionInLine();
-                    ParsingError err = new ParsingError(line, pos, ParsingErrorType.UndefinedJumpInvocation);
-                    semanticErrors.add(err);
+                    addSemanticError(ctx.line(index).condBranchParam().jumpLabelReference().PointerReference(), ParsingErrorType.UndefinedJumpLabelReference);
                 } else {
                     args.setCond_Br_Address(sourceLine);
                 }
@@ -79,11 +87,7 @@ public class ProgramParser extends LegV8BaseVisitor<ARMProgram> {
                 Integer sourceLine = jumpMarks.get(id);
 
                 if(sourceLine == null) {
-                    Token token = ctx.line(index).branchParam().invocation().JumpInvocation().getSymbol();
-                    int line = token.getLine();
-                    int pos = token.getCharPositionInLine();
-                    ParsingError err = new ParsingError(line, pos, ParsingErrorType.UndefinedJumpInvocation);
-                    semanticErrors.add(err);
+                    addSemanticError(ctx.line(index).branchParam().jumpLabelReference().PointerReference(), ParsingErrorType.UndefinedJumpLabelReference);
                 } else {
                     args.setBr_Address(sourceLine);
                 }   
@@ -92,11 +96,20 @@ public class ProgramParser extends LegV8BaseVisitor<ARMProgram> {
         
 
         ARMProgram program = new ARMProgram();
+        program.setDataSegment(dataSegment);
         program.setStatement(lines);
         program.setUsedRegister(statementVisitor.getUsedRegisters());
         return program;
     }
 
-   
-    
+    /**
+     * helper function for adding parser error to list
+     * @param token the token of the parse tree which is responsible for throwing the error 
+     * @param errorType type of parsing error
+     */
+    private void addSemanticError(TerminalNode node, ParsingErrorType errorType) {
+        ParsingError err = new ParsingError(node, errorType);
+        semanticErrors.add(err);
+    }
+
 }

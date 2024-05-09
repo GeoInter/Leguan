@@ -2,7 +2,7 @@ package thb.fbi.leguan.instructions;
 
 import thb.fbi.leguan.controller.MemoryController;
 import thb.fbi.leguan.controller.RegisterPaneController;
-import thb.fbi.leguan.simulation.InstructionArguments;
+import thb.fbi.leguan.data.InstructionArguments;
 import thb.fbi.leguan.simulation.PCRegister;
 
 /**
