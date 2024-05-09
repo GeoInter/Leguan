@@ -80,7 +80,7 @@ public class ProgramParser extends LegV8BaseVisitor<ARMProgram> {
                     Token token = ctx.line(index).condBranchParam().jumpLabelReference().PointerReference().getSymbol();
                     int line = token.getLine();
                     int pos = token.getCharPositionInLine();
-                    ParsingError err = new ParsingError(line, pos, ParsingErrorType.UndefinedJumpInvocation);
+                    ParsingError err = new ParsingError(line, pos, ParsingErrorType.UndefinedJumpLabelReference);
                     semanticErrors.add(err);
                 } else {
                     args.setCond_Br_Address(sourceLine);
@@ -94,7 +94,7 @@ public class ProgramParser extends LegV8BaseVisitor<ARMProgram> {
                     Token token = ctx.line(index).branchParam().jumpLabelReference().PointerReference().getSymbol();
                     int line = token.getLine();
                     int pos = token.getCharPositionInLine();
-                    ParsingError err = new ParsingError(line, pos, ParsingErrorType.UndefinedJumpInvocation);
+                    ParsingError err = new ParsingError(line, pos, ParsingErrorType.UndefinedJumpLabelReference);
                     semanticErrors.add(err);
                 } else {
                     args.setBr_Address(sourceLine);

@@ -184,7 +184,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
             Token token = ctx.PointerDeclaration().getSymbol();
             int line = token.getLine();
             int pos = token.getCharPositionInLine();
-            ParsingError err = new ParsingError(line, pos, ParsingErrorType.DoubledMarkDeclaration);
+            ParsingError err = new ParsingError(line, pos, ParsingErrorType.DoubledJumpLabelDeclaration);
             semanticErrors.add(err);
         } else {
             jumpMarks.put(id, this.programIndex);

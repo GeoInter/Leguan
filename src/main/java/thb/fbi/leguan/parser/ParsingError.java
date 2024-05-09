@@ -22,14 +22,14 @@ public class ParsingError {
             case NumberFormatException:
                 this.msg = "Number has not appropriate format";
                 break;
-            case DoubledMarkDeclaration:
-                this.msg = "Duplicate label";
+            case DoubledJumpLabelDeclaration:
+                this.msg = "Duplicate jump label";
                 break;
             case RegisterOutOfRange:
                 this.msg = "Register not in allowed range"; // range of simulator.registerNr
                 break;
-            case UndefinedJumpInvocation:
-                this.msg = "Cannot branch to undeclared mark"; // '" + id + "'";
+            case UndefinedJumpLabelReference:
+                this.msg = "Cannot branch to undeclared label"; // '" + id + "'";
                 break;
             case WideImmediateShiftOutOfRange:
                 this.msg = "Shift value has to be either 0, 16, 32 or 48";
