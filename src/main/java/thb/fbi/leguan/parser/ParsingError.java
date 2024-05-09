@@ -19,9 +19,12 @@ public class ParsingError {
      * @param e type of error 
      */
     public ParsingError(TerminalNode node, ParsingErrorType e) {
-        this.line = node.getSymbol().getLine();
-        this.charPositionInLine = node.getSymbol().getCharPositionInLine();
-        String identifier = node.getText();
+        this(node.getSymbol().getLine(), node.getSymbol().getCharPositionInLine(), e, node.getText());        
+    }
+
+    public ParsingError(int line, int charPositionInLine, ParsingErrorType e, String identifier) {
+        this.line = line;
+        this.charPositionInLine = charPositionInLine;
         switch(e) {
             case NumberFormatException:
                 this.msg = "Number has not appropriate format '" + identifier + "'"; // number
