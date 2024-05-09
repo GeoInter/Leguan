@@ -61,7 +61,6 @@ public class DataSegmentParser extends LegV8BaseVisitor<Object> {
                             } else {
                                 addSemanticError(pair.dataSegmentType().DataSegmentTypes(), ParsingErrorType.DataSegmentTypeFormatException);
                             }
-                            System.out.println(longValue.shortValue());
                             address = addHalfword(dataSegment, sv, address);
                             break;
                         case ".word":
@@ -120,14 +119,12 @@ public class DataSegmentParser extends LegV8BaseVisitor<Object> {
         } else { // dec number
             radix = 10;
         }
-        System.out.print(numberText);
 
         try {
             number = Long.parseLong(numberText, radix);
         } catch (NumberFormatException e) {
             addSemanticError(ctx.NUMBER(), ParsingErrorType.NumberFormatException);
         }
-        System.out.print(" = "+ number + "\n");
         return number;
     }
 
