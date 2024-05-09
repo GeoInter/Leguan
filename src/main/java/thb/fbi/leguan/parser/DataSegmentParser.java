@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeMap;
 
-import org.antlr.v4.runtime.Token;
+import org.antlr.v4.runtime.tree.TerminalNode;
 
 import thb.fbi.leguan.parser.antlr.LegV8BaseVisitor;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.AsciiContext;
@@ -49,7 +49,7 @@ public class DataSegmentParser extends LegV8BaseVisitor<Object> {
                             if (fitSpecifiedByteSize(longValue, 1)) {
                                 bv = longValue.byteValue();
                             } else {
-                                addSemanticError(pair.dataSegmentType().DataSegmentTypes().getSymbol(), ParsingErrorType.DataSegmentTypeFormatException);
+                                addSemanticError(pair.dataSegmentType().DataSegmentTypes(), ParsingErrorType.DataSegmentTypeFormatException);
                             }
                             address = addByte(dataSegment, bv, address);
                             break;
@@ -59,7 +59,7 @@ public class DataSegmentParser extends LegV8BaseVisitor<Object> {
                             if (fitSpecifiedByteSize(longValue, 2)) {
                                 sv = longValue.shortValue();
                             } else {
-                                addSemanticError(pair.dataSegmentType().DataSegmentTypes().getSymbol(), ParsingErrorType.DataSegmentTypeFormatException);
+                                addSemanticError(pair.dataSegmentType().DataSegmentTypes(), ParsingErrorType.DataSegmentTypeFormatException);
                             }
                             System.out.println(longValue.shortValue());
                             address = addHalfword(dataSegment, sv, address);
@@ -70,7 +70,7 @@ public class DataSegmentParser extends LegV8BaseVisitor<Object> {
                             if (fitSpecifiedByteSize(longValue, 4)) {
                                 iv = longValue.intValue();
                             } else {
-                                addSemanticError(pair.dataSegmentType().DataSegmentTypes().getSymbol(), ParsingErrorType.DataSegmentTypeFormatException);
+                                addSemanticError(pair.dataSegmentType().DataSegmentTypes(), ParsingErrorType.DataSegmentTypeFormatException);
                             }
                             address = addWord(dataSegment, iv, address);
                             break;
@@ -125,7 +125,7 @@ public class DataSegmentParser extends LegV8BaseVisitor<Object> {
         try {
             number = Long.parseLong(numberText, radix);
         } catch (NumberFormatException e) {
-            addSemanticError(ctx.NUMBER().getSymbol(), ParsingErrorType.NumberFormatException);
+            addSemanticError(ctx.NUMBER(), ParsingErrorType.NumberFormatException);
         }
         System.out.print(" = "+ number + "\n");
         return number;
@@ -178,10 +178,8 @@ public class DataSegmentParser extends LegV8BaseVisitor<Object> {
      * @param token the token of the parse tree which is responsible for throwing the error 
      * @param errorType type of parsing error
      */
-    private void addSemanticError(Token token, ParsingErrorType errorType) {
-        int line = token.getLine();
-        int pos = token.getCharPositionInLine();
-        ParsingError err = new ParsingError(line, pos, errorType);
+    private void addSemanticError(TerminalNode node, ParsingErrorType errorType) {
+        ParsingError err = new ParsingError(node, errorType);
         semanticErrors.add(err);
     }
 

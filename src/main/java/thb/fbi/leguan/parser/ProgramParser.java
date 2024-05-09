@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeMap;
 
-import org.antlr.v4.runtime.Token;
+import org.antlr.v4.runtime.tree.TerminalNode;
 
 import thb.fbi.leguan.data.ARMProgram;
 import thb.fbi.leguan.data.InstructionArguments;
@@ -77,7 +77,7 @@ public class ProgramParser extends LegV8BaseVisitor<ARMProgram> {
                 Integer sourceLine = jumpMarks.get(id);
 
                 if(sourceLine == null) {
-                    addSemanticError(ctx.line(index).condBranchParam().jumpLabelReference().PointerReference().getSymbol(), ParsingErrorType.UndefinedJumpLabelReference);
+                    addSemanticError(ctx.line(index).condBranchParam().jumpLabelReference().PointerReference(), ParsingErrorType.UndefinedJumpLabelReference);
                 } else {
                     args.setCond_Br_Address(sourceLine);
                 }
@@ -87,7 +87,7 @@ public class ProgramParser extends LegV8BaseVisitor<ARMProgram> {
                 Integer sourceLine = jumpMarks.get(id);
 
                 if(sourceLine == null) {
-                    addSemanticError(ctx.line(index).branchParam().jumpLabelReference().PointerReference().getSymbol(), ParsingErrorType.UndefinedJumpLabelReference);
+                    addSemanticError(ctx.line(index).branchParam().jumpLabelReference().PointerReference(), ParsingErrorType.UndefinedJumpLabelReference);
                 } else {
                     args.setBr_Address(sourceLine);
                 }   
@@ -107,10 +107,8 @@ public class ProgramParser extends LegV8BaseVisitor<ARMProgram> {
      * @param token the token of the parse tree which is responsible for throwing the error 
      * @param errorType type of parsing error
      */
-    private void addSemanticError(Token token, ParsingErrorType errorType) {
-        int line = token.getLine();
-        int pos = token.getCharPositionInLine();
-        ParsingError err = new ParsingError(line, pos, errorType);
+    private void addSemanticError(TerminalNode node, ParsingErrorType errorType) {
+        ParsingError err = new ParsingError(node, errorType);
         semanticErrors.add(err);
     }
 
