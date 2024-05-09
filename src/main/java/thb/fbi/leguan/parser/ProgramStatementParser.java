@@ -140,11 +140,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
                 usedRegisters.add(register);
             }
         } catch (ArrayIndexOutOfBoundsException e) {
-            Token token = ctx.REGISTER().getSymbol();
-            int line = token.getLine();
-            int pos = token.getCharPositionInLine();
-            ParsingError err = new ParsingError(line, pos, ParsingErrorType.RegisterOutOfRange);
-            semanticErrors.add(err);
+            addSemanticError(ctx.REGISTER().getSymbol(), ParsingErrorType.RegisterOutOfRange);
         }
         return register;
     }
@@ -167,11 +163,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
         try {
             number = Integer.parseInt(numberText, radix);
         } catch (NumberFormatException e) {
-            Token token = ctx.NUMBER().getSymbol();
-            int line = token.getLine();
-            int pos = token.getCharPositionInLine();
-            ParsingError err = new ParsingError(line, pos, ParsingErrorType.NumberFormatException);
-            semanticErrors.add(err);
+            addSemanticError(ctx.NUMBER().getSymbol(), ParsingErrorType.NumberFormatException);
         }
         return number;
     }
@@ -181,11 +173,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
         String id = ctx.PointerDeclaration().getText();
         id = id.substring(0, id.length() - 1); // remove ":"
         if (jumpMarks.containsKey(id)) {
-            Token token = ctx.PointerDeclaration().getSymbol();
-            int line = token.getLine();
-            int pos = token.getCharPositionInLine();
-            ParsingError err = new ParsingError(line, pos, ParsingErrorType.DoubledJumpLabelDeclaration);
-            semanticErrors.add(err);
+            addSemanticError(ctx.PointerDeclaration().getSymbol(), ParsingErrorType.DoubledJumpLabelDeclaration);
         } else {
             jumpMarks.put(id, this.programIndex);
         }
@@ -300,18 +288,10 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
         int shamt = visitNum(ctx.num(1));
         // only allows 0, 16, 32 and 48 as shift value
         if (shamt != 0 && shamt != 16 && shamt != 32 && shamt != 48) {
-            Token token = ctx.num(1).NUMBER().getSymbol();
-            int line = token.getLine();
-            int pos = token.getCharPositionInLine();
-            ParsingError err = new ParsingError(line, pos, ParsingErrorType.WideImmediateShiftOutOfRange);
-            semanticErrors.add(err);
+            addSemanticError(ctx.num(1).NUMBER().getSymbol(), ParsingErrorType.WideImmediateShiftOutOfRange);
         }
         if (ctx.ShiftInstruction().getText().equals("LSR")) {
-            Token token = ctx.ShiftInstruction().getSymbol();
-            int line = token.getLine();
-            int pos = token.getCharPositionInLine();
-            ParsingError err = new ParsingError(line, pos, ParsingErrorType.WrongShiftforWideImmediate);
-            semanticErrors.add(err);
+            addSemanticError(ctx.ShiftInstruction().getSymbol(), ParsingErrorType.WrongShiftforWideImmediate);
         }
         InstructionArguments args = new InstructionArguments();
         args.setRd(Rd);
@@ -380,6 +360,18 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
         args.setRn(Rn);
         args.setShamt(shamt);
         return args;
+    }
+
+    /**
+     * helper function for adding parser error to list
+     * @param token the token of the parse tree which is responsible for throwing the error 
+     * @param errorType type of parsing error
+     */
+    private void addSemanticError(Token token, ParsingErrorType errorType) {
+        int line = token.getLine();
+        int pos = token.getCharPositionInLine();
+        ParsingError err = new ParsingError(line, pos, errorType);
+        semanticErrors.add(err);
     }
 
 }
