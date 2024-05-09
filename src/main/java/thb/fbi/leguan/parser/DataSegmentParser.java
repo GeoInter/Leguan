@@ -27,7 +27,6 @@ public class DataSegmentParser extends LegV8BaseVisitor<Object> {
         this.dataSegmentMap = dataSegmentMap;
     }
 
-    // TODO: Detect errors when value is bigger than its (data)type
     @Override
     public TreeMap<Long, Byte> visitDataSegment(DataSegmentContext ctx) {
         TreeMap<Long, Byte> dataSegment = new TreeMap<Long, Byte>();
@@ -41,27 +40,49 @@ public class DataSegmentParser extends LegV8BaseVisitor<Object> {
 
                 for (int j = 0; j < ctx.dataSegmentEntry(i).dataSegmentPairing().size(); j++) {
                     DataSegmentPairingContext pair = ctx.dataSegmentEntry(i).dataSegmentPairing(j);
+                    Long longValue = 0L;
 
                     switch (visitDataSegmentType(pair.dataSegmentType())) {
                         case ".byte":
-                            byte bv = visitDataSegmentValue(pair.dataSegmentValue()).byteValue();
+                            longValue = visitDataSegmentValue(pair.dataSegmentValue());
+                            byte bv = 0;
+                            if (fitSpecifiedByteSize(longValue, 1)) {
+                                bv = longValue.byteValue();
+                            } else {
+                                addSemanticError(pair.dataSegmentType().DataSegmentTypes().getSymbol(), ParsingErrorType.DataSegmentTypeFormatException);
+                            }
                             address = addByte(dataSegment, bv, address);
                             break;
                         case ".halfword":
-                            short sv = visitDataSegmentValue(pair.dataSegmentValue()).shortValue();
+                            longValue = visitDataSegmentValue(pair.dataSegmentValue());
+                            short sv = 0;
+                            if (fitSpecifiedByteSize(longValue, 2)) {
+                                sv = longValue.shortValue();
+                            } else {
+                                addSemanticError(pair.dataSegmentType().DataSegmentTypes().getSymbol(), ParsingErrorType.DataSegmentTypeFormatException);
+                            }
+                            System.out.println(longValue.shortValue());
                             address = addHalfword(dataSegment, sv, address);
                             break;
                         case ".word":
-                            int iv = visitDataSegmentValue(pair.dataSegmentValue()).intValue();
+                            longValue = visitDataSegmentValue(pair.dataSegmentValue());
+                            int iv = 0;
+                            if (fitSpecifiedByteSize(longValue, 4)) {
+                                iv = longValue.intValue();
+                            } else {
+                                addSemanticError(pair.dataSegmentType().DataSegmentTypes().getSymbol(), ParsingErrorType.DataSegmentTypeFormatException);
+                            }
                             address = addWord(dataSegment, iv, address);
                             break;
                         case ".dword":
+                            // no check needed, because if value is bigger than a long, throws NumberFormatException
                             long lv = visitDataSegmentValue(pair.dataSegmentValue()).longValue();
                             address = addDWord(dataSegment, lv, address);
                             break;
                         case ".ascii":
+                            // ascii string has no limit of bytes
                             AsciiContext asciiContext = pair.dataSegmentValue().ascii();
-                            if(asciiContext != null) {
+                            if (asciiContext != null) {
                                 String asciiString = asciiContext.getText();
                                 asciiString = asciiString.replace("\"", ""); // remove quotes
                                 address = addASCII(dataSegment, asciiString, address);
@@ -99,16 +120,14 @@ public class DataSegmentParser extends LegV8BaseVisitor<Object> {
         } else { // dec number
             radix = 10;
         }
+        System.out.print(numberText);
 
         try {
             number = Long.parseLong(numberText, radix);
         } catch (NumberFormatException e) {
-            Token token = ctx.NUMBER().getSymbol();
-            int line = token.getLine();
-            int pos = token.getCharPositionInLine();
-            ParsingError err = new ParsingError(line, pos, ParsingErrorType.NumberFormatException);
-            semanticErrors.add(err);
+            addSemanticError(ctx.NUMBER().getSymbol(), ParsingErrorType.NumberFormatException);
         }
+        System.out.print(" = "+ number + "\n");
         return number;
     }
 
@@ -152,5 +171,37 @@ public class DataSegmentParser extends LegV8BaseVisitor<Object> {
             dataSegment.put(address + i, bytes[i]);
         }
         return address + bytes.length;
+    }
+
+    /**
+     * helper function for adding parser error to list
+     * @param token the token of the parse tree which is responsible for throwing the error 
+     * @param errorType type of parsing error
+     */
+    private void addSemanticError(Token token, ParsingErrorType errorType) {
+        int line = token.getLine();
+        int pos = token.getCharPositionInLine();
+        ParsingError err = new ParsingError(line, pos, errorType);
+        semanticErrors.add(err);
+    }
+
+    /**
+     * returns boolean indicate if value needs more bytes than specified or not
+     * @param value value to check its byte size
+     * @param maxBytes number of bytes the value can use at maximum
+     * @return boolean indicate wheter value is within the limit of specified bytes or not
+     */
+    private boolean fitSpecifiedByteSize(Long value, int maxBytes) {
+        int bytesUsed = 0;
+        boolean isNotFinished = true;
+        for (int i = 0; i < Long.BYTES && isNotFinished; i++) {
+            if ((value >> (i * Byte.SIZE)) != 0) { // left shift until all remains are 0
+                bytesUsed++;
+            } else {
+                isNotFinished = false;
+            }
+        }
+        if(bytesUsed > maxBytes) return false;
+        return true;
     }
 }

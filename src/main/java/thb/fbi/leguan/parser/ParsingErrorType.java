@@ -6,7 +6,8 @@ public enum ParsingErrorType {
     RegisterOutOfRange(2),
     NumberFormatException(3),
     WideImmediateShiftOutOfRange(4),
-    WrongShiftforWideImmediate(5);
+    WrongShiftforWideImmediate(5),
+    DataSegmentTypeFormatException(6);
     
 
     private int value;

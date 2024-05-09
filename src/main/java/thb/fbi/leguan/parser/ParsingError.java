@@ -37,6 +37,9 @@ public class ParsingError {
             case WrongShiftforWideImmediate:
                 this.msg = "Wide Immediate Shifting has to LSL";
                 break;
+            case DataSegmentTypeFormatException:
+                this.msg = "Value in data segment exceeds its specified size";
+                break;
             default:
                 this.msg = "Undefined Error occured";
                 break;
