@@ -41,14 +41,15 @@ public class PipelineSimulator {
     private boolean is2BitPredictorEnabled = false;
     private boolean debugOutput = false;
 
-    public PipelineSimulator() {}
+    public PipelineSimulator() {
+        this.instructions = new Instruction[0];
+    }
 
     public MFrame[] execute(Instruction ins[]) {
         Frames = new ArrayList<MFrame>();
         Frame = new MFrame(isForwardingEnabled, is2BitPredictorEnabled);
         this.instructionCounter = 0;
         i = 0;
-        int k = 0;
         while (i < ins.length + 5) {
             Instruction instruction;
             try {
@@ -72,10 +73,14 @@ public class PipelineSimulator {
             }
 
             Frames.add(Frame.getCopy());
-            k++;
         }
         this.clockCycleCounter = this.Frames.size();
-        this.cpi = (double) this.Frames.size() / this.instructionCounter;
+
+        if(instructionCounter == 0) {
+            this.cpi = 0.0;
+        } else {
+            this.cpi = (double) this.Frames.size() / this.instructionCounter;
+        }
         this.sf = (double) (this.instructionCounter * 5) / this.Frames.size();
 
         this.controlHazardCounter = Frame.controlHazardCounter;
@@ -92,8 +97,8 @@ public class PipelineSimulator {
         }
         
         i = 0;
-        this.FramesRet = new MFrame[k];
-        while (i < k) {
+        this.FramesRet = new MFrame[Frames.size()];
+        while (i < Frames.size()) {
             FramesRet[i] = (MFrame) Frames.get(i);
 
             if(debugOutput) {
