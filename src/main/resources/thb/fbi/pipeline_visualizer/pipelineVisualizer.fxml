@@ -17,6 +17,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <VBox prefHeight="700.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="thb.fbi.pipeline_visualizer.controller.PipelineVisualizerController">
@@ -26,9 +27,9 @@
             <ButtonBar prefHeight="40.0">
                <buttons>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mode" textAlignment="RIGHT" />
-                  <ChoiceBox fx:id="modeChoiceBox" onAction="#updateMode" />
-                  <Button mnemonicParsing="false" onAction="#backwardClockPulse" text="Backward" />
-                  <Button mnemonicParsing="false" onAction="#forwardClockPulse" text="Foward" />
+                  <ChoiceBox fx:id="modeChoiceBox" onAction="#updateMode" styleClass="simulator-button" />
+                  <Button mnemonicParsing="false" onAction="#backwardClockPulse" styleClass="simulator-button" text="Backward" />
+                  <Button mnemonicParsing="false" onAction="#forwardClockPulse" styleClass="simulator-button" text="Foward" />
                </buttons>
             </ButtonBar>
          </children>
@@ -37,7 +38,7 @@
          <children>
             <SplitPane dividerPositions="0.5" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <items>
-                  <VBox maxWidth="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="200.0" prefWidth="350.0" SplitPane.resizableWithParent="false">
+                  <VBox maxWidth="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="200.0" prefWidth="350.0" styleClass="pipe_vis_sidebar" SplitPane.resizableWithParent="false">
                      <children>
                         <TitledPane animated="false" collapsible="false" text="Statistics">
                            <content>
@@ -100,6 +101,9 @@
                            <padding>
                               <Insets bottom="25.0" />
                            </padding>
+                           <font>
+                              <Font size="13.0" />
+                           </font>
                         </TitledPane>
                         <TitledPane animated="false" collapsible="false" text="Hazards">
                            <content>
@@ -116,9 +120,9 @@
                                        </rowConstraints>
                                        <children>
                                           <Label text="Data Hazard Option" />
-                                          <ChoiceBox fx:id="dataHazardOption" onAction="#updateDataHazardOption" prefWidth="150.0" GridPane.columnIndex="1" />
+                                          <ChoiceBox fx:id="dataHazardOption" onAction="#updateDataHazardOption" prefWidth="150.0" styleClass="hazard-choice-box" GridPane.columnIndex="1" />
                                           <Label text="Control Hazard Option" GridPane.rowIndex="1" />
-                                          <ChoiceBox fx:id="controlHazardOption" onAction="#updateControlHazardOption" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                          <ChoiceBox fx:id="controlHazardOption" onAction="#updateControlHazardOption" prefWidth="150.0" styleClass="hazard-choice-box" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                        </children>
                                     </GridPane>
                                  </children>
@@ -127,6 +131,9 @@
                            <padding>
                               <Insets bottom="25.0" />
                            </padding>
+                           <font>
+                              <Font size="13.0" />
+                           </font>
                         </TitledPane>
                         <TitledPane fx:id="twoBitPredictorPane" animated="false" text="2 bit Predictor Table">
                            <content>
@@ -148,6 +155,9 @@
                            <padding>
                               <Insets bottom="25.0" />
                            </padding>
+                           <font>
+                              <Font size="13.0" />
+                           </font>
                         </TitledPane>
                         <TitledPane animated="false" text="Assembly Code">
                            <content>
@@ -157,6 +167,9 @@
                                  </children>
                               </AnchorPane>
                            </content>
+                           <font>
+                              <Font size="13.0" />
+                           </font>
                         </TitledPane>
                      </children>
                   </VBox>

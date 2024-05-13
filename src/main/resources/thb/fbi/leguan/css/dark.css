@@ -407,3 +407,35 @@
     -fx-fill: #727224;
     fill: #727224;
 }
+
+/* pipeline visualizer */
+
+.titled-pane > .title {
+    -fx-background-color: #5a9cd1;
+    background-color: #5a9cd1;
+}
+
+.titled-pane > .title > .arrow-button > .arrow {
+    -fx-background-color: white;
+    background-color: white;
+}
+
+.titled-pane > .content{
+    -fx-background-color: -fx-secondary-color;
+    background-color: -fx-secondary-color;
+}
+
+.choice-box > .open-button > .arrow {
+    -fx-background-color: white;
+    background-color: white;
+}
+
+.pipe_vis_sidebar {
+    -fx-background-color: -fx-tertiary-color;
+    background-color: -fx-tertiary-color;
+}
+
+.hazard-choice-box {
+    -fx-background-color: rgb(165, 165, 165);
+    background-color: rgb(165, 165, 165);
+}

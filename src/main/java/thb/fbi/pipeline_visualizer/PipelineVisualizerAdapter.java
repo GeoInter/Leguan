@@ -2,6 +2,9 @@ package thb.fbi.pipeline_visualizer;
 
 import java.net.URL;
 
+import java.util.List;
+import java.util.ArrayList;
+
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -14,6 +17,8 @@ import thb.fbi.pipeline_visualizer.controller.PipelineVisualizerController;
 public class PipelineVisualizerAdapter implements ILeguanTools {
 
     private PipelineVisualizerController pipelineVisualizerController;
+    private List<String> cssFiles = new ArrayList<String>();
+    private Stage stage;
 
     @Override
     public void display() {
@@ -23,17 +28,21 @@ public class PipelineVisualizerAdapter implements ILeguanTools {
                 FXMLLoader loader = new FXMLLoader(fxmlLocation);
                 Parent pipelineVisualizer = loader.load();
                 pipelineVisualizerController = loader.getController();
-                Stage stage = new Stage();
+                this.stage = new Stage();
                 
-                stage.initOwner(App.getStage());
-                stage.setScene(new Scene(pipelineVisualizer));
-                stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/thb/fbi/leguan/images/leguan.png")));
-                stage.setTitle("Pipeline-Visualizer");
-                stage.setMaximized(true);
-                stage.setOnCloseRequest(event -> {
+                this.stage.initOwner(App.getStage());
+                Scene scene = new Scene(pipelineVisualizer);
+                for(String css : cssFiles) {
+                    scene.getStylesheets().add(this.getClass().getResource(css).toExternalForm());
+                }
+                this.stage.setScene(scene);
+                this.stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/thb/fbi/leguan/images/leguan.png")));
+                this.stage.setTitle("Pipeline-Visualizer");
+                this.stage.setMaximized(true);
+                this.stage.setOnCloseRequest(event -> {
                     unsetPipelineVisualizerController();
                 });
-                stage.show();
+                this.stage.show();
             } catch (Exception e) {
                 pipelineVisualizerController = null;
                 e.printStackTrace();
@@ -51,6 +60,20 @@ public class PipelineVisualizerAdapter implements ILeguanTools {
 
     private void unsetPipelineVisualizerController() {
         pipelineVisualizerController = null;
+    }
+
+    @Override
+    public void addCSS(String cssFile) {
+        cssFiles.add(cssFile);
+    }
+
+    @Override
+    public void switchCSS(String newCSS) {
+        if(this.stage != null) {
+            Scene scene = this.stage.getScene();
+            scene.getStylesheets().remove(1);
+            scene.getStylesheets().add(this.getClass().getResource("/thb/fbi/leguan/css/" + newCSS).toExternalForm());
+        }
     }
     
 }
