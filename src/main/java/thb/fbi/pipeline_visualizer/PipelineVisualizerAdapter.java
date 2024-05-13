@@ -63,7 +63,7 @@ public class PipelineVisualizerAdapter implements ILeguanTools {
     }
 
     @Override
-    public void addCSS(String cssFile) {
+    public void addInitCSS(String cssFile) {
         cssFiles.add(cssFile);
     }
 

@@ -187,8 +187,8 @@ public class SimulatorController {
         FileManager.init(codeArea);
 
         pipelineVisualizer = new PipelineVisualizerAdapter();
-        pipelineVisualizer.addCSS("/thb/fbi/leguan/css/base.css");
-        pipelineVisualizer.addCSS("/thb/fbi/leguan/css/light.css");
+        pipelineVisualizer.addInitCSS("/thb/fbi/leguan/css/base.css");
+        pipelineVisualizer.addInitCSS("/thb/fbi/leguan/css/light.css");
     }
 
     @FXML
