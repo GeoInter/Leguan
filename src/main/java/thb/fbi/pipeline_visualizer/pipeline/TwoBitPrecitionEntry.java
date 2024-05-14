@@ -6,9 +6,10 @@ import java.io.Serializable;
  * entry of 2 bit prediction table
  */
 public class TwoBitPrecitionEntry implements Serializable {
-    private Integer targetPC; // PC to branch to, if taken
-    private TwoBitPredictorState state;
+    
     private String code;
+    private TwoBitPredictorState state;
+    private Integer targetPC; // PC to branch to, if taken
 
     public TwoBitPrecitionEntry(Integer targetPC, TwoBitPredictorState state, String code) {
         this.targetPC = targetPC;

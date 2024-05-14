@@ -187,6 +187,8 @@ public class SimulatorController {
         FileManager.init(codeArea);
 
         pipelineVisualizer = new PipelineVisualizerAdapter();
+        pipelineVisualizer.addInitCSS("/thb/fbi/leguan/css/base.css");
+        pipelineVisualizer.addInitCSS("/thb/fbi/leguan/css/light.css");
     }
 
     @FXML
@@ -351,6 +353,7 @@ public class SimulatorController {
         Scene scene = registerPane.getScene();
         scene.getStylesheets().remove(1); // remove except for base
         scene.getStylesheets().add(this.getClass().getResource("/thb/fbi/leguan/css/" + css).toExternalForm());
+        pipelineVisualizer.switchCSS(css);
     }
 
     @FXML

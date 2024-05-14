@@ -35,7 +35,6 @@ public class PipelinePanel extends JPanel {
     WireLabel wire[] = new WireLabel[wireNumber];
     MFrame frames[];
     MFrame currentFrame;
-    TwoBitPredictorPanel twoBitPredictorPanel;
     int clockPulse;
     MouseEventHandler mHandler;
     int mode = 1;
@@ -67,15 +66,10 @@ public class PipelinePanel extends JPanel {
         this.addMouseWheelListener(mHandler);
     }
 
-    public void setTwoBitPredictorPanel(TwoBitPredictorPanel twoBitPredictorPanel) {
-        this.twoBitPredictorPanel = twoBitPredictorPanel;
-    }
-
     public void updateMFrames(MFrame frames[]) {
         this.frames = frames;
         clockPulse = 0;
         currentFrame = frames[clockPulse];
-        twoBitPredictorPanel.clearTable();
     }
 
     public void paintComponent(Graphics g) {
@@ -1563,7 +1557,6 @@ public class PipelinePanel extends JPanel {
             clockPulse++;
             repaint();
             currentFrame = frames[clockPulse];
-            twoBitPredictorPanel.update(currentFrame.twoBitPredictionTable);
         }
     }
 
@@ -1572,10 +1565,17 @@ public class PipelinePanel extends JPanel {
             clockPulse--;
             repaint();
             currentFrame = frames[clockPulse];
-            twoBitPredictorPanel.update(currentFrame.twoBitPredictionTable);
         }
     }
 
+    /**
+     * sets the display mode
+     * 1 = Decimal
+     * 2 = Binary
+     * 3 = Help
+     * other numbers are interpreted as 1
+     * @param mode
+     */
     public void setMode(int mode) {
         this.mode = mode;
     }
