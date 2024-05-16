@@ -10,8 +10,9 @@ import thb.fbi.leguan.simulation.Register;
 public class ConditionalBranchInstruction extends Instruction {
     private IConditionalBranchCode conditionalBranchCode;
 
-    public ConditionalBranchInstruction(String opcode, String description, IConditionalBranchCode conditionalBranchCode) {
-        setMnemonic(opcode);
+    public ConditionalBranchInstruction(String mnemonic, String opcode, String description, IConditionalBranchCode conditionalBranchCode) {
+        setMnemonic(mnemonic);
+        setOpcode(opcode);
         setDescription(description);
         setConditionalBranchCode(conditionalBranchCode);
     }

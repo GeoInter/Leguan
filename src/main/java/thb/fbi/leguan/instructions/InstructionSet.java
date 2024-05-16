@@ -25,6 +25,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ArithmeticInstruction("NULL",
+                        "",
                         "it is just empty",
                         new IArithmeticCode() {
                             @Override
@@ -37,6 +38,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ArithmeticInstruction("ADD",
+                        "",
                         "Adds value of Registers Rm and Rn and puts result in Rd without flags",
                         new IArithmeticCode() {
                             @Override
@@ -51,6 +53,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ImmediateInstruction("ADDI",
+                        "",
                         "Adds value of Registers Rm and a constant and puts result in Rd without flags",
                         new IImmediateCode() {
                             @Override
@@ -63,6 +66,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ImmediateInstruction("ADDIS",
+                        "",
                         "Adds value of Registers Rm and a constant and puts result in Rd with flags",
                         new IImmediateCode() {
                             @Override
@@ -78,6 +82,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ArithmeticInstruction("ADDS",
+                        "",
                         "Adds value of Registers Rm and Rn and puts result in Rd with flags",
                         new IArithmeticCode() {
                             @Override
@@ -95,6 +100,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ArithmeticInstruction("AND",
+                        "",
                         "AND",
                         new IArithmeticCode() {
                             @Override
@@ -109,6 +115,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ImmediateInstruction("ANDI",
+                        "",
                         "AND Immediate",
                         new IImmediateCode() {
                             @Override
@@ -122,6 +129,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ImmediateInstruction("ANDIS",
+                        "",
                         "AND Immediate and Flags",
                         new IImmediateCode() {
                             @Override
@@ -137,6 +145,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ArithmeticInstruction("ANDS",
+                        "",
                         "AND with Flags",
                         new IArithmeticCode() {
                             @Override
@@ -153,6 +162,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new BranchInstruction("B",
+                        "",
                         "Branch",
                         new IBranchCode() {
                             @Override
@@ -163,6 +173,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new BranchInstruction("B.EQ",
+                        "",
                         "Branch Signed Equals",
                         new IBranchCode() {
                             @Override
@@ -178,6 +189,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new BranchInstruction("B.NE",
+                        "",
                         "Branch Signed Not Equals",
                         new IBranchCode() {
                             @Override
@@ -193,6 +205,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new BranchInstruction("B.LT",
+                        "",
                         "Branch Signed Less Than",
                         new IBranchCode() {
                             @Override
@@ -208,6 +221,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new BranchInstruction("B.LE",
+                        "",
                         "Branch Signed Less Equals",
                         new IBranchCode() {
                             @Override
@@ -223,6 +237,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new BranchInstruction("B.GT",
+                        "",
                         "Branch Signed Greater Than",
                         new IBranchCode() {
                             @Override
@@ -238,6 +253,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new BranchInstruction("B.GE",
+                        "",
                         "Branch Signed Greater Equals",
                         new IBranchCode() {
                             @Override
@@ -253,6 +269,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new BranchInstruction("B.MI",
+                        "",
                         "Branch on Minus",
                         new IBranchCode() {
                             @Override
@@ -268,6 +285,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new BranchInstruction("B.PL",
+                        "",
                         "Branch on Plus",
                         new IBranchCode() {
                             @Override
@@ -283,6 +301,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new BranchInstruction("B.VS",
+                        "",
                         "Branch on Overflow set",
                         new IBranchCode() {
                             @Override
@@ -298,6 +317,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new BranchInstruction("B.VC",
+                        "",
                         "Branch on Overflow clear",
                         new IBranchCode() {
                             @Override
@@ -312,20 +332,22 @@ public class InstructionSet {
                         }));
 
         instructionSet.add(
-            new BranchInstruction("BL",
-                    "Branch with Link",
-                    new IBranchCode() {
-                        @Override
-                        public void simulate(int br_address, PCRegister pc) {
-                            Simulator simulator = SimulatorSingleton.getSimulator();
-                            Register R30 = simulator.getRegisters()[30];
-                            R30.setValue((pc.getValue() + 1) * 4); // internal pc value is not multiplied by 4
-                            pc.setValue(br_address);
-                        }
-                    }));
+                new BranchInstruction("BL",
+                        "",
+                        "Branch with Link",
+                        new IBranchCode() {
+                            @Override
+                            public void simulate(int br_address, PCRegister pc) {
+                                Simulator simulator = SimulatorSingleton.getSimulator();
+                                Register R30 = simulator.getRegisters()[30];
+                                R30.setValue((pc.getValue() + 1) * 4); // internal pc value is not multiplied by 4
+                                pc.setValue(br_address);
+                            }
+                        }));
 
         instructionSet.add(
                 new ConditionalBranchInstruction("BR",
+                        "",
                         "Branch to register",
                         new IConditionalBranchCode() {
                             @Override
@@ -338,6 +360,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ConditionalBranchInstruction("CBNZ",
+                        "",
                         "Compare and Branch if not Zero",
                         new IConditionalBranchCode() {
                             @Override
@@ -353,6 +376,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ConditionalBranchInstruction("CBZ",
+                        "",
                         "Compare and Branch if Zero",
                         new IConditionalBranchCode() {
                             @Override
@@ -368,6 +392,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ArithmeticInstruction("EOR",
+                        "",
                         "Exclusive OR between two Registers",
                         new IArithmeticCode() {
                             @Override
@@ -382,6 +407,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ImmediateInstruction("EORI",
+                        "",
                         "Exclusive OR between Register and Immediate",
                         new IImmediateCode() {
                             @Override
@@ -395,6 +421,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new DataTransferInstruction("LDUR",
+                        "",
                         "Load a double word from memory to register",
                         new IDataTransferCode() {
                             @Override
@@ -408,6 +435,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new DataTransferInstruction("LDURB",
+                        "",
                         "Load a Byte from memory to register",
                         new IDataTransferCode() {
                             @Override
@@ -421,6 +449,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new DataTransferInstruction("LDURH",
+                        "",
                         "Load a half word from memory to register",
                         new IDataTransferCode() {
                             @Override
@@ -434,6 +463,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new DataTransferInstruction("LDURSW",
+                        "",
                         "Load a word from memory to register",
                         new IDataTransferCode() {
                             @Override
@@ -447,6 +477,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new DataTransferInstruction("LDXR",
+                        "",
                         "Exclusive load a word from memory to register",
                         new IDataTransferCode() {
                             @Override
@@ -460,6 +491,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ArithmeticInstruction("LSL",
+                        "",
                         "Logical Shift Left",
                         new IArithmeticCode() {
                             @Override
@@ -473,6 +505,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ArithmeticInstruction("LSR",
+                        "",
                         "Logical Shift Right",
                         new IArithmeticCode() {
                             @Override
@@ -487,6 +520,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new WideImmediateInstruction("MOVK",
+                        "",
                         "Move wide with keep",
                         new IWideImmediateCode() {
                             @Override
@@ -494,13 +528,14 @@ public class InstructionSet {
                                 long oldValue = Rd.getValue();
                                 long result = immediate << shamt;
                                 result += oldValue;
-                                
+
                                 Rd.setValue(result);
                             }
                         }));
 
         instructionSet.add(
                 new WideImmediateInstruction("MOVZ",
+                        "",
                         "Move wide with zeroes",
                         new IWideImmediateCode() {
                             @Override
@@ -513,6 +548,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ArithmeticInstruction("ORR",
+                        "",
                         "Inclusive OR between two Registers",
                         new IArithmeticCode() {
                             @Override
@@ -527,6 +563,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ImmediateInstruction("ORRI",
+                        "",
                         "Inclusive OR between Register and Immediate",
                         new IImmediateCode() {
                             @Override
@@ -540,6 +577,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new DataTransferInstruction("STUR",
+                        "",
                         "Store a double word from register into memory",
                         new IDataTransferCode() {
                             @Override
@@ -553,6 +591,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new DataTransferInstruction("STURB",
+                        "",
                         "Store a Byte from register into memory",
                         new IDataTransferCode() {
                             @Override
@@ -566,6 +605,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new DataTransferInstruction("STURH",
+                        "",
                         "Store a half word from register into memory",
                         new IDataTransferCode() {
                             @Override
@@ -579,6 +619,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new DataTransferInstruction("STURW",
+                        "",
                         "Store a word from register into memory",
                         new IDataTransferCode() {
                             @Override
@@ -592,6 +633,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ArithmeticInstruction("STXR",
+                        "",
                         "Exclusive Store a word from register into memory",
                         new IArithmeticCode() {
                             @Override
@@ -607,6 +649,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ArithmeticInstruction("SUB",
+                        "",
                         "Subtracts value of Registers Rm and Rn and puts result in Rd without flags",
                         new IArithmeticCode() {
                             @Override
@@ -620,6 +663,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ImmediateInstruction("SUBI",
+                        "",
                         "Subtracts value of Registers Rm and a constant and puts result in Rd without flags",
                         new IImmediateCode() {
                             @Override
@@ -632,6 +676,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ImmediateInstruction("SUBIS",
+                        "",
                         "Subtracts value of Registers Rm and a constant and puts result in Rd without flags",
                         new IImmediateCode() {
                             @Override
@@ -648,6 +693,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ArithmeticInstruction("SUBS",
+                        "",
                         "Subtracts value of Registers Rm and Rn and puts result in Rd with flags",
                         new IArithmeticCode() {
                             @Override

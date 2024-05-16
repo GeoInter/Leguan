@@ -10,8 +10,9 @@ import thb.fbi.leguan.simulation.Register;
 public class ArithmeticInstruction extends Instruction {
     private IArithmeticCode arithmeticCode;
 
-    public ArithmeticInstruction(String opcode, String description, IArithmeticCode arithmeticCode) {
-        setMnemonic(opcode);
+    public ArithmeticInstruction(String mnemonic, String opcode, String description, IArithmeticCode arithmeticCode) {
+        setMnemonic(mnemonic);
+        setOpcode(opcode);
         setDescription(description);
         setArithmeticCode(arithmeticCode);
     }

@@ -10,8 +10,9 @@ import thb.fbi.leguan.simulation.Register;
 public class DataTransferInstruction extends Instruction {
     private IDataTransferCode dataTransferCode;
 
-    public DataTransferInstruction(String mnemonic, String description, IDataTransferCode dataTransferCode) {
+    public DataTransferInstruction(String mnemonic, String opcode, String description, IDataTransferCode dataTransferCode) {
         setMnemonic(mnemonic);
+        setOpcode(opcode);
         setDescription(description);
         setDataTransferCode(dataTransferCode);
     }

@@ -13,6 +13,8 @@ public abstract class Instruction implements Comparable<Instruction> {
     protected String mnemonic;
     /** brief description of the instruction */
     protected String description;
+    /** opcode of the instruction */
+    protected String opcode;
 
     public static final short INSTRUCTION_LENGTH = 4;
 
@@ -24,14 +26,25 @@ public abstract class Instruction implements Comparable<Instruction> {
     public String getMnemonic() {
         return this.mnemonic;
     }
+    
     protected void setMnemonic(String mnemonic) {
         this.mnemonic = mnemonic;
     }
+
     public String getDescription() {
         return this.description;
     }
+
     protected void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getOpcode() {
+        return opcode;
+    }
+
+    public void setOpcode(String opcode) {
+        this.opcode = opcode;
     }
 
     public abstract void simulate(InstructionArguments argument, PCRegister pc);

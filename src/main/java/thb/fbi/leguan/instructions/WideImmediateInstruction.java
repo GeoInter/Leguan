@@ -12,8 +12,9 @@ public class WideImmediateInstruction extends Instruction {
 
     
 
-    public WideImmediateInstruction(String mnemonic, String description, IWideImmediateCode wideImmediateCode) {
+    public WideImmediateInstruction(String mnemonic, String opcode, String description, IWideImmediateCode wideImmediateCode) {
         setMnemonic(mnemonic);
+        setOpcode(opcode);
         setDescription(description);
         setWideImmediateCode(wideImmediateCode);
     }

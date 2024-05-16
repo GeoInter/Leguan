@@ -10,8 +10,9 @@ import thb.fbi.leguan.simulation.Register;
 public class ImmediateInstruction extends Instruction {
     private IImmediateCode immediateCode;
 
-    public ImmediateInstruction(String opcode, String description, IImmediateCode immediateCode) {
-        setMnemonic(opcode);
+    public ImmediateInstruction(String mnemonic, String opcode, String description, IImmediateCode immediateCode) {
+        setMnemonic(mnemonic);
+        setOpcode(opcode);
         setDescription(description);
         setImmediateCode(immediateCode);
     }

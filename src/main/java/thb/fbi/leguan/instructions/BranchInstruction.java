@@ -9,8 +9,9 @@ import thb.fbi.leguan.simulation.PCRegister;
 public class BranchInstruction extends Instruction {
     private IBranchCode branchCode;
 
-    public BranchInstruction(String opcode, String description, IBranchCode branchCode) {
-        setMnemonic(opcode);
+    public BranchInstruction(String mnemonic, String opcode, String description, IBranchCode branchCode) {
+        setMnemonic(mnemonic);
+        setOpcode(opcode);
         setDescription(description);
         setBranchCode(branchCode);
     }
