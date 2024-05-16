@@ -154,7 +154,7 @@
                         </Tab>
                       <Tab text="%splitpane.Tab.Memory">
                            <content>
-                              <!-- content from RegisterPane.fxml included here -->
+                              <!-- content from Memory.fxml included here -->
                               <fx:include fx:id="memory" source="Memory.fxml" />
                            </content>
                         </Tab>

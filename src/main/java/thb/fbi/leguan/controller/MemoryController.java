@@ -26,6 +26,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.util.Callback;
 import javafx.util.converter.IntegerStringConverter;
+import thb.fbi.leguan.data.ARMProgram;
+import thb.fbi.leguan.data.ProgramStatement;
 import thb.fbi.leguan.instructions.Instruction;
 import thb.fbi.leguan.simulation.Base;
 import thb.fbi.leguan.simulation.Memory;
@@ -40,6 +42,15 @@ public class MemoryController implements MemoryObserver {
     TableColumn<Map.Entry<Long, Long>, String> addressColumn;
     @FXML
     TableColumn<Map.Entry<Long, Long>, String> contentColumn;
+
+    @FXML 
+    TableView<Map.Entry<Integer, ProgramStatement>> codeTable;
+    @FXML
+    TableColumn<Map.Entry<Integer, ProgramStatement>, String> codeAddressColumn;
+    @FXML
+    TableColumn<Map.Entry<Integer, ProgramStatement>, String> codeHexColumn;
+    @FXML
+    TableColumn<Map.Entry<Integer, ProgramStatement>, String> codeOriginalStringColumn;
 
     @FXML
     TextField startAddressTextField;
@@ -80,6 +91,9 @@ public class MemoryController implements MemoryObserver {
 
     private long upperRange = -1;
     private long lowerRange = -1;
+
+    // used for code segment address coutning
+    private int codeSegmentAddressCounter = 10000;
 
     /**
      * dertemines if entries of memory should be displayed as double words (8 Byte)
@@ -189,6 +203,34 @@ public class MemoryController implements MemoryObserver {
 
         Memory.setObserver(this);
         Instruction.setMemoryController(this);
+
+        codeAddressColumn.setComparator(new NumberComparator());
+        codeAddressColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Map.Entry<Integer, ProgramStatement>,String>,ObservableValue<String>>() {
+
+            @Override
+            public ObservableValue<String> call(CellDataFeatures<Map.Entry<Integer, ProgramStatement>, String> param) {
+                return new SimpleStringProperty(String.valueOf(param.getValue().getKey()));
+            }
+            
+        });
+
+        codeHexColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Map.Entry<Integer, ProgramStatement>,String>,ObservableValue<String>>() {
+
+            @Override
+            public ObservableValue<String> call(CellDataFeatures<Map.Entry<Integer, ProgramStatement>, String> param) {
+                return new SimpleStringProperty("");
+            }
+            
+        });
+
+        codeOriginalStringColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Map.Entry<Integer, ProgramStatement>,String>,ObservableValue<String>>() {
+
+            @Override
+            public ObservableValue<String> call(CellDataFeatures<Map.Entry<Integer, ProgramStatement>, String> param) {
+                return new SimpleStringProperty(param.getValue().getValue().getSource());
+            }
+            
+        });
 
         Image filterButtonImage = new Image(getClass().getResourceAsStream("/thb/fbi/leguan/images/filter.png"));
         filterButton.setGraphic(new ImageView(filterButtonImage));
@@ -418,5 +460,15 @@ public class MemoryController implements MemoryObserver {
 
         ObservableList<Map.Entry<Long, Long>> items = FXCollections.observableArrayList(newData.entrySet());
         memoryTable.setItems(items);
+    }
+
+    public void updateCode(ARMProgram program) {
+        TreeMap<Integer, ProgramStatement> codeSegment = new TreeMap<Integer, ProgramStatement>();
+        for(ProgramStatement st : program.getProgramStatements()) {
+            codeSegment.put(codeSegmentAddressCounter, st);
+            codeSegmentAddressCounter += Instruction.INSTRUCTION_LENGTH;
+        }
+        ObservableList<Map.Entry<Integer, ProgramStatement>> items = FXCollections.observableArrayList(codeSegment.entrySet());
+        codeTable.setItems(items);
     }
 }

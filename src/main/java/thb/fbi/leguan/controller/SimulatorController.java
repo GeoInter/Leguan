@@ -66,9 +66,13 @@ import thb.fbi.pipeline_visualizer.PipelineVisualizerAdapter;
 public class SimulatorController {
 
     @FXML
-    RegisterPaneController registerPaneController;
+    RegisterPaneController registerPaneController; // bound via registerPane + Controller (automatically)
+    @FXML 
+    MemoryController memoryController; // bound via memory + Controller (automatically)
     @FXML
     Parent registerPane;
+    @FXML
+    Parent memory;
 
     @FXML
     StackPane codeStackPane;
@@ -207,16 +211,17 @@ public class SimulatorController {
     private void assembleCode() {
         if (simulator.parse(codeArea.getText())) {
             setConsoleText(simulator.getErrors());
-            // runButton.setDisable(false);
             stepForwardButton.setDisable(false);
             // stepBackwardButton.setDisable(false);
             
+            // Update Memory Text Segment Table
+            memoryController.updateCode(simulator.getArmProgram());
+
             // Update Tool
             pipelineVisualizer.updateCode(simulator.getArmProgram(), codeArea.getText());
         } else {
             setConsoleText(simulator.getErrors());
             editorCanvas.setLineNumber(-1);
-            // runButton.setDisable(true);
             stepForwardButton.setDisable(true);
             // stepBackwardButton.setDisable(true);
         }

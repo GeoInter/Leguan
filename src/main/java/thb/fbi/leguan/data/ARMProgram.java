@@ -1,6 +1,7 @@
 package thb.fbi.leguan.data;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.TreeMap;
 
 import thb.fbi.leguan.simulation.Register;
@@ -26,6 +27,15 @@ public class ARMProgram {
      */
     public ArrayList<Register> getUsedRegisters() {
         return this.usedRegisters;
+    }
+
+    /**
+     * gets a Program Statement at the specified index
+     * @param address index pointing to statement
+     * @return Program Statement at specified index
+     */
+    public List<ProgramStatement> getProgramStatements() {
+        return this.statements;
     }
 
     /**
