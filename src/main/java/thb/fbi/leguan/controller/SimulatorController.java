@@ -212,7 +212,7 @@ public class SimulatorController {
             // stepBackwardButton.setDisable(false);
             
             // Update Tool
-            pipelineVisualizer.updateCode(codeArea.getText());
+            pipelineVisualizer.updateCode(simulator.getArmProgram(), codeArea.getText());
         } else {
             setConsoleText(simulator.getErrors());
             editorCanvas.setLineNumber(-1);

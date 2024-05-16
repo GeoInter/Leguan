@@ -11,6 +11,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import thb.fbi.pipeline_visualizer.parser.ProgramParser;
+import thb.fbi.leguan.data.ARMProgram;
 import thb.fbi.leguan.parser.antlr.LegV8Lexer;
 import thb.fbi.leguan.parser.antlr.LegV8Parser;
 
@@ -18,6 +19,7 @@ import thb.fbi.leguan.parser.antlr.LegV8Parser;
 public class PipelineSimulator {
 
     public Instruction[] instructions;
+    public ARMProgram program;
     public String code;
     public ArrayList<MFrame> Frames; // equals a clock cycle
     public MFrame FramesRet[];
@@ -43,11 +45,15 @@ public class PipelineSimulator {
 
     public PipelineSimulator() {
         this.instructions = new Instruction[0];
+        this.program = new ARMProgram();
     }
 
-    public MFrame[] execute(Instruction ins[]) {
+    private MFrame[] execute(Instruction ins[]) {
         Frames = new ArrayList<MFrame>();
         Frame = new MFrame(isForwardingEnabled, is2BitPredictorEnabled);
+        // add Data Segment to Memory
+        Frame.Memory.storeDataSegment(program.getDataSegment());
+
         this.instructionCounter = 0;
         i = 0;
         while (i < ins.length + 5) {
@@ -134,6 +140,10 @@ public class PipelineSimulator {
         parser = new LegV8Parser(tokens);
 
         return parser;
+    }
+
+    public void setProgram(ARMProgram program) {
+        this.program = program;
     }
 
     public MFrame[] setForwardingEnabled(boolean isForwardingEnabled) {

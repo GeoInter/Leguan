@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import thb.fbi.leguan.data.ARMProgram;
 import thb.fbi.leguan.utility.ILeguanTools;
 import thb.fbi.pipeline_visualizer.controller.PipelineVisualizerController;
 
@@ -58,9 +59,9 @@ public class PipelineVisualizerAdapter implements ILeguanTools {
     }
 
     @Override
-    public void updateCode(String code) {
+    public void updateCode(ARMProgram program, String code) {
         if (pipelineVisualizerController != null) {
-            pipelineVisualizerController.updateCode(code);
+            pipelineVisualizerController.updateCode(program, code);
         }
     }
 

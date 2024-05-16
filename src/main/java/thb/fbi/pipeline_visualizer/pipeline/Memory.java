@@ -193,4 +193,8 @@ public class Memory implements Serializable {
         }
         return memoryString;
     }
+
+    public void storeDataSegment(TreeMap<Long, Byte> dataSegment) {
+        this.dataStorage.putAll(dataSegment); // can potentially override entries
+    }
 }

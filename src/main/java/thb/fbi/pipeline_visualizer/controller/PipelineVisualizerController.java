@@ -21,6 +21,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TitledPane;
 import javafx.util.Callback;
+import thb.fbi.leguan.data.ARMProgram;
 import thb.fbi.pipeline_visualizer.pipeline.MFrame;
 import thb.fbi.pipeline_visualizer.pipeline.PipelineSimulator;
 import thb.fbi.pipeline_visualizer.pipeline.TwoBitPrecitionEntry;
@@ -115,7 +116,8 @@ public class PipelineVisualizerController {
                 });
     }
 
-    public void updateCode(String code) {
+    public void updateCode(ARMProgram program, String code) {
+        pipelineSimulator.setProgram(program);
         MFrame frames[] = pipelineSimulator.execute(code);
 
         SwingUtilities.invokeLater(new Runnable() {
