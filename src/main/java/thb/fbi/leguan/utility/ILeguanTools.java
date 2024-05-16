@@ -2,7 +2,9 @@ package thb.fbi.leguan.utility;
 
 public interface ILeguanTools {
     
-    public abstract void display();
+    public abstract void openExtension();
+
+    public abstract void closeExtension();
 
     public abstract void updateCode(String code);
 

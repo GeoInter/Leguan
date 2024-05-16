@@ -11,9 +11,7 @@ import thb.fbi.leguan.simulation.Simulator;
 import thb.fbi.leguan.simulation.SimulatorSingleton;
 
 /**
- * List of usable ARMv8 Thumb Instructions.
- * Instructions of formats Arithmetic(R), Immediate(I) and DataTransfer(D).
- *
+ * List of usable LEGv8 Instructions.
  */
 public class InstructionSet {
     /** unique List of all usable instructions */

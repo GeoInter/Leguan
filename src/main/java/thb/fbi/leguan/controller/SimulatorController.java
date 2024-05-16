@@ -20,13 +20,18 @@ import org.fxmisc.richtext.model.StyleSpansBuilder;
 import org.reactfx.EventStream;
 import org.reactfx.util.Try;
 
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SplitPane;
@@ -37,6 +42,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.WindowEvent;
+import thb.fbi.leguan.App;
 import thb.fbi.leguan.parser.ParsingError;
 import thb.fbi.leguan.parser.SyntaxHighlighter;
 import thb.fbi.leguan.parser.antlr.LegV8Lexer;
@@ -189,6 +196,11 @@ public class SimulatorController {
         pipelineVisualizer = new PipelineVisualizerAdapter();
         pipelineVisualizer.addInitCSS("/thb/fbi/leguan/css/base.css");
         pipelineVisualizer.addInitCSS("/thb/fbi/leguan/css/light.css");
+
+        // following gets called when app is about to be closed 
+        App.getStage().setOnCloseRequest(event -> {
+            confirmClosing(event);
+        });
     }
 
     @FXML
@@ -361,8 +373,33 @@ public class SimulatorController {
         editorCanvas.setVisible(isEnabled);
     }
 
+    /**
+     * Prompts dialog for saving file
+     */
+    public void confirmClosing(WindowEvent event) {
+        pipelineVisualizer.closeExtension();
+        if(! FileManager.isSaved()) {
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("Current project is modified");
+            alert.setContentText("Save?");
+            ButtonType okButton = new ButtonType("Save", ButtonData.YES);
+            ButtonType noButton = new ButtonType("No", ButtonData.NO);
+            ButtonType cancelButton = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
+            alert.getButtonTypes().setAll(okButton, noButton, cancelButton);
+            alert.showAndWait().ifPresent(response -> {
+                if(response == okButton) {
+                    FileManager.saveFile();
+                    Platform.exit();
+                } else if(response == cancelButton) { 
+                    // cancel closing
+                    event.consume();
+                }
+            });
+        }
+    }
+
     @FXML
     private void openPipelineVisualizer() {
-        pipelineVisualizer.display();
+        pipelineVisualizer.openExtension();
     }
 }

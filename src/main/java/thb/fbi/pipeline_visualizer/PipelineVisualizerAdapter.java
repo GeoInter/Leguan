@@ -10,7 +10,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import thb.fbi.leguan.App;
 import thb.fbi.leguan.utility.ILeguanTools;
 import thb.fbi.pipeline_visualizer.controller.PipelineVisualizerController;
 
@@ -21,7 +20,7 @@ public class PipelineVisualizerAdapter implements ILeguanTools {
     private Stage stage;
 
     @Override
-    public void display() {
+    public void openExtension() {
         if (pipelineVisualizerController == null) {
             try {
                 URL fxmlLocation = getClass().getResource("/thb/fbi/pipeline_visualizer/pipelineVisualizer.fxml");
@@ -30,7 +29,6 @@ public class PipelineVisualizerAdapter implements ILeguanTools {
                 pipelineVisualizerController = loader.getController();
                 this.stage = new Stage();
                 
-                this.stage.initOwner(App.getStage());
                 Scene scene = new Scene(pipelineVisualizer);
                 for(String css : cssFiles) {
                     scene.getStylesheets().add(this.getClass().getResource(css).toExternalForm());
@@ -49,6 +47,14 @@ public class PipelineVisualizerAdapter implements ILeguanTools {
             }
         }
 
+    }
+
+    
+    @Override
+    public void closeExtension() {
+        if(this.stage != null) {
+            this.stage.close();
+        }
     }
 
     @Override
