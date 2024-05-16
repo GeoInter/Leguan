@@ -3,6 +3,7 @@ package thb.fbi.leguan.parser;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.antlr.v4.runtime.misc.Interval;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 import thb.fbi.leguan.data.InstructionArguments;
@@ -104,7 +105,12 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
             instr = (Instruction) visit(ctx.getChild(1));
             args = (InstructionArguments) visit(ctx.getChild(2));
         }
-        return new ProgramStatement(instr, args, ctx.getText(), ctx.start.getLine() - 1); // lines are off by 1
+        // get original line of code (includes label, but not comments)
+        int start = ctx.start.getStartIndex();
+        int end = ctx.stop.getStopIndex();
+        Interval interval = new Interval(start, end);
+        String codeString = ctx.start.getInputStream().getText(interval);
+        return new ProgramStatement(instr, args, codeString, ctx.start.getLine() - 1); // lines are off by 1
     }
 
     /**
