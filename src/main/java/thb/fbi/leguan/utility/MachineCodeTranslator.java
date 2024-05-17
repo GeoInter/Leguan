@@ -14,7 +14,7 @@ public class MachineCodeTranslator {
         if(byteAmount <= 0) {
             return s;
         }
-        if(s.length() > byteAmount) {
+        if(s.length() > byteAmount) { // if number exceeds byte size or is negativ can't change the string without breaking its meaning
             s += "("+byteAmount+")";
         }
         while(s.length() < byteAmount) {

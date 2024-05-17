@@ -132,7 +132,7 @@
                   <Insets />
                </opaqueInsets>
             </Separator>
-            <TableView fx:id="codeTable">
+            <TableView fx:id="codeTable" fixedCellSize="30.0">
               <columns>
                 <TableColumn fx:id="codeAddressColumn" editable="false" prefWidth="75.0" text="%memory.Column.Address" />
                 <TableColumn fx:id="machineCodeColumn" editable="false" prefWidth="75.0" sortable="false" text="%memory.Column.MachineCode" />
