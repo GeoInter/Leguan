@@ -14,7 +14,7 @@ public abstract class Instruction implements Comparable<Instruction> {
     /** brief description of the instruction */
     protected String description;
     /** opcode of the instruction */
-    protected String opcode;
+    protected short opcode;
 
     public static final short INSTRUCTION_LENGTH = 4;
 
@@ -22,6 +22,7 @@ public abstract class Instruction implements Comparable<Instruction> {
 
     protected static MemoryController memoryController;
 
+    public abstract String getMachineCodeString(InstructionArguments args);
     
     public String getMnemonic() {
         return this.mnemonic;
@@ -39,11 +40,15 @@ public abstract class Instruction implements Comparable<Instruction> {
         this.description = description;
     }
 
-    public String getOpcode() {
+    public short getOpcode() {
         return opcode;
     }
 
     public void setOpcode(String opcode) {
+        this.opcode = Short.parseShort(opcode, 2);
+    }
+
+    public void setOpcode(short opcode) {
         this.opcode = opcode;
     }
 

@@ -135,7 +135,7 @@
             <TableView fx:id="codeTable">
               <columns>
                 <TableColumn fx:id="codeAddressColumn" editable="false" prefWidth="75.0" text="%memory.Column.Address" />
-                <TableColumn fx:id="codeHexColumn" editable="false" prefWidth="75.0" sortable="false" text="%memory.Column.HexCode" />
+                <TableColumn fx:id="machineCodeColumn" editable="false" prefWidth="75.0" sortable="false" text="%memory.Column.MachineCode" />
                   <TableColumn fx:id="codeOriginalStringColumn" editable="false" prefWidth="75.0" sortable="false" text="%memory.Column.Code" />
               </columns>
                <columnResizePolicy>

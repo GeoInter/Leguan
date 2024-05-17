@@ -48,7 +48,7 @@ public class MemoryController implements MemoryObserver {
     @FXML
     TableColumn<Map.Entry<Integer, ProgramStatement>, String> codeAddressColumn;
     @FXML
-    TableColumn<Map.Entry<Integer, ProgramStatement>, String> codeHexColumn;
+    TableColumn<Map.Entry<Integer, ProgramStatement>, String> machineCodeColumn;
     @FXML
     TableColumn<Map.Entry<Integer, ProgramStatement>, String> codeOriginalStringColumn;
 
@@ -214,11 +214,11 @@ public class MemoryController implements MemoryObserver {
             
         });
 
-        codeHexColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Map.Entry<Integer, ProgramStatement>,String>,ObservableValue<String>>() {
+        machineCodeColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Map.Entry<Integer, ProgramStatement>,String>,ObservableValue<String>>() {
 
             @Override
             public ObservableValue<String> call(CellDataFeatures<Map.Entry<Integer, ProgramStatement>, String> param) {
-                return new SimpleStringProperty("");
+                return new SimpleStringProperty(param.getValue().getValue().getMachineCodeString());
             }
             
         });
