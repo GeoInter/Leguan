@@ -25,12 +25,13 @@ import thb.fbi.leguan.App;
 public class FileManager {
 
     private static FileChooser fileChooser = new FileChooser();
+    private static File defaultDirectory = new File(System.getProperty("user.home"));
     private static CodeArea codeArea;
     private static boolean isSaved = true;
     private static File currentFile = null;
 
     public static void init(CodeArea codeArea) {
-        fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+        fileChooser.setInitialDirectory(defaultDirectory);
         fileChooser.getExtensionFilters().add(new ExtensionFilter("Assembly Code", "*.txt", "*.asm", "*.s", "*.S"));
         fileChooser.getExtensionFilters().add(new ExtensionFilter("All Files", "*.*"));
         fileChooser.getExtensionFilters().add(new ExtensionFilter("Text File", "*.txt"));
@@ -64,6 +65,7 @@ public class FileManager {
                 }
             });
         }
+        fileChooser.setInitialDirectory(defaultDirectory);
         File selectedFile = fileChooser.showOpenDialog(App.getStage());
         if(selectedFile != null) {
             getTextFromFile(selectedFile);
@@ -105,6 +107,10 @@ public class FileManager {
     public static void saveFile() {
         if(currentFile != null) {
             fileChooser.setInitialFileName(currentFile.getName());
+            File parentDir = currentFile.getParentFile();
+            if(parentDir != null && parentDir.isDirectory()) {
+                fileChooser.setInitialDirectory(parentDir);
+            }
             saveDialog();
         } else {
             saveFileAs();
@@ -113,6 +119,7 @@ public class FileManager {
 
     public static void saveFileAs() {
         fileChooser.setInitialFileName(null);
+        fileChooser.setInitialDirectory(defaultDirectory);
         saveDialog();
     }
 
