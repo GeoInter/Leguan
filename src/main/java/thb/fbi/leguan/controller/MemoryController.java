@@ -473,9 +473,10 @@ public class MemoryController implements MemoryObserver {
 
     public void updateCode(ARMProgram program) {
         TreeMap<Integer, ProgramStatement> codeSegment = new TreeMap<Integer, ProgramStatement>();
+        int addressCounter = codeSegmentAddressCounter;
         for(ProgramStatement st : program.getProgramStatements()) {
-            codeSegment.put(codeSegmentAddressCounter, st);
-            codeSegmentAddressCounter += Instruction.INSTRUCTION_LENGTH;
+            codeSegment.put(addressCounter, st);
+            addressCounter += Instruction.INSTRUCTION_LENGTH;
         }
         ObservableList<Map.Entry<Integer, ProgramStatement>> items = FXCollections.observableArrayList(codeSegment.entrySet());
         codeTable.setItems(items);
