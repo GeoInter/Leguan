@@ -172,15 +172,15 @@ public class InstructionSet {
                         }));
 
         instructionSet.add(
-                new BranchInstruction("B.EQ",
+                new ConditionalBranchInstruction("B.EQ",
                         "0",
                         "Branch Signed Equals",
-                        new IBranchCode() {
+                        new IConditionalBranchCode() {
                             @Override
-                            public void simulate(int br_address, PCRegister pc) {
+                            public void simulate(int cond_br_address, Register Rt, PCRegister pc) {
                                 // test Z == 1
                                 if (FlagRegister.getZFlag()) {
-                                    pc.setValue(br_address);
+                                    pc.setValue(cond_br_address);
                                 } else {
                                     pc.increase();
                                 }
@@ -188,15 +188,15 @@ public class InstructionSet {
                         }));
 
         instructionSet.add(
-                new BranchInstruction("B.NE",
+                new ConditionalBranchInstruction("B.NE",
                         "0",
                         "Branch Signed Not Equals",
-                        new IBranchCode() {
+                        new IConditionalBranchCode() {
                             @Override
-                            public void simulate(int br_address, PCRegister pc) {
+                            public void simulate(int cond_br_address, Register Rt, PCRegister pc) {
                                 // test Z == 0
                                 if (!FlagRegister.getZFlag()) {
-                                    pc.setValue(br_address);
+                                    pc.setValue(cond_br_address);
                                 } else {
                                     pc.increase();
                                 }
@@ -204,15 +204,15 @@ public class InstructionSet {
                         }));
 
         instructionSet.add(
-                new BranchInstruction("B.LT",
+                new ConditionalBranchInstruction("B.LT",
                         "0",
                         "Branch Signed Less Than",
-                        new IBranchCode() {
+                        new IConditionalBranchCode() {
                             @Override
-                            public void simulate(int br_address, PCRegister pc) {
+                            public void simulate(int cond_br_address, Register Rt, PCRegister pc) {
                                 // test N != V
                                 if (FlagRegister.getNFlag() != FlagRegister.getVFlag()) {
-                                    pc.setValue(br_address);
+                                    pc.setValue(cond_br_address);
                                 } else {
                                     pc.increase();
                                 }
@@ -220,15 +220,15 @@ public class InstructionSet {
                         }));
 
         instructionSet.add(
-                new BranchInstruction("B.LE",
+                new ConditionalBranchInstruction("B.LE",
                         "0",
                         "Branch Signed Less Equals",
-                        new IBranchCode() {
+                        new IConditionalBranchCode() {
                             @Override
-                            public void simulate(int br_address, PCRegister pc) {
+                            public void simulate(int cond_br_address, Register Rt, PCRegister pc) {
                                 // test ! (Z == 0 && N == V)
                                 if (!(!FlagRegister.getZFlag() && FlagRegister.getNFlag() == FlagRegister.getVFlag())) {
-                                    pc.setValue(br_address);
+                                    pc.setValue(cond_br_address);
                                 } else {
                                     pc.increase();
                                 }
@@ -236,15 +236,15 @@ public class InstructionSet {
                         }));
 
         instructionSet.add(
-                new BranchInstruction("B.GT",
+                new ConditionalBranchInstruction("B.GT",
                         "0",
                         "Branch Signed Greater Than",
-                        new IBranchCode() {
+                        new IConditionalBranchCode() {
                             @Override
-                            public void simulate(int br_address, PCRegister pc) {
+                            public void simulate(int cond_br_address, Register Rt, PCRegister pc) {
                                 // test (Z == 0 && N == V)
                                 if (!FlagRegister.getZFlag() && FlagRegister.getNFlag() == FlagRegister.getVFlag()) {
-                                    pc.setValue(br_address);
+                                    pc.setValue(cond_br_address);
                                 } else {
                                     pc.increase();
                                 }
@@ -252,15 +252,15 @@ public class InstructionSet {
                         }));
 
         instructionSet.add(
-                new BranchInstruction("B.GE",
+                new ConditionalBranchInstruction("B.GE",
                         "0",
                         "Branch Signed Greater Equals",
-                        new IBranchCode() {
+                        new IConditionalBranchCode() {
                             @Override
-                            public void simulate(int br_address, PCRegister pc) {
+                            public void simulate(int cond_br_address, Register Rt, PCRegister pc) {
                                 // test N == V
                                 if (FlagRegister.getNFlag() == FlagRegister.getVFlag()) {
-                                    pc.setValue(br_address);
+                                    pc.setValue(cond_br_address);
                                 } else {
                                     pc.increase();
                                 }
@@ -268,15 +268,15 @@ public class InstructionSet {
                         }));
 
         instructionSet.add(
-                new BranchInstruction("B.MI",
+                new ConditionalBranchInstruction("B.MI",
                         "0",
                         "Branch on Minus",
-                        new IBranchCode() {
+                        new IConditionalBranchCode() {
                             @Override
-                            public void simulate(int br_address, PCRegister pc) {
+                            public void simulate(int cond_br_address, Register Rt, PCRegister pc) {
                                 // test N == 1
                                 if (FlagRegister.getNFlag()) {
-                                    pc.setValue(br_address);
+                                    pc.setValue(cond_br_address);
                                 } else {
                                     pc.increase();
                                 }
@@ -284,15 +284,15 @@ public class InstructionSet {
                         }));
 
         instructionSet.add(
-                new BranchInstruction("B.PL",
+                new ConditionalBranchInstruction("B.PL",
                         "0",
                         "Branch on Plus",
-                        new IBranchCode() {
+                        new IConditionalBranchCode() {
                             @Override
-                            public void simulate(int br_address, PCRegister pc) {
+                            public void simulate(int cond_br_address, Register Rt, PCRegister pc) {
                                 // test N == 0
                                 if (!FlagRegister.getNFlag()) {
-                                    pc.setValue(br_address);
+                                    pc.setValue(cond_br_address);
                                 } else {
                                     pc.increase();
                                 }
@@ -300,15 +300,15 @@ public class InstructionSet {
                         }));
 
         instructionSet.add(
-                new BranchInstruction("B.VS",
+                new ConditionalBranchInstruction("B.VS",
                         "0",
                         "Branch on Overflow set",
-                        new IBranchCode() {
+                        new IConditionalBranchCode() {
                             @Override
-                            public void simulate(int br_address, PCRegister pc) {
+                            public void simulate(int cond_br_address, Register Rt, PCRegister pc) {
                                 // test V == 1
                                 if (FlagRegister.getVFlag()) {
-                                    pc.setValue(br_address);
+                                    pc.setValue(cond_br_address);
                                 } else {
                                     pc.increase();
                                 }
@@ -316,15 +316,15 @@ public class InstructionSet {
                         }));
 
         instructionSet.add(
-                new BranchInstruction("B.VC",
+                new ConditionalBranchInstruction("B.VC",
                         "0",
                         "Branch on Overflow clear",
-                        new IBranchCode() {
+                        new IConditionalBranchCode() {
                             @Override
-                            public void simulate(int br_address, PCRegister pc) {
+                            public void simulate(int cond_br_address, Register Rt, PCRegister pc) {
                                 // test V == 0
                                 if (!FlagRegister.getVFlag()) {
-                                    pc.setValue(br_address);
+                                    pc.setValue(cond_br_address);
                                 } else {
                                     pc.increase();
                                 }

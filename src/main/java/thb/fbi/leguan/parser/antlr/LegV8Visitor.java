@@ -119,6 +119,12 @@ public interface LegV8Visitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitCondBranchInstruction(LegV8Parser.CondBranchInstructionContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link LegV8Parser#b_cond_Instruction}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitB_cond_Instruction(LegV8Parser.B_cond_InstructionContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link LegV8Parser#branchInstruction}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -172,6 +178,12 @@ public interface LegV8Visitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitCondBranchParam(LegV8Parser.CondBranchParamContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link LegV8Parser#b_cond_Param}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitB_cond_Param(LegV8Parser.B_cond_ParamContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link LegV8Parser#branchParam}.
 	 * @param ctx the parse tree

@@ -12,6 +12,8 @@ import thb.fbi.leguan.instructions.Instruction;
 import thb.fbi.leguan.parser.antlr.LegV8BaseVisitor;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.ArithmeticInstructionContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.ArithmeticParamContext;
+import thb.fbi.leguan.parser.antlr.LegV8Parser.B_cond_InstructionContext;
+import thb.fbi.leguan.parser.antlr.LegV8Parser.B_cond_ParamContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.BranchByRegisterInstructionContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.BranchByRegisterParamContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.BranchInstructionContext;
@@ -246,6 +248,12 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
     }
 
     @Override
+    public Instruction visitB_cond_Instruction(B_cond_InstructionContext ctx) {
+        String instructionName = ctx.B_cond_Instruction().getText();
+        return getInstructionByName(instructionName);
+    }
+
+    @Override
     public Instruction visitCondBranchInstruction(CondBranchInstructionContext ctx) {
         String instructionName = ctx.CondBranchInstruction().getText();
         return getInstructionByName(instructionName);
@@ -336,6 +344,14 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
         int cond_br_address = visitJumpLabelReference(ctx.jumpLabelReference());
         InstructionArguments args = new InstructionArguments();
         args.setRt(Rt);
+        args.setCond_Br_Address(cond_br_address);
+        return args;
+    }
+
+    @Override
+    public InstructionArguments visitB_cond_Param(B_cond_ParamContext ctx) {
+        int cond_br_address = visitJumpLabelReference(ctx.jumpLabelReference());
+        InstructionArguments args = new InstructionArguments();
         args.setCond_Br_Address(cond_br_address);
         return args;
     }
