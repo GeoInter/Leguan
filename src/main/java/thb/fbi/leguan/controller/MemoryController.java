@@ -209,7 +209,14 @@ public class MemoryController implements MemoryObserver {
 
             @Override
             public ObservableValue<String> call(CellDataFeatures<Map.Entry<Integer, ProgramStatement>, String> param) {
-                return new SimpleStringProperty(String.valueOf(param.getValue().getKey()));
+                if (displayAddressAsHex) {
+                    StringBuilder str = new StringBuilder(
+                            Long.toHexString(param.getValue().getKey()).toUpperCase());
+                    str.insert(0, "0x");
+                    return new SimpleStringProperty(str.toString());
+                } else {
+                    return new SimpleStringProperty(String.valueOf(param.getValue().getKey()));
+                }
             }
             
         });
@@ -321,6 +328,7 @@ public class MemoryController implements MemoryObserver {
         DecAddressButton.setDisable(true);
         // force refresh so each cell is updated by cellValueFactory
         memoryTable.refresh();
+        codeTable.refresh();
     }
 
     /**
@@ -333,6 +341,7 @@ public class MemoryController implements MemoryObserver {
         DecAddressButton.setDisable(false);
         // force refresh so each cell is updated by cellValueFactory
         memoryTable.refresh();
+        codeTable.refresh();
     }
 
     /**
