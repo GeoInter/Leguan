@@ -214,7 +214,7 @@ public class SimulatorController {
             stepForwardButton.setDisable(false);
             // stepBackwardButton.setDisable(false);
             
-            // Update Memory Text Segment Table
+            // Update Memory Code Segment Table
             memoryController.updateCode(simulator.getArmProgram());
 
             // Update Tool
@@ -231,6 +231,7 @@ public class SimulatorController {
     private void runCode() {
         if (simulator.parse(codeArea.getText())) {
             setConsoleText(simulator.getErrors());
+            memoryController.updateCode(simulator.getArmProgram()); // Update Memory Code Segment Table
             simulator.run(codeArea.getText());
         } else {
             setConsoleText(simulator.getErrors());
