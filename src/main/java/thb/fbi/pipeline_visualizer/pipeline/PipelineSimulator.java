@@ -39,6 +39,8 @@ public class PipelineSimulator {
     public double cpi = 0; // clocks per instruction
     public double sf = 0; // speed-up factor
 
+    public int failsafeMaxClockCycle = 2000;
+
     private boolean isForwardingEnabled = true;
     private boolean is2BitPredictorEnabled = false;
     private boolean debugOutput = false;
@@ -56,7 +58,8 @@ public class PipelineSimulator {
 
         this.instructionCounter = 0;
         i = 0;
-        while (i < ins.length + 5) {
+        int failsafeCounter = 0;
+        while (i < ins.length + 5 && failsafeCounter < failsafeMaxClockCycle) {
             Instruction instruction;
             try {
                 instruction = ins[i];
@@ -77,7 +80,7 @@ public class PipelineSimulator {
                     this.instructionCounter++;
                 }
             }
-
+            failsafeCounter++;
             Frames.add(Frame.getCopy());
         }
         this.clockCycleCounter = this.Frames.size();
