@@ -90,8 +90,8 @@ LR: 'LR' ;
 XZR: 'XZR' ;
 
 // Pointer Token (data segment variable names and jump label names)
-PointerDeclaration: [a-zA-Z]+ ':' ;
-PointerReference: [a-zA-Z]+ ;
+PointerDeclaration: [a-zA-Z][a-zA-Z0-9]* ':' ;
+PointerReference: [a-zA-Z][a-zA-Z0-9]* ;
 
 DataSegmentTypes: '.byte' | '.halfword' | '.word' | '.dword' | '.ascii';
 ASCII_String: '"' [a-zA-Z_,.;: ]+ '"';
