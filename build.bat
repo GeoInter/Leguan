@@ -1,9 +1,9 @@
 @echo off
 
 :: Run mvn package with different profiles and parameters
-
+call mvn clean
 :: linux
-call mvn clean package "-Djavafx.platform=linux" "-Dapp.name=Leguan-linux.sh" -P shell -f .\build_pom.xml
+call mvn package "-Djavafx.platform=linux" "-Dapp.name=Leguan-linux.sh" -P shell -f .\build_pom.xml
 call mvn package "-Djavafx.platform=linux-aarch64" "-Dapp.name=Leguan-linux-aarch64.sh" -P shell -f .\build_pom.xml
 
 :: mac
