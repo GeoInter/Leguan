@@ -172,10 +172,14 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
     public Object visitJumpLabelDeclaration(JumpLabelDeclarationContext ctx) {
         String id = ctx.PointerDeclaration().getText();
         id = id.substring(0, id.length() - 1); // remove ":"
-        if (jumpMarks.containsKey(id)) {
-            addSemanticError(ctx.PointerDeclaration(), ParsingErrorType.DoubledJumpLabelDeclaration);
+        if(ParserHelper.isLabelNameValid(id)) {
+            if (jumpMarks.containsKey(id)) {
+                addSemanticError(ctx.PointerDeclaration(), ParsingErrorType.DoubledJumpLabelDeclaration);
+            } else {
+                jumpMarks.put(id, this.programIndex);
+            }
         } else {
-            jumpMarks.put(id, this.programIndex);
+            addSemanticError(ctx.PointerDeclaration(), ParsingErrorType.InvalidLabelName);
         }
         return null;
     }
@@ -184,12 +188,16 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
     public Integer visitJumpLabelReference(JumpLabelReferenceContext ctx) {
         String id = ctx.PointerReference().getText();
         Integer address = jumpMarks.get(id);
-        if (address != null) {
-            return address;
+        if(ParserHelper.isLabelNameValid(id)) {
+            if (address != null) {
+                return address;
+            } else {
+                unresolvedMarks.put(this.programIndex, id); 
+            }
         } else {
-            unresolvedMarks.put(this.programIndex, id);
-            return -1;
+            addSemanticError(ctx.PointerReference(), ParsingErrorType.InvalidLabelName);
         }
+        return -1;
     }
 
     /**

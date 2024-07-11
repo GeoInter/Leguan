@@ -81,7 +81,7 @@ SQUARE_BRACKET_LEFT : '[';
 SQUARE_BRACKET_RIGHT: ']';
 
 // Token for regsiter and number parameter
-REGISTER : SP | FP | LR | XZR | 'X0' | 'X'[1-9][0-9]* ; // manual check required for range
+REGISTER : SP | FP | LR | XZR | 'X0' | 'X'[1-9][0-9]? ; // manual check required for range
 NUMBER : '0' | '-'? [1-9][0-9]* | '0x' [1-9a-fA-F][0-9a-fA-F]*;
 
 SP: 'SP' ;
@@ -90,8 +90,8 @@ LR: 'LR' ;
 XZR: 'XZR' ;
 
 // Pointer Token (data segment variable names and jump label names)
-PointerDeclaration: [a-zA-Z][a-zA-Z][a-zA-Z0-9][a-zA-Z0-9]+ ':' ; // potential overlap with register prevented by specifying atleast 4 chars
-PointerReference: [a-zA-Z][a-zA-Z][a-zA-Z0-9][a-zA-Z0-9]+ ;
+PointerDeclaration: [a-zA-Z][a-zA-Z0-9]* ':' ; 
+PointerReference: [a-zA-Z][a-zA-Z0-9]* ; // potential overlap with register names
 
 DataSegmentTypes: '.byte' | '.halfword' | '.word' | '.dword' | '.ascii';
 ASCII_String: '"' [a-zA-Z_,.;: ]+ '"';
