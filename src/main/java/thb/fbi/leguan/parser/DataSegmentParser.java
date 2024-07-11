@@ -1,11 +1,8 @@
 package thb.fbi.leguan.parser;
 
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeMap;
-
-import org.antlr.v4.runtime.tree.TerminalNode;
 
 import thb.fbi.leguan.parser.antlr.LegV8BaseVisitor;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.AsciiContext;
@@ -19,11 +16,9 @@ import thb.fbi.leguan.simulation.Memory;
 
 public class DataSegmentParser extends LegV8BaseVisitor<Object> {
 
-    private ArrayList<ParsingError> semanticErrors;
     private HashMap<String, Long> dataSegmentMap;
 
-    public DataSegmentParser(ArrayList<ParsingError> semanticErrors, HashMap<String, Long> dataSegmentMap) {
-        this.semanticErrors = semanticErrors;
+    public DataSegmentParser(HashMap<String, Long> dataSegmentMap) {
         this.dataSegmentMap = dataSegmentMap;
     }
 
@@ -53,7 +48,7 @@ public class DataSegmentParser extends LegV8BaseVisitor<Object> {
                                 if (fitSpecifiedByteSize(longValue, 1)) {
                                     bv = longValue.byteValue();
                                 } else {
-                                    addSemanticError(pair.dataSegmentType().DataSegmentTypes(),
+                                    ParserHelper.addSemanticError(pair.dataSegmentType().DataSegmentTypes(),
                                             ParsingErrorType.DataSegmentTypeFormatException);
                                 }
                                 address = addByte(dataSegment, bv, address);
@@ -64,7 +59,7 @@ public class DataSegmentParser extends LegV8BaseVisitor<Object> {
                                 if (fitSpecifiedByteSize(longValue, 2)) {
                                     sv = longValue.shortValue();
                                 } else {
-                                    addSemanticError(pair.dataSegmentType().DataSegmentTypes(),
+                                    ParserHelper.addSemanticError(pair.dataSegmentType().DataSegmentTypes(),
                                             ParsingErrorType.DataSegmentTypeFormatException);
                                 }
                                 address = addHalfword(dataSegment, sv, address);
@@ -75,7 +70,7 @@ public class DataSegmentParser extends LegV8BaseVisitor<Object> {
                                 if (fitSpecifiedByteSize(longValue, 4)) {
                                     iv = longValue.intValue();
                                 } else {
-                                    addSemanticError(pair.dataSegmentType().DataSegmentTypes(),
+                                    ParserHelper.addSemanticError(pair.dataSegmentType().DataSegmentTypes(),
                                             ParsingErrorType.DataSegmentTypeFormatException);
                                 }
                                 address = addWord(dataSegment, iv, address);
@@ -98,7 +93,7 @@ public class DataSegmentParser extends LegV8BaseVisitor<Object> {
                         }
                     }
                 } else {
-                    addSemanticError(ctx.dataSegmentEntry(i).dataSegmentVariable().PointerDeclaration(), ParsingErrorType.InvalidLabelName);
+                    ParserHelper.addSemanticError(ctx.dataSegmentEntry(i).dataSegmentVariable().PointerDeclaration(), ParsingErrorType.InvalidLabelName);
                 }
             }
         }
@@ -134,7 +129,7 @@ public class DataSegmentParser extends LegV8BaseVisitor<Object> {
         try {
             number = Long.parseLong(numberText, radix);
         } catch (NumberFormatException e) {
-            addSemanticError(ctx.NUMBER(), ParsingErrorType.NumberFormatException);
+            ParserHelper.addSemanticError(ctx.NUMBER(), ParsingErrorType.NumberFormatException);
         }
         return number;
     }
@@ -179,18 +174,6 @@ public class DataSegmentParser extends LegV8BaseVisitor<Object> {
             dataSegment.put(address + i, bytes[i]);
         }
         return address + bytes.length;
-    }
-
-    /**
-     * helper function for adding parser error to list
-     * 
-     * @param token     the token of the parse tree which is responsible for
-     *                  throwing the error
-     * @param errorType type of parsing error
-     */
-    private void addSemanticError(TerminalNode node, ParsingErrorType errorType) {
-        ParsingError err = new ParsingError(node, errorType);
-        semanticErrors.add(err);
     }
 
     /**

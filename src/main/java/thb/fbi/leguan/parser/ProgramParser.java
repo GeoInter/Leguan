@@ -51,8 +51,9 @@ public class ProgramParser extends LegV8BaseVisitor<ARMProgram> {
 
     @Override
     public ARMProgram visitProgram(ProgramContext ctx) {
-        DataSegmentParser dataSegmentParser = new DataSegmentParser(semanticErrors, dataSegmentVariables);
-        ProgramStatementParser statementVisitor = new ProgramStatementParser(semanticErrors, usedRegisters, jumpMarks, unresolvedMarks);
+        ParserHelper.setSemanticErrors(this.semanticErrors);
+        DataSegmentParser dataSegmentParser = new DataSegmentParser(dataSegmentVariables);
+        ProgramStatementParser statementVisitor = new ProgramStatementParser(usedRegisters, jumpMarks, unresolvedMarks);
         ArrayList<ProgramStatement> lines = new ArrayList<ProgramStatement>();
 
         dataSegment = dataSegmentParser.visitDataSegment(ctx.dataSegment());

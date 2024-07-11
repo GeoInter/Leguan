@@ -3,8 +3,6 @@ package thb.fbi.leguan.parser;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.antlr.v4.runtime.tree.TerminalNode;
-
 import thb.fbi.leguan.data.InstructionArguments;
 import thb.fbi.leguan.data.ProgramStatement;
 import thb.fbi.leguan.instructions.Instruction;
@@ -41,15 +39,13 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
     private static Simulator simulator = SimulatorSingleton.getSimulator();
     private int programIndex = 0; // current program statement in list
 
-    private ArrayList<ParsingError> semanticErrors;
     private ArrayList<Register> usedRegisters;
     private HashMap<String, Integer> jumpMarks;
     private HashMap<Integer, String> unresolvedMarks;
 
     
-    public ProgramStatementParser(ArrayList<ParsingError> semanticErrors, ArrayList<Register> usedRegisters,
-            HashMap<String, Integer> jumpMarks, HashMap<Integer, String> unresolvedMarks) {
-        this.semanticErrors = semanticErrors;
+    public ProgramStatementParser(ArrayList<Register> usedRegisters, HashMap<String, 
+            Integer> jumpMarks, HashMap<Integer, String> unresolvedMarks) {
         this.usedRegisters = usedRegisters;
         this.jumpMarks = jumpMarks;
         this.unresolvedMarks = unresolvedMarks;
@@ -140,7 +136,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
                 usedRegisters.add(register);
             }
         } catch (ArrayIndexOutOfBoundsException e) {
-            addSemanticError(ctx.REGISTER(), ParsingErrorType.RegisterOutOfRange);
+            ParserHelper.addSemanticError(ctx.REGISTER(), ParsingErrorType.RegisterOutOfRange);
         }
         return register;
     }
@@ -163,7 +159,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
         try {
             number = Integer.parseInt(numberText, radix);
         } catch (NumberFormatException e) {
-            addSemanticError(ctx.NUMBER(), ParsingErrorType.NumberFormatException);
+            ParserHelper.addSemanticError(ctx.NUMBER(), ParsingErrorType.NumberFormatException);
         }
         return number;
     }
@@ -174,12 +170,12 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
         id = id.substring(0, id.length() - 1); // remove ":"
         if(ParserHelper.isLabelNameValid(id)) {
             if (jumpMarks.containsKey(id)) {
-                addSemanticError(ctx.PointerDeclaration(), ParsingErrorType.DoubledJumpLabelDeclaration);
+                ParserHelper.addSemanticError(ctx.PointerDeclaration(), ParsingErrorType.DoubledJumpLabelDeclaration);
             } else {
                 jumpMarks.put(id, this.programIndex);
             }
         } else {
-            addSemanticError(ctx.PointerDeclaration(), ParsingErrorType.InvalidLabelName);
+            ParserHelper.addSemanticError(ctx.PointerDeclaration(), ParsingErrorType.InvalidLabelName);
         }
         return null;
     }
@@ -195,7 +191,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
                 unresolvedMarks.put(this.programIndex, id); 
             }
         } else {
-            addSemanticError(ctx.PointerReference(), ParsingErrorType.InvalidLabelName);
+            ParserHelper.addSemanticError(ctx.PointerReference(), ParsingErrorType.InvalidLabelName);
         }
         return -1;
     }
@@ -296,10 +292,10 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
         int shamt = visitNum(ctx.num(1));
         // only allows 0, 16, 32 and 48 as shift value
         if (shamt != 0 && shamt != 16 && shamt != 32 && shamt != 48) {
-            addSemanticError(ctx.num(1).NUMBER(), ParsingErrorType.WideImmediateShiftOutOfRange);
+            ParserHelper.addSemanticError(ctx.num(1).NUMBER(), ParsingErrorType.WideImmediateShiftOutOfRange);
         }
         if (ctx.ShiftInstruction().getText().equals("LSR")) {
-            addSemanticError(ctx.ShiftInstruction(), ParsingErrorType.WrongShiftforWideImmediate);
+            ParserHelper.addSemanticError(ctx.ShiftInstruction(), ParsingErrorType.WrongShiftforWideImmediate);
         }
         InstructionArguments args = new InstructionArguments();
         args.setRd(Rd);
@@ -368,16 +364,6 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
         args.setRn(Rn);
         args.setShamt(shamt);
         return args;
-    }
-
-    /**
-     * helper function for adding parser error to list
-     * @param token the token of the parse tree which is responsible for throwing the error 
-     * @param errorType type of parsing error
-     */
-    private void addSemanticError(TerminalNode node, ParsingErrorType errorType) {
-        ParsingError err = new ParsingError(node, errorType);
-        semanticErrors.add(err);
     }
 
 }
