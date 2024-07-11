@@ -149,6 +149,18 @@ public class LegV8BaseListener implements LegV8Listener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterDataSegmentLabelReference(LegV8Parser.DataSegmentLabelReferenceContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDataSegmentLabelReference(LegV8Parser.DataSegmentLabelReferenceContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterArithmeticInstruction(LegV8Parser.ArithmeticInstructionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -257,6 +269,18 @@ public class LegV8BaseListener implements LegV8Listener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterDataSegmentInstruction(LegV8Parser.DataSegmentInstructionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDataSegmentInstruction(LegV8Parser.DataSegmentInstructionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterArithmeticParam(LegV8Parser.ArithmeticParamContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -360,6 +384,18 @@ public class LegV8BaseListener implements LegV8Listener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitBranchByRegisterParam(LegV8Parser.BranchByRegisterParamContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDataSegmentParam(LegV8Parser.DataSegmentParamContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDataSegmentParam(LegV8Parser.DataSegmentParamContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

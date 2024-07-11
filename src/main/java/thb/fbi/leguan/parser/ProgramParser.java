@@ -53,7 +53,7 @@ public class ProgramParser extends LegV8BaseVisitor<ARMProgram> {
     public ARMProgram visitProgram(ProgramContext ctx) {
         ParserHelper.setSemanticErrors(this.semanticErrors);
         DataSegmentParser dataSegmentParser = new DataSegmentParser(dataSegmentVariables);
-        ProgramStatementParser statementVisitor = new ProgramStatementParser(usedRegisters, jumpMarks, unresolvedMarks);
+        ProgramStatementParser statementVisitor = new ProgramStatementParser(usedRegisters, jumpMarks, unresolvedMarks, dataSegmentVariables);
         ArrayList<ProgramStatement> lines = new ArrayList<ProgramStatement>();
 
         dataSegment = dataSegmentParser.visitDataSegment(ctx.dataSegment());
@@ -94,7 +94,6 @@ public class ProgramParser extends LegV8BaseVisitor<ARMProgram> {
                 }   
             }
         }
-        
 
         ARMProgram program = new ARMProgram();
         program.setDataSegment(dataSegment);

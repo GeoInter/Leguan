@@ -77,6 +77,12 @@ public interface LegV8Visitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitJumpLabelReference(LegV8Parser.JumpLabelReferenceContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link LegV8Parser#dataSegmentLabelReference}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDataSegmentLabelReference(LegV8Parser.DataSegmentLabelReferenceContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link LegV8Parser#arithmeticInstruction}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -131,6 +137,12 @@ public interface LegV8Visitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitBranchByRegisterInstruction(LegV8Parser.BranchByRegisterInstructionContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link LegV8Parser#dataSegmentInstruction}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDataSegmentInstruction(LegV8Parser.DataSegmentInstructionContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link LegV8Parser#arithmeticParam}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -184,6 +196,12 @@ public interface LegV8Visitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitBranchByRegisterParam(LegV8Parser.BranchByRegisterParamContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link LegV8Parser#dataSegmentParam}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDataSegmentParam(LegV8Parser.DataSegmentParamContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link LegV8Parser#num}.
 	 * @param ctx the parse tree

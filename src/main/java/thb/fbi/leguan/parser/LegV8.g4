@@ -27,10 +27,12 @@ line : jumpLabelDeclaration? (arithmeticInstruction arithmeticParam |
                     exclusiveInstruction exclusiveParam |
                     condBranchInstruction condBranchParam | 
                     branchInstruction branchParam |
-                    branchByRegisterInstruction branchByRegisterParam);
+                    branchByRegisterInstruction branchByRegisterParam |
+                    dataSegmentInstruction dataSegmentParam);
 
 jumpLabelDeclaration: PointerDeclaration ;
 jumpLabelReference: PointerReference ;
+dataSegmentLabelReference: PointerReference ;
 
 arithmeticInstruction : ArithmeticInstruction;
 shiftInstruction: ShiftInstruction;
@@ -41,6 +43,7 @@ exclusiveInstruction : ExclusiveInstruction;
 condBranchInstruction : CondBranchInstruction;
 branchInstruction : BranchInstruction;
 branchByRegisterInstruction : BranchByRegisterInstruction;
+dataSegmentInstruction: DataSegmentInstruction;
 
 arithmeticParam : register COMMA register COMMA register ;
 shiftParam : register COMMA register COMMA num ; // separated from arithemtic
@@ -51,6 +54,7 @@ exclusiveParam : register COMMA register SQUARE_BRACKET_LEFT register SQUARE_BRA
 condBranchParam : register COMMA jumpLabelReference ;
 branchParam : jumpLabelReference ;
 branchByRegisterParam : register ;
+dataSegmentParam : register COMMA dataSegmentLabelReference ;
 
 num: NUMBER ;
 register : REGISTER ;
@@ -67,6 +71,7 @@ ExclusiveInstruction : 'STXR';
 CondBranchInstruction : 'CBNZ' | 'CBZ' ;
 BranchInstruction : 'B' | 'BL' | 'B.EQ' | 'B.NE' | 'B.LT' | 'B.LE' | 'B.GT' | 'B.GE' | 'B.MI' | 'B.PL' | 'B.VS' | 'B.VC';
 BranchByRegisterInstruction : 'BR';
+DataSegmentInstruction : 'ADR' ;
 
 
 // skipped Tokens

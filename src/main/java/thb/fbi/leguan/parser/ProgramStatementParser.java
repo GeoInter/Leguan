@@ -15,6 +15,9 @@ import thb.fbi.leguan.parser.antlr.LegV8Parser.BranchInstructionContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.BranchParamContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.CondBranchInstructionContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.CondBranchParamContext;
+import thb.fbi.leguan.parser.antlr.LegV8Parser.DataSegmentInstructionContext;
+import thb.fbi.leguan.parser.antlr.LegV8Parser.DataSegmentLabelReferenceContext;
+import thb.fbi.leguan.parser.antlr.LegV8Parser.DataSegmentParamContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.DatatransferInstructionContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.DatatransferParamContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.ExclusiveInstructionContext;
@@ -42,13 +45,14 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
     private ArrayList<Register> usedRegisters;
     private HashMap<String, Integer> jumpMarks;
     private HashMap<Integer, String> unresolvedMarks;
+    private HashMap<String, Long> dataSegmentVariables;
 
-    
-    public ProgramStatementParser(ArrayList<Register> usedRegisters, HashMap<String, 
-            Integer> jumpMarks, HashMap<Integer, String> unresolvedMarks) {
+    public ProgramStatementParser(ArrayList<Register> usedRegisters, HashMap<String, Integer> jumpMarks,
+            HashMap<Integer, String> unresolvedMarks, HashMap<String, Long> dataSegmentVariables) {
         this.usedRegisters = usedRegisters;
         this.jumpMarks = jumpMarks;
         this.unresolvedMarks = unresolvedMarks;
+        this.dataSegmentVariables = dataSegmentVariables;
     }
 
     /**
@@ -168,7 +172,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
     public Object visitJumpLabelDeclaration(JumpLabelDeclarationContext ctx) {
         String id = ctx.PointerDeclaration().getText();
         id = id.substring(0, id.length() - 1); // remove ":"
-        if(ParserHelper.isLabelNameValid(id)) {
+        if (ParserHelper.isLabelNameValid(id)) {
             if (jumpMarks.containsKey(id)) {
                 ParserHelper.addSemanticError(ctx.PointerDeclaration(), ParsingErrorType.DoubledJumpLabelDeclaration);
             } else {
@@ -183,17 +187,33 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
     @Override
     public Integer visitJumpLabelReference(JumpLabelReferenceContext ctx) {
         String id = ctx.PointerReference().getText();
-        Integer address = jumpMarks.get(id);
-        if(ParserHelper.isLabelNameValid(id)) {
+        if (ParserHelper.isLabelNameValid(id)) {
+            Integer address = jumpMarks.get(id);
             if (address != null) {
                 return address;
             } else {
-                unresolvedMarks.put(this.programIndex, id); 
+                unresolvedMarks.put(this.programIndex, id);
             }
         } else {
             ParserHelper.addSemanticError(ctx.PointerReference(), ParsingErrorType.InvalidLabelName);
         }
         return -1;
+    }
+
+    @Override
+    public Long visitDataSegmentLabelReference(DataSegmentLabelReferenceContext ctx) {
+        String id = ctx.PointerReference().getText();
+        if (ParserHelper.isLabelNameValid(id)) {
+            Long address = dataSegmentVariables.get(id);
+            if (address != null) {
+                return address;
+            } else {
+                // unresolvedMarks.put(this.programIndex, id);
+            }
+        } else {
+            // ParserHelper.addSemanticError(ctx.PointerReference(), ParsingErrorType.InvalidLabelName);
+        }
+        return -1L;
     }
 
     /**
@@ -258,6 +278,12 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
     @Override
     public Instruction visitBranchByRegisterInstruction(BranchByRegisterInstructionContext ctx) {
         String instructionName = ctx.BranchByRegisterInstruction().getText();
+        return getInstructionByName(instructionName);
+    }
+
+    @Override
+    public Instruction visitDataSegmentInstruction(DataSegmentInstructionContext ctx) {
+        String instructionName = ctx.DataSegmentInstruction().getText();
         return getInstructionByName(instructionName);
     }
 
@@ -363,6 +389,16 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
         args.setRd(Rd);
         args.setRn(Rn);
         args.setShamt(shamt);
+        return args;
+    }
+
+    @Override
+    public InstructionArguments visitDataSegmentParam(DataSegmentParamContext ctx) {
+        Register Rt = visitRegister(ctx.register());
+        long dt_address = visitDataSegmentLabelReference(ctx.dataSegmentLabelReference());
+        InstructionArguments args = new InstructionArguments();
+        args.setRt(Rt);
+        args.setDt_Address(dt_address);
         return args;
     }
 

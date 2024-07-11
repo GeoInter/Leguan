@@ -118,6 +118,16 @@ public interface LegV8Listener extends ParseTreeListener {
 	 */
 	void exitJumpLabelReference(LegV8Parser.JumpLabelReferenceContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link LegV8Parser#dataSegmentLabelReference}.
+	 * @param ctx the parse tree
+	 */
+	void enterDataSegmentLabelReference(LegV8Parser.DataSegmentLabelReferenceContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LegV8Parser#dataSegmentLabelReference}.
+	 * @param ctx the parse tree
+	 */
+	void exitDataSegmentLabelReference(LegV8Parser.DataSegmentLabelReferenceContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link LegV8Parser#arithmeticInstruction}.
 	 * @param ctx the parse tree
 	 */
@@ -208,6 +218,16 @@ public interface LegV8Listener extends ParseTreeListener {
 	 */
 	void exitBranchByRegisterInstruction(LegV8Parser.BranchByRegisterInstructionContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link LegV8Parser#dataSegmentInstruction}.
+	 * @param ctx the parse tree
+	 */
+	void enterDataSegmentInstruction(LegV8Parser.DataSegmentInstructionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LegV8Parser#dataSegmentInstruction}.
+	 * @param ctx the parse tree
+	 */
+	void exitDataSegmentInstruction(LegV8Parser.DataSegmentInstructionContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link LegV8Parser#arithmeticParam}.
 	 * @param ctx the parse tree
 	 */
@@ -297,6 +317,16 @@ public interface LegV8Listener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitBranchByRegisterParam(LegV8Parser.BranchByRegisterParamContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link LegV8Parser#dataSegmentParam}.
+	 * @param ctx the parse tree
+	 */
+	void enterDataSegmentParam(LegV8Parser.DataSegmentParamContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LegV8Parser#dataSegmentParam}.
+	 * @param ctx the parse tree
+	 */
+	void exitDataSegmentParam(LegV8Parser.DataSegmentParamContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link LegV8Parser#num}.
 	 * @param ctx the parse tree

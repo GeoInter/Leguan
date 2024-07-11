@@ -35,7 +35,7 @@ public class DataSegmentParser extends LegV8BaseVisitor<Object> {
                 dataVariableName = dataVariableName.substring(0, dataVariableName.length() - 1); // remove ":"
 
                 if (ParserHelper.isLabelNameValid(dataVariableName)) {
-                    dataSegmentMap.put(ctx.dataSegmentEntry(i).dataSegmentVariable().getText(), address);
+                    dataSegmentMap.put(dataVariableName, address);
 
                     for (int j = 0; j < ctx.dataSegmentEntry(i).dataSegmentPairing().size(); j++) {
                         DataSegmentPairingContext pair = ctx.dataSegmentEntry(i).dataSegmentPairing(j);
