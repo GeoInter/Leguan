@@ -224,6 +224,9 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
      */
     private Instruction getInstructionByName(String instructionName) {
         Instruction instruction = simulator.getInstructionSet().findInstructionByMnemonic(instructionName);
+        if(instruction == null) {
+            instruction = simulator.getInstructionSet().findInstructionByMnemonic("NULL");
+        }
         return instruction;
     }
 
