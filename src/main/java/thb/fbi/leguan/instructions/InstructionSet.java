@@ -666,14 +666,12 @@ public class InstructionSet {
         //// Other Instructions ////
 
         instructionSet.add(
-                new DataTransferInstruction("ADR",
+                new DataTransferInstruction("LDR",
                         "Loads a program-relative or register-relative address into a register",
                         new IDataTransferCode() {
                             @Override
                             public void simulate(long dt_address, Register Rn, Register Rt) {
-                                long value = Memory.loadDWord(dt_address);
-                                System.out.print(value);
-                                Rt.setValue(value);
+                                Rt.setValue(dt_address);
                             }
                         }));
     }

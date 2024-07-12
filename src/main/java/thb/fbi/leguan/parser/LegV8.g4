@@ -54,7 +54,7 @@ exclusiveParam : register COMMA register SQUARE_BRACKET_LEFT register SQUARE_BRA
 condBranchParam : register COMMA jumpLabelReference ;
 branchParam : jumpLabelReference ;
 branchByRegisterParam : register ;
-dataSegmentParam : register COMMA dataSegmentLabelReference ;
+dataSegmentParam : register COMMA EQUALS_SIGN dataSegmentLabelReference ;
 
 num: NUMBER ;
 register : REGISTER ;
@@ -71,7 +71,7 @@ ExclusiveInstruction : 'STXR';
 CondBranchInstruction : 'CBNZ' | 'CBZ' ;
 BranchInstruction : 'B' | 'BL' | 'B.EQ' | 'B.NE' | 'B.LT' | 'B.LE' | 'B.GT' | 'B.GE' | 'B.MI' | 'B.PL' | 'B.VS' | 'B.VC';
 BranchByRegisterInstruction : 'BR';
-DataSegmentInstruction : 'ADR' ;
+DataSegmentInstruction : 'LDR' ;
 
 
 // skipped Tokens
@@ -82,6 +82,7 @@ LINE_COMMENT: '//' ~[\r\n]* -> skip; // matches everything except tab and newlin
 // syntax related
 COMMA : ',' ;
 SEMI : ';' ;
+EQUALS_SIGN : '=' ;
 SQUARE_BRACKET_LEFT : '[';
 SQUARE_BRACKET_RIGHT: ']';
 
