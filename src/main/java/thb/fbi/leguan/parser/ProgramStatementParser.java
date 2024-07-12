@@ -192,7 +192,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
             if (address != null) {
                 return address;
             } else {
-                unresolvedMarks.put(this.programIndex, id);
+                ParserHelper.addSemanticError(ctx.PointerReference(), ParsingErrorType.UndefinedJumpLabelReference);
             }
         } else {
             ParserHelper.addSemanticError(ctx.PointerReference(), ParsingErrorType.InvalidLabelName);
@@ -208,10 +208,10 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
             if (address != null) {
                 return address;
             } else {
-                // unresolvedMarks.put(this.programIndex, id);
+                unresolvedMarks.put(this.programIndex, id);
             }
         } else {
-            // ParserHelper.addSemanticError(ctx.PointerReference(), ParsingErrorType.InvalidLabelName);
+            ParserHelper.addSemanticError(ctx.PointerReference(), ParsingErrorType.InvalidLabelName);
         }
         return -1L;
     }
