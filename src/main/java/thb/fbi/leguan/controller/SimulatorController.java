@@ -226,7 +226,7 @@ public class SimulatorController {
     private void runCode() {
         if (simulator.parse(codeArea.getText())) {
             setConsoleText(simulator.getErrors());
-            simulator.run(codeArea.getText());
+            simulator.runAllInstructions();
         } else {
             setConsoleText(simulator.getErrors());
         }
@@ -248,7 +248,7 @@ public class SimulatorController {
 
     @FXML
     private void stepForward() {
-        int lineNumber = simulator.forwardStep(codeArea.getText());
+        int lineNumber = simulator.forwardStep();
         editorCanvas.setLineNumber(lineNumber);
     }
 

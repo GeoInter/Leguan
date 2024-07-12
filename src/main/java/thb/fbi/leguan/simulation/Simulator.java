@@ -100,16 +100,8 @@ public class Simulator {
      * executes exactly one instruction
      * @param code program to execute
      */
-    public int forwardStep(String code) {
-        ProgramStatement statement = program.getProgramStatement((int) pc.getValue());
-        if(statement != null) {
-            Instruction instruction = statement.getInstruction();
-            if(instruction != null) {
-                registerPaneController.clearFlagHighlighting();
-                memoryController.clearMemoryHighlighting();
-                instruction.simulate(statement.getArguments(), pc);
-            }
-        }
+    public int forwardStep() {
+        runNextInstruction();
 
         // get source line of next instruction
         ProgramStatement nextStatement = program.getProgramStatement((int) pc.getValue());
@@ -123,7 +115,7 @@ public class Simulator {
      * parses and executes the whole written code 
      * @param code written text to parse
      */
-    public void run(String code) {
+    public void runAllInstructions() {
         executor.execute(new Runnable() {
             @Override
             public void run() {
@@ -142,18 +134,28 @@ public class Simulator {
 
         while(isRunning.get() && failsafe < 50000) {
             failsafe++;
-            ProgramStatement statement = program.getProgramStatement((int) pc.getValue());
-            if(statement != null) {
-                Instruction instruction = statement.getInstruction();
-                if(instruction != null) {
-                    registerPaneController.clearFlagHighlighting();
-                    memoryController.clearMemoryHighlighting();
-                    instruction.simulate(statement.getArguments(), pc);
-                } 
-            } else {
+            if(! runNextInstruction()) {
                 isRunning.set(false);
             }
         }
+    }
+
+    /**
+     * run the next assembly instruction point to by the Program Counter
+     * @return boolean indicating if an instruction was executed or not (statement/ instruction was null)
+     */
+    private boolean runNextInstruction() {
+        ProgramStatement statement = program.getProgramStatement((int) pc.getValue());
+        if(statement != null) {
+            Instruction instruction = statement.getInstruction();
+            if(instruction != null) {
+                registerPaneController.clearFlagHighlighting();
+                memoryController.clearMemoryHighlighting();
+                instruction.simulate(statement.getArguments(), pc);
+                return true;
+            } 
+        }
+        return false;
     }
 
     /**
