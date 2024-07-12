@@ -26,7 +26,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.util.Callback;
 import javafx.util.converter.IntegerStringConverter;
-import thb.fbi.leguan.instructions.Instruction;
 import thb.fbi.leguan.simulation.Base;
 import thb.fbi.leguan.simulation.Memory;
 import thb.fbi.leguan.simulation.MemoryObserver;
@@ -189,7 +188,6 @@ public class MemoryController implements MemoryObserver {
                 .setTextFormatter(new TextFormatter<Integer>(new IntegerStringConverter(), null, integerFilter));
 
         Memory.setObserver(this);
-        Instruction.setMemoryController(this);
         Simulator.setMemoryController(this);
 
         Image filterButtonImage = new Image(getClass().getResourceAsStream("/thb/fbi/leguan/images/filter.png"));

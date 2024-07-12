@@ -1,6 +1,5 @@
 package thb.fbi.leguan.instructions;
 
-import thb.fbi.leguan.controller.MemoryController;
 import thb.fbi.leguan.controller.RegisterPaneController;
 import thb.fbi.leguan.data.InstructionArguments;
 import thb.fbi.leguan.simulation.PCRegister;
@@ -17,8 +16,6 @@ public abstract class Instruction implements Comparable<Instruction> {
     public static final short INSTRUCTION_LENGTH = 4;
 
     protected static RegisterPaneController registerPaneController;
-
-    protected static MemoryController memoryController;
 
     
     public String getMnemonic() {
@@ -64,9 +61,5 @@ public abstract class Instruction implements Comparable<Instruction> {
 
     public static void setRegisterPaneController(RegisterPaneController registerPaneController) {
         Instruction.registerPaneController = registerPaneController;
-    }
-
-    public static void setMemoryController(MemoryController memoryController) {
-        Instruction.memoryController = memoryController;
-    }    
+    }  
 }
