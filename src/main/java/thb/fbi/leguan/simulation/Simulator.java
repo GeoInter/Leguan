@@ -10,6 +10,8 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import thb.fbi.leguan.controller.MemoryController;
+import thb.fbi.leguan.controller.RegisterPaneController;
 import thb.fbi.leguan.data.ARMProgram;
 import thb.fbi.leguan.data.ProgramStatement;
 import thb.fbi.leguan.instructions.Instruction;
@@ -50,6 +52,10 @@ public class Simulator {
     private SimpleBooleanProperty isCodeChanged = new SimpleBooleanProperty(true);
     /** boolean indicating code is correct and parse */
     private SimpleBooleanProperty isCodeParsed = new SimpleBooleanProperty(false);;
+
+    protected static RegisterPaneController registerPaneController;
+
+    protected static MemoryController memoryController;
 
     public Simulator() {
         registers = new Register[registerNr];
@@ -99,6 +105,8 @@ public class Simulator {
         if(statement != null) {
             Instruction instruction = statement.getInstruction();
             if(instruction != null) {
+                registerPaneController.clearFlagHighlighting();
+                memoryController.clearMemoryHighlighting();
                 instruction.simulate(statement.getArguments(), pc);
             }
         }
@@ -138,6 +146,8 @@ public class Simulator {
             if(statement != null) {
                 Instruction instruction = statement.getInstruction();
                 if(instruction != null) {
+                    registerPaneController.clearFlagHighlighting();
+                    memoryController.clearMemoryHighlighting();
                     instruction.simulate(statement.getArguments(), pc);
                 } 
             } else {
@@ -275,4 +285,12 @@ public class Simulator {
     public SimpleBooleanProperty getIsCodeChanged() {
         return isCodeChanged;
     }
+
+    public static void setRegisterPaneController(RegisterPaneController registerPaneController) {
+        Simulator.registerPaneController = registerPaneController;
+    }
+
+    public static void setMemoryController(MemoryController memoryController) {
+        Simulator.memoryController = memoryController;
+    }   
 }

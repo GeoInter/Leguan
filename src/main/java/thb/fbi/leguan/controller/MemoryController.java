@@ -30,6 +30,7 @@ import thb.fbi.leguan.instructions.Instruction;
 import thb.fbi.leguan.simulation.Base;
 import thb.fbi.leguan.simulation.Memory;
 import thb.fbi.leguan.simulation.MemoryObserver;
+import thb.fbi.leguan.simulation.Simulator;
 import thb.fbi.leguan.utility.NumberComparator;
 
 public class MemoryController implements MemoryObserver {
@@ -189,6 +190,7 @@ public class MemoryController implements MemoryObserver {
 
         Memory.setObserver(this);
         Instruction.setMemoryController(this);
+        Simulator.setMemoryController(this);
 
         Image filterButtonImage = new Image(getClass().getResourceAsStream("/thb/fbi/leguan/images/filter.png"));
         filterButton.setGraphic(new ImageView(filterButtonImage));

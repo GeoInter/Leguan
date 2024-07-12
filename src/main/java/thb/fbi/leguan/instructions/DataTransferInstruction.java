@@ -18,8 +18,6 @@ public class DataTransferInstruction extends Instruction {
 
     @Override
     public void simulate(InstructionArguments argument, PCRegister pc) {
-        registerPaneController.clearFlagHighlighting();
-        memoryController.clearMemoryHighlighting();
         long dt_address = argument.getDt_Address();
         Register Rn = argument.getRn();
         Register Rt = argument.getRt();

@@ -240,6 +240,7 @@ public class RegisterPaneController implements FlagRegisterObserver {
         });
 
         Instruction.setRegisterPaneController(this);
+        Simulator.setRegisterPaneController(this);
         FlagRegister.setObserver(this);
     }
 
