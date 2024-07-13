@@ -127,6 +127,7 @@ public class FileManager {
         File selectedFile = fileChooser.showSaveDialog(App.getStage());
         if(selectedFile != null) {
             saveTextToFile(selectedFile);
+            currentFile = selectedFile;
             isSaved = true;
         }
     }
