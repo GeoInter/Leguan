@@ -23,7 +23,6 @@ public class ImmediateInstruction extends Instruction {
         Register Rd = argument.getRd();
         this.immediateCode.simulate(alu_immediate, Rn, Rd);
         pc.increase();
-        registerPaneController.updateRegisterHighlighting(Rd.getID());
     }
 
     public IImmediateCode getImmediateCode() {

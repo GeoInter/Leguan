@@ -1,6 +1,5 @@
 package thb.fbi.leguan.instructions;
 
-import thb.fbi.leguan.controller.RegisterPaneController;
 import thb.fbi.leguan.data.InstructionArguments;
 import thb.fbi.leguan.simulation.PCRegister;
 
@@ -14,9 +13,6 @@ public abstract class Instruction implements Comparable<Instruction> {
     protected String description;
 
     public static final short INSTRUCTION_LENGTH = 4;
-
-    protected static RegisterPaneController registerPaneController;
-
     
     public String getMnemonic() {
         return this.mnemonic;
@@ -57,9 +53,5 @@ public abstract class Instruction implements Comparable<Instruction> {
 
     public int compareTo(Instruction i) {
         return mnemonic.compareTo(i.getMnemonic());
-    }
-
-    public static void setRegisterPaneController(RegisterPaneController registerPaneController) {
-        Instruction.registerPaneController = registerPaneController;
-    }  
+    } 
 }

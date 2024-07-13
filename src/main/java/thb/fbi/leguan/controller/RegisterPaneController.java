@@ -11,7 +11,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import thb.fbi.leguan.instructions.Instruction;
 import thb.fbi.leguan.simulation.FlagRegister;
 import thb.fbi.leguan.simulation.FlagRegisterObserver;
 import thb.fbi.leguan.simulation.Simulator;
@@ -239,7 +238,6 @@ public class RegisterPaneController implements FlagRegisterObserver {
             }
         });
 
-        Instruction.setRegisterPaneController(this);
         Simulator.setRegisterPaneController(this);
         FlagRegister.setObserver(this);
     }

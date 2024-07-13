@@ -23,7 +23,6 @@ public class DataTransferInstruction extends Instruction {
         Register Rt = argument.getRt();
         this.dataTransferCode.simulate(dt_address, Rn, Rt);
         pc.increase();
-        registerPaneController.updateRegisterHighlighting(Rt.getID());
     }
 
     public IDataTransferCode getDataTransferCode() {

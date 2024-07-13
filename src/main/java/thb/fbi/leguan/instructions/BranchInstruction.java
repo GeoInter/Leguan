@@ -19,7 +19,6 @@ public class BranchInstruction extends Instruction {
     public void simulate(InstructionArguments argument, PCRegister pc) {
         int br_address = argument.getBr_Address();
         this.branchCode.simulate(br_address, pc);
-        registerPaneController.updateRegisterHighlighting(-1);
     }
 
     public IBranchCode getBranchCode() {

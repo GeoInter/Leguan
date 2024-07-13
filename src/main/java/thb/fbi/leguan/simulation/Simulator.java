@@ -149,9 +149,20 @@ public class Simulator {
         if(statement != null) {
             Instruction instruction = statement.getInstruction();
             if(instruction != null) {
+                // update UI Highlighting
                 registerPaneController.clearFlagHighlighting();
                 memoryController.clearMemoryHighlighting();
+
                 instruction.simulate(statement.getArguments(), pc);
+
+                // set highlighting for specific a specific registerbox
+                if(statement.getArguments().getRd() != null) {
+                    registerPaneController.updateRegisterHighlighting(statement.getArguments().getRd().getID());
+                } else if(statement.getArguments().getRt() != null) {
+                    registerPaneController.updateRegisterHighlighting(statement.getArguments().getRt().getID());
+                } else {
+                    registerPaneController.updateRegisterHighlighting(-1);
+                }
                 return true;
             } 
         }

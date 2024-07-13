@@ -25,7 +25,6 @@ public class WideImmediateInstruction extends Instruction {
         int shamt = argument.getShamt();
         this.wideImmediateCode.simulate(Rd, immediate, shamt);
         pc.increase();
-        registerPaneController.updateRegisterHighlighting(Rd.getID());
     }
     
     public IWideImmediateCode getWideImmediateCode() {

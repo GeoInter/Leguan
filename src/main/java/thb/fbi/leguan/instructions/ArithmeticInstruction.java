@@ -24,7 +24,6 @@ public class ArithmeticInstruction extends Instruction {
         Register Rd = argument.getRd();
         this.arithmeticCode.simulate(Rm, shamt, Rn, Rd);
         pc.increase();
-        registerPaneController.updateRegisterHighlighting(Rd.getID()); 
     }
 
     public IArithmeticCode getArithmeticCode() {

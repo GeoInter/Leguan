@@ -21,7 +21,6 @@ public class ConditionalBranchInstruction extends Instruction {
         int cond_br_address = argument.getCond_Br_Address();
         Register Rt = argument.getRt();
         this.conditionalBranchCode.simulate(cond_br_address, Rt, pc);
-        registerPaneController.updateRegisterHighlighting(-1);
     }
 
     public IConditionalBranchCode getConditionalBranchCode() {
