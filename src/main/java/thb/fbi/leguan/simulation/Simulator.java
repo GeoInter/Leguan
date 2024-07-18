@@ -33,7 +33,7 @@ public class Simulator {
     /** array of accessible regsiters */
     private Register[] registers;
     /** programm counter */
-    private PCRegister pc = new PCRegister("PC", 0, -1);
+    private PCRegister pc = new PCRegister("PC", Memory.CODE_SEGMENT_START, -1);
     /** register of processor flags */
     private FlagRegister flagRegister = new FlagRegister();
     /** program to execute */
@@ -58,7 +58,7 @@ public class Simulator {
             registers[i] = new Register("X"+i, 0, i);
             registers[i].setNumberFormat(Base.DEC);
         }
-        pc.setValue(0);
+        pc.setValue(Memory.CODE_SEGMENT_START);
         this.program = new ARMProgram();
         syntaxErrorListener = new SyntaxErrorListener();
         programParser = new ProgramParser();
@@ -228,7 +228,7 @@ public class Simulator {
         for (Register register : registers) {
             register.setValue(0);
         }
-        pc.setValue(0);
+        pc.setValue(Memory.CODE_SEGMENT_START);
         Memory.storeDataSegment(this.program.getDataSegment());
         stopThread();
     }

@@ -30,7 +30,7 @@ public class DataSegmentParser extends LegV8BaseVisitor<Object> {
     @Override
     public TreeMap<Long, Byte> visitDataSegment(DataSegmentContext ctx) {
         TreeMap<Long, Byte> dataSegment = new TreeMap<Long, Byte>();
-        long address = Memory.dataSegmentStart;
+        long address = Memory.DATA_SEGMENT_START;
 
         if (ctx != null) {
             // for each Variable

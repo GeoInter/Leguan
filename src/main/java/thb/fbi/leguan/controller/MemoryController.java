@@ -92,9 +92,6 @@ public class MemoryController implements MemoryObserver {
     private long upperRange = -1;
     private long lowerRange = -1;
 
-    // used for code segment address coutning
-    private int codeSegmentAddressCounter = 10000;
-
     /**
      * dertemines if entries of memory should be displayed as double words (8 Byte)
      */
@@ -472,13 +469,7 @@ public class MemoryController implements MemoryObserver {
     }
 
     public void updateCode(ARMProgram program) {
-        TreeMap<Integer, ProgramStatement> codeSegment = new TreeMap<Integer, ProgramStatement>();
-        int addressCounter = codeSegmentAddressCounter;
-        for(ProgramStatement st : program.getProgramStatements()) {
-            codeSegment.put(addressCounter, st);
-            addressCounter += Instruction.INSTRUCTION_LENGTH;
-        }
-        ObservableList<Map.Entry<Integer, ProgramStatement>> items = FXCollections.observableArrayList(codeSegment.entrySet());
+        ObservableList<Map.Entry<Integer, ProgramStatement>> items = FXCollections.observableArrayList(program.getProgramStatements().entrySet());
         codeTable.setItems(items);
     }
 }

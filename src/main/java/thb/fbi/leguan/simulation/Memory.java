@@ -13,7 +13,9 @@ public class Memory {
     /** lock addresses; boolean indicates if changed by other store instruction than STXR */
     private static HashMap<Long, Boolean> lockStorage = new HashMap<Long, Boolean>();
     /** predefined start address of the dataSegment */
-    public final static long dataSegmentStart = 40000;
+    public final static long DATA_SEGMENT_START = 40000;
+
+    public final static int CODE_SEGMENT_START = 4194304; // 40.000 hex
 
     private static MemoryObserver observer;
 
@@ -263,6 +265,6 @@ public class Memory {
 
     public static void storeDataSegment(TreeMap<Long, Byte> dataSegment) {
         dataStorage.putAll(dataSegment); // can potentially override keys
-        notifyObserver(dataSegmentStart, dataSegment.size());
+        notifyObserver(DATA_SEGMENT_START, dataSegment.size());
     }
 }
