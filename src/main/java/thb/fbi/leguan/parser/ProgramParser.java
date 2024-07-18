@@ -53,7 +53,9 @@ public class ProgramParser extends LegV8BaseVisitor<ARMProgram> {
 
     @Override
     public ARMProgram visitProgram(ProgramContext ctx) {
-        DataSegmentParser dataSegmentParser = new DataSegmentParser(semanticErrors, dataSegmentVariables);
+        // right after code segment starts the static data segment; Use Context to get number of instructions of program beforehand
+        int endOfCodeSegmentAdress = Memory.CODE_SEGMENT_START + ctx.line().size() * Instruction.INSTRUCTION_LENGTH;
+        DataSegmentParser dataSegmentParser = new DataSegmentParser(semanticErrors, dataSegmentVariables, endOfCodeSegmentAdress);
         ProgramStatementParser statementVisitor = new ProgramStatementParser(semanticErrors, usedRegisters, jumpMarks, unresolvedMarks);
         TreeMap<Integer, ProgramStatement> lines = new TreeMap<Integer, ProgramStatement>();
 
