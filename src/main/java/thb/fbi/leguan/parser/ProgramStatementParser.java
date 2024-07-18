@@ -107,11 +107,15 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
             instr = (Instruction) visit(ctx.getChild(1));
             args = (InstructionArguments) visit(ctx.getChild(2));
         }
-        // get original line of code (includes label, but not comments)
+        // get original line of code (excludes label and not comments)
         int start = ctx.start.getStartIndex();
         int end = ctx.stop.getStopIndex();
         Interval interval = new Interval(start, end);
         String codeString = ctx.start.getInputStream().getText(interval);
+        codeString = codeString.replace('\n', ' ');
+        int endOfLabel = codeString.indexOf(":");
+        codeString = codeString.substring(endOfLabel+1);
+        codeString = codeString.trim();
         return new ProgramStatement(instr, args, codeString, ctx.start.getLine() - 1); // lines are off by 1
     }
 
