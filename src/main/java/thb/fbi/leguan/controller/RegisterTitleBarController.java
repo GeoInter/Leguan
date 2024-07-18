@@ -71,6 +71,7 @@ public class RegisterTitleBarController {
         registerTitle.setText(register.getName());
         addShownValueObserver();
         setDisplayUnsigned(displayUnsigned);
+        updateToHex(); // force update in UI
     }
 
     /**
