@@ -106,6 +106,8 @@ public class SimulatorController {
     MenuItem disableLineHighlighterButton;
 
     @FXML
+    Button assembleButton;
+    @FXML
     Button runButton;
     @FXML
     Button resetButton;
@@ -139,6 +141,7 @@ public class SimulatorController {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 simulator.getIsCodeChanged().set(true);
+                assembleButton.setDisable(false);
             }
 
         });
@@ -219,6 +222,8 @@ public class SimulatorController {
 
             // Update Tool
             pipelineVisualizer.updateCode(simulator.getArmProgram(), codeArea.getText());
+
+            assembleButton.setDisable(true);
         } else {
             setConsoleText(simulator.getErrors());
             editorCanvas.setLineNumber(-1);

@@ -77,7 +77,7 @@
                      <children>
                         <ButtonBar buttonMinWidth="100.0" maxWidth="1.7976931348623157E308">
                           <buttons>
-                              <Button mnemonicParsing="false" onAction="#assembleCode" styleClass="simulator-button" text="%buttonbar.Assemble" />
+                              <Button fx:id="assembleButton" mnemonicParsing="false" onAction="#assembleCode" styleClass="simulator-button" text="%buttonbar.Assemble" />
                               <Button fx:id="runButton" disable="true" mnemonicParsing="false" onAction="#runCode" styleClass="simulator-button" text="%buttonbar.Run" />
                               <Button fx:id="resetButton" mnemonicParsing="false" onAction="#reset" styleClass="simulator-button" text="%buttonbar.Reset" />
                               <Button fx:id="stepBackwardButton" disable="true" mnemonicParsing="false" onAction="#stepBackward" styleClass="simulator-button" text="%buttonbar.Backward" />
