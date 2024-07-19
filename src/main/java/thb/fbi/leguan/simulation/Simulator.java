@@ -10,6 +10,8 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import thb.fbi.leguan.controller.MemoryController;
+import thb.fbi.leguan.controller.RegisterPaneController;
 import thb.fbi.leguan.data.ARMProgram;
 import thb.fbi.leguan.data.ProgramStatement;
 import thb.fbi.leguan.instructions.Instruction;
@@ -50,6 +52,10 @@ public class Simulator {
     private SimpleBooleanProperty isCodeChanged = new SimpleBooleanProperty(true);
     /** boolean indicating code is correct and parse */
     private SimpleBooleanProperty isCodeParsed = new SimpleBooleanProperty(false);;
+
+    protected static RegisterPaneController registerPaneController;
+
+    protected static MemoryController memoryController;
 
     public Simulator() {
         registers = new Register[registerNr];
@@ -94,14 +100,8 @@ public class Simulator {
      * executes exactly one instruction
      * @param code program to execute
      */
-    public int forwardStep(String code) {
-        ProgramStatement statement = program.getProgramStatement((int) pc.getValue());
-        if(statement != null) {
-            Instruction instruction = statement.getInstruction();
-            if(instruction != null) {
-                instruction.simulate(statement.getArguments(), pc);
-            }
-        }
+    public int forwardStep() {
+        runNextInstruction();
 
         // get source line of next instruction
         ProgramStatement nextStatement = program.getProgramStatement((int) pc.getValue());
@@ -115,7 +115,7 @@ public class Simulator {
      * parses and executes the whole written code 
      * @param code written text to parse
      */
-    public void run(String code) {
+    public void runAllInstructions() {
         executor.execute(new Runnable() {
             @Override
             public void run() {
@@ -134,16 +134,39 @@ public class Simulator {
 
         while(isRunning.get() && failsafe < 50000) {
             failsafe++;
-            ProgramStatement statement = program.getProgramStatement((int) pc.getValue());
-            if(statement != null) {
-                Instruction instruction = statement.getInstruction();
-                if(instruction != null) {
-                    instruction.simulate(statement.getArguments(), pc);
-                } 
-            } else {
+            if(! runNextInstruction()) {
                 isRunning.set(false);
             }
         }
+    }
+
+    /**
+     * run the next assembly instruction point to by the Program Counter
+     * @return boolean indicating if an instruction was executed or not (statement/ instruction was null)
+     */
+    private boolean runNextInstruction() {
+        ProgramStatement statement = program.getProgramStatement((int) pc.getValue());
+        if(statement != null) {
+            Instruction instruction = statement.getInstruction();
+            if(instruction != null) {
+                // update UI Highlighting
+                registerPaneController.clearFlagHighlighting();
+                memoryController.clearMemoryHighlighting();
+
+                instruction.simulate(statement.getArguments(), pc);
+
+                // set highlighting for specific a specific registerbox
+                if(statement.getArguments().getRd() != null) {
+                    registerPaneController.updateRegisterHighlighting(statement.getArguments().getRd().getID());
+                } else if(statement.getArguments().getRt() != null) {
+                    registerPaneController.updateRegisterHighlighting(statement.getArguments().getRt().getID());
+                } else {
+                    registerPaneController.updateRegisterHighlighting(-1);
+                }
+                return true;
+            } 
+        }
+        return false;
     }
 
     /**
@@ -275,4 +298,12 @@ public class Simulator {
     public SimpleBooleanProperty getIsCodeChanged() {
         return isCodeChanged;
     }
+
+    public static void setRegisterPaneController(RegisterPaneController registerPaneController) {
+        Simulator.registerPaneController = registerPaneController;
+    }
+
+    public static void setMemoryController(MemoryController memoryController) {
+        Simulator.memoryController = memoryController;
+    }   
 }

@@ -22,14 +22,11 @@ public class WideImmediateInstruction extends Instruction {
 
     @Override
     public void simulate(InstructionArguments argument, PCRegister pc) {
-        registerPaneController.clearFlagHighlighting();
         Register Rd = argument.getRd();
         int immediate = argument.getAlu_Immediate();
         int shamt = argument.getShamt();
         this.wideImmediateCode.simulate(Rd, immediate, shamt);
         pc.increase();
-        registerPaneController.updateRegisterHighlighting(Rd.getID());
-        memoryController.clearMemoryHighlighting();
     }
 
     /**

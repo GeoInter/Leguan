@@ -26,12 +26,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.util.Callback;
 import javafx.util.converter.IntegerStringConverter;
+
 import thb.fbi.leguan.data.ARMProgram;
 import thb.fbi.leguan.data.ProgramStatement;
-import thb.fbi.leguan.instructions.Instruction;
 import thb.fbi.leguan.simulation.Base;
 import thb.fbi.leguan.simulation.Memory;
 import thb.fbi.leguan.simulation.MemoryObserver;
+import thb.fbi.leguan.simulation.Simulator;
 import thb.fbi.leguan.utility.NumberComparator;
 
 public class MemoryController implements MemoryObserver {
@@ -199,7 +200,7 @@ public class MemoryController implements MemoryObserver {
                 .setTextFormatter(new TextFormatter<Integer>(new IntegerStringConverter(), null, integerFilter));
 
         Memory.setObserver(this);
-        Instruction.setMemoryController(this);
+        Simulator.setMemoryController(this);
 
         codeAddressColumn.setComparator(new NumberComparator());
         codeAddressColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Map.Entry<Integer, ProgramStatement>,String>,ObservableValue<String>>() {

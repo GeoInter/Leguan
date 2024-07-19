@@ -19,11 +19,8 @@ public class BranchInstruction extends Instruction {
 
     @Override
     public void simulate(InstructionArguments argument, PCRegister pc) {
-        registerPaneController.clearFlagHighlighting();
         int br_address = argument.getBr_Address();
         this.branchCode.simulate(br_address, pc);
-        registerPaneController.updateRegisterHighlighting(-1);
-        memoryController.clearMemoryHighlighting();
     }
 
     /**

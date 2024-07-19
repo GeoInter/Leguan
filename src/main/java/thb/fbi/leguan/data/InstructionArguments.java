@@ -14,7 +14,7 @@ public class InstructionArguments {
     private Register Rt;
     private int shamt; // 6bit
     private int alu_immediate; // 12bit
-    private int dt_address; // 9bit
+    private long dt_address; // 9bit
     private int br_address;
     private int cond_br_address;
     // mov_immediate
@@ -52,7 +52,7 @@ public class InstructionArguments {
         return alu_immediate;
     }
 
-    public int getDt_Address() {
+    public long getDt_Address() {
         return dt_address;
     }
 
@@ -88,7 +88,7 @@ public class InstructionArguments {
         this.alu_immediate = alu_immediate;
     }
 
-    public void setDt_Address(int dt_address) {
+    public void setDt_Address(long dt_address) {
         this.dt_address = dt_address;
     }
 

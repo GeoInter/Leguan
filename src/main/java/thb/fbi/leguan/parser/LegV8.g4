@@ -28,10 +28,12 @@ line : jumpLabelDeclaration? (arithmeticInstruction arithmeticParam |
                     condBranchInstruction condBranchParam | 
                     b_cond_Instruction b_cond_Param |
                     branchInstruction branchParam |
-                    branchByRegisterInstruction branchByRegisterParam);
+                    branchByRegisterInstruction branchByRegisterParam |
+                    dataSegmentInstruction dataSegmentParam);
 
 jumpLabelDeclaration: PointerDeclaration ;
 jumpLabelReference: PointerReference ;
+dataSegmentLabelReference: PointerReference ;
 
 arithmeticInstruction : ArithmeticInstruction;
 shiftInstruction: ShiftInstruction;
@@ -43,6 +45,7 @@ condBranchInstruction : CondBranchInstruction;
 b_cond_Instruction : B_cond_Instruction;
 branchInstruction : BranchInstruction;
 branchByRegisterInstruction : BranchByRegisterInstruction;
+dataSegmentInstruction: DataSegmentInstruction;
 
 arithmeticParam : register COMMA register COMMA register ;
 shiftParam : register COMMA register COMMA num ; // separated from arithemtic
@@ -54,6 +57,7 @@ condBranchParam : register COMMA jumpLabelReference ;
 b_cond_Param: jumpLabelReference ;
 branchParam : jumpLabelReference ;
 branchByRegisterParam : register ;
+dataSegmentParam : register COMMA EQUALS_SIGN dataSegmentLabelReference ;
 
 num: NUMBER ;
 register : REGISTER ;
@@ -71,6 +75,7 @@ CondBranchInstruction : 'CBNZ' | 'CBZ' ;
 B_cond_Instruction: 'B.EQ' | 'B.NE' | 'B.LT' | 'B.LE' | 'B.GT' | 'B.GE' | 'B.MI' | 'B.PL' | 'B.VS' | 'B.VC';
 BranchInstruction : 'B' | 'BL' ;
 BranchByRegisterInstruction : 'BR';
+DataSegmentInstruction : 'LDR' ;
 
 
 // skipped Tokens
@@ -81,11 +86,12 @@ LINE_COMMENT: '//' ~[\r\n]* -> skip; // matches everything except tab and newlin
 // syntax related
 COMMA : ',' ;
 SEMI : ';' ;
+EQUALS_SIGN : '=' ;
 SQUARE_BRACKET_LEFT : '[';
 SQUARE_BRACKET_RIGHT: ']';
 
 // Token for regsiter and number parameter
-REGISTER : SP | FP | LR | XZR | 'X0' | 'X'[1-9][0-9]* ; // manual check required for range
+REGISTER : SP | FP | LR | XZR | 'X0' | 'X'[1-9][0-9]? ; // manual check required for range
 NUMBER : '0' | '-'? [1-9][0-9]* | '0x' [1-9a-fA-F][0-9a-fA-F]*;
 
 SP: 'SP' ;
@@ -94,8 +100,8 @@ LR: 'LR' ;
 XZR: 'XZR' ;
 
 // Pointer Token (data segment variable names and jump label names)
-PointerDeclaration: [a-zA-Z]+ ':' ;
-PointerReference: [a-zA-Z]+ ;
+PointerDeclaration: [a-zA-Z][a-zA-Z0-9]* ':' ; 
+PointerReference: [a-zA-Z][a-zA-Z0-9]* ; // potential overlap with register names
 
 DataSegmentTypes: '.byte' | '.halfword' | '.word' | '.dword' | '.ascii';
 ASCII_String: '"' [a-zA-Z_,.;: ]+ '"';

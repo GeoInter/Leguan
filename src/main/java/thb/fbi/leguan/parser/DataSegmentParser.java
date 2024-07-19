@@ -1,11 +1,8 @@
 package thb.fbi.leguan.parser;
 
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeMap;
-
-import org.antlr.v4.runtime.tree.TerminalNode;
 
 import thb.fbi.leguan.parser.antlr.LegV8BaseVisitor;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.AsciiContext;
@@ -18,12 +15,10 @@ import thb.fbi.leguan.parser.antlr.LegV8Parser.NumContext;
 
 public class DataSegmentParser extends LegV8BaseVisitor<Object> {
 
-    private ArrayList<ParsingError> semanticErrors;
     private HashMap<String, Long> dataSegmentMap;
     private long startAdress = 0;
 
-    public DataSegmentParser(ArrayList<ParsingError> semanticErrors, HashMap<String, Long> dataSegmentMap, long startAdress) {
-        this.semanticErrors = semanticErrors;
+    public DataSegmentParser(HashMap<String, Long> dataSegmentMap, long startAdress) {
         this.dataSegmentMap = dataSegmentMap;
         this.startAdress = startAdress;
     }
@@ -37,58 +32,69 @@ public class DataSegmentParser extends LegV8BaseVisitor<Object> {
             // for each Variable
             for (int i = 0; i < ctx.dataSegmentEntry().size(); i++) {
 
-                dataSegmentMap.put(ctx.dataSegmentEntry(i).dataSegmentVariable().getText(), address);
+                String dataVariableName = ctx.dataSegmentEntry(i).dataSegmentVariable().getText();
+                dataVariableName = dataVariableName.substring(0, dataVariableName.length() - 1); // remove ":"
 
-                for (int j = 0; j < ctx.dataSegmentEntry(i).dataSegmentPairing().size(); j++) {
-                    DataSegmentPairingContext pair = ctx.dataSegmentEntry(i).dataSegmentPairing(j);
-                    Long longValue = 0L;
+                if (ParserHelper.isLabelNameValid(dataVariableName)) {
+                    dataSegmentMap.put(dataVariableName, address);
 
-                    switch (visitDataSegmentType(pair.dataSegmentType())) {
-                        case ".byte":
-                            longValue = visitDataSegmentValue(pair.dataSegmentValue());
-                            byte bv = 0;
-                            if (fitSpecifiedByteSize(longValue, 1)) {
-                                bv = longValue.byteValue();
-                            } else {
-                                addSemanticError(pair.dataSegmentType().DataSegmentTypes(), ParsingErrorType.DataSegmentTypeFormatException);
-                            }
-                            address = addByte(dataSegment, bv, address);
-                            break;
-                        case ".halfword":
-                            longValue = visitDataSegmentValue(pair.dataSegmentValue());
-                            short sv = 0;
-                            if (fitSpecifiedByteSize(longValue, 2)) {
-                                sv = longValue.shortValue();
-                            } else {
-                                addSemanticError(pair.dataSegmentType().DataSegmentTypes(), ParsingErrorType.DataSegmentTypeFormatException);
-                            }
-                            address = addHalfword(dataSegment, sv, address);
-                            break;
-                        case ".word":
-                            longValue = visitDataSegmentValue(pair.dataSegmentValue());
-                            int iv = 0;
-                            if (fitSpecifiedByteSize(longValue, 4)) {
-                                iv = longValue.intValue();
-                            } else {
-                                addSemanticError(pair.dataSegmentType().DataSegmentTypes(), ParsingErrorType.DataSegmentTypeFormatException);
-                            }
-                            address = addWord(dataSegment, iv, address);
-                            break;
-                        case ".dword":
-                            // no check needed, because if value is bigger than a long, throws NumberFormatException
-                            long lv = visitDataSegmentValue(pair.dataSegmentValue()).longValue();
-                            address = addDWord(dataSegment, lv, address);
-                            break;
-                        case ".ascii":
-                            // ascii string has no limit of bytes
-                            AsciiContext asciiContext = pair.dataSegmentValue().ascii();
-                            if (asciiContext != null) {
-                                String asciiString = asciiContext.getText();
-                                asciiString = asciiString.replace("\"", ""); // remove quotes
-                                address = addASCII(dataSegment, asciiString, address);
-                            }
-                            break;
+                    for (int j = 0; j < ctx.dataSegmentEntry(i).dataSegmentPairing().size(); j++) {
+                        DataSegmentPairingContext pair = ctx.dataSegmentEntry(i).dataSegmentPairing(j);
+                        Long longValue = 0L;
+
+                        switch (visitDataSegmentType(pair.dataSegmentType())) {
+                            case ".byte":
+                                longValue = visitDataSegmentValue(pair.dataSegmentValue());
+                                byte bv = 0;
+                                if (fitSpecifiedByteSize(longValue, 1)) {
+                                    bv = longValue.byteValue();
+                                } else {
+                                    ParserHelper.addSemanticError(pair.dataSegmentType().DataSegmentTypes(),
+                                            ParsingErrorType.DataSegmentTypeFormatException);
+                                }
+                                address = addByte(dataSegment, bv, address);
+                                break;
+                            case ".halfword":
+                                longValue = visitDataSegmentValue(pair.dataSegmentValue());
+                                short sv = 0;
+                                if (fitSpecifiedByteSize(longValue, 2)) {
+                                    sv = longValue.shortValue();
+                                } else {
+                                    ParserHelper.addSemanticError(pair.dataSegmentType().DataSegmentTypes(),
+                                            ParsingErrorType.DataSegmentTypeFormatException);
+                                }
+                                address = addHalfword(dataSegment, sv, address);
+                                break;
+                            case ".word":
+                                longValue = visitDataSegmentValue(pair.dataSegmentValue());
+                                int iv = 0;
+                                if (fitSpecifiedByteSize(longValue, 4)) {
+                                    iv = longValue.intValue();
+                                } else {
+                                    ParserHelper.addSemanticError(pair.dataSegmentType().DataSegmentTypes(),
+                                            ParsingErrorType.DataSegmentTypeFormatException);
+                                }
+                                address = addWord(dataSegment, iv, address);
+                                break;
+                            case ".dword":
+                                // no check needed, because if value is bigger than a long, throws
+                                // NumberFormatException
+                                long lv = visitDataSegmentValue(pair.dataSegmentValue()).longValue();
+                                address = addDWord(dataSegment, lv, address);
+                                break;
+                            case ".ascii":
+                                // ascii string has no limit of bytes
+                                AsciiContext asciiContext = pair.dataSegmentValue().ascii();
+                                if (asciiContext != null) {
+                                    String asciiString = asciiContext.getText();
+                                    asciiString = asciiString.replace("\"", ""); // remove quotes
+                                    address = addASCII(dataSegment, asciiString, address);
+                                }
+                                break;
+                        }
                     }
+                } else {
+                    ParserHelper.addSemanticError(ctx.dataSegmentEntry(i).dataSegmentVariable().PointerDeclaration(), ParsingErrorType.InvalidLabelName);
                 }
             }
         }
@@ -124,7 +130,7 @@ public class DataSegmentParser extends LegV8BaseVisitor<Object> {
         try {
             number = Long.parseLong(numberText, radix);
         } catch (NumberFormatException e) {
-            addSemanticError(ctx.NUMBER(), ParsingErrorType.NumberFormatException);
+            ParserHelper.addSemanticError(ctx.NUMBER(), ParsingErrorType.NumberFormatException);
         }
         return number;
     }
@@ -172,20 +178,12 @@ public class DataSegmentParser extends LegV8BaseVisitor<Object> {
     }
 
     /**
-     * helper function for adding parser error to list
-     * @param token the token of the parse tree which is responsible for throwing the error 
-     * @param errorType type of parsing error
-     */
-    private void addSemanticError(TerminalNode node, ParsingErrorType errorType) {
-        ParsingError err = new ParsingError(node, errorType);
-        semanticErrors.add(err);
-    }
-
-    /**
      * returns boolean indicate if value needs more bytes than specified or not
-     * @param value value to check its byte size
+     * 
+     * @param value    value to check its byte size
      * @param maxBytes number of bytes the value can use at maximum
-     * @return boolean indicate wheter value is within the limit of specified bytes or not
+     * @return boolean indicate wheter value is within the limit of specified bytes
+     *         or not
      */
     private boolean fitSpecifiedByteSize(Long value, int maxBytes) {
         int bytesUsed = 0;
@@ -197,7 +195,8 @@ public class DataSegmentParser extends LegV8BaseVisitor<Object> {
                 isNotFinished = false;
             }
         }
-        if(bytesUsed > maxBytes) return false;
+        if (bytesUsed > maxBytes)
+            return false;
         return true;
     }
 }

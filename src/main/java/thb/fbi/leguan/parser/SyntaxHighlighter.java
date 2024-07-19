@@ -15,6 +15,8 @@ import thb.fbi.leguan.parser.antlr.LegV8Parser.B_cond_InstructionContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.BranchByRegisterInstructionContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.BranchInstructionContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.CondBranchInstructionContext;
+import thb.fbi.leguan.parser.antlr.LegV8Parser.DataSegmentInstructionContext;
+import thb.fbi.leguan.parser.antlr.LegV8Parser.DataSegmentLabelReferenceContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.DataSegmentTypeContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.DataSegmentVariableContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.DatatransferInstructionContext;
@@ -126,6 +128,11 @@ public class SyntaxHighlighter extends LegV8BaseListener {
     }
 
     @Override
+    public void enterDataSegmentInstruction(DataSegmentInstructionContext ctx) {
+        addStyle(ctx.DataSegmentInstruction(), "instruction");
+    }
+
+    @Override
     public void enterRegister(RegisterContext ctx) {
         addStyle(ctx.REGISTER(), "register");
     }
@@ -143,6 +150,11 @@ public class SyntaxHighlighter extends LegV8BaseListener {
     @Override
     public void enterJumpLabelReference(JumpLabelReferenceContext ctx) {
         addStyle(ctx.PointerReference(), "jump-label");
+    }
+
+    @Override
+    public void enterDataSegmentLabelReference(DataSegmentLabelReferenceContext ctx) {
+        addStyle(ctx.PointerReference(), "segment-variable");
     }
 
     @Override

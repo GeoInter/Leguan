@@ -9,8 +9,8 @@ public class MachineCodeTranslator {
      * @param byteAmount number of bytes the string should have
      * @return correct binary string of value
      */
-    public static String convertToMachineCode(int value, int byteAmount) {
-        String s = Integer.toBinaryString(value);
+    public static String convertToMachineCode(long value, int byteAmount) {
+        String s = Long.toBinaryString(value);
         if(byteAmount <= 0) {
             return s;
         }

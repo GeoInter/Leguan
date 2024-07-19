@@ -32,6 +32,9 @@ public class ParsingError {
             case DoubledJumpLabelDeclaration:
                 this.msg = "Duplicate jump label '" + identifier + "'"; // label name
                 break;
+            case InvalidLabelName:
+                this.msg = "Invalid label name '" + identifier + "'"; // label name
+                break;
             case RegisterOutOfRange:
                 this.msg = "Register not in allowed range 0-31. Used '" + identifier + "'"; // register name
                 break;

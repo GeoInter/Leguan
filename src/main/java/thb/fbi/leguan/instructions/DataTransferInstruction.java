@@ -20,14 +20,11 @@ public class DataTransferInstruction extends Instruction {
 
     @Override
     public void simulate(InstructionArguments argument, PCRegister pc) {
-        registerPaneController.clearFlagHighlighting();
-        memoryController.clearMemoryHighlighting();
-        int dt_address = argument.getDt_Address();
+        long dt_address = argument.getDt_Address();
         Register Rn = argument.getRn();
         Register Rt = argument.getRt();
         this.dataTransferCode.simulate(dt_address, Rn, Rt);
         pc.increase();
-        registerPaneController.updateRegisterHighlighting(Rt.getID());
     }
 
     /**

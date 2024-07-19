@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.antlr.v4.runtime.misc.Interval;
-import org.antlr.v4.runtime.tree.TerminalNode;
-
 import thb.fbi.leguan.data.InstructionArguments;
 import thb.fbi.leguan.data.ProgramStatement;
 import thb.fbi.leguan.instructions.Instruction;
@@ -20,6 +18,9 @@ import thb.fbi.leguan.parser.antlr.LegV8Parser.BranchInstructionContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.BranchParamContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.CondBranchInstructionContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.CondBranchParamContext;
+import thb.fbi.leguan.parser.antlr.LegV8Parser.DataSegmentInstructionContext;
+import thb.fbi.leguan.parser.antlr.LegV8Parser.DataSegmentLabelReferenceContext;
+import thb.fbi.leguan.parser.antlr.LegV8Parser.DataSegmentParamContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.DatatransferInstructionContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.DatatransferParamContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.ExclusiveInstructionContext;
@@ -44,18 +45,17 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
     private static Simulator simulator = SimulatorSingleton.getSimulator();
     private int programIndex = 0; // current program statement in list
 
-    private ArrayList<ParsingError> semanticErrors;
     private ArrayList<Register> usedRegisters;
     private HashMap<String, Integer> jumpMarks;
     private HashMap<Integer, String> unresolvedMarks;
+    private HashMap<String, Long> dataSegmentVariables;
 
-    
-    public ProgramStatementParser(ArrayList<ParsingError> semanticErrors, ArrayList<Register> usedRegisters,
-            HashMap<String, Integer> jumpMarks, HashMap<Integer, String> unresolvedMarks) {
-        this.semanticErrors = semanticErrors;
+    public ProgramStatementParser(ArrayList<Register> usedRegisters, HashMap<String, Integer> jumpMarks,
+            HashMap<Integer, String> unresolvedMarks, HashMap<String, Long> dataSegmentVariables) {
         this.usedRegisters = usedRegisters;
         this.jumpMarks = jumpMarks;
         this.unresolvedMarks = unresolvedMarks;
+        this.dataSegmentVariables = dataSegmentVariables;
     }
 
     /**
@@ -152,7 +152,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
                 usedRegisters.add(register);
             }
         } catch (ArrayIndexOutOfBoundsException e) {
-            addSemanticError(ctx.REGISTER(), ParsingErrorType.RegisterOutOfRange);
+            ParserHelper.addSemanticError(ctx.REGISTER(), ParsingErrorType.RegisterOutOfRange);
         }
         return register;
     }
@@ -175,7 +175,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
         try {
             number = Integer.parseInt(numberText, radix);
         } catch (NumberFormatException e) {
-            addSemanticError(ctx.NUMBER(), ParsingErrorType.NumberFormatException);
+            ParserHelper.addSemanticError(ctx.NUMBER(), ParsingErrorType.NumberFormatException);
         }
         return number;
     }
@@ -184,10 +184,14 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
     public Object visitJumpLabelDeclaration(JumpLabelDeclarationContext ctx) {
         String id = ctx.PointerDeclaration().getText();
         id = id.substring(0, id.length() - 1); // remove ":"
-        if (jumpMarks.containsKey(id)) {
-            addSemanticError(ctx.PointerDeclaration(), ParsingErrorType.DoubledJumpLabelDeclaration);
+        if (ParserHelper.isLabelNameValid(id)) {
+            if (jumpMarks.containsKey(id)) {
+                ParserHelper.addSemanticError(ctx.PointerDeclaration(), ParsingErrorType.DoubledJumpLabelDeclaration);
+            } else {
+                jumpMarks.put(id, this.programIndex);
+            }
         } else {
-            jumpMarks.put(id, this.programIndex);
+            ParserHelper.addSemanticError(ctx.PointerDeclaration(), ParsingErrorType.InvalidLabelName);
         }
         return null;
     }
@@ -195,13 +199,33 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
     @Override
     public Integer visitJumpLabelReference(JumpLabelReferenceContext ctx) {
         String id = ctx.PointerReference().getText();
-        Integer address = jumpMarks.get(id);
-        if (address != null) {
-            return address;
+        if (ParserHelper.isLabelNameValid(id)) {
+            Integer address = jumpMarks.get(id);
+            if (address != null) {
+                return address;
+            } else {
+                unresolvedMarks.put(this.programIndex, id);
+            }
         } else {
-            unresolvedMarks.put(this.programIndex, id);
-            return -1;
+            ParserHelper.addSemanticError(ctx.PointerReference(), ParsingErrorType.InvalidLabelName);
         }
+        return -1;
+    }
+
+    @Override
+    public Long visitDataSegmentLabelReference(DataSegmentLabelReferenceContext ctx) {
+        String id = ctx.PointerReference().getText();
+        if (ParserHelper.isLabelNameValid(id)) {
+            Long address = dataSegmentVariables.get(id);
+            if (address != null) {
+                return address;
+            } else {
+                ParserHelper.addSemanticError(ctx.PointerReference(), ParsingErrorType.UndefinedJumpLabelReference);
+            }
+        } else {
+            ParserHelper.addSemanticError(ctx.PointerReference(), ParsingErrorType.InvalidLabelName);
+        }
+        return -1L;
     }
 
     /**
@@ -212,6 +236,9 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
      */
     private Instruction getInstructionByName(String instructionName) {
         Instruction instruction = simulator.getInstructionSet().findInstructionByMnemonic(instructionName);
+        if(instruction == null) {
+            instruction = simulator.getInstructionSet().findInstructionByMnemonic("NULL");
+        }
         return instruction;
     }
 
@@ -276,6 +303,12 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
     }
 
     @Override
+    public Instruction visitDataSegmentInstruction(DataSegmentInstructionContext ctx) {
+        String instructionName = ctx.DataSegmentInstruction().getText();
+        return getInstructionByName(instructionName);
+    }
+
+    @Override
     public InstructionArguments visitArithmeticParam(ArithmeticParamContext ctx) {
         Register Rd = visitRegister(ctx.register(0));
         Register Rn = visitRegister(ctx.register(1));
@@ -306,10 +339,10 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
         int shamt = visitNum(ctx.num(1));
         // only allows 0, 16, 32 and 48 as shift value
         if (shamt != 0 && shamt != 16 && shamt != 32 && shamt != 48) {
-            addSemanticError(ctx.num(1).NUMBER(), ParsingErrorType.WideImmediateShiftOutOfRange);
+            ParserHelper.addSemanticError(ctx.num(1).NUMBER(), ParsingErrorType.WideImmediateShiftOutOfRange);
         }
         if (ctx.ShiftInstruction().getText().equals("LSR")) {
-            addSemanticError(ctx.ShiftInstruction(), ParsingErrorType.WrongShiftforWideImmediate);
+            ParserHelper.addSemanticError(ctx.ShiftInstruction(), ParsingErrorType.WrongShiftforWideImmediate);
         }
         InstructionArguments args = new InstructionArguments();
         args.setRd(Rd);
@@ -388,14 +421,16 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
         return args;
     }
 
-    /**
-     * helper function for adding parser error to list
-     * @param token the token of the parse tree which is responsible for throwing the error 
-     * @param errorType type of parsing error
-     */
-    private void addSemanticError(TerminalNode node, ParsingErrorType errorType) {
-        ParsingError err = new ParsingError(node, errorType);
-        semanticErrors.add(err);
+    @Override
+    public InstructionArguments visitDataSegmentParam(DataSegmentParamContext ctx) {
+        Register Rt = visitRegister(ctx.register());
+        Register Rn = simulator.getRegisters()[31];
+        long dt_address = visitDataSegmentLabelReference(ctx.dataSegmentLabelReference());
+        InstructionArguments args = new InstructionArguments();
+        args.setRt(Rt);
+        args.setRn(Rn);
+        args.setDt_Address(dt_address);
+        return args;
     }
 
 }

@@ -425,7 +425,7 @@ public class InstructionSet {
                         "Load a double word from memory to register",
                         new IDataTransferCode() {
                             @Override
-                            public void simulate(int dt_address, Register Rn, Register Rt) {
+                            public void simulate(long dt_address, Register Rn, Register Rt) {
                                 long op1 = Rn.getValue();
                                 long address = op1 + dt_address;
                                 long value = Memory.loadDWord(address);
@@ -439,7 +439,7 @@ public class InstructionSet {
                         "Load a Byte from memory to register",
                         new IDataTransferCode() {
                             @Override
-                            public void simulate(int dt_address, Register Rn, Register Rt) {
+                            public void simulate(long dt_address, Register Rn, Register Rt) {
                                 long op1 = Rn.getValue();
                                 long address = op1 + dt_address;
                                 long value = Memory.loadByte(address);
@@ -453,7 +453,7 @@ public class InstructionSet {
                         "Load a half word from memory to register",
                         new IDataTransferCode() {
                             @Override
-                            public void simulate(int dt_address, Register Rn, Register Rt) {
+                            public void simulate(long dt_address, Register Rn, Register Rt) {
                                 long op1 = Rn.getValue();
                                 long address = op1 + dt_address;
                                 long value = Memory.loadHalfword(address);
@@ -467,7 +467,7 @@ public class InstructionSet {
                         "Load a word from memory to register",
                         new IDataTransferCode() {
                             @Override
-                            public void simulate(int dt_address, Register Rn, Register Rt) {
+                            public void simulate(long dt_address, Register Rn, Register Rt) {
                                 long op1 = Rn.getValue();
                                 long address = op1 + dt_address;
                                 long value = Memory.loadWord(address);
@@ -481,7 +481,7 @@ public class InstructionSet {
                         "Exclusive load a word from memory to register",
                         new IDataTransferCode() {
                             @Override
-                            public void simulate(int dt_address, Register Rn, Register Rt) {
+                            public void simulate(long dt_address, Register Rn, Register Rt) {
                                 long op1 = Rn.getValue();
                                 long address = op1 + dt_address;
                                 long value = Memory.loadExclusive(address);
@@ -581,7 +581,7 @@ public class InstructionSet {
                         "Store a double word from register into memory",
                         new IDataTransferCode() {
                             @Override
-                            public void simulate(int dt_address, Register Rn, Register Rt) {
+                            public void simulate(long dt_address, Register Rn, Register Rt) {
                                 long value = Rt.getValue();
                                 long op1 = Rn.getValue();
                                 long address = op1 + dt_address;
@@ -595,7 +595,7 @@ public class InstructionSet {
                         "Store a Byte from register into memory",
                         new IDataTransferCode() {
                             @Override
-                            public void simulate(int dt_address, Register Rn, Register Rt) {
+                            public void simulate(long dt_address, Register Rn, Register Rt) {
                                 byte value = (byte) Rt.getValue();
                                 long op1 = Rn.getValue();
                                 long address = op1 + dt_address;
@@ -609,7 +609,7 @@ public class InstructionSet {
                         "Store a half word from register into memory",
                         new IDataTransferCode() {
                             @Override
-                            public void simulate(int dt_address, Register Rn, Register Rt) {
+                            public void simulate(long dt_address, Register Rn, Register Rt) {
                                 short value = (short) Rt.getValue();
                                 long op1 = Rn.getValue();
                                 long address = op1 + dt_address;
@@ -623,7 +623,7 @@ public class InstructionSet {
                         "Store a word from register into memory",
                         new IDataTransferCode() {
                             @Override
-                            public void simulate(int dt_address, Register Rn, Register Rt) {
+                            public void simulate(long dt_address, Register Rn, Register Rt) {
                                 int value = (int) Rt.getValue();
                                 long op1 = Rn.getValue();
                                 long address = op1 + dt_address;
@@ -709,7 +709,18 @@ public class InstructionSet {
                             }
                         }));
 
-        //// Arithemetic Core Instruction Set ////
+        //// Other Instructions ////
+
+        instructionSet.add(
+                new DataTransferInstruction("LDR",
+                        "11111000010", // opcode from LDUR 
+                        "Loads a program-relative or register-relative address into a register",
+                        new IDataTransferCode() {
+                            @Override
+                            public void simulate(long dt_address, Register Rn, Register Rt) {
+                                Rt.setValue(dt_address);
+                            }
+                        }));
     }
 
     public Instruction findInstructionByMnemonic(String mnemonic) {

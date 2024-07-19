@@ -232,7 +232,7 @@ public class SimulatorController {
         if (simulator.parse(codeArea.getText())) {
             setConsoleText(simulator.getErrors());
             memoryController.updateCode(simulator.getArmProgram()); // Update Memory Code Segment Table
-            simulator.run(codeArea.getText());
+            simulator.runAllInstructions();
         } else {
             setConsoleText(simulator.getErrors());
         }
@@ -254,7 +254,7 @@ public class SimulatorController {
 
     @FXML
     private void stepForward() {
-        int lineNumber = simulator.forwardStep(codeArea.getText());
+        int lineNumber = simulator.forwardStep();
         editorCanvas.setLineNumber(lineNumber);
     }
 
