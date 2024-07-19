@@ -289,8 +289,13 @@ public class SimulatorController {
     }
 
     @FXML
-    private void loadExample() {
+    private void loadExample_simpleLoop() {
         FileManager.openExample("/thb/fbi/leguan/examples/counterExample.txt");
+    }
+
+    @FXML
+    private void loadExample_dataSegment() {
+        FileManager.openExample("/thb/fbi/leguan/examples/dataSegment.txt");
     }
 
     /**

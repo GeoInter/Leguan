@@ -1,0 +1,21 @@
+array:
+    .byte 8
+    .byte 5
+    .byte 1
+    .byte 7
+    .byte 24 // size of array (multiple of 8 since dword array)
+
+otherData:
+    .byte 127
+    .halfword 0x9978
+    .word 0xAF9911
+    .dword -890
+    .ascii "Hello World"
+
+LDR X20, =array    // start address of array
+LDUR X8, [X20, 32] // size of array
+
+LDUR X1, [X20, 0] // load first element
+
+
+

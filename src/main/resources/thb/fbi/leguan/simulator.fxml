@@ -58,7 +58,12 @@
             </Menu>
             <Menu mnemonicParsing="false" text="%menubar.Help">
               <items>
-                  <MenuItem mnemonicParsing="false" onAction="#loadExample" text="Load example" />
+                  <Menu mnemonicParsing="false" text="Load example">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#loadExample_simpleLoop" text="simple loop" />
+                      <MenuItem mnemonicParsing="false" onAction="#loadExample_dataSegment" text="data segment" />
+                    </items>
+                  </Menu>
                 <MenuItem mnemonicParsing="false" text="About" />
               </items>
             </Menu>
