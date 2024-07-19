@@ -443,8 +443,13 @@ public class MemoryController implements MemoryObserver {
         Set<Long> keys = data.keySet();
         // map available keys to multiple of 8 (address space of DWords)
         Set<Long> addressSet = new HashSet<Long>();
-        for (Long addressTemp : keys) {
-            addressSet.add((addressTemp / 8) * 8);
+        
+        long tempAddress = 0;
+        for (Long address : keys) {
+            if(address >= tempAddress) {
+                addressSet.add(address);
+                tempAddress = address + 8;
+            }
         }
 
         // build new HashMap from Dword address space
