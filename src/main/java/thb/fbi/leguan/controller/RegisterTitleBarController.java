@@ -9,7 +9,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
-import thb.fbi.leguan.instructions.Instruction;
 import thb.fbi.leguan.simulation.Base;
 import thb.fbi.leguan.simulation.PCRegister;
 import thb.fbi.leguan.simulation.Register;
@@ -53,12 +52,7 @@ public class RegisterTitleBarController {
                         valueString = valueString.replace(".", "");
 
                         long parsedValue = Long.parseLong(valueString);
-                        if(register instanceof PCRegister) {
-                            // internally not multiple of INSTRUCTION_LENGTH
-                            register.setValue(parsedValue / Instruction.INSTRUCTION_LENGTH);
-                        } else {
-                            register.setValue(parsedValue);
-                        }
+                        register.setValue(parsedValue);
                     } catch(NumberFormatException e) {
                         registerValue.setText("0");
                     }
@@ -77,6 +71,7 @@ public class RegisterTitleBarController {
         registerTitle.setText(register.getName());
         addShownValueObserver();
         setDisplayUnsigned(displayUnsigned);
+        updateToHex(); // force update in UI
     }
 
     /**

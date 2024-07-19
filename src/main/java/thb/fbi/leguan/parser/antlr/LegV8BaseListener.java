@@ -245,6 +245,18 @@ public class LegV8BaseListener implements LegV8Listener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterB_cond_Instruction(LegV8Parser.B_cond_InstructionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitB_cond_Instruction(LegV8Parser.B_cond_InstructionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterBranchInstruction(LegV8Parser.BranchInstructionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -360,6 +372,18 @@ public class LegV8BaseListener implements LegV8Listener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitCondBranchParam(LegV8Parser.CondBranchParamContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterB_cond_Param(LegV8Parser.B_cond_ParamContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitB_cond_Param(LegV8Parser.B_cond_ParamContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

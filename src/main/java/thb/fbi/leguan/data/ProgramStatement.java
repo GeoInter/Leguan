@@ -24,6 +24,10 @@ public class ProgramStatement {
         this.setSourceLine(sourceLine);
     }
 
+    public String getMachineCodeString() {
+        return this.instruction.getMachineCodeString(this.arguments);
+    }
+
     public int getAddress() {
         return address;
     }

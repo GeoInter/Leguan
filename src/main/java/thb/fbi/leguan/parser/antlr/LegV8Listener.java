@@ -198,6 +198,16 @@ public interface LegV8Listener extends ParseTreeListener {
 	 */
 	void exitCondBranchInstruction(LegV8Parser.CondBranchInstructionContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link LegV8Parser#b_cond_Instruction}.
+	 * @param ctx the parse tree
+	 */
+	void enterB_cond_Instruction(LegV8Parser.B_cond_InstructionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LegV8Parser#b_cond_Instruction}.
+	 * @param ctx the parse tree
+	 */
+	void exitB_cond_Instruction(LegV8Parser.B_cond_InstructionContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link LegV8Parser#branchInstruction}.
 	 * @param ctx the parse tree
 	 */
@@ -297,6 +307,16 @@ public interface LegV8Listener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitCondBranchParam(LegV8Parser.CondBranchParamContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link LegV8Parser#b_cond_Param}.
+	 * @param ctx the parse tree
+	 */
+	void enterB_cond_Param(LegV8Parser.B_cond_ParamContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LegV8Parser#b_cond_Param}.
+	 * @param ctx the parse tree
+	 */
+	void exitB_cond_Param(LegV8Parser.B_cond_ParamContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link LegV8Parser#branchParam}.
 	 * @param ctx the parse tree

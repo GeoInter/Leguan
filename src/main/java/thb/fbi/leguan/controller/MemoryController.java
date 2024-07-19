@@ -26,6 +26,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.util.Callback;
 import javafx.util.converter.IntegerStringConverter;
+
+import thb.fbi.leguan.data.ARMProgram;
+import thb.fbi.leguan.data.ProgramStatement;
 import thb.fbi.leguan.simulation.Base;
 import thb.fbi.leguan.simulation.Memory;
 import thb.fbi.leguan.simulation.MemoryObserver;
@@ -40,6 +43,15 @@ public class MemoryController implements MemoryObserver {
     TableColumn<Map.Entry<Long, Long>, String> addressColumn;
     @FXML
     TableColumn<Map.Entry<Long, Long>, String> contentColumn;
+
+    @FXML 
+    TableView<Map.Entry<Integer, ProgramStatement>> codeTable;
+    @FXML
+    TableColumn<Map.Entry<Integer, ProgramStatement>, String> codeAddressColumn;
+    @FXML
+    TableColumn<Map.Entry<Integer, ProgramStatement>, String> machineCodeColumn;
+    @FXML
+    TableColumn<Map.Entry<Integer, ProgramStatement>, String> codeOriginalStringColumn;
 
     @FXML
     TextField startAddressTextField;
@@ -190,6 +202,41 @@ public class MemoryController implements MemoryObserver {
         Memory.setObserver(this);
         Simulator.setMemoryController(this);
 
+        codeAddressColumn.setComparator(new NumberComparator());
+        codeAddressColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Map.Entry<Integer, ProgramStatement>,String>,ObservableValue<String>>() {
+
+            @Override
+            public ObservableValue<String> call(CellDataFeatures<Map.Entry<Integer, ProgramStatement>, String> param) {
+                if (displayAddressAsHex) {
+                    StringBuilder str = new StringBuilder(
+                            Long.toHexString(param.getValue().getKey()).toUpperCase());
+                    str.insert(0, "0x");
+                    return new SimpleStringProperty(str.toString());
+                } else {
+                    return new SimpleStringProperty(String.valueOf(param.getValue().getKey()));
+                }
+            }
+            
+        });
+
+        machineCodeColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Map.Entry<Integer, ProgramStatement>,String>,ObservableValue<String>>() {
+
+            @Override
+            public ObservableValue<String> call(CellDataFeatures<Map.Entry<Integer, ProgramStatement>, String> param) {
+                return new SimpleStringProperty(param.getValue().getValue().getMachineCodeString());
+            }
+            
+        });
+
+        codeOriginalStringColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Map.Entry<Integer, ProgramStatement>,String>,ObservableValue<String>>() {
+
+            @Override
+            public ObservableValue<String> call(CellDataFeatures<Map.Entry<Integer, ProgramStatement>, String> param) {
+                return new SimpleStringProperty(param.getValue().getValue().getSource());
+            }
+            
+        });
+
         Image filterButtonImage = new Image(getClass().getResourceAsStream("/thb/fbi/leguan/images/filter.png"));
         filterButton.setGraphic(new ImageView(filterButtonImage));
     }
@@ -279,6 +326,7 @@ public class MemoryController implements MemoryObserver {
         DecAddressButton.setDisable(true);
         // force refresh so each cell is updated by cellValueFactory
         memoryTable.refresh();
+        codeTable.refresh();
     }
 
     /**
@@ -291,6 +339,7 @@ public class MemoryController implements MemoryObserver {
         DecAddressButton.setDisable(false);
         // force refresh so each cell is updated by cellValueFactory
         memoryTable.refresh();
+        codeTable.refresh();
     }
 
     /**
@@ -418,5 +467,10 @@ public class MemoryController implements MemoryObserver {
 
         ObservableList<Map.Entry<Long, Long>> items = FXCollections.observableArrayList(newData.entrySet());
         memoryTable.setItems(items);
+    }
+
+    public void updateCode(ARMProgram program) {
+        ObservableList<Map.Entry<Integer, ProgramStatement>> items = FXCollections.observableArrayList(program.getProgramStatements().entrySet());
+        codeTable.setItems(items);
     }
 }

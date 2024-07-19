@@ -3,6 +3,7 @@ package thb.fbi.leguan.instructions;
 import thb.fbi.leguan.data.InstructionArguments;
 import thb.fbi.leguan.simulation.PCRegister;
 import thb.fbi.leguan.simulation.Register;
+import thb.fbi.leguan.utility.MachineCodeTranslator;
 
 /**
  * Subclass for arithmetic instructions.
@@ -10,8 +11,9 @@ import thb.fbi.leguan.simulation.Register;
 public class ArithmeticInstruction extends Instruction {
     private IArithmeticCode arithmeticCode;
 
-    public ArithmeticInstruction(String opcode, String description, IArithmeticCode arithmeticCode) {
-        setMnemonic(opcode);
+    public ArithmeticInstruction(String mnemonic, String opcode, String description, IArithmeticCode arithmeticCode) {
+        setMnemonic(mnemonic);
+        setOpcode(opcode);
         setDescription(description);
         setArithmeticCode(arithmeticCode);
     }
@@ -24,6 +26,20 @@ public class ArithmeticInstruction extends Instruction {
         Register Rd = argument.getRd();
         this.arithmeticCode.simulate(Rm, shamt, Rn, Rd);
         pc.increase();
+    }
+
+    /**
+     * returns this instructions machine code representation with provided arguments
+     * in the form of opcode(11b), Rm(5b), shamt(6b), Rn(5b), Rd(5b)
+     */
+    public String getMachineCodeString(InstructionArguments args) {
+        String s = "";
+        s = MachineCodeTranslator.convertToMachineCode(opcode, 11);
+        s += " " + MachineCodeTranslator.convertToMachineCode(args.getRm().getID(), 5);
+        s += " " + MachineCodeTranslator.convertToMachineCode(args.getShamt(), 6);
+        s += " " + MachineCodeTranslator.convertToMachineCode(args.getRn().getID(), 5);
+        s += " " + MachineCodeTranslator.convertToMachineCode(args.getRd().getID(), 5);
+        return s;
     }
 
     public IArithmeticCode getArithmeticCode() {

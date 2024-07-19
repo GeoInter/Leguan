@@ -9,9 +9,11 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 import thb.fbi.leguan.data.ARMProgram;
 import thb.fbi.leguan.data.InstructionArguments;
 import thb.fbi.leguan.data.ProgramStatement;
+import thb.fbi.leguan.instructions.Instruction;
 import thb.fbi.leguan.parser.antlr.LegV8BaseVisitor;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.MainContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.ProgramContext;
+import thb.fbi.leguan.simulation.Memory;
 import thb.fbi.leguan.simulation.Register;
 
 public class ProgramParser extends LegV8BaseVisitor<ARMProgram> {
@@ -51,17 +53,21 @@ public class ProgramParser extends LegV8BaseVisitor<ARMProgram> {
 
     @Override
     public ARMProgram visitProgram(ProgramContext ctx) {
+        // right after code segment starts the static data segment; Use Context to get number of instructions of program beforehand
+        int endOfCodeSegmentAdress = Memory.CODE_SEGMENT_START + ctx.line().size() * Instruction.INSTRUCTION_LENGTH;
         ParserHelper.setSemanticErrors(this.semanticErrors);
-        DataSegmentParser dataSegmentParser = new DataSegmentParser(dataSegmentVariables);
+        DataSegmentParser dataSegmentParser = new DataSegmentParser(dataSegmentVariables, endOfCodeSegmentAdress);
         ProgramStatementParser statementVisitor = new ProgramStatementParser(usedRegisters, jumpMarks, unresolvedMarks, dataSegmentVariables);
-        ArrayList<ProgramStatement> lines = new ArrayList<ProgramStatement>();
+        TreeMap<Integer, ProgramStatement> lines = new TreeMap<Integer, ProgramStatement>();
 
         dataSegment = dataSegmentParser.visitDataSegment(ctx.dataSegment());
 
+        int codeAdress = Memory.CODE_SEGMENT_START;
         for(int i = 0; i < ctx.line().size(); i++) {
-            statementVisitor.setProgramIndex(i);
+            statementVisitor.setProgramIndex(codeAdress);
             ProgramStatement statement = statementVisitor.visitLine(ctx.line(i));
-            lines.add(statement);
+            lines.put(codeAdress, statement);
+            codeAdress = codeAdress + Instruction.INSTRUCTION_LENGTH;
         }
 
 

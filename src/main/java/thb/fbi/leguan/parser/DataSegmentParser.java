@@ -12,20 +12,21 @@ import thb.fbi.leguan.parser.antlr.LegV8Parser.DataSegmentTypeContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.DataSegmentValueContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.DataSegmentVariableContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.NumContext;
-import thb.fbi.leguan.simulation.Memory;
 
 public class DataSegmentParser extends LegV8BaseVisitor<Object> {
 
     private HashMap<String, Long> dataSegmentMap;
+    private long startAdress = 0;
 
-    public DataSegmentParser(HashMap<String, Long> dataSegmentMap) {
+    public DataSegmentParser(HashMap<String, Long> dataSegmentMap, long startAdress) {
         this.dataSegmentMap = dataSegmentMap;
+        this.startAdress = startAdress;
     }
 
     @Override
     public TreeMap<Long, Byte> visitDataSegment(DataSegmentContext ctx) {
         TreeMap<Long, Byte> dataSegment = new TreeMap<Long, Byte>();
-        long address = Memory.dataSegmentStart;
+        long address = startAdress;
 
         if (ctx != null) {
             // for each Variable

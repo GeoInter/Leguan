@@ -3,12 +3,15 @@ package thb.fbi.leguan.parser;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.antlr.v4.runtime.misc.Interval;
 import thb.fbi.leguan.data.InstructionArguments;
 import thb.fbi.leguan.data.ProgramStatement;
 import thb.fbi.leguan.instructions.Instruction;
 import thb.fbi.leguan.parser.antlr.LegV8BaseVisitor;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.ArithmeticInstructionContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.ArithmeticParamContext;
+import thb.fbi.leguan.parser.antlr.LegV8Parser.B_cond_InstructionContext;
+import thb.fbi.leguan.parser.antlr.LegV8Parser.B_cond_ParamContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.BranchByRegisterInstructionContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.BranchByRegisterParamContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.BranchInstructionContext;
@@ -104,7 +107,16 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
             instr = (Instruction) visit(ctx.getChild(1));
             args = (InstructionArguments) visit(ctx.getChild(2));
         }
-        return new ProgramStatement(instr, args, null, ctx.start.getLine() - 1); // lines are off by 1
+        // get original line of code (excludes label and not comments)
+        int start = ctx.start.getStartIndex();
+        int end = ctx.stop.getStopIndex();
+        Interval interval = new Interval(start, end);
+        String codeString = ctx.start.getInputStream().getText(interval);
+        codeString = codeString.replace('\n', ' ');
+        int endOfLabel = codeString.indexOf(":");
+        codeString = codeString.substring(endOfLabel+1);
+        codeString = codeString.trim();
+        return new ProgramStatement(instr, args, codeString, ctx.start.getLine() - 1); // lines are off by 1
     }
 
     /**
@@ -267,6 +279,12 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
     }
 
     @Override
+    public Instruction visitB_cond_Instruction(B_cond_InstructionContext ctx) {
+        String instructionName = ctx.B_cond_Instruction().getText();
+        return getInstructionByName(instructionName);
+    }
+
+    @Override
     public Instruction visitCondBranchInstruction(CondBranchInstructionContext ctx) {
         String instructionName = ctx.CondBranchInstruction().getText();
         return getInstructionByName(instructionName);
@@ -368,6 +386,14 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
     }
 
     @Override
+    public InstructionArguments visitB_cond_Param(B_cond_ParamContext ctx) {
+        int cond_br_address = visitJumpLabelReference(ctx.jumpLabelReference());
+        InstructionArguments args = new InstructionArguments();
+        args.setCond_Br_Address(cond_br_address);
+        return args;
+    }
+
+    @Override
     public InstructionArguments visitBranchParam(BranchParamContext ctx) {
         int br_address = visitJumpLabelReference(ctx.jumpLabelReference());
         InstructionArguments args = new InstructionArguments();
@@ -398,9 +424,11 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
     @Override
     public InstructionArguments visitDataSegmentParam(DataSegmentParamContext ctx) {
         Register Rt = visitRegister(ctx.register());
+        Register Rn = simulator.getRegisters()[31];
         long dt_address = visitDataSegmentLabelReference(ctx.dataSegmentLabelReference());
         InstructionArguments args = new InstructionArguments();
         args.setRt(Rt);
+        args.setRn(Rn);
         args.setDt_Address(dt_address);
         return args;
     }

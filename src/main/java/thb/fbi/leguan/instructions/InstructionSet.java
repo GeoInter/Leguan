@@ -25,6 +25,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ArithmeticInstruction("NULL",
+                        "0",
                         "it is just empty",
                         new IArithmeticCode() {
                             @Override
@@ -37,6 +38,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ArithmeticInstruction("ADD",
+                        "10001011000",
                         "Adds value of Registers Rm and Rn and puts result in Rd without flags",
                         new IArithmeticCode() {
                             @Override
@@ -51,6 +53,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ImmediateInstruction("ADDI",
+                        "1001000100",
                         "Adds value of Registers Rm and a constant and puts result in Rd without flags",
                         new IImmediateCode() {
                             @Override
@@ -63,6 +66,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ImmediateInstruction("ADDIS",
+                        "1011000100",
                         "Adds value of Registers Rm and a constant and puts result in Rd with flags",
                         new IImmediateCode() {
                             @Override
@@ -78,6 +82,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ArithmeticInstruction("ADDS",
+                        "10101011000",
                         "Adds value of Registers Rm and Rn and puts result in Rd with flags",
                         new IArithmeticCode() {
                             @Override
@@ -95,6 +100,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ArithmeticInstruction("AND",
+                        "10001010000",
                         "AND",
                         new IArithmeticCode() {
                             @Override
@@ -109,6 +115,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ImmediateInstruction("ANDI",
+                        "1001001000",
                         "AND Immediate",
                         new IImmediateCode() {
                             @Override
@@ -122,6 +129,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ImmediateInstruction("ANDIS",
+                        "1111001000",
                         "AND Immediate and Flags",
                         new IImmediateCode() {
                             @Override
@@ -137,6 +145,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ArithmeticInstruction("ANDS",
+                        "11101010000",
                         "AND with Flags",
                         new IArithmeticCode() {
                             @Override
@@ -153,6 +162,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new BranchInstruction("B",
+                        "000101",
                         "Branch",
                         new IBranchCode() {
                             @Override
@@ -162,14 +172,15 @@ public class InstructionSet {
                         }));
 
         instructionSet.add(
-                new BranchInstruction("B.EQ",
+                new ConditionalBranchInstruction("B.EQ",
+                        "0",
                         "Branch Signed Equals",
-                        new IBranchCode() {
+                        new IConditionalBranchCode() {
                             @Override
-                            public void simulate(int br_address, PCRegister pc) {
+                            public void simulate(int cond_br_address, Register Rt, PCRegister pc) {
                                 // test Z == 1
                                 if (FlagRegister.getZFlag()) {
-                                    pc.setValue(br_address);
+                                    pc.setValue(cond_br_address);
                                 } else {
                                     pc.increase();
                                 }
@@ -177,14 +188,15 @@ public class InstructionSet {
                         }));
 
         instructionSet.add(
-                new BranchInstruction("B.NE",
+                new ConditionalBranchInstruction("B.NE",
+                        "0",
                         "Branch Signed Not Equals",
-                        new IBranchCode() {
+                        new IConditionalBranchCode() {
                             @Override
-                            public void simulate(int br_address, PCRegister pc) {
+                            public void simulate(int cond_br_address, Register Rt, PCRegister pc) {
                                 // test Z == 0
                                 if (!FlagRegister.getZFlag()) {
-                                    pc.setValue(br_address);
+                                    pc.setValue(cond_br_address);
                                 } else {
                                     pc.increase();
                                 }
@@ -192,14 +204,15 @@ public class InstructionSet {
                         }));
 
         instructionSet.add(
-                new BranchInstruction("B.LT",
+                new ConditionalBranchInstruction("B.LT",
+                        "0",
                         "Branch Signed Less Than",
-                        new IBranchCode() {
+                        new IConditionalBranchCode() {
                             @Override
-                            public void simulate(int br_address, PCRegister pc) {
+                            public void simulate(int cond_br_address, Register Rt, PCRegister pc) {
                                 // test N != V
                                 if (FlagRegister.getNFlag() != FlagRegister.getVFlag()) {
-                                    pc.setValue(br_address);
+                                    pc.setValue(cond_br_address);
                                 } else {
                                     pc.increase();
                                 }
@@ -207,14 +220,15 @@ public class InstructionSet {
                         }));
 
         instructionSet.add(
-                new BranchInstruction("B.LE",
+                new ConditionalBranchInstruction("B.LE",
+                        "0",
                         "Branch Signed Less Equals",
-                        new IBranchCode() {
+                        new IConditionalBranchCode() {
                             @Override
-                            public void simulate(int br_address, PCRegister pc) {
+                            public void simulate(int cond_br_address, Register Rt, PCRegister pc) {
                                 // test ! (Z == 0 && N == V)
                                 if (!(!FlagRegister.getZFlag() && FlagRegister.getNFlag() == FlagRegister.getVFlag())) {
-                                    pc.setValue(br_address);
+                                    pc.setValue(cond_br_address);
                                 } else {
                                     pc.increase();
                                 }
@@ -222,14 +236,15 @@ public class InstructionSet {
                         }));
 
         instructionSet.add(
-                new BranchInstruction("B.GT",
+                new ConditionalBranchInstruction("B.GT",
+                        "0",
                         "Branch Signed Greater Than",
-                        new IBranchCode() {
+                        new IConditionalBranchCode() {
                             @Override
-                            public void simulate(int br_address, PCRegister pc) {
+                            public void simulate(int cond_br_address, Register Rt, PCRegister pc) {
                                 // test (Z == 0 && N == V)
                                 if (!FlagRegister.getZFlag() && FlagRegister.getNFlag() == FlagRegister.getVFlag()) {
-                                    pc.setValue(br_address);
+                                    pc.setValue(cond_br_address);
                                 } else {
                                     pc.increase();
                                 }
@@ -237,14 +252,15 @@ public class InstructionSet {
                         }));
 
         instructionSet.add(
-                new BranchInstruction("B.GE",
+                new ConditionalBranchInstruction("B.GE",
+                        "0",
                         "Branch Signed Greater Equals",
-                        new IBranchCode() {
+                        new IConditionalBranchCode() {
                             @Override
-                            public void simulate(int br_address, PCRegister pc) {
+                            public void simulate(int cond_br_address, Register Rt, PCRegister pc) {
                                 // test N == V
                                 if (FlagRegister.getNFlag() == FlagRegister.getVFlag()) {
-                                    pc.setValue(br_address);
+                                    pc.setValue(cond_br_address);
                                 } else {
                                     pc.increase();
                                 }
@@ -252,14 +268,15 @@ public class InstructionSet {
                         }));
 
         instructionSet.add(
-                new BranchInstruction("B.MI",
+                new ConditionalBranchInstruction("B.MI",
+                        "0",
                         "Branch on Minus",
-                        new IBranchCode() {
+                        new IConditionalBranchCode() {
                             @Override
-                            public void simulate(int br_address, PCRegister pc) {
+                            public void simulate(int cond_br_address, Register Rt, PCRegister pc) {
                                 // test N == 1
                                 if (FlagRegister.getNFlag()) {
-                                    pc.setValue(br_address);
+                                    pc.setValue(cond_br_address);
                                 } else {
                                     pc.increase();
                                 }
@@ -267,14 +284,15 @@ public class InstructionSet {
                         }));
 
         instructionSet.add(
-                new BranchInstruction("B.PL",
+                new ConditionalBranchInstruction("B.PL",
+                        "0",
                         "Branch on Plus",
-                        new IBranchCode() {
+                        new IConditionalBranchCode() {
                             @Override
-                            public void simulate(int br_address, PCRegister pc) {
+                            public void simulate(int cond_br_address, Register Rt, PCRegister pc) {
                                 // test N == 0
                                 if (!FlagRegister.getNFlag()) {
-                                    pc.setValue(br_address);
+                                    pc.setValue(cond_br_address);
                                 } else {
                                     pc.increase();
                                 }
@@ -282,14 +300,15 @@ public class InstructionSet {
                         }));
 
         instructionSet.add(
-                new BranchInstruction("B.VS",
+                new ConditionalBranchInstruction("B.VS",
+                        "0",
                         "Branch on Overflow set",
-                        new IBranchCode() {
+                        new IConditionalBranchCode() {
                             @Override
-                            public void simulate(int br_address, PCRegister pc) {
+                            public void simulate(int cond_br_address, Register Rt, PCRegister pc) {
                                 // test V == 1
                                 if (FlagRegister.getVFlag()) {
-                                    pc.setValue(br_address);
+                                    pc.setValue(cond_br_address);
                                 } else {
                                     pc.increase();
                                 }
@@ -297,35 +316,38 @@ public class InstructionSet {
                         }));
 
         instructionSet.add(
-                new BranchInstruction("B.VC",
+                new ConditionalBranchInstruction("B.VC",
+                        "0",
                         "Branch on Overflow clear",
+                        new IConditionalBranchCode() {
+                            @Override
+                            public void simulate(int cond_br_address, Register Rt, PCRegister pc) {
+                                // test V == 0
+                                if (!FlagRegister.getVFlag()) {
+                                    pc.setValue(cond_br_address);
+                                } else {
+                                    pc.increase();
+                                }
+                            }
+                        }));
+
+        instructionSet.add(
+                new BranchInstruction("BL",
+                        "100101",
+                        "Branch with Link",
                         new IBranchCode() {
                             @Override
                             public void simulate(int br_address, PCRegister pc) {
-                                // test V == 0
-                                if (!FlagRegister.getVFlag()) {
-                                    pc.setValue(br_address);
-                                } else {
-                                    pc.increase();
-                                }
+                                Simulator simulator = SimulatorSingleton.getSimulator();
+                                Register R30 = simulator.getRegisters()[30];
+                                R30.setValue((pc.getValue() + 1) * 4); // internal pc value is not multiplied by 4
+                                pc.setValue(br_address);
                             }
                         }));
-
-        instructionSet.add(
-            new BranchInstruction("BL",
-                    "Branch with Link",
-                    new IBranchCode() {
-                        @Override
-                        public void simulate(int br_address, PCRegister pc) {
-                            Simulator simulator = SimulatorSingleton.getSimulator();
-                            Register R30 = simulator.getRegisters()[30];
-                            R30.setValue((pc.getValue() + 1) * 4); // internal pc value is not multiplied by 4
-                            pc.setValue(br_address);
-                        }
-                    }));
 
         instructionSet.add(
                 new ConditionalBranchInstruction("BR",
+                        "11010110000",
                         "Branch to register",
                         new IConditionalBranchCode() {
                             @Override
@@ -338,6 +360,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ConditionalBranchInstruction("CBNZ",
+                        "10110101",
                         "Compare and Branch if not Zero",
                         new IConditionalBranchCode() {
                             @Override
@@ -353,6 +376,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ConditionalBranchInstruction("CBZ",
+                        "10110100",
                         "Compare and Branch if Zero",
                         new IConditionalBranchCode() {
                             @Override
@@ -368,6 +392,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ArithmeticInstruction("EOR",
+                        "11001010000",
                         "Exclusive OR between two Registers",
                         new IArithmeticCode() {
                             @Override
@@ -382,6 +407,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ImmediateInstruction("EORI",
+                        "1101001000",
                         "Exclusive OR between Register and Immediate",
                         new IImmediateCode() {
                             @Override
@@ -395,6 +421,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new DataTransferInstruction("LDUR",
+                        "11111000010",
                         "Load a double word from memory to register",
                         new IDataTransferCode() {
                             @Override
@@ -408,6 +435,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new DataTransferInstruction("LDURB",
+                        "00111000010",
                         "Load a Byte from memory to register",
                         new IDataTransferCode() {
                             @Override
@@ -421,6 +449,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new DataTransferInstruction("LDURH",
+                        "01111000010",
                         "Load a half word from memory to register",
                         new IDataTransferCode() {
                             @Override
@@ -434,6 +463,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new DataTransferInstruction("LDURSW",
+                        "10111000100",
                         "Load a word from memory to register",
                         new IDataTransferCode() {
                             @Override
@@ -447,6 +477,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new DataTransferInstruction("LDXR",
+                        "11001000010",
                         "Exclusive load a word from memory to register",
                         new IDataTransferCode() {
                             @Override
@@ -460,6 +491,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ArithmeticInstruction("LSL",
+                        "11010011011",
                         "Logical Shift Left",
                         new IArithmeticCode() {
                             @Override
@@ -473,6 +505,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ArithmeticInstruction("LSR",
+                        "11010011010",
                         "Logical Shift Right",
                         new IArithmeticCode() {
                             @Override
@@ -487,6 +520,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new WideImmediateInstruction("MOVK",
+                        "111100101",
                         "Move wide with keep",
                         new IWideImmediateCode() {
                             @Override
@@ -494,13 +528,14 @@ public class InstructionSet {
                                 long oldValue = Rd.getValue();
                                 long result = immediate << shamt;
                                 result += oldValue;
-                                
+
                                 Rd.setValue(result);
                             }
                         }));
 
         instructionSet.add(
                 new WideImmediateInstruction("MOVZ",
+                        "110100101",
                         "Move wide with zeroes",
                         new IWideImmediateCode() {
                             @Override
@@ -513,6 +548,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ArithmeticInstruction("ORR",
+                        "10101010000",
                         "Inclusive OR between two Registers",
                         new IArithmeticCode() {
                             @Override
@@ -527,6 +563,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ImmediateInstruction("ORRI",
+                        "1011001000",
                         "Inclusive OR between Register and Immediate",
                         new IImmediateCode() {
                             @Override
@@ -540,6 +577,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new DataTransferInstruction("STUR",
+                        "11111000000",
                         "Store a double word from register into memory",
                         new IDataTransferCode() {
                             @Override
@@ -553,6 +591,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new DataTransferInstruction("STURB",
+                        "00111000000",
                         "Store a Byte from register into memory",
                         new IDataTransferCode() {
                             @Override
@@ -566,6 +605,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new DataTransferInstruction("STURH",
+                        "01111000000",
                         "Store a half word from register into memory",
                         new IDataTransferCode() {
                             @Override
@@ -579,6 +619,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new DataTransferInstruction("STURW",
+                        "10111000000",
                         "Store a word from register into memory",
                         new IDataTransferCode() {
                             @Override
@@ -592,6 +633,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ArithmeticInstruction("STXR",
+                        "11001000000",
                         "Exclusive Store a word from register into memory",
                         new IArithmeticCode() {
                             @Override
@@ -607,6 +649,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ArithmeticInstruction("SUB",
+                        "11001011000",
                         "Subtracts value of Registers Rm and Rn and puts result in Rd without flags",
                         new IArithmeticCode() {
                             @Override
@@ -620,6 +663,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ImmediateInstruction("SUBI",
+                        "1101000100",
                         "Subtracts value of Registers Rm and a constant and puts result in Rd without flags",
                         new IImmediateCode() {
                             @Override
@@ -632,6 +676,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ImmediateInstruction("SUBIS",
+                        "1111000100",
                         "Subtracts value of Registers Rm and a constant and puts result in Rd without flags",
                         new IImmediateCode() {
                             @Override
@@ -648,6 +693,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ArithmeticInstruction("SUBS",
+                        "11101011000",
                         "Subtracts value of Registers Rm and Rn and puts result in Rd with flags",
                         new IArithmeticCode() {
                             @Override
@@ -667,6 +713,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new DataTransferInstruction("LDR",
+                        "11111000010", // opcode from LDUR 
                         "Loads a program-relative or register-relative address into a register",
                         new IDataTransferCode() {
                             @Override

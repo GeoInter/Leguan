@@ -2,6 +2,7 @@ package thb.fbi.leguan.instructions;
 
 import thb.fbi.leguan.data.InstructionArguments;
 import thb.fbi.leguan.simulation.PCRegister;
+import thb.fbi.leguan.utility.MachineCodeTranslator;
 
 /**
  * Subclass for (unconditional) branch instructions.
@@ -9,8 +10,9 @@ import thb.fbi.leguan.simulation.PCRegister;
 public class BranchInstruction extends Instruction {
     private IBranchCode branchCode;
 
-    public BranchInstruction(String opcode, String description, IBranchCode branchCode) {
-        setMnemonic(opcode);
+    public BranchInstruction(String mnemonic, String opcode, String description, IBranchCode branchCode) {
+        setMnemonic(mnemonic);
+        setOpcode(opcode);
         setDescription(description);
         setBranchCode(branchCode);
     }
@@ -19,6 +21,17 @@ public class BranchInstruction extends Instruction {
     public void simulate(InstructionArguments argument, PCRegister pc) {
         int br_address = argument.getBr_Address();
         this.branchCode.simulate(br_address, pc);
+    }
+
+    /**
+     * returns this instructions machine code representation with provided arguments
+     * in the form of opcode(6b), br_address(26b)
+     */
+    public String getMachineCodeString(InstructionArguments args) {
+        String s = "";
+        s = MachineCodeTranslator.convertToMachineCode(opcode, 6);
+        s += " " + MachineCodeTranslator.convertToMachineCode(args.getBr_Address(), 26);
+        return s;
     }
 
     public IBranchCode getBranchCode() {

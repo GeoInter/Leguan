@@ -12,7 +12,7 @@ import thb.fbi.leguan.simulation.Register;
  */
 public class ARMProgram {
 
-    private ArrayList<ProgramStatement> statements = new ArrayList<ProgramStatement>();
+    private TreeMap<Integer, ProgramStatement> statements = new TreeMap<Integer, ProgramStatement>();
     private ArrayList<Register> usedRegisters = new ArrayList<Register>();
     private TreeMap<Long, Byte> dataSegment = new TreeMap<Long, Byte>();
 
@@ -33,27 +33,32 @@ public class ARMProgram {
      * @param address index pointing to statement
      * @return Program Statement at specified index
      */
+    public TreeMap<Integer, ProgramStatement> getProgramStatements() {
+        return this.statements;
+    }
+
+    /**
+     * gets a Program Statement at the specified index
+     * @param address index pointing to statement
+     * @return Program Statement at specified index
+     */
     public ProgramStatement getProgramStatement(int address) {
-        try {
-            return statements.get(address);
-        } catch (IndexOutOfBoundsException e) {
-            return null;
-        }
+        return statements.get(address);
     }
 
     /**
      * adds a parsed Program Statement/ Line of Source Code to this instance
      * @param statement Program Statement to add 
      */
-    public void addStatement(ProgramStatement statement) {
-        statements.add(statement);
+    public void addStatement(int index, ProgramStatement statement) {
+        statements.put(index, statement);
     }
 
     /**
      * adds a List of Program Statement/ Line of Source Code to this instance
      * @param statement List of Program Statements to set 
      */
-    public void setStatement(ArrayList<ProgramStatement> statements) {
+    public void setStatement(TreeMap<Integer, ProgramStatement> statements) {
         this.statements = statements;
     }
 

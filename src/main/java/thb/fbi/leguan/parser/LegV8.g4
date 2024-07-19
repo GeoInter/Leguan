@@ -26,6 +26,7 @@ line : jumpLabelDeclaration? (arithmeticInstruction arithmeticParam |
                     datatransferInstruction datatransferParam | 
                     exclusiveInstruction exclusiveParam |
                     condBranchInstruction condBranchParam | 
+                    b_cond_Instruction b_cond_Param |
                     branchInstruction branchParam |
                     branchByRegisterInstruction branchByRegisterParam |
                     dataSegmentInstruction dataSegmentParam);
@@ -41,6 +42,7 @@ wideImmediateInstruction : WideImmediateInstrcution;
 datatransferInstruction : DatatransferInstruction;
 exclusiveInstruction : ExclusiveInstruction;
 condBranchInstruction : CondBranchInstruction;
+b_cond_Instruction : B_cond_Instruction;
 branchInstruction : BranchInstruction;
 branchByRegisterInstruction : BranchByRegisterInstruction;
 dataSegmentInstruction: DataSegmentInstruction;
@@ -52,6 +54,7 @@ wideImmediateParam : register COMMA num COMMA ShiftInstruction num ;
 datatransferParam : register COMMA SQUARE_BRACKET_LEFT register COMMA num SQUARE_BRACKET_RIGHT ;
 exclusiveParam : register COMMA register SQUARE_BRACKET_LEFT register SQUARE_BRACKET_RIGHT ;
 condBranchParam : register COMMA jumpLabelReference ;
+b_cond_Param: jumpLabelReference ;
 branchParam : jumpLabelReference ;
 branchByRegisterParam : register ;
 dataSegmentParam : register COMMA EQUALS_SIGN dataSegmentLabelReference ;
@@ -69,7 +72,8 @@ WideImmediateInstrcution : 'MOVK' | 'MOVZ';
 DatatransferInstruction : 'LDUR' | 'LDURB' | 'LDURH' | 'LDURSW' | 'LDXR' | 'STUR' | 'STURB' | 'STURH' | 'STURW';
 ExclusiveInstruction : 'STXR';
 CondBranchInstruction : 'CBNZ' | 'CBZ' ;
-BranchInstruction : 'B' | 'BL' | 'B.EQ' | 'B.NE' | 'B.LT' | 'B.LE' | 'B.GT' | 'B.GE' | 'B.MI' | 'B.PL' | 'B.VS' | 'B.VC';
+B_cond_Instruction: 'B.EQ' | 'B.NE' | 'B.LT' | 'B.LE' | 'B.GT' | 'B.GE' | 'B.MI' | 'B.PL' | 'B.VS' | 'B.VC';
+BranchInstruction : 'B' | 'BL' ;
 BranchByRegisterInstruction : 'BR';
 DataSegmentInstruction : 'LDR' ;
 
