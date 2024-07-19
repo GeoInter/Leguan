@@ -709,6 +709,23 @@ public class InstructionSet {
                             }
                         }));
 
+        //// Arithmetic Core Instruction Set ////
+
+        instructionSet.add(
+                new ArithmeticInstruction("MUL",
+                        "0", // opcode unknown
+                        "Multiplies two registers (only integers)",
+                        new IArithmeticCode() {
+                            @Override
+                            public void simulate(Register Rm, int shamt, Register Rn, Register Rd) {
+                                long op1 = Rn.getValue();
+                                long op2 = Rm.getValue();
+                                long result = op1 * op2;
+
+                                Rd.setValue(result);
+                            }
+                        }));
+
         //// Other Instructions ////
 
         instructionSet.add(
