@@ -213,7 +213,7 @@ public class SimulatorController {
             setConsoleText(simulator.getErrors());
             stepForwardButton.setDisable(false);
             // stepBackwardButton.setDisable(false);
-            
+            reset();
             // Update Memory Code Segment Table
             memoryController.updateCode(simulator.getArmProgram());
 
