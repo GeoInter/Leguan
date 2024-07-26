@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 public class Instruction implements Serializable {
 
-    char type; // instruction format
+    InstructionFormat format; // instruction format
     int rn; // first register
     int rt; // second register or if rd is not specified, then this is the destination
             // register
@@ -26,7 +26,7 @@ public class Instruction implements Serializable {
     private short opcode;
 
     public Instruction() {
-        type = 'U';
+        format = InstructionFormat.Unknown;
         rn = 31;
         rt = 31;
         rd = 31;
@@ -40,12 +40,12 @@ public class Instruction implements Serializable {
         return this.opcode;
     }
 
-    public char getType() {
-        return type;
+    public InstructionFormat getFormat() {
+        return format;
     }
 
-    public void setType(char c) {
-        this.type = c;
+    public void setFormat(InstructionFormat format) {
+        this.format = format;
     }
 
     public void setOpcode(short opcode) {
@@ -110,43 +110,6 @@ public class Instruction implements Serializable {
 
     public void setString(String s) {
         this.codeString = s;
-    }
-
-    public String getBitString() {
-        String str = "";
-        if (this.type == 'R') {
-
-            str = giveBinaryString(26, 32, "" + this.opcode);
-            str += giveBinaryString(27, 32, "" + this.rn);
-            str += giveBinaryString(27, 32, "" + this.rt);
-            str += giveBinaryString(27, 32, "" + this.rd);
-            str += giveBinaryString(27, 32, "" + this.shamt);
-
-        } else if (this.type == 'I') {
-
-            str = giveBinaryString(26, 32, "" + this.opcode);
-            str += giveBinaryString(27, 32, "" + this.rn);
-            str += giveBinaryString(27, 32, "" + this.rt);
-            str += giveBinaryString(16, 32, "" + this.offsetIJ);
-
-        } else {
-            // return "INVALID INSTRUCTION";
-        }
-
-        return str;
-    }
-
-    private String giveBinaryString(int l, int r, String str) {
-        int num = Integer.parseInt(str);
-        int lZeros = Integer.numberOfLeadingZeros(num);
-        String s = "";
-        for (int i = 0; i < lZeros; i++) {
-            s += "0";
-        }
-        s += Integer.toBinaryString(num);
-        s = s.substring(l, r);
-
-        return s;
     }
 
     public void setMnemonic(String mnemonic) {

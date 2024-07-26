@@ -37,25 +37,25 @@ public class ControlUnit implements Serializable {
         this.memoryAccessExclusive = false;
         this.setsFlag = false;
 
-        if (instruction.getMnemonic().equals("NOP")) {
+        if (instruction.getMnemonic().equals("NOP")) { // classified as Arithmetic
             this.ALUOp = -1;
             this.ALUSource = false;
             this.RegDest = false;
         } else {
-            switch (instruction.getType()) {
-                case 'R':
+            switch (instruction.getFormat()) {
+                case Arithmetic:
                     setFlagsForArithmetic();
                     if (instruction.getMnemonic().endsWith("S")) {
                         this.setsFlag = true;
                     }
                     break;
-                case 'B':
+                case Branch:
                     setFlagsForBranch();
                     break;
-                case 'C':
+                case Conditional_Branch:
                     setFlagsForCondBranch();
                     break;
-                case 'D':
+                case Datatransfer:
                     switch (instruction.getMnemonic()) {
                         case "LDUR":
                             setFlagsForDatatransfer_Load();
@@ -106,15 +106,20 @@ public class ControlUnit implements Serializable {
                             break;
                     }
                     break;
-                case 'I':
+                case Immediate:
                     setFlagsForImmediate();
                     if (instruction.getMnemonic().endsWith("S")) {
                         this.setsFlag = true;
                     }
                     break;
-                case 'W':
+                case Wide_Immediate:
                     setFlagsForWideImmediate();
                     break;
+                case Unknown:
+                default:
+                    this.ALUOp = -1;
+                    this.ALUSource = false;
+                    this.RegDest = false;
             }
 
         }

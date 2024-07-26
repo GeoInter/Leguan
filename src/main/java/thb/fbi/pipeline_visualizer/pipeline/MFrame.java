@@ -65,13 +65,13 @@ public class MFrame implements Serializable {
 
         // add conditional branch instructions to prediction Table
         if(this.instruction != null) {
-            if(this.instruction.type == 'C') {
+            if(this.instruction.format == InstructionFormat.Conditional_Branch) {
                 if(! twoBitPredictionTable.containsKey(PC)) {
                     int targetAddress = (PC+4) + this.instruction.offsetIJ * 4; // same calculation as in MEM stage (Note: instead of PC uses nextPC)
                     TwoBitPrecitionEntry entry = new TwoBitPrecitionEntry(targetAddress, startingStateOfPrediction, this.instruction.getCodeString());
                     twoBitPredictionTable.put(PC, entry);
                 }
-            } else if(this.instruction.type == 'B') { // unconditional Branches will be always taken
+            } else if(this.instruction.format == InstructionFormat.Branch) { // unconditional Branches will be always taken
                 if(! twoBitPredictionTable.containsKey(PC)) {
                     int targetAddress = (PC+4) + this.instruction.offsetIJ * 4; // same calculation as in MEM stage (Note: instead of PC uses nextPC)
                     TwoBitPrecitionEntry entry = new TwoBitPrecitionEntry(targetAddress, TwoBitPredictorState.Taken, this.instruction.getCodeString()); // Branch will be always taken
