@@ -858,11 +858,11 @@ public class PipelinePanel extends JPanel {
                             break;
                         case 8:
                             if (this.currentFrame.ifIdPipeline != null)
-                                retStr = "" + this.currentFrame.ifIdPipeline.Instruction.getiString();
+                                retStr = "" + this.currentFrame.ifIdPipeline.instruction.getCodeString(); // original line of code
                             else
                                 retStr = "X";
                             if (mode == 2) {
-                                retStr = this.currentFrame.ifIdPipeline.Instruction.getBitString();
+                                retStr = this.currentFrame.ifIdPipeline.instruction.getCodeString(); // machine code
                             } else if (mode == 3) {
                                 retStr = "32 bit Ins.";
                             }
@@ -879,9 +879,9 @@ public class PipelinePanel extends JPanel {
                             break;
                         case 10:
                             if (this.currentFrame.idExPipeline != null) {
-                                retStr = "" + this.currentFrame.idExPipeline.iString;
+                                retStr = "" + this.currentFrame.idExPipeline.codeString;
                                 if (mode == 2)
-                                    retStr = this.currentFrame.idExPipeline.bitString;
+                                    retStr = this.currentFrame.idExPipeline.binaryCodeString;
                             } else
                                 retStr = "X";
                             if (mode == 3)
@@ -889,7 +889,7 @@ public class PipelinePanel extends JPanel {
                             break;
                         case 11:
                             if (this.currentFrame.idExPipeline != null) {
-                                retStr = "" + this.currentFrame.cUnit.op;
+                                retStr = "" + this.currentFrame.cUnit.opcode;
                                 if (mode == 2)
                                     retStr = "" + giveBinaryString(26, 32, retStr);
                             } else
@@ -909,7 +909,7 @@ public class PipelinePanel extends JPanel {
                             break;
                         case 13:
                             if (this.currentFrame.idExPipeline != null) {
-                                retStr = "" + this.currentFrame.idExPipeline.rs;
+                                retStr = "" + this.currentFrame.idExPipeline.rn;
                                 if (mode == 2)
                                     retStr = "" + giveBinaryString(27, 32, retStr);
                             } else
@@ -928,7 +928,7 @@ public class PipelinePanel extends JPanel {
                                 retStr = "Rt";
                             break;
                         case 15:
-                            if (!this.currentFrame.wbiString.equalsIgnoreCase("NOP")) {
+                            if (!this.currentFrame.wbCodeString.equalsIgnoreCase("NOP")) {
                                 retStr = "" + this.currentFrame.fwdUnit.RegWriteMemWbValue;
                                 if (mode == 2)
                                     retStr = "" + giveBinaryString(0, 32, retStr);
@@ -938,7 +938,7 @@ public class PipelinePanel extends JPanel {
                                 retStr = "Reg Write Value";
                             break;
                         case 16:
-                            if (!this.currentFrame.wbiString.equalsIgnoreCase("NOP")) {
+                            if (!this.currentFrame.wbCodeString.equalsIgnoreCase("NOP")) {
                                 retStr = "" + this.currentFrame.fwdUnit.RegWriteMemWbAdd;
                                 if (mode == 2)
                                     retStr = "" + giveBinaryString(27, 32, retStr);
@@ -969,7 +969,7 @@ public class PipelinePanel extends JPanel {
                             break;
                         case 19:
                             if (this.currentFrame.idExPipeline != null) {
-                                retStr = "" + this.currentFrame.idExPipeline.rs;
+                                retStr = "" + this.currentFrame.idExPipeline.rn;
                                 if (mode == 2)
                                     retStr = "" + giveBinaryString(27, 32, retStr);
                             } else
@@ -1004,7 +1004,7 @@ public class PipelinePanel extends JPanel {
                                     if (mode == 2)
                                         retStr = "" + giveBinaryString(27, 32, retStr);
                                 } else {
-                                    retStr = this.currentFrame.idExPipeline.bitString.substring(16, 21);
+                                    retStr = this.currentFrame.idExPipeline.rd + "";
                                     if (mode == 1)
                                         retStr = "" + Integer.parseInt(retStr, 2);
                                 }
@@ -1050,7 +1050,7 @@ public class PipelinePanel extends JPanel {
                             break;
                         case 27:
                             if (this.currentFrame.idExPipeline != null) {
-                                retStr = "" + this.currentFrame.idExPipeline.rsValue;
+                                retStr = "" + this.currentFrame.idExPipeline.rnValue;
                                 if (mode == 2)
                                     retStr = "" + giveBinaryString(0, 32, retStr);
                             } else
@@ -1066,7 +1066,7 @@ public class PipelinePanel extends JPanel {
                             break;
                         case 29:
                             if (this.currentFrame.idExPipeline != null) {
-                                retStr = "" + this.currentFrame.idExPipeline.rs;
+                                retStr = "" + this.currentFrame.idExPipeline.rn;
                                 if (mode == 2)
                                     retStr = "" + giveBinaryString(27, 32, retStr);
                             } else
@@ -1172,7 +1172,7 @@ public class PipelinePanel extends JPanel {
                             break;
                         case 39:
                             if (this.currentFrame.exMemPipeline != null) {
-                                retStr = "" + this.currentFrame.fwdUnit.rsValue;
+                                retStr = "" + this.currentFrame.fwdUnit.rnValue;
                                 if (mode == 2)
                                     retStr = "" + giveBinaryString(0, 32, retStr);
                             } else
@@ -1181,7 +1181,7 @@ public class PipelinePanel extends JPanel {
                                 retStr = "Rs Value";
                             break;
                         case 40:
-                            if (!this.currentFrame.wbiString.equalsIgnoreCase("NOP")) {
+                            if (!this.currentFrame.wbCodeString.equalsIgnoreCase("NOP")) {
                                 retStr = "" + this.currentFrame.fwdUnit.RegWriteMemWbValue;
                                 if (mode == 2)
                                     retStr = "" + giveBinaryString(0, 32, retStr);
@@ -1212,8 +1212,8 @@ public class PipelinePanel extends JPanel {
                             break;
                         case 44:
                             if (this.currentFrame.exMemPipeline != null) {
-                                if (this.currentFrame.tempExFunction >= 0) {
-                                    retStr = "" + this.currentFrame.tempExFunction;
+                                if (this.currentFrame.tempExOpcode >= 0) {
+                                    retStr = "" + this.currentFrame.tempExOpcode;
                                     if (mode == 2)
                                         retStr = "" + giveBinaryString(26, 32, retStr);
                                 } else {
@@ -1267,12 +1267,13 @@ public class PipelinePanel extends JPanel {
                                 retStr = "Operand 2";
                             break;
                         case 49:
+                        // TODO: add ALU Control
                             if (mode == 3)
                                 retStr = "ALU Control";
                             break;
                         case 50:
                             if (this.currentFrame.exMemPipeline != null) {
-                                retStr = "" + this.currentFrame.fwdUnit.rs;
+                                retStr = "" + this.currentFrame.fwdUnit.rn;
                                 if (mode == 2)
                                     retStr = "" + giveBinaryString(27, 32, retStr);
                             } else
@@ -1469,7 +1470,7 @@ public class PipelinePanel extends JPanel {
                                 retStr = "Dest. Reg.";
                             break;
                         case 70:
-                            if (!this.currentFrame.wbiString.equalsIgnoreCase("NOP")) {
+                            if (!this.currentFrame.wbCodeString.equalsIgnoreCase("NOP")) {
                                 retStr = "" + this.currentFrame.fwdUnit.RegWriteMemWbAdd;
                                 if (mode == 2)
                                     retStr = "" + giveBinaryString(27, 32, retStr);
@@ -1479,7 +1480,7 @@ public class PipelinePanel extends JPanel {
                                 retStr = "Reg. Write Address";
                             break;
                         case 72:
-                            if (!this.currentFrame.wbiString.equalsIgnoreCase("NOP")) {
+                            if (!this.currentFrame.wbCodeString.equalsIgnoreCase("NOP")) {
                                 retStr = "" + this.currentFrame.tempWbMemToReg;
                                 if (mode == 2) {
                                     if (retStr.equalsIgnoreCase("true"))
@@ -1494,7 +1495,7 @@ public class PipelinePanel extends JPanel {
                             break;
                         case 73:
                             if (this.currentFrame.memWbPipeline != null) {
-                                retStr = "" + this.currentFrame.memWbPipeline.Mdata;
+                                retStr = "" + this.currentFrame.memWbPipeline.memoryData;
                                 if (mode == 2)
                                     retStr = "" + giveBinaryString(0, 32, retStr);
                             } else
@@ -1503,8 +1504,8 @@ public class PipelinePanel extends JPanel {
                                 retStr = "Memory Data";
                             break;
                         case 74:
-                            if (!this.currentFrame.wbiString.equalsIgnoreCase("NOP")) {
-                                retStr = "" + this.currentFrame.tempWbMData;
+                            if (!this.currentFrame.wbCodeString.equalsIgnoreCase("NOP")) {
+                                retStr = "" + this.currentFrame.tempWbMemoryData;
                                 if (mode == 2)
                                     retStr = "" + giveBinaryString(0, 32, retStr);
                             } else
@@ -1513,7 +1514,7 @@ public class PipelinePanel extends JPanel {
                                 retStr = "Memory Data";
                             break;
                         case 75:
-                            if (!this.currentFrame.wbiString.equalsIgnoreCase("NOP")) {
+                            if (!this.currentFrame.wbCodeString.equalsIgnoreCase("NOP")) {
                                 retStr = "" + this.currentFrame.tempWbAluResult;
                                 if (mode == 2)
                                     retStr = "" + giveBinaryString(0, 32, retStr);
@@ -1663,27 +1664,27 @@ public class PipelinePanel extends JPanel {
         g2d.setFont(font);
 
         if (this.currentFrame.ifIdPipeline != null)
-            g2d.drawString(this.currentFrame.ifIdPipeline.iString, 20, 620);
+            g2d.drawString(this.currentFrame.ifIdPipeline.codeString, 20, 620);
         else
             g2d.drawString("\tNOP", 20, 620);
 
         if (this.currentFrame.idExPipeline != null)
-            g2d.drawString(this.currentFrame.idExPipeline.iString, 260, 620);
+            g2d.drawString(this.currentFrame.idExPipeline.codeString, 260, 620);
         else
             g2d.drawString("\tNOP", 260, 620);
 
         if (this.currentFrame.exMemPipeline != null)
-            g2d.drawString(this.currentFrame.exMemPipeline.iString, 500, 620);
+            g2d.drawString(this.currentFrame.exMemPipeline.codeString, 500, 620);
         else
             g2d.drawString("\tNOP", 540, 620);
 
         if (this.currentFrame.memWbPipeline != null)
-            g2d.drawString(this.currentFrame.memWbPipeline.iString, 730, 620);
+            g2d.drawString(this.currentFrame.memWbPipeline.codeString, 730, 620);
         else
             g2d.drawString("\tNOP", 750, 620);
 
-        if (!this.currentFrame.wbiString.equalsIgnoreCase("NOP"))
-            g2d.drawString(this.currentFrame.wbiString, 900, 620);
+        if (!this.currentFrame.wbCodeString.equalsIgnoreCase("NOP"))
+            g2d.drawString(this.currentFrame.wbCodeString, 900, 620);
         else
             g2d.drawString("\tNOP", 930, 620);
 

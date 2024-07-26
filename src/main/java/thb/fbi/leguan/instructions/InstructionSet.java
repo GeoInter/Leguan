@@ -24,13 +24,13 @@ public class InstructionSet {
     public void populate() {
 
         instructionSet.add(
-                new ArithmeticInstruction("NULL",
+                new ArithmeticInstruction("NOP",
                         "0",
                         "it is just empty",
                         new IArithmeticCode() {
                             @Override
                             public void simulate(Register Rm, int shamt, Register Rn, Register Rd) {
-                                System.out.println("I'm Error - nice to meet you");
+                                
                             }
                         }));
 

@@ -9,19 +9,35 @@ import java.io.Serializable;
 
 public class EX_MEM_Pipeline implements Serializable {
 
+    /** WriteBack stage */
     public WB WB;
+    /** MemoryAccess stage */
     public MEM MEM;
+    /** address to branch to */
     public int PCBranch;
+    /** result of ALU operation */
     public int ALU_result;
+    /** flag indicating if ALU result was zero */
     public boolean ALU_zero;
+    /** data to store into memory */
     public int MemDataWrite;
+    /** destination register index */
     public int destReg;
-    public String iString;
+    /** PC of the next instruction */
+    public int PC;
+    /** unedited line of code belonging to this instruction */
+    public String codeString;
+    /** mnemonic of the instruction */
+    public String mnemonic;
+
+    //// helper fields (not part of actual specification) ////
+    /** number of bytes to access from memory (load/store) */
     public byte byteSizeMemoryAccess;
-    public String branchCheck;
+    /** indicates if instruction is LXDR or STXR */
     public boolean memoryAccessExclusive;
-    public int exclusiveCheckRegister; // register for putting result of STXR (indicates if operation was succesful)
-    public int PC; // for branch prediction needed
+    /** register for putting result of STXR (indicates if operation was succesful) */
+    public int exclusiveCheckRegister;
+    
 
     void Flush() {
         WB.MemToReg = false;
@@ -29,7 +45,7 @@ public class EX_MEM_Pipeline implements Serializable {
         MEM.MemRead = false;
         MEM.MemWrite = false;
         MEM.branch = false;
-        iString = "NOP";
+        codeString = "NOP";
         PC = -1;
     }
 }

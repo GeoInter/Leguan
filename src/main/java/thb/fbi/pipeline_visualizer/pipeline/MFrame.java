@@ -15,7 +15,7 @@ import java.util.HashMap;
 
 public class MFrame implements Serializable {
 
-    public Instruction Ins;
+    public Instruction instruction;
     public IF_ID_Pipeline ifIdPipeline;
     public ID_EX_Pipeline idExPipeline;
     public EX_MEM_Pipeline exMemPipeline;
@@ -28,7 +28,7 @@ public class MFrame implements Serializable {
     public ControlUnit cUnit;
     public ALU ALUnit;
     // used for the visualization part
-    public String wbiString;
+    public String wbCodeString;
     public int currentPC;
     public int nextPC;
     public int dataHazardCounter; // indicates occurence of data hazard for this cycle
@@ -39,7 +39,7 @@ public class MFrame implements Serializable {
     public HashMap<Integer, TwoBitPrecitionEntry> twoBitPredictionTable;
     public TwoBitPredictorState startingStateOfPrediction;
 
-    MFrame(boolean isForwardingEnabled, boolean is2BitPredictorEnabled) {
+    public MFrame(boolean isForwardingEnabled, boolean is2BitPredictorEnabled) {
         register = new int[32];
         regFlag = new boolean[32];
         regFlag[31] = true;
@@ -57,23 +57,24 @@ public class MFrame implements Serializable {
         this.is2BitPredictorEnabled = is2BitPredictorEnabled;
         twoBitPredictionTable = new HashMap<>();
         this.startingStateOfPrediction = TwoBitPredictorState.LikelyNotTaken;
+        wbCodeString = "NOP";
     }
 
-    int insertInstruction(Instruction ins, int PC) {
-        this.Ins = ins; // needed only for the visualization part
+    int insertInstruction(Instruction instruction, int PC) {
+        this.instruction = instruction; // needed only for the visualization part
 
         // add conditional branch instructions to prediction Table
-        if(ins != null) {
-            if(ins.type == 'C') {
+        if(this.instruction != null) {
+            if(this.instruction.getFormat() == InstructionFormat.Conditional_Branch) {
                 if(! twoBitPredictionTable.containsKey(PC)) {
-                    int targetAddress = (PC+4) + ins.offsetIJ * 4; // same calculation as in MEM stage (Note: instead of PC uses nextPC)
-                    TwoBitPrecitionEntry entry = new TwoBitPrecitionEntry(targetAddress, startingStateOfPrediction, ins.getiString());
+                    int targetAddress = (PC+4) + this.instruction.getOffsetIJ() * 4; // same calculation as in MEM stage (Note: instead of PC uses nextPC)
+                    TwoBitPrecitionEntry entry = new TwoBitPrecitionEntry(targetAddress, startingStateOfPrediction, this.instruction.getCodeString());
                     twoBitPredictionTable.put(PC, entry);
                 }
-            } else if(ins.type == 'B' || ins.type == 'P') { // unconditional Branches will be always taken
+            } else if(this.instruction.getFormat() == InstructionFormat.Branch) { // unconditional Branches will be always taken
                 if(! twoBitPredictionTable.containsKey(PC)) {
-                    int targetAddress = (PC+4) + ins.offsetIJ * 4; // same calculation as in MEM stage (Note: instead of PC uses nextPC)
-                    TwoBitPrecitionEntry entry = new TwoBitPrecitionEntry(targetAddress, TwoBitPredictorState.Taken, ins.getiString()); // Branch will be always taken
+                    int targetAddress = (PC+4) + this.instruction.getOffsetIJ() * 4; // same calculation as in MEM stage (Note: instead of PC uses nextPC)
+                    TwoBitPrecitionEntry entry = new TwoBitPrecitionEntry(targetAddress, TwoBitPredictorState.Taken, this.instruction.getCodeString()); // Branch will be always taken
                     twoBitPredictionTable.put(PC, entry);
                 }
             }
@@ -82,7 +83,7 @@ public class MFrame implements Serializable {
         this.currentPC = PC; // needed only for the visualization part
         fwdUnit = new ForwardingUnit(isForwardingEnabled);
         hdUnit = new HazardDetectionUnit();
-        this.wbiString = "NOP";
+        this.wbCodeString = "NOP";
 
         if (this.memWbPipeline != null) {
             // Required data to the forwarding unit from MEM/WB pipeline is passed
@@ -95,14 +96,14 @@ public class MFrame implements Serializable {
             // instruction.
             if (this.memWbPipeline.WB.RegWrite) {
                 if (this.memWbPipeline.WB.MemToReg) {
-                    WriteData = this.memWbPipeline.Mdata;
+                    WriteData = this.memWbPipeline.memoryData;
                 } else {
                     WriteData = this.memWbPipeline.ALU_result;
                 }
 
                 // register 31 has constant value of 0, never override it
                 if(this.memWbPipeline.destReg != 31) {
-                    if(this.memWbPipeline.branchCheck.equals("BL")) {
+                    if(this.memWbPipeline.mnemonic.equals("BL")) {
                         this.register[this.memWbPipeline.destReg] = this.memWbPipeline.PC;
                     } else {
                         this.register[this.memWbPipeline.destReg] = WriteData;
@@ -112,8 +113,8 @@ public class MFrame implements Serializable {
                 this.fwdUnit.RegWriteMemWbValue = WriteData;
             }
             // Data Needed for visualization part
-            this.wbiString = this.memWbPipeline.iString;
-            this.tempWbMData = this.memWbPipeline.Mdata;
+            this.wbCodeString = this.memWbPipeline.codeString;
+            this.tempWbMemoryData = this.memWbPipeline.memoryData;
             this.tempWbAluResult = this.memWbPipeline.ALU_result;
             this.tempWbRegWrite = this.memWbPipeline.WB.RegWrite;
             this.tempWbMemToReg = this.memWbPipeline.WB.MemToReg;
@@ -138,13 +139,13 @@ public class MFrame implements Serializable {
                 // access memory, load
                 if(this.exMemPipeline.memoryAccessExclusive) {
                     // LDXR instruction
-                    this.memWbPipeline.Mdata = (int) this.Memory.loadExclusive(this.exMemPipeline.ALU_result);
+                    this.memWbPipeline.memoryData = (int) this.Memory.loadExclusive(this.exMemPipeline.ALU_result);
                 } else {
-                    this.memWbPipeline.Mdata = (int) this.Memory.loadBytes(this.exMemPipeline.ALU_result,
+                    this.memWbPipeline.memoryData = (int) this.Memory.loadBytes(this.exMemPipeline.ALU_result,
                         this.exMemPipeline.byteSizeMemoryAccess);
                 }
             } else {
-                this.memWbPipeline.Mdata = 0;
+                this.memWbPipeline.memoryData = 0;
             }
 
             if (this.exMemPipeline.MEM.MemWrite) {
@@ -165,8 +166,8 @@ public class MFrame implements Serializable {
             }
             this.memWbPipeline.ALU_result = this.exMemPipeline.ALU_result;
             this.memWbPipeline.destReg = this.exMemPipeline.destReg;
-            this.memWbPipeline.branchCheck = this.exMemPipeline.branchCheck;
-            this.memWbPipeline.iString = this.exMemPipeline.iString;
+            this.memWbPipeline.mnemonic = this.exMemPipeline.mnemonic;
+            this.memWbPipeline.codeString = this.exMemPipeline.codeString;
             this.memWbPipeline.PC = this.exMemPipeline.PC;
 
             // Data Needed for visualization part
@@ -177,12 +178,10 @@ public class MFrame implements Serializable {
             this.memWbPipeline = null;
 
         if (this.idExPipeline != null) {
-            this.hdUnit.idExMemRead = this.idExPipeline.MEM.MemRead;
-            this.hdUnit.idExRegWrite = this.idExPipeline.WB.RegWrite;
-            this.hdUnit.idExRd = this.idExPipeline.rd;
-            this.fwdUnit.rsValue = this.idExPipeline.rsValue;
+            
+            this.fwdUnit.rnValue = this.idExPipeline.rnValue;
             this.fwdUnit.rtValue = this.idExPipeline.rtValue;
-            this.fwdUnit.rs = this.idExPipeline.rs;
+            this.fwdUnit.rn = this.idExPipeline.rn;
             this.fwdUnit.rt = this.idExPipeline.rt;
 
             this.exMemPipeline = new EX_MEM_Pipeline();
@@ -198,82 +197,39 @@ public class MFrame implements Serializable {
                 operand2 = this.idExPipeline.Offset;
 
             this.exMemPipeline.ALU_result = this.ALUnit.process(operand1,
-                operand2, this.idExPipeline.function, this.idExPipeline.ALUOp, 
+                operand2, this.idExPipeline.opcode, this.idExPipeline.ALUOp, 
                 this.idExPipeline.setsFlag);
 
-            if(this.idExPipeline.branchCheck.equals("BR")) { 
+            if(this.idExPipeline.mnemonic.equals("BR")) { 
                 // BR uses Register value instead offset
                 // regsiter value can be forwarded
-                this.exMemPipeline.PCBranch = operand1; // address stored in Rs
+                this.exMemPipeline.PCBranch = operand1; // address stored in Rn
             } else {
                 this.exMemPipeline.PCBranch = this.idExPipeline.PC + this.idExPipeline.i32Offset * 4;
             }
 
-
-            // ALU manupulation codes are below
-            // Branching Logic 
-            switch(this.idExPipeline.branchCheck) {
-                case "CBZ":
-                    if(operand1 == 0) this.exMemPipeline.ALU_zero = true;
-                    else this.exMemPipeline.ALU_zero = false;
-                    break;
-                case "CBNZ":
-                    if(operand1 != 0) this.exMemPipeline.ALU_zero = true;
-                    else this.exMemPipeline.ALU_zero = false;
-                    break;
-                case "B.EQ":
-                    this.exMemPipeline.ALU_zero = this.ALUnit.zFlag;
-                    break;
-                case "B.NE":
-                    this.exMemPipeline.ALU_zero = ! this.ALUnit.zFlag;
-                    break;
-                case "B.LT":
-                    this.exMemPipeline.ALU_zero = this.ALUnit.nFlag != this.ALUnit.vFlag;
-                    break;
-                case "B.LE":
-                    this.exMemPipeline.ALU_zero = !(! this.ALUnit.zFlag && this.ALUnit.nFlag == this.ALUnit.vFlag);
-                    break;
-                case "B.GT":
-                    this.exMemPipeline.ALU_zero = !this.ALUnit.zFlag && this.ALUnit.nFlag == this.ALUnit.vFlag;
-                    break;
-                case "B.GE":
-                    this.exMemPipeline.ALU_zero = this.ALUnit.nFlag == this.ALUnit.vFlag;
-                    break;
-                case "B.MI":
-                    this.exMemPipeline.ALU_zero = this.ALUnit.nFlag;
-                    break;
-                case "B.PL":
-                    this.exMemPipeline.ALU_zero = !this.ALUnit.nFlag;
-                    break;
-                case "B.VS":
-                    this.exMemPipeline.ALU_zero = this.ALUnit.vFlag;
-                    break;
-                case "B.VC":
-                    this.exMemPipeline.ALU_zero = !this.ALUnit.vFlag;
-                    break;
-                case "BR":
-                    this.exMemPipeline.ALU_zero = true;
-                    break;
-                default:
-                    this.exMemPipeline.ALU_zero = (this.exMemPipeline.ALU_result == 0);
-                    break;
-            }
+            this.exMemPipeline.ALU_zero = ALUnit.checkBranchCondition(this.idExPipeline.mnemonic, operand2, this.exMemPipeline.ALU_result);
 
             // following if else block selects the destination register for the next stage
             // BR is the only exception, where Rt needs to be forwarded
-            if (this.idExPipeline.RegDest)
+            if (this.idExPipeline.RegDest) {
                 this.exMemPipeline.destReg = this.idExPipeline.rd;
-            else 
+                this.hdUnit.idExRd = this.idExPipeline.rd;
+            } else {
                 this.exMemPipeline.destReg = this.idExPipeline.rt;
+                this.hdUnit.idExRd = this.idExPipeline.rt;
+            }
+            this.hdUnit.idExMemRead = this.idExPipeline.MEM.MemRead;
+            this.hdUnit.idExRegWrite = this.idExPipeline.WB.RegWrite;
 
-            this.exMemPipeline.iString = this.idExPipeline.iString;
+            this.exMemPipeline.codeString = this.idExPipeline.codeString;
             this.exMemPipeline.byteSizeMemoryAccess = this.idExPipeline.byteSizeMemoryAccess;
-            this.exMemPipeline.branchCheck = this.idExPipeline.branchCheck;
+            this.exMemPipeline.mnemonic = this.idExPipeline.mnemonic;
             this.exMemPipeline.memoryAccessExclusive = this.idExPipeline.memoryAccessExclusive;
             this.exMemPipeline.exclusiveCheckRegister = this.idExPipeline.rt;
             // Data Needed for visualization part
             this.tempExI32Offset = this.idExPipeline.i32Offset;
-            this.tempExFunction = this.idExPipeline.function;
+            this.tempExOpcode = this.idExPipeline.opcode;
             this.tempExShiftLeft2Offset = this.tempExI32Offset * 4;
             this.tempExPC = this.idExPipeline.PC;
             this.tempExAluOp = this.idExPipeline.ALUOp;
@@ -286,7 +242,7 @@ public class MFrame implements Serializable {
 
         if (this.ifIdPipeline != null) {
             this.idExPipeline = new ID_EX_Pipeline();
-            this.cUnit = new ControlUnit(this.ifIdPipeline.Instruction.op);
+            this.cUnit = new ControlUnit(this.ifIdPipeline.instruction);
 
             this.idExPipeline.WB = this.cUnit.WB;
             this.idExPipeline.MEM = this.cUnit.MEM;
@@ -294,33 +250,38 @@ public class MFrame implements Serializable {
             this.idExPipeline.ALUSrc = this.cUnit.ALUSource;
             this.idExPipeline.RegDest = this.cUnit.RegDest;
             this.idExPipeline.PC = this.ifIdPipeline.PC;
-            this.idExPipeline.rsValue = this.register[this.ifIdPipeline.Instruction.rs];
-            this.idExPipeline.rtValue = this.register[this.ifIdPipeline.Instruction.rt];
-            // if instruction has a set shift amount, pass that through the offset data path
-            if(this.ifIdPipeline.Instruction.getShamt() >= 0) {
-                this.idExPipeline.Offset = (short) this.ifIdPipeline.Instruction.getShamt();
-            } else {
-                this.idExPipeline.Offset = this.ifIdPipeline.Instruction.offsetIJ;
-            }
-            this.idExPipeline.i32Offset = this.idExPipeline.Offset;
-            this.idExPipeline.rs = this.ifIdPipeline.Instruction.rs;
-            this.idExPipeline.rt = this.ifIdPipeline.Instruction.rt;
-            this.idExPipeline.function = this.ifIdPipeline.Instruction.function;
-            this.idExPipeline.iString = this.ifIdPipeline.iString;
-            this.idExPipeline.bitString = this.ifIdPipeline.Instruction.getBitString();
-            this.idExPipeline.byteSizeMemoryAccess = this.ifIdPipeline.Instruction.getByteSizeMemoryAccess();
-            this.idExPipeline.branchCheck = this.ifIdPipeline.Instruction.getBranchCheck();
-            this.idExPipeline.memoryAccessExclusive = this.ifIdPipeline.Instruction.isMemoryAccessExclusive();
-            this.idExPipeline.setsFlag = this.ifIdPipeline.Instruction.isSetsFlag();
+            this.idExPipeline.rnValue = this.register[this.ifIdPipeline.instruction.getRn()];
+            this.idExPipeline.rn = this.ifIdPipeline.instruction.getRn();
+            this.idExPipeline.rtValue = this.register[this.ifIdPipeline.instruction.getRt()];
+            this.idExPipeline.rt = this.ifIdPipeline.instruction.getRt();
+            
 
-            if (this.ifIdPipeline.Instruction.rd >= 0)
-                this.idExPipeline.rd = this.ifIdPipeline.Instruction.rd;
+            // if instruction has a set shift amount, pass that through the offset data path
+            if(this.ifIdPipeline.instruction.getShamt() >= 0) {
+                this.idExPipeline.i32Offset = this.ifIdPipeline.instruction.getShamt();
+            } else {
+                this.idExPipeline.i32Offset = this.ifIdPipeline.instruction.getOffsetIJ();
+            }
+            
+
+            this.idExPipeline.Offset = this.idExPipeline.i32Offset;
+            this.idExPipeline.opcode = this.ifIdPipeline.instruction.getOpcode();
+            this.idExPipeline.codeString = this.ifIdPipeline.codeString;
+            this.idExPipeline.binaryCodeString = this.ifIdPipeline.instruction.getBinaryCodeString();
+            this.idExPipeline.byteSizeMemoryAccess = this.cUnit.byteSizeMemoryAccess;
+            this.idExPipeline.mnemonic = this.ifIdPipeline.instruction.getMnemonic();
+            this.idExPipeline.memoryAccessExclusive = this.cUnit.memoryAccessExclusive;
+            this.idExPipeline.setsFlag = this.cUnit.setsFlag;
+
+            if (this.ifIdPipeline.instruction.getRd() >= 0)
+                this.idExPipeline.rd = this.ifIdPipeline.instruction.getRd();
             else
-                this.idExPipeline.rd = 0;
+                this.idExPipeline.rd = 0; // TODO: what?
 
             // Input For Hazard UNIT
-            this.hdUnit.ifIdRs = this.ifIdPipeline.Instruction.rs;
-            this.hdUnit.ifIdRt = this.ifIdPipeline.Instruction.rt;
+            this.hdUnit.ifIdRn = this.ifIdPipeline.instruction.getRn();
+            this.hdUnit.ifIdRt = this.ifIdPipeline.instruction.getRt();
+            
         } else
             this.idExPipeline = null;
 
@@ -390,17 +351,17 @@ public class MFrame implements Serializable {
             if(entry != null) {
                 if(entry.getState() == TwoBitPredictorState.LikelyTaken || entry.getState() == TwoBitPredictorState.Taken) {
                     Integer targetAddress = entry.getTargetPC();
-                    this.ifIdPipeline = new IF_ID_Pipeline(ins, PC + 4);
+                    this.ifIdPipeline = new IF_ID_Pipeline(instruction, PC + 4);
                     this.nextPC = targetAddress.intValue();
                     return targetAddress.intValue();
                 }
             }
         }
 
-        if (ins == null || ins.type == 'U' || ins.type == 'N') // if null, default type or NOP
+        if (instruction == null || instruction.getMnemonic().equals("NOP")) // if null, default type or NOP
             this.ifIdPipeline = null;
         else
-            this.ifIdPipeline = new IF_ID_Pipeline(ins, PC + 4);
+            this.ifIdPipeline = new IF_ID_Pipeline(instruction, PC + 4);
 
         this.nextPC = PC + 4; // needed only for the visualization part
         return PC + 4;
@@ -438,14 +399,14 @@ public class MFrame implements Serializable {
     public boolean tempExAluSource;
     public int tempExPC;
     public int tempExI32Offset;
-    public int tempExFunction;
+    public int tempExOpcode;
     public int tempExShiftLeft2Offset;
     public int tempExOperand2;
     public int tempExRd;
     public boolean tempMemMRead;
     public boolean tempMemMWrite;
     public int tempMemWriteData;
-    public int tempWbMData;
+    public int tempWbMemoryData;
     public int tempWbAluResult;
     public boolean tempWbRegWrite;
     public boolean tempWbMemToReg;

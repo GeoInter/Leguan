@@ -8,21 +8,31 @@ package thb.fbi.pipeline_visualizer.pipeline;
 import java.io.Serializable;
 
 public class ForwardingUnit implements Serializable {
-
-    public int rs;
+    /** register operand index */
+    public int rn;
+    /** register operand value */
+    public int rnValue;
+    /** register operand index */
     public int rt;
-    public int RegWriteExMemAdd; // destination register from EX/MEM Pipe
-    public int RegWriteExMemValue;
-    public int RegWriteMemWbAdd; // destination register from MEM/WB Pipe
-    public int RegWriteMemWbValue;
-    public int rsValue;
+    /** register operand value */
     public int rtValue;
+    /** destination register index from EX/MEM Pipeline */
+    public int RegWriteExMemAdd;
+    /** destination register value from EX/MEM Pipeline */
+    public int RegWriteExMemValue;
+    /** destination register index from MEM/WB Pipeline */
+    public int RegWriteMemWbAdd; // destination register from MEM/WB Pipe
+    /** destination register value from MEM/WB Pipeline */
+    public int RegWriteMemWbValue;
+    /** RegWriteFlag from EX/MEM Pipeline */
     public boolean RegWriteExMemFlag = false;
+    /** RegWriteFlag from MEM/WB Pipeline */
     public boolean RegWriteMemWbFlag = false;
+    /** is Forwarding in EX stage enabled */
     public boolean isForwardingEnabled = true;
 
     ForwardingUnit(boolean isForwardingEnabled) {
-        rs = -2;
+        rn = -2;
         rt = -2;
 
         RegWriteExMemAdd = -1;
@@ -36,14 +46,14 @@ public class ForwardingUnit implements Serializable {
 
     // returns MUX A output signal
     public int valueMuxA() {
-        if(!isForwardingEnabled) return rsValue;
+        if(!isForwardingEnabled) return rnValue;
 
-        if (rs == RegWriteExMemAdd && RegWriteExMemFlag) {
+        if (rn == RegWriteExMemAdd && RegWriteExMemFlag) {
             return RegWriteExMemValue;
-        } else if (rs == RegWriteMemWbAdd && RegWriteMemWbFlag) {
+        } else if (rn == RegWriteMemWbAdd && RegWriteMemWbFlag) {
             return RegWriteMemWbValue;
         } else {
-            return rsValue;
+            return rnValue;
         }
     }
 
@@ -64,9 +74,9 @@ public class ForwardingUnit implements Serializable {
     public int selectMuxA() {
         if(!isForwardingEnabled) return 0;
 
-        if (rs == RegWriteExMemAdd && RegWriteExMemFlag) {
+        if (rn == RegWriteExMemAdd && RegWriteExMemFlag) {
             return 2;
-        } else if (rs == RegWriteMemWbAdd && RegWriteMemWbFlag) {
+        } else if (rn == RegWriteMemWbAdd && RegWriteMemWbFlag) {
             return 1;
         } else {
             return 0;

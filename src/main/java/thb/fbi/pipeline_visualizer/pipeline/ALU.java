@@ -9,64 +9,67 @@ import java.io.Serializable;
 
 public class ALU implements Serializable {
 
+    /** negative flag */
     public boolean nFlag = false;
+    /** zero flag */
     public boolean zFlag = false;
+    /** carry flag */
     public boolean cFlag = false;
+    /** overflow flag */
     public boolean vFlag = false;
 
     ALU() {
     }
 
-    int process(int A, int B, int function, int ALUOp, boolean setsFlag) {
-        if (ALUOp == 0) {
+    int process(int A, int B, short opcode, int ALUOp, boolean setsFlag) {
+        if (ALUOp == 0) { // (00) add for loads and stores
             return A + B;
-        } else if (ALUOp == 1) {
+        } else if (ALUOp == 1) { // (01) pass inbut b for CBZ
             return A;
-        } else if (ALUOp == 2) {
+        } else if (ALUOp == 2) { // (10) operation determined by opcode field
             int result = 0;
-            switch (function) {
-                case 0:
+            switch (opcode) {
+                case 1691: // 0x69B LSL (11bit)
                     result = A << B;
                     break;
-                case 2:
+                case 1690: // 0x69A LSR (11bit)
                     result = A >>> B;
                     break;
-                case 24:
+                case 1240: // 0x4D8 MUL (11bit)
                     result = A * B;
                     break;
-                case 26:
-                    result = A / B;
-                    break;
-                case 32:
+                case 1112: // 0x458 ADD (11bit)
+                case 580: // 0x488 ADDI (10bit)
+                case 1368: // 0x558 ADDS (11bit)
+                case 708: // 0x588 ADDIS (10bit)
                     result = A + B;
                     break;
-                case 34:
+                case 1624: // 0x658 SUB (11bit)
+                case 836: // 0x688 SUBI (10bit)
+                case 1880: // 0x758 SUBS (11bit)
+                case 964: // 0x788 SUBIS (10bit)
                     result = A - B;
                     break;
-                case 36:
+                case 1104: // 0x450 AND (11bit)
+                case 584: // 0x490 ANDI (10bit)
+                case 1872: // 0x750 ANDS (11bit)
+                case 968: // 0x790 ANDIS (10bit)
                     result = A & B;
                     break;
-                case 37:
+                case 1360: // 0x550 ORR (11bit)
+                case 712: // 0x590 ORRI (10bit)
                     result = A | B;
                     break;
-                case 39:
-                    result = ~(A | B);
-                    break;
-                case 40:
+                case 1616: // 0x650 EOR (11bit)
+                case 840: // 0x690 EORI (10bit)
                     result = A ^ B;
                     break;
-                case 42:
-                    if (A < B) {
-                        result = 1;
-                    } else {
-                        result = 0;
-                    }
             }
 
             if (setsFlag) {
                 setNFlag(result);
                 setZFlag(result);
-                if (function == 34) {
+                if (opcode == 1624 || opcode == 1672 || opcode == 1880 || opcode == 1928) {
                     setCFlag(A, -1 * B);
                     setVFlag(A, -1 * B, result); // second operand needs to be negative for subtraction
                 } else {
@@ -78,6 +81,48 @@ public class ALU implements Serializable {
             return result;
         }
         return 0;
+    }
+
+    /**
+     * checks if branching condition is met; used for setting ALU_zero
+     * 
+     * @param mnemonic   of the instruction in the EX stage
+     * @param operand2   used in the ALU
+     * @param ALU_result result of the ALU operation
+     * @return boolean indicating if branch condition is met (if true then ALU_zero
+     *         is true)
+     */
+    public boolean checkBranchCondition(String mnemonic, int operand2, int ALU_result) {
+        switch (mnemonic) {
+            case "CBZ":
+                return (operand2 == 0);
+            case "CBNZ":
+                return (operand2 != 0);
+            case "B.EQ":
+                return this.zFlag;
+            case "B.NE":
+                return !this.zFlag;
+            case "B.LT":
+                return this.nFlag != this.vFlag;
+            case "B.LE":
+                return !(!this.zFlag && this.nFlag == this.vFlag);
+            case "B.GT":
+                return !this.zFlag && this.nFlag == this.vFlag;
+            case "B.GE":
+                return this.nFlag == this.vFlag;
+            case "B.MI":
+                return this.nFlag;
+            case "B.PL":
+                return !this.nFlag;
+            case "B.VS":
+                return this.vFlag;
+            case "B.VC":
+                return !this.vFlag;
+            case "BR":
+                return true;
+            default:
+                return (ALU_result == 0);
+        }
     }
 
     private void setNFlag(long result) {

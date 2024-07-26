@@ -4,16 +4,9 @@
 package thb.fbi.pipeline_visualizer.pipeline;
 
 import java.util.ArrayList;
+import java.util.TreeMap;
 
-import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.tree.ParseTree;
-
-import thb.fbi.pipeline_visualizer.parser.ProgramParser;
 import thb.fbi.leguan.data.ARMProgram;
-import thb.fbi.leguan.parser.antlr.LegV8Lexer;
-import thb.fbi.leguan.parser.antlr.LegV8Parser;
 
 
 public class PipelineSimulator {
@@ -24,8 +17,8 @@ public class PipelineSimulator {
     public ArrayList<MFrame> Frames; // equals a clock cycle
     public MFrame FramesRet[];
     public MFrame Frame;
-    public ProgramParser programParser = new ProgramParser();
     public int i = 0;
+    public int last = 0;
     public String[] Registers = { "X0", "X1", "X2", "X3", "X4", "X5", "X6",
             "X7", "X8", "X9", "X10", "X11", "X12", "X13", "X14",
             "X15", "X16", "X17", "X18", "X19", "X20", "X21", "X22",
@@ -50,25 +43,32 @@ public class PipelineSimulator {
         this.program = new ARMProgram();
     }
 
-    private MFrame[] execute(Instruction ins[]) {
+    public MFrame[] execute() {
+        TreeMap<Integer, Instruction> instructions = InstructionFactory.mapToInstruction(this.program);
         Frames = new ArrayList<MFrame>();
         Frame = new MFrame(isForwardingEnabled, is2BitPredictorEnabled);
         // add Data Segment to Memory
         Frame.Memory.storeDataSegment(program.getDataSegment());
 
         this.instructionCounter = 0;
-        i = 0;
+        if(!instructions.isEmpty()) {
+            i = instructions.firstKey();
+            last = instructions.lastKey();
+        } else {
+            i = 0;
+            last = 0;
+        }
         int failsafeCounter = 0;
-        while (i < ins.length + 5 && failsafeCounter < failsafeMaxClockCycle) {
+        while (i <= last + 5 * thb.fbi.leguan.instructions.Instruction.INSTRUCTION_LENGTH && failsafeCounter < failsafeMaxClockCycle) {
             Instruction instruction;
             try {
-                instruction = ins[i];
+                instruction = instructions.get(i);
             } catch (ArrayIndexOutOfBoundsException a) {
                 instruction = null;
             }
 
             if(debugOutput) System.out.println("clock: " + (Frames.size() + 1) + " PC: " + (i * 4));
-            i = this.Frame.insertInstruction(instruction, i * 4) / 4;
+            i = this.Frame.insertInstruction(instruction, i);
 
             if (i < 0) {
                 System.err.println("Negative PC returned: " + i);
@@ -76,7 +76,7 @@ public class PipelineSimulator {
 
             // count non-NOP (not flushed) instructions
             if (this.Frame.memWbPipeline != null) {
-                if (!this.Frame.memWbPipeline.iString.equals("NOP")) {
+                if (!this.Frame.memWbPipeline.codeString.equals("NOP")) {
                     this.instructionCounter++;
                 }
             }
@@ -113,7 +113,7 @@ public class PipelineSimulator {
             if(debugOutput) {
                 if (FramesRet[i].ifIdPipeline == null)
                     System.out.println("IfId null at " + i);
-                else if (FramesRet[i].ifIdPipeline.Instruction == null)
+                else if (FramesRet[i].ifIdPipeline.instruction == null)
                     System.out.println("IfId not null but ins null at " + i);
             }
 
@@ -123,40 +123,18 @@ public class PipelineSimulator {
         return FramesRet;
     }
 
-    public MFrame[] execute(String str) {
-        LegV8Parser parser = getParser(str);
-        ParseTree antlTree = parser.main();
-        Instruction[] ins;
-        programParser.clear();
-        ins = programParser.visit(antlTree);
-        this.instructions = ins;
-        if(debugOutput) programParser.printCode();
-        return this.execute(ins);
-    }
-
-    private LegV8Parser getParser(String code) {
-        LegV8Parser parser = null;
-
-        CharStream input = CharStreams.fromString(code);
-        LegV8Lexer lexer = new LegV8Lexer(input);
-        CommonTokenStream tokens = new CommonTokenStream(lexer);
-        parser = new LegV8Parser(tokens);
-
-        return parser;
-    }
-
     public void setProgram(ARMProgram program) {
         this.program = program;
     }
 
     public MFrame[] setForwardingEnabled(boolean isForwardingEnabled) {
         this.isForwardingEnabled = isForwardingEnabled;
-        return execute(this.instructions);
+        return execute();
     }
 
     public MFrame[] setIs2BitPredictorEnabled(boolean is2BitPredictorEnabled) {
         this.is2BitPredictorEnabled = is2BitPredictorEnabled;
-        return execute(this.instructions);
+        return execute();
     }
 
 }
