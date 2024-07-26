@@ -35,7 +35,11 @@ public class ArithmeticInstruction extends Instruction {
     public String getMachineCodeString(InstructionArguments args) {
         String s = "";
         s = MachineCodeTranslator.convertToMachineCode(opcode, 11);
-        s += " " + MachineCodeTranslator.convertToMachineCode(args.getRm().getID(), 5);
+        if(args.getRm() != null) {
+            s += " " + MachineCodeTranslator.convertToMachineCode(args.getRm().getID(), 5);
+        } else {
+            s += " 11111";
+        }
         s += " " + MachineCodeTranslator.convertToMachineCode(args.getShamt(), 6);
         s += " " + MachineCodeTranslator.convertToMachineCode(args.getRn().getID(), 5);
         s += " " + MachineCodeTranslator.convertToMachineCode(args.getRd().getID(), 5);
