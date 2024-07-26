@@ -9,29 +9,25 @@ import java.io.Serializable;
 
 public class Instruction implements Serializable {
 
-    InstructionFormat format; // instruction format
-    int rn; // first register
-    int rt; // second register or if rd is not specified, then this is the destination
-            // register
-    int rd; // destination register
-    int shamt; // shift amount
-    int offsetIJ; // immediate
-    String codeString; // original line of code (for debugging, see console output)
-    String binaryCodeString;
-
-    public String getBinaryCodeString() {
-        return binaryCodeString;
-    }
-
-    public void setBinaryCodeString(String binaryCodeString) {
-        this.binaryCodeString = binaryCodeString;
-    }
-
-    public void setCodeString(String codeString) {
-        this.codeString = codeString;
-    }
-
-    String mnemonic;
+    /** Instruction Format */
+    private InstructionFormat format;
+    /** first register operand Rn */
+    private int rn;
+    /** second register operand Rt/Rm */
+    private int rt;
+    /** destination register */
+    private int rd;
+    /** shift amount */
+    private int shamt;
+    /** offset (can be address, immediate, etc.) */
+    private int offsetIJ; 
+    /** original line of code */
+    private String codeString;
+    /** instruction in binary representation */
+    private String binaryCodeString;
+    /** mnemonic of the instruction */
+    private String mnemonic;
+    /** opcode of the instruction */
     private short opcode;
 
     public Instruction() {
@@ -43,6 +39,18 @@ public class Instruction implements Serializable {
         offsetIJ = -1;
         codeString = "UNKNOWN";
         opcode = Short.parseShort("0", 2);
+    }
+
+    public String getBinaryCodeString() {
+        return binaryCodeString;
+    }
+
+    public void setBinaryCodeString(String binaryCodeString) {
+        this.binaryCodeString = binaryCodeString;
+    }
+
+    public void setCodeString(String codeString) {
+        this.codeString = codeString;
     }
 
     public short getOpcode() {
@@ -68,8 +76,6 @@ public class Instruction implements Serializable {
     public void setRn(int k) {
         if (k < 32 && k > -1)
             this.rn = k;
-        else
-            System.out.println("Rs not Set");
     }
 
     public int getRt() {
@@ -77,12 +83,8 @@ public class Instruction implements Serializable {
     }
 
     public void setRt(int k) {
-
         if (k < 32 && k > -1)
             this.rt = k;
-        else
-            System.out.println("Rt not Set");
-
     }
 
     public int getRd() {
@@ -90,11 +92,8 @@ public class Instruction implements Serializable {
     }
 
     public void setRd(int k) {
-
         if (k < 32 && k > -1)
             this.rd = k;
-        else
-            System.out.println("Rd not Set");
     }
 
     public int getShamt() {
