@@ -881,7 +881,7 @@ public class PipelinePanel extends JPanel {
                             if (this.currentFrame.idExPipeline != null) {
                                 retStr = "" + this.currentFrame.idExPipeline.codeString;
                                 if (mode == 2)
-                                    retStr = this.currentFrame.idExPipeline.bitString;
+                                    retStr = this.currentFrame.idExPipeline.binaryCodeString;
                             } else
                                 retStr = "X";
                             if (mode == 3)
@@ -1004,7 +1004,7 @@ public class PipelinePanel extends JPanel {
                                     if (mode == 2)
                                         retStr = "" + giveBinaryString(27, 32, retStr);
                                 } else {
-                                    retStr = this.currentFrame.idExPipeline.bitString.substring(16, 21);
+                                    retStr = this.currentFrame.idExPipeline.rd + "";
                                     if (mode == 1)
                                         retStr = "" + Integer.parseInt(retStr, 2);
                                 }

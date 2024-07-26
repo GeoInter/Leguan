@@ -19,6 +19,7 @@ public class InstructionFactory {
         for(Map.Entry<Integer, ProgramStatement> entry : program.getProgramStatements().entrySet()) {
             ProgramStatement statement = entry.getValue();
             Instruction instruction = new Instruction();
+            // register 
             if(statement.getArguments().getRd() != null) {
                 instruction.setRd(statement.getArguments().getRd().getID());
             } else {
@@ -36,6 +37,8 @@ public class InstructionFactory {
             } else {
                 instruction.setRt(31);
             }
+
+            // instruction
             int jumpOffset = 0;
             if(statement.getInstruction() instanceof ArithmeticInstruction) {
                 instruction.setFormat(InstructionFormat.Arithmetic);
@@ -61,6 +64,7 @@ public class InstructionFactory {
             instruction.setMnemonic(statement.getInstruction().getMnemonic());
             instruction.setOpcode(statement.getInstruction().getOpcode());
             instruction.setCodeString(statement.getSource());
+            instruction.setBinaryCodeString(statement.getInstruction().getMachineCodeString(statement.getArguments()));
 
             instructions.put(entry.getKey(), instruction);
         }

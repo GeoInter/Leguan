@@ -38,9 +38,8 @@ public class ID_EX_Pipeline implements Serializable {
     public short opcode;
     /** unedited line of code belonging to this instruction */
     public String codeString;
-
-
-    public String bitString;
+    /** unedited line of code belonging to this instruction */
+    public String binaryCodeString;
 
     //// helper fields (not part of actual specification) ////
     /** number of bytes to access from memory (load/store) */

@@ -17,6 +17,15 @@ public class Instruction implements Serializable {
     int shamt; // shift amount
     int offsetIJ; // immediate
     String codeString; // original line of code (for debugging, see console output)
+    String binaryCodeString;
+
+    public String getBinaryCodeString() {
+        return binaryCodeString;
+    }
+
+    public void setBinaryCodeString(String binaryCodeString) {
+        this.binaryCodeString = binaryCodeString;
+    }
 
     public void setCodeString(String codeString) {
         this.codeString = codeString;

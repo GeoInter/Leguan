@@ -315,12 +315,11 @@ public class MFrame implements Serializable {
             this.idExPipeline.Offset = this.idExPipeline.i32Offset;
             this.idExPipeline.opcode = this.ifIdPipeline.instruction.getOpcode();
             this.idExPipeline.codeString = this.ifIdPipeline.codeString;
-            //
+            this.idExPipeline.binaryCodeString = this.ifIdPipeline.instruction.getBinaryCodeString();
             this.idExPipeline.byteSizeMemoryAccess = this.cUnit.byteSizeMemoryAccess;
             this.idExPipeline.mnemonic = this.ifIdPipeline.instruction.getMnemonic();
             this.idExPipeline.memoryAccessExclusive = this.cUnit.memoryAccessExclusive;
             this.idExPipeline.setsFlag = this.cUnit.setsFlag;
-            //
 
             if (this.ifIdPipeline.instruction.getRd() >= 0)
                 this.idExPipeline.rd = this.ifIdPipeline.instruction.getRd();
