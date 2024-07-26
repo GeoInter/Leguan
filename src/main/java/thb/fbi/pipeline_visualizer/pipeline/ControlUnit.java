@@ -21,12 +21,15 @@ public class ControlUnit implements Serializable {
      * second register
      */
     public boolean ALUSource;
-    /** if flsg is set value will be written into destination register */
+    /** if flag is set value will be written into destination register */
     public boolean RegDest;
 
-    // helper fields (could not find actual specification)
-    public byte byteSizeMemoryAccess; // number of bytes to access from memory (load/store)
-    public boolean memoryAccessExclusive; // indicates if instruction is LXDR, STXR
+    //// helper fields (not part of actual specification) ////
+    /** number of bytes to access from memory (load/store) */
+    public byte byteSizeMemoryAccess;
+    /** indicates if instruction is LXDR or STXR */
+    public boolean memoryAccessExclusive; 
+    /** indicates if instruction can set flags */
     public boolean setsFlag;
 
     ControlUnit(Instruction instruction) {

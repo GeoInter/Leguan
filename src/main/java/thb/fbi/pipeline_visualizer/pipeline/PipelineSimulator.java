@@ -76,7 +76,7 @@ public class PipelineSimulator {
 
             // count non-NOP (not flushed) instructions
             if (this.Frame.memWbPipeline != null) {
-                if (!this.Frame.memWbPipeline.iString.equals("NOP")) {
+                if (!this.Frame.memWbPipeline.codeString.equals("NOP")) {
                     this.instructionCounter++;
                 }
             }

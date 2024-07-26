@@ -19,19 +19,24 @@ public class EX_MEM_Pipeline implements Serializable {
     public int ALU_result;
     /** flag indicating if ALU result was zero */
     public boolean ALU_zero;
-    /** */
+    /** data to store into memory */
     public int MemDataWrite;
     /** destination register index */
     public int destReg;
-    /** pc value of this specific instruction (needed for branch predictions) */
+    /** PC of the next instruction */
     public int PC;
     /** unedited line of code belonging to this instruction */
-    public String iString;
-
-    public byte byteSizeMemoryAccess;
+    public String codeString;
+    /** mnemonic of the instruction */
     public String mnemonic;
+
+    //// helper fields (not part of actual specification) ////
+    /** number of bytes to access from memory (load/store) */
+    public byte byteSizeMemoryAccess;
+    /** indicates if instruction is LXDR or STXR */
     public boolean memoryAccessExclusive;
-    public int exclusiveCheckRegister; // register for putting result of STXR (indicates if operation was succesful)
+    /** register for putting result of STXR (indicates if operation was succesful) */
+    public int exclusiveCheckRegister;
     
 
     void Flush() {
@@ -40,7 +45,7 @@ public class EX_MEM_Pipeline implements Serializable {
         MEM.MemRead = false;
         MEM.MemWrite = false;
         MEM.branch = false;
-        iString = "NOP";
+        codeString = "NOP";
         PC = -1;
     }
 }

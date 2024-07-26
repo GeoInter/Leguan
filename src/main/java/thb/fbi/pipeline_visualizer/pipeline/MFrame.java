@@ -28,7 +28,7 @@ public class MFrame implements Serializable {
     public ControlUnit cUnit;
     public ALU ALUnit;
     // used for the visualization part
-    public String wbiString;
+    public String wbCodeString;
     public int currentPC;
     public int nextPC;
     public int dataHazardCounter; // indicates occurence of data hazard for this cycle
@@ -57,7 +57,7 @@ public class MFrame implements Serializable {
         this.is2BitPredictorEnabled = is2BitPredictorEnabled;
         twoBitPredictionTable = new HashMap<>();
         this.startingStateOfPrediction = TwoBitPredictorState.LikelyNotTaken;
-        wbiString = "NOP";
+        wbCodeString = "NOP";
     }
 
     int insertInstruction(Instruction instruction, int PC) {
@@ -83,7 +83,7 @@ public class MFrame implements Serializable {
         this.currentPC = PC; // needed only for the visualization part
         fwdUnit = new ForwardingUnit(isForwardingEnabled);
         hdUnit = new HazardDetectionUnit();
-        this.wbiString = "NOP";
+        this.wbCodeString = "NOP";
 
         if (this.memWbPipeline != null) {
             // Required data to the forwarding unit from MEM/WB pipeline is passed
@@ -96,14 +96,14 @@ public class MFrame implements Serializable {
             // instruction.
             if (this.memWbPipeline.WB.RegWrite) {
                 if (this.memWbPipeline.WB.MemToReg) {
-                    WriteData = this.memWbPipeline.Mdata;
+                    WriteData = this.memWbPipeline.memoryData;
                 } else {
                     WriteData = this.memWbPipeline.ALU_result;
                 }
 
                 // register 31 has constant value of 0, never override it
                 if(this.memWbPipeline.destReg != 31) {
-                    if(this.memWbPipeline.branchCheck.equals("BL")) {
+                    if(this.memWbPipeline.mnemonic.equals("BL")) {
                         this.register[this.memWbPipeline.destReg] = this.memWbPipeline.PC;
                     } else {
                         this.register[this.memWbPipeline.destReg] = WriteData;
@@ -113,8 +113,8 @@ public class MFrame implements Serializable {
                 this.fwdUnit.RegWriteMemWbValue = WriteData;
             }
             // Data Needed for visualization part
-            this.wbiString = this.memWbPipeline.iString;
-            this.tempWbMData = this.memWbPipeline.Mdata;
+            this.wbCodeString = this.memWbPipeline.codeString;
+            this.tempWbMemoryData = this.memWbPipeline.memoryData;
             this.tempWbAluResult = this.memWbPipeline.ALU_result;
             this.tempWbRegWrite = this.memWbPipeline.WB.RegWrite;
             this.tempWbMemToReg = this.memWbPipeline.WB.MemToReg;
@@ -139,13 +139,13 @@ public class MFrame implements Serializable {
                 // access memory, load
                 if(this.exMemPipeline.memoryAccessExclusive) {
                     // LDXR instruction
-                    this.memWbPipeline.Mdata = (int) this.Memory.loadExclusive(this.exMemPipeline.ALU_result);
+                    this.memWbPipeline.memoryData = (int) this.Memory.loadExclusive(this.exMemPipeline.ALU_result);
                 } else {
-                    this.memWbPipeline.Mdata = (int) this.Memory.loadBytes(this.exMemPipeline.ALU_result,
+                    this.memWbPipeline.memoryData = (int) this.Memory.loadBytes(this.exMemPipeline.ALU_result,
                         this.exMemPipeline.byteSizeMemoryAccess);
                 }
             } else {
-                this.memWbPipeline.Mdata = 0;
+                this.memWbPipeline.memoryData = 0;
             }
 
             if (this.exMemPipeline.MEM.MemWrite) {
@@ -166,8 +166,8 @@ public class MFrame implements Serializable {
             }
             this.memWbPipeline.ALU_result = this.exMemPipeline.ALU_result;
             this.memWbPipeline.destReg = this.exMemPipeline.destReg;
-            this.memWbPipeline.branchCheck = this.exMemPipeline.mnemonic;
-            this.memWbPipeline.iString = this.exMemPipeline.iString;
+            this.memWbPipeline.mnemonic = this.exMemPipeline.mnemonic;
+            this.memWbPipeline.codeString = this.exMemPipeline.codeString;
             this.memWbPipeline.PC = this.exMemPipeline.PC;
 
             // Data Needed for visualization part
@@ -270,7 +270,7 @@ public class MFrame implements Serializable {
             this.hdUnit.idExMemRead = this.idExPipeline.MEM.MemRead;
             this.hdUnit.idExRegWrite = this.idExPipeline.WB.RegWrite;
 
-            this.exMemPipeline.iString = this.idExPipeline.iString;
+            this.exMemPipeline.codeString = this.idExPipeline.codeString;
             this.exMemPipeline.byteSizeMemoryAccess = this.idExPipeline.byteSizeMemoryAccess;
             this.exMemPipeline.mnemonic = this.idExPipeline.mnemonic;
             this.exMemPipeline.memoryAccessExclusive = this.idExPipeline.memoryAccessExclusive;
@@ -314,7 +314,7 @@ public class MFrame implements Serializable {
 
             this.idExPipeline.Offset = this.idExPipeline.i32Offset;
             this.idExPipeline.opcode = this.ifIdPipeline.instruction.getOpcode();
-            this.idExPipeline.iString = this.ifIdPipeline.iString;
+            this.idExPipeline.codeString = this.ifIdPipeline.codeString;
             //
             this.idExPipeline.byteSizeMemoryAccess = this.cUnit.byteSizeMemoryAccess;
             this.idExPipeline.mnemonic = this.ifIdPipeline.instruction.getMnemonic();
@@ -455,7 +455,7 @@ public class MFrame implements Serializable {
     public boolean tempMemMRead;
     public boolean tempMemMWrite;
     public int tempMemWriteData;
-    public int tempWbMData;
+    public int tempWbMemoryData;
     public int tempWbAluResult;
     public boolean tempWbRegWrite;
     public boolean tempWbMemToReg;

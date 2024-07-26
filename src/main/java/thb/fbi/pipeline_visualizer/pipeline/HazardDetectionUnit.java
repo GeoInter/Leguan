@@ -8,16 +8,25 @@ package thb.fbi.pipeline_visualizer.pipeline;
 import java.io.Serializable;
 
 public class HazardDetectionUnit implements Serializable {
-
-    public boolean idExRegWrite; // register write in EX stage
-    public boolean exMemRegWrite; // register write in MEM stage
+    /** indicates if a register will be written; value from ID/EX Pipeline */
+    public boolean idExRegWrite;
+    /** indicates if a register will be written; value from EX/MEM Pipeline */
+    public boolean exMemRegWrite;
+    /** indicates if memory will be read; value from ID/EX Pipeline */
     public boolean idExMemRead;
+    /** Register Rn from IF/ID Pipeline */
     public int ifIdRn;
+    /** Register Rt/Rm from IF/ID Pipeline */
     public int ifIdRt;
+    /** Register Rd from IF/ID Pipeline */
     public int idExRd;
+    /** Register Rd from EX/MEM Pipeline */
     public int exMemRd;
+    /** indicates if result of ALU was zero */
     public boolean ALUzero;
+    /** indictaes wheter instruction can branch to an address */
     public boolean branch;
+    /** address to branch to */
     public int branchAddress;
 
     HazardDetectionUnit() {
