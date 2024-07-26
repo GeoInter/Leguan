@@ -20,7 +20,7 @@ public class ID_EX_Pipeline implements Serializable {
     public int rt;
     public int rtValue;
     public int rd;
-    public short Offset;
+    public int Offset;
     public int i32Offset;
     public short opcode;
     public String iString;

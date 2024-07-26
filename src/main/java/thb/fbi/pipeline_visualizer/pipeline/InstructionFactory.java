@@ -43,20 +43,20 @@ public class InstructionFactory {
             } else if(statement.getInstruction() instanceof BranchInstruction) {
                 instruction.setType('B');
                 jumpOffset = statement.getArguments().getBr_Address() - entry.getKey() - thb.fbi.leguan.instructions.Instruction.INSTRUCTION_LENGTH;
-                instruction.setOffsetIJ((short) (jumpOffset / thb.fbi.leguan.instructions.Instruction.INSTRUCTION_LENGTH));
+                instruction.setOffsetIJ(jumpOffset / thb.fbi.leguan.instructions.Instruction.INSTRUCTION_LENGTH);
             } else if(statement.getInstruction() instanceof ConditionalBranchInstruction) {
                 instruction.setType('C');
                 jumpOffset = statement.getArguments().getCond_Br_Address() - entry.getKey() - thb.fbi.leguan.instructions.Instruction.INSTRUCTION_LENGTH;
-                instruction.setOffsetIJ((short) (jumpOffset / thb.fbi.leguan.instructions.Instruction.INSTRUCTION_LENGTH));
+                instruction.setOffsetIJ(jumpOffset / thb.fbi.leguan.instructions.Instruction.INSTRUCTION_LENGTH);
             } else if(statement.getInstruction() instanceof DataTransferInstruction) {
                 instruction.setType('D');
-                instruction.setOffsetIJ((short) statement.getArguments().getDt_Address());
+                instruction.setOffsetIJ((int) statement.getArguments().getDt_Address());
             } else if(statement.getInstruction() instanceof ImmediateInstruction) {
                 instruction.setType('I');
-                instruction.setOffsetIJ((short) statement.getArguments().getAlu_Immediate());
+                instruction.setOffsetIJ(statement.getArguments().getAlu_Immediate());
             } else if(statement.getInstruction() instanceof WideImmediateInstruction) {
                 instruction.setType('W');
-                instruction.setOffsetIJ((short) statement.getArguments().getAlu_Immediate());
+                instruction.setOffsetIJ(statement.getArguments().getAlu_Immediate());
             }
             instruction.setMnemonic(statement.getInstruction().getMnemonic());
             instruction.setOpcode(statement.getInstruction().getOpcode());

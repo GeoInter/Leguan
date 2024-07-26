@@ -101,6 +101,7 @@ public class ControlUnit implements Serializable {
                             break;
                         case "LDR":
                             setFlagsForDatatransfer_Load();
+                            this.WB.MemToReg = false; // override since address directly is needed
                             this.byteSizeMemoryAccess = (byte) 8;
                             break;
                     }

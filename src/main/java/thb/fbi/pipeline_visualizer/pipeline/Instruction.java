@@ -15,7 +15,7 @@ public class Instruction implements Serializable {
             // register
     int rd; // destination register
     int shamt; // shift amount
-    short offsetIJ; // immediate
+    int offsetIJ; // immediate
     String codeString; // original line of code (for debugging, see console output)
 
     public void setCodeString(String codeString) {
@@ -96,12 +96,12 @@ public class Instruction implements Serializable {
         this.shamt = k;
     }
 
-    public short getOffsetIJ() {
+    public int getOffsetIJ() {
         return offsetIJ;
     }
 
-    public void setOffsetIJ(short k) {
-        this.offsetIJ = k;
+    public void setOffsetIJ(int offset) {
+        this.offsetIJ = offset;
     }
 
     public String getCodeString() {

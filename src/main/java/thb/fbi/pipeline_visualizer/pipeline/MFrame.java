@@ -178,9 +178,7 @@ public class MFrame implements Serializable {
             this.memWbPipeline = null;
 
         if (this.idExPipeline != null) {
-            this.hdUnit.idExMemRead = this.idExPipeline.MEM.MemRead;
-            this.hdUnit.idExRegWrite = this.idExPipeline.WB.RegWrite;
-            this.hdUnit.idExRd = this.idExPipeline.rd;
+            
             this.fwdUnit.rnValue = this.idExPipeline.rnValue;
             this.fwdUnit.rtValue = this.idExPipeline.rtValue;
             this.fwdUnit.rn = this.idExPipeline.rn;
@@ -262,10 +260,15 @@ public class MFrame implements Serializable {
 
             // following if else block selects the destination register for the next stage
             // BR is the only exception, where Rt needs to be forwarded
-            if (this.idExPipeline.RegDest)
+            if (this.idExPipeline.RegDest) {
                 this.exMemPipeline.destReg = this.idExPipeline.rd;
-            else 
+                this.hdUnit.idExRd = this.idExPipeline.rd;
+            } else {
                 this.exMemPipeline.destReg = this.idExPipeline.rt;
+                this.hdUnit.idExRd = this.idExPipeline.rt;
+            }
+            this.hdUnit.idExMemRead = this.idExPipeline.MEM.MemRead;
+            this.hdUnit.idExRegWrite = this.idExPipeline.WB.RegWrite;
 
             this.exMemPipeline.iString = this.idExPipeline.iString;
             this.exMemPipeline.byteSizeMemoryAccess = this.idExPipeline.byteSizeMemoryAccess;
@@ -309,7 +312,7 @@ public class MFrame implements Serializable {
             }
             
 
-            this.idExPipeline.Offset = (short) this.idExPipeline.i32Offset;
+            this.idExPipeline.Offset = this.idExPipeline.i32Offset;
             this.idExPipeline.opcode = this.ifIdPipeline.instruction.getOpcode();
             this.idExPipeline.iString = this.ifIdPipeline.iString;
             //
