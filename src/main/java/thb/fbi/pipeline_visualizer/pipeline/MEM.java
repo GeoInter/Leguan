@@ -7,8 +7,11 @@ import java.io.Serializable;
 
 public class MEM implements Serializable {
 
+    /** flag if instruction branches */
     public boolean branch;
+    /** flag if instruction reads a value from memory */
     public boolean MemRead;
+    /** flag if instruction writes a value to memory */
     public boolean MemWrite;
 
     public String toString(int mode)

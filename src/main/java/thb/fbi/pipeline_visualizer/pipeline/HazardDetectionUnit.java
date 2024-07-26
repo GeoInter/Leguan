@@ -12,7 +12,7 @@ public class HazardDetectionUnit implements Serializable {
     public boolean idExRegWrite; // register write in EX stage
     public boolean exMemRegWrite; // register write in MEM stage
     public boolean idExMemRead;
-    public int ifIdRs;
+    public int ifIdRn;
     public int ifIdRt;
     public int idExRd;
     public int exMemRd;
@@ -24,7 +24,7 @@ public class HazardDetectionUnit implements Serializable {
         idExRegWrite = false;
         exMemRegWrite = false;
         idExMemRead = false;
-        ifIdRs = -10;
+        ifIdRn = -10;
         ifIdRt = -11;
         idExRd = -12;
         exMemRd = -13;
@@ -41,12 +41,12 @@ public class HazardDetectionUnit implements Serializable {
      */
     public boolean checkUnforwardedDataHazard() {
         if (idExRegWrite) {
-            if ((ifIdRs == idExRd || ifIdRt == idExRd) && idExRd != 31) {
+            if ((ifIdRn == idExRd || ifIdRt == idExRd) && idExRd != 31) {
                 return true;
             }
         } 
         if (exMemRegWrite) {
-            if ((ifIdRs == exMemRd || ifIdRt == exMemRd) && exMemRd != 31) {
+            if ((ifIdRn == exMemRd || ifIdRt == exMemRd) && exMemRd != 31) {
                 return true;
             }
         }
@@ -55,7 +55,7 @@ public class HazardDetectionUnit implements Serializable {
 
     public boolean checkDataHazard() {
         if (idExMemRead) {
-            if (ifIdRs == idExRd && idExRd != 31 || ifIdRt == exMemRd && exMemRd != 31) {
+            if (ifIdRn == idExRd && idExRd != 31 || ifIdRt == exMemRd && exMemRd != 31) {
                 return true;
             }
         }

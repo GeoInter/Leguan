@@ -858,11 +858,11 @@ public class PipelinePanel extends JPanel {
                             break;
                         case 8:
                             if (this.currentFrame.ifIdPipeline != null)
-                                retStr = "" + this.currentFrame.ifIdPipeline.Instruction.getiString();
+                                retStr = "" + this.currentFrame.ifIdPipeline.instruction.getCodeString(); // original line of code
                             else
                                 retStr = "X";
                             if (mode == 2) {
-                                retStr = this.currentFrame.ifIdPipeline.Instruction.getBitString();
+                                retStr = this.currentFrame.ifIdPipeline.instruction.getCodeString(); // machine code
                             } else if (mode == 3) {
                                 retStr = "32 bit Ins.";
                             }
@@ -889,7 +889,7 @@ public class PipelinePanel extends JPanel {
                             break;
                         case 11:
                             if (this.currentFrame.idExPipeline != null) {
-                                retStr = "" + this.currentFrame.cUnit.op;
+                                retStr = "" + this.currentFrame.cUnit.opcode;
                                 if (mode == 2)
                                     retStr = "" + giveBinaryString(26, 32, retStr);
                             } else
@@ -909,7 +909,7 @@ public class PipelinePanel extends JPanel {
                             break;
                         case 13:
                             if (this.currentFrame.idExPipeline != null) {
-                                retStr = "" + this.currentFrame.idExPipeline.rs;
+                                retStr = "" + this.currentFrame.idExPipeline.rn;
                                 if (mode == 2)
                                     retStr = "" + giveBinaryString(27, 32, retStr);
                             } else
@@ -969,7 +969,7 @@ public class PipelinePanel extends JPanel {
                             break;
                         case 19:
                             if (this.currentFrame.idExPipeline != null) {
-                                retStr = "" + this.currentFrame.idExPipeline.rs;
+                                retStr = "" + this.currentFrame.idExPipeline.rn;
                                 if (mode == 2)
                                     retStr = "" + giveBinaryString(27, 32, retStr);
                             } else
@@ -1050,7 +1050,7 @@ public class PipelinePanel extends JPanel {
                             break;
                         case 27:
                             if (this.currentFrame.idExPipeline != null) {
-                                retStr = "" + this.currentFrame.idExPipeline.rsValue;
+                                retStr = "" + this.currentFrame.idExPipeline.rnValue;
                                 if (mode == 2)
                                     retStr = "" + giveBinaryString(0, 32, retStr);
                             } else
@@ -1066,7 +1066,7 @@ public class PipelinePanel extends JPanel {
                             break;
                         case 29:
                             if (this.currentFrame.idExPipeline != null) {
-                                retStr = "" + this.currentFrame.idExPipeline.rs;
+                                retStr = "" + this.currentFrame.idExPipeline.rn;
                                 if (mode == 2)
                                     retStr = "" + giveBinaryString(27, 32, retStr);
                             } else
@@ -1172,7 +1172,7 @@ public class PipelinePanel extends JPanel {
                             break;
                         case 39:
                             if (this.currentFrame.exMemPipeline != null) {
-                                retStr = "" + this.currentFrame.fwdUnit.rsValue;
+                                retStr = "" + this.currentFrame.fwdUnit.rnValue;
                                 if (mode == 2)
                                     retStr = "" + giveBinaryString(0, 32, retStr);
                             } else
@@ -1212,8 +1212,8 @@ public class PipelinePanel extends JPanel {
                             break;
                         case 44:
                             if (this.currentFrame.exMemPipeline != null) {
-                                if (this.currentFrame.tempExFunction >= 0) {
-                                    retStr = "" + this.currentFrame.tempExFunction;
+                                if (this.currentFrame.tempExOpcode >= 0) {
+                                    retStr = "" + this.currentFrame.tempExOpcode;
                                     if (mode == 2)
                                         retStr = "" + giveBinaryString(26, 32, retStr);
                                 } else {
@@ -1267,12 +1267,13 @@ public class PipelinePanel extends JPanel {
                                 retStr = "Operand 2";
                             break;
                         case 49:
+                        // TODO: add ALU Control
                             if (mode == 3)
                                 retStr = "ALU Control";
                             break;
                         case 50:
                             if (this.currentFrame.exMemPipeline != null) {
-                                retStr = "" + this.currentFrame.fwdUnit.rs;
+                                retStr = "" + this.currentFrame.fwdUnit.rn;
                                 if (mode == 2)
                                     retStr = "" + giveBinaryString(27, 32, retStr);
                             } else

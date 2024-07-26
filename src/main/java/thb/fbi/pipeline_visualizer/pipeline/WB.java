@@ -7,7 +7,9 @@ import java.io.Serializable;
 
 public class WB implements Serializable {
     
+    /** flag if memory value will be written to a register */
     boolean MemToReg;
+    /** flag if result of instruction will be written to a register */
     boolean RegWrite;  
     
     public String toString(int mode)

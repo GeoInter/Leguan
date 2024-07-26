@@ -14,8 +14,6 @@ public class ProgramStatement {
     private String source;
     /** line number of the source code */
     private int sourceLine;
-    /** address of the statement in memory */
-    private int address;
 
     public ProgramStatement(Instruction instruction, InstructionArguments arguments, String source, int sourceLine) {
         this.setInstruction(instruction);
@@ -26,14 +24,6 @@ public class ProgramStatement {
 
     public String getMachineCodeString() {
         return this.instruction.getMachineCodeString(this.arguments);
-    }
-
-    public int getAddress() {
-        return address;
-    }
-
-    public void setAddress(int address) {
-        this.address = address;
     }
 
     public int getSourceLine() {

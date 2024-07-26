@@ -15,18 +15,18 @@ public class ID_EX_Pipeline implements Serializable {
     public MEM MEM;
     public WB  WB;
     public int PC;
-    public int rs;
-    public int rsValue;
+    public int rn;
+    public int rnValue;
     public int rt;
     public int rtValue;
     public int rd;
     public short Offset;
     public int i32Offset;
-    public int function;
+    public short opcode;
     public String iString;
     public String bitString;
     public byte byteSizeMemoryAccess;
-    public String branchCheck;
+    public String mnemonic;
     public boolean memoryAccessExclusive;
     public boolean setsFlag;
         

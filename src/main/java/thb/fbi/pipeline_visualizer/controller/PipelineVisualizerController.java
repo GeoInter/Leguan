@@ -76,7 +76,10 @@ public class PipelineVisualizerController {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                pipelinePanel.updateMFrames(pipelineSimulator.execute(""));
+                MFrame frames[]= new MFrame[1];
+                MFrame emptyFrame = new MFrame(false, false);
+                frames[0] = emptyFrame;
+                pipelinePanel.updateMFrames(frames);
                 pipelineSwingNode.setContent(pipelinePanel);
             }
         });
@@ -118,7 +121,7 @@ public class PipelineVisualizerController {
 
     public void updateCode(ARMProgram program, String code) {
         pipelineSimulator.setProgram(program);
-        MFrame frames[] = pipelineSimulator.execute(code);
+        MFrame frames[] = pipelineSimulator.execute();
 
         SwingUtilities.invokeLater(new Runnable() {
             @Override

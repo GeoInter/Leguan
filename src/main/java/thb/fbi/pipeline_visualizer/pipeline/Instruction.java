@@ -10,54 +10,34 @@ import java.io.Serializable;
 public class Instruction implements Serializable {
 
     char type; // instruction format
-    int op;
-    int rs; // first register
+    int rn; // first register
     int rt; // second register or if rd is not specified, then this is the destination
             // register
     int rd; // destination register
     int shamt; // shift amount
-    int function; // ALU operation
     short offsetIJ; // immediate
-    String iString; // original line of code (for debugging, see console output)
-    byte byteSizeMemoryAccess; // number of bytes to access from memory (load/store)
-    String branchCheck; // What to check for Branching
-    boolean memoryAccessExclusive; // indicates if instruction is LXDR, STXR
-    boolean setsFlag;
+    String codeString; // original line of code (for debugging, see console output)
+
+    public void setCodeString(String codeString) {
+        this.codeString = codeString;
+    }
+
+    String mnemonic;
+    private short opcode;
 
     public Instruction() {
         type = 'U';
-        op = -1;
-        rs = 31;
+        rn = 31;
         rt = 31;
         rd = 31;
         shamt = -1;
-        function = -1;
         offsetIJ = -1;
-        this.iString = "UNKNOWN";
-        byteSizeMemoryAccess = -1;
-        branchCheck = "NONE";
-        memoryAccessExclusive = false;
-        setsFlag = false;
+        codeString = "UNKNOWN";
+        opcode = Short.parseShort("0", 2);
     }
 
-    public void printInstruction() {
-        String msg = "Instruction Not Set";
-
-        if (this.type == 'R')
-            msg = "Op: " + this.getOp() + " rs: " + this.getRs() +
-                    " rt: " + this.getRt() + " rd: " + this.getRd() +
-                    " \tshamt: " + this.getShamt() + " \tfunction: " +
-                    this.getFunction();
-        else if (this.type == 'I' || this.type == 'D')
-            msg = "Op: " + this.getOp() + " rs: " + this.getRs() +
-                    " rt: " + this.getRt() + " \toffset/constant: "
-                    + this.getOffsetIJ();
-        else if (this.type == 'B' || this.type == 'C')
-            msg = "Op: " + this.getOp() + " rs: " + this.getRs() +  " rd: " + this.getRd() + " JMP Address: " + this.getOffsetIJ();
-        else if (this.type == 'N')
-            msg = "NOP";
-
-        System.out.println(msg);
+    public short getOpcode() {
+        return this.opcode;
     }
 
     public char getType() {
@@ -68,24 +48,17 @@ public class Instruction implements Serializable {
         this.type = c;
     }
 
-    public int getOp() {
-        return op;
+    public void setOpcode(short opcode) {
+        this.opcode = opcode;
     }
 
-    public void setOp(int k) {
-        if (k < 64 && k > -1)
-            this.op = k;
-        else
-            System.out.println("Op not Set");
+    public int getRn() {
+        return rn;
     }
 
-    public int getRs() {
-        return rs;
-    }
-
-    public void setRs(int k) {
+    public void setRn(int k) {
         if (k < 32 && k > -1)
-            this.rs = k;
+            this.rn = k;
         else
             System.out.println("Rs not Set");
     }
@@ -123,14 +96,6 @@ public class Instruction implements Serializable {
         this.shamt = k;
     }
 
-    public int getFunction() {
-        return function;
-    }
-
-    public void setFunction(int k) {
-        this.function = k;
-    }
-
     public short getOffsetIJ() {
         return offsetIJ;
     }
@@ -139,61 +104,28 @@ public class Instruction implements Serializable {
         this.offsetIJ = k;
     }
 
-    public String getiString() {
-        return this.iString;
+    public String getCodeString() {
+        return this.codeString;
     }
 
     public void setString(String s) {
-        this.iString = s;
-    }
-
-    public byte getByteSizeMemoryAccess() {
-        return byteSizeMemoryAccess;
-    }
-
-    public void setByteSizeMemoryAccess(byte byteSizeMemoryAccess) {
-        this.byteSizeMemoryAccess = byteSizeMemoryAccess;
-    }
-
-    public String getBranchCheck() {
-        return branchCheck;
-    }
-
-    public void setBranchCheck(String branchCheck) {
-        this.branchCheck = branchCheck;
-    }
-
-    public boolean isMemoryAccessExclusive() {
-        return memoryAccessExclusive;
-    }
-
-    public void setMemoryAccessExclusive(boolean memoryAccessExclusive) {
-        this.memoryAccessExclusive = memoryAccessExclusive;
-    }
-
-    public boolean isSetsFlag() {
-        return setsFlag;
-    }
-
-    public void setSetsFlag(boolean setsFlag) {
-        this.setsFlag = setsFlag;
+        this.codeString = s;
     }
 
     public String getBitString() {
         String str = "";
         if (this.type == 'R') {
 
-            str = giveBinaryString(26, 32, "" + this.op);
-            str += giveBinaryString(27, 32, "" + this.rs);
+            str = giveBinaryString(26, 32, "" + this.opcode);
+            str += giveBinaryString(27, 32, "" + this.rn);
             str += giveBinaryString(27, 32, "" + this.rt);
             str += giveBinaryString(27, 32, "" + this.rd);
             str += giveBinaryString(27, 32, "" + this.shamt);
-            str += giveBinaryString(26, 32, "" + this.function);
 
         } else if (this.type == 'I') {
 
-            str = giveBinaryString(26, 32, "" + this.op);
-            str += giveBinaryString(27, 32, "" + this.rs);
+            str = giveBinaryString(26, 32, "" + this.opcode);
+            str += giveBinaryString(27, 32, "" + this.rn);
             str += giveBinaryString(27, 32, "" + this.rt);
             str += giveBinaryString(16, 32, "" + this.offsetIJ);
 
@@ -215,6 +147,14 @@ public class Instruction implements Serializable {
         s = s.substring(l, r);
 
         return s;
+    }
+
+    public void setMnemonic(String mnemonic) {
+        this.mnemonic = mnemonic;
+    }
+
+    public String getMnemonic() {
+        return mnemonic;
     }
 
 }
