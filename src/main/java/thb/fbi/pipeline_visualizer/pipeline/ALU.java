@@ -83,6 +83,48 @@ public class ALU implements Serializable {
         return 0;
     }
 
+    /**
+     * checks if branching condition is met; used for setting ALU_zero
+     * 
+     * @param mnemonic   of the instruction in the EX stage
+     * @param operand2   used in the ALU
+     * @param ALU_result result of the ALU operation
+     * @return boolean indicating if branch condition is met (if true then ALU_zero
+     *         is true)
+     */
+    public boolean checkBranchCondition(String mnemonic, int operand2, int ALU_result) {
+        switch (mnemonic) {
+            case "CBZ":
+                return (operand2 == 0);
+            case "CBNZ":
+                return (operand2 != 0);
+            case "B.EQ":
+                return this.zFlag;
+            case "B.NE":
+                return !this.zFlag;
+            case "B.LT":
+                return this.nFlag != this.vFlag;
+            case "B.LE":
+                return !(!this.zFlag && this.nFlag == this.vFlag);
+            case "B.GT":
+                return !this.zFlag && this.nFlag == this.vFlag;
+            case "B.GE":
+                return this.nFlag == this.vFlag;
+            case "B.MI":
+                return this.nFlag;
+            case "B.PL":
+                return !this.nFlag;
+            case "B.VS":
+                return this.vFlag;
+            case "B.VC":
+                return !this.vFlag;
+            case "BR":
+                return true;
+            default:
+                return (ALU_result == 0);
+        }
+    }
+
     private void setNFlag(long result) {
         nFlag = (result < 0);
     }

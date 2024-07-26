@@ -208,55 +208,7 @@ public class MFrame implements Serializable {
                 this.exMemPipeline.PCBranch = this.idExPipeline.PC + this.idExPipeline.i32Offset * 4;
             }
 
-
-            // ALU manupulation codes are below
-            // Branching Logic
-            switch(this.idExPipeline.mnemonic) {
-                case "CBZ":
-                    if(operand2 == 0) this.exMemPipeline.ALU_zero = true;
-                    else this.exMemPipeline.ALU_zero = false;
-                    break;
-                case "CBNZ":
-                    if(operand2 != 0) this.exMemPipeline.ALU_zero = true;
-                    else this.exMemPipeline.ALU_zero = false;
-                    break;
-                case "B.EQ":
-                    this.exMemPipeline.ALU_zero = this.ALUnit.zFlag;
-                    break;
-                case "B.NE":
-                    this.exMemPipeline.ALU_zero = ! this.ALUnit.zFlag;
-                    break;
-                case "B.LT":
-                    this.exMemPipeline.ALU_zero = this.ALUnit.nFlag != this.ALUnit.vFlag;
-                    break;
-                case "B.LE":
-                    this.exMemPipeline.ALU_zero = !(! this.ALUnit.zFlag && this.ALUnit.nFlag == this.ALUnit.vFlag);
-                    break;
-                case "B.GT":
-                    this.exMemPipeline.ALU_zero = !this.ALUnit.zFlag && this.ALUnit.nFlag == this.ALUnit.vFlag;
-                    break;
-                case "B.GE":
-                    this.exMemPipeline.ALU_zero = this.ALUnit.nFlag == this.ALUnit.vFlag;
-                    break;
-                case "B.MI":
-                    this.exMemPipeline.ALU_zero = this.ALUnit.nFlag;
-                    break;
-                case "B.PL":
-                    this.exMemPipeline.ALU_zero = !this.ALUnit.nFlag;
-                    break;
-                case "B.VS":
-                    this.exMemPipeline.ALU_zero = this.ALUnit.vFlag;
-                    break;
-                case "B.VC":
-                    this.exMemPipeline.ALU_zero = !this.ALUnit.vFlag;
-                    break;
-                case "BR":
-                    this.exMemPipeline.ALU_zero = true;
-                    break;
-                default:
-                    this.exMemPipeline.ALU_zero = (this.exMemPipeline.ALU_result == 0);
-                    break;
-            }
+            this.exMemPipeline.ALU_zero = ALUnit.checkBranchCondition(this.idExPipeline.mnemonic, operand2, this.exMemPipeline.ALU_result);
 
             // following if else block selects the destination register for the next stage
             // BR is the only exception, where Rt needs to be forwarded
