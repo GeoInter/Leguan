@@ -3,7 +3,9 @@
     -fx-secondary-color: #252526;
     -fx-tertiary-color: #323232;
     -fx-menubar-color: #3c3c3c;
-    -fbi-blue: #00bae5;
+    -main-theme-color: #8ac553;
+    -secondary-theme-color: #84bd4f;
+    -tertiary-theme-color: #74a048;
     -fx-element-color: #6d6e6a;
     -scrollbar-divider-color: #414141;
 
@@ -11,6 +13,11 @@
     background-color: -fx-main-color;
     -fx-text-fill: white;
     -fx-textcolor: white;
+}
+
+#button-bar {
+    -fx-background-color: -tertiary-theme-color;
+    background-color: -tertiary-theme-color;
 }
 
 #register-vbox {
@@ -133,8 +140,8 @@
 }
 
 .simulator-button {
-    -fx-background-color: -fbi-blue;
-    background-color: -fbi-blue;
+    -fx-background-color: -main-theme-color;
+    background-color: -main-theme-color;
     -fx-font-size: 13px;
 }
 
@@ -166,8 +173,8 @@
 }
 
 #register-value-button:disabled, .memory-button:disabled {
-    -fx-background-color: -fbi-blue;
-    background-color: -fbi-blue;
+    -fx-background-color: -main-theme-color;
+    background-color: -main-theme-color;
 }
 
 /* Flag Regsiter HBox */
@@ -183,8 +190,8 @@
 }
 
 .toggle-button:selected {
-    -fx-background-color: -fbi-blue;
-    background-color: -fbi-blue;
+    -fx-background-color: -main-theme-color;
+    background-color: -main-theme-color;
 }
 
 .toggle-button:hover {
@@ -285,8 +292,8 @@
     -fx-background-radius: 0;
 }
 .tab:selected {
-    -fx-background-color: -fbi-blue;
-    background-color: -fbi-blue;
+    -fx-background-color: -main-theme-color;
+    background-color: -main-theme-color;
 }
 
 .tab-header-background {
@@ -341,13 +348,13 @@
 }
 
 .menu-item:focused {
-    -fx-background-color: -fbi-blue;
-    background-color: -fbi-blue;
+    -fx-background-color: -main-theme-color;
+    background-color: -main-theme-color;
 }
 
 #filter-button {
-    -fx-background-color: -fx-element-color;
-    background-color: -fx-element-color;
+    -fx-background-color: -main-theme-color;
+    background-color: -main-theme-color;
 }
 
 /* Syntax Highlighting */
@@ -408,11 +415,9 @@
     fill: #727224;
 }
 
-/* pipeline visualizer */
-
 .titled-pane > .title {
-    -fx-background-color: #5a9cd1;
-    background-color: #5a9cd1;
+    -fx-background-color: -secondary-theme-color;
+    background-color: -secondary-theme-color;
 }
 
 .titled-pane > .title > .arrow-button > .arrow {
@@ -428,6 +433,24 @@
 .choice-box > .open-button > .arrow {
     -fx-background-color: white;
     background-color: white;
+}
+
+/* pipeline visualizer */
+
+.pipe-simulator-button {
+    -fx-background-color: #3992db;
+    background-color: #3992db;
+    -fx-font-size: 13px;
+}
+
+.pipe-titled-pane > .title {
+    -fx-background-color: #5a9cd1;
+    background-color: #5a9cd1;
+}
+
+.choice-box .menu-item:focused { 
+    -fx-background-color:#3992db; 
+    background-color: #3992db;
 }
 
 .pipe_vis_sidebar {
