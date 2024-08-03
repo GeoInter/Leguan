@@ -42,6 +42,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Circle;
 import javafx.stage.WindowEvent;
 import thb.fbi.leguan.App;
 import thb.fbi.leguan.parser.ParsingError;
@@ -117,6 +118,8 @@ public class SimulatorController {
     Button stepForwardButton;
     @FXML
     Button stepBackwardButton;
+    @FXML
+    Circle assembleIdicator;
 
     private CodeArea codeArea;
 
@@ -141,7 +144,7 @@ public class SimulatorController {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 simulator.getIsCodeChanged().set(true);
-                assembleButton.setDisable(false);
+                assembleIdicator.setId("codeStatus_changed");
             }
 
         });
@@ -223,7 +226,7 @@ public class SimulatorController {
             // Update Tool
             pipelineVisualizer.updateCode(simulator.getArmProgram(), codeArea.getText());
 
-            assembleButton.setDisable(true);
+            assembleIdicator.setId("codeStatus_assembled");
         } else {
             setConsoleText(simulator.getErrors());
             editorCanvas.setLineNumber(-1);
