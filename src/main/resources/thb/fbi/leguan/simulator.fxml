@@ -91,7 +91,7 @@
       </HBox>
       <SplitPane fx:id="splitPane" dividerPositions="0.8" maxHeight="1.7976931348623157E308" prefWidth="1920.0" VBox.vgrow="ALWAYS">
         <items>
-            <AnchorPane>
+            <AnchorPane focusTraversable="true">
                <children>
                   <SplitPane fx:id="textSplitpane" dividerPositions="0.9" orientation="VERTICAL" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <items>
@@ -112,7 +112,7 @@
                   </SplitPane>
                </children>
             </AnchorPane>
-            <AnchorPane id="register-anchor-pane" fx:id="rightSideAnchorPane">
+            <AnchorPane id="register-anchor-pane" fx:id="rightSideAnchorPane" focusTraversable="true">
                <children>
                   <TabPane fx:id="tabPane" minWidth="420.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <tabs>
