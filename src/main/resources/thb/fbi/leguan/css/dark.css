@@ -143,6 +143,12 @@
     -fx-background-color: -main-theme-color;
     background-color: -main-theme-color;
     -fx-font-size: 13px;
+    -fx-effect: dropshadow(one-pass-box, rgba(0, 0, 0, 0.3), 10, 0.1, 0, 0);
+}
+
+.simulator-button:hover {
+    -fx-background-color: -secondary-theme-color;
+    background-color: -secondary-theme-color;
 }
 
 .simulator-bar {
@@ -163,7 +169,7 @@
     opacity: 1.0;
 }
 
-#register-value-button:hover, .memory-button:hover {
+#register-value-button:hover, .memory-button:hover, .tab:hover {
     -fx-background-color: #c4c4c4;
     background-color: #c4c4c4;
 }
