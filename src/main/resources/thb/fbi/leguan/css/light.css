@@ -454,11 +454,21 @@
 }
 
 /* pipeline visualizer */
+.pipe-button-bar {
+    -fx-background-color: #497fac;
+    background-color: #497fac;
+}
 
 .pipe-simulator-button {
     -fx-background-color: #469ee6;
     background-color: #469ee6;
     -fx-font-size: 13px;
+    -fx-effect: dropshadow(one-pass-box, rgba(0, 0, 0, 0.3), 10, 0.1, 0, 0);
+}
+
+.pipe-simulator-button:hover {
+    -fx-background-color: #578ebb;
+    background-color: #578ebb;
 }
 
 .pipe-titled-pane > .title {

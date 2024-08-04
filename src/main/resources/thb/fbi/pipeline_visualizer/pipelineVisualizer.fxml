@@ -22,11 +22,14 @@
 
 <VBox prefHeight="700.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="thb.fbi.pipeline_visualizer.controller.PipelineVisualizerController">
    <children>
-      <HBox alignment="CENTER">
+      <HBox alignment="CENTER" styleClass="pipe-button-bar">
          <children>
             <ButtonBar prefHeight="40.0">
                <buttons>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mode" textAlignment="RIGHT" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mode" textAlignment="RIGHT">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Text>
                   <ChoiceBox fx:id="modeChoiceBox" onAction="#updateMode" styleClass="pipe-simulator-button" />
                   <Button mnemonicParsing="false" onAction="#backwardClockPulse" styleClass="pipe-simulator-button" text="Backward" />
                   <Button mnemonicParsing="false" onAction="#forwardClockPulse" styleClass="pipe-simulator-button" text="Foward" />
