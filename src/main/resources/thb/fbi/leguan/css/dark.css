@@ -3,7 +3,7 @@
     -fx-secondary-color: #252526;
     -fx-tertiary-color: #323232;
     -fx-menubar-color: #3c3c3c;
-    -main-theme-color: #8ac553;
+    -main-theme-color: #93d654;
     -secondary-theme-color: #84bd4f;
     -tertiary-theme-color: #74a048;
     -fx-element-color: #6d6e6a;
@@ -146,11 +146,6 @@
     -fx-effect: dropshadow(one-pass-box, rgba(0, 0, 0, 0.3), 10, 0.1, 0, 0);
 }
 
-.simulator-button:hover {
-    -fx-background-color: -secondary-theme-color;
-    background-color: -secondary-theme-color;
-}
-
 .simulator-bar {
     -fx-background-color: -fx-secondary-color;
     background-color: -fx-secondary-color;
@@ -169,7 +164,7 @@
     opacity: 1.0;
 }
 
-#register-value-button:hover, .memory-button:hover, .tab:hover {
+#register-value-button:hover, .memory-button:hover, .tab:hover, .simulator-button:hover {
     -fx-background-color: #c4c4c4;
     background-color: #c4c4c4;
 }
@@ -466,9 +461,9 @@
     -fx-effect: dropshadow(one-pass-box, rgba(0, 0, 0, 0.3), 10, 0.1, 0, 0);
 }
 
-.pipe-simulator-button:hover {
-    -fx-background-color: #5a9cd1;
-    background-color: #5a9cd1;
+.pipe-simulator-button:hover, .choice-box:hover {
+    -fx-background-color: #acc4d8;
+    background-color: #acc4d8;
 }
 
 .pipe-titled-pane > .title {
