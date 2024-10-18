@@ -82,6 +82,7 @@
 /* Color of the text selection within the editor */
 .code-area .selection {
     -fx-fill: #add6ff;
+    fill: #add6ff;
 }
 
 .styled-text-area .paragraph-text .text {
@@ -143,6 +144,7 @@
     -fx-background-color: -main-theme-color;
     background-color: -main-theme-color;
     -fx-font-size: 13px;
+    font-size: 13px;
     -fx-effect: dropshadow(one-pass-box, rgba(0, 0, 0, 0.3), 10, 0.1, 0, 0);
 }
 
@@ -458,6 +460,7 @@
     -fx-background-color: #469ee6;
     background-color: #469ee6;
     -fx-font-size: 13px;
+    font-size: 13px;
     -fx-effect: dropshadow(one-pass-box, rgba(0, 0, 0, 0.3), 10, 0.1, 0, 0);
 }
 
