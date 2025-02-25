@@ -9,7 +9,7 @@
 
 This project is a Java-based simulator for the **LEGv8 instruction set**, based on Computer Organization and Design: The Hardware/Software Interface (ARM Edition) by **D. Patterson and J. Hennessy**.
 
-<img alt="Screenshot Example" align="center" src="docs/images/Leguan1.png"/>
+<img alt="Screenshot Example" align="center" src="docs/images/Leguan1.PNG"/>
 
 
 ## Features
