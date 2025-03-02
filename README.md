@@ -17,10 +17,11 @@ This project is a Java-based simulator for the **LEGv8 instruction set**, based 
 * Run code step-wise or all at once
 * Supports entire **Core Instruction Set** [see LEGv8 Greencard](https://www.usna.edu/Users/cs/lmcdowel/courses/ic220/S20/resources/ARM-v8-Quick-Reference-Guide.pdf)
 * Show registers in **different numeral systems** (decimal, binary, hexadecimal)
+* Editable register values in the UI
 * Useable **data segment** (byte, halfword, word, dword, ASCII)
 * Display **memory as Bytes or DWords**
-* Interactive **instruction pipeline** (statistics and different options for handling data and control hazards)
 * Toggleable **Condition Flags** (switch each flag on/off)
+* Interactive **instruction pipeline** [read more](docs/pipelining/Pipelining_README.md)
 
 This simulator aims to provide an accessible way to learn and experiment with **LEGv8** assembly programming.
 
