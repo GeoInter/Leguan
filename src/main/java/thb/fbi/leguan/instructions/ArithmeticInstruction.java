@@ -11,7 +11,7 @@ import thb.fbi.leguan.utility.MachineCodeTranslator;
 public class ArithmeticInstruction extends Instruction {
     private IArithmeticCode arithmeticCode;
 
-    public ArithmeticInstruction(String mnemonic, String opcode, String description, IArithmeticCode arithmeticCode) {
+    public ArithmeticInstruction(String mnemonic, int opcode, String description, IArithmeticCode arithmeticCode) {
         setMnemonic(mnemonic);
         setOpcode(opcode);
         setDescription(description);

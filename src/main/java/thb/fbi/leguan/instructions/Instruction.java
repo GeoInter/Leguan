@@ -38,12 +38,8 @@ public abstract class Instruction implements Comparable<Instruction> {
         return opcode;
     }
 
-    public void setOpcode(String opcode) {
-        this.opcode = Short.parseShort(opcode, 2);
-    }
-
-    public void setOpcode(short opcode) {
-        this.opcode = opcode;
+    public void setOpcode(int opcode) {
+        this.opcode = (short) opcode;
     }
 
     public abstract void simulate(InstructionArguments argument, PCRegister pc);

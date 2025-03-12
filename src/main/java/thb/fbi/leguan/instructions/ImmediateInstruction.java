@@ -11,7 +11,7 @@ import thb.fbi.leguan.utility.MachineCodeTranslator;
 public class ImmediateInstruction extends Instruction {
     private IImmediateCode immediateCode;
 
-    public ImmediateInstruction(String mnemonic, String opcode, String description, IImmediateCode immediateCode) {
+    public ImmediateInstruction(String mnemonic, int opcode, String description, IImmediateCode immediateCode) {
         setMnemonic(mnemonic);
         setOpcode(opcode);
         setDescription(description);

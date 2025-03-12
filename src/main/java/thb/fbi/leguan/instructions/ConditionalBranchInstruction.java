@@ -11,7 +11,7 @@ import thb.fbi.leguan.utility.MachineCodeTranslator;
 public class ConditionalBranchInstruction extends Instruction {
     private IConditionalBranchCode conditionalBranchCode;
 
-    public ConditionalBranchInstruction(String mnemonic, String opcode, String description, IConditionalBranchCode conditionalBranchCode) {
+    public ConditionalBranchInstruction(String mnemonic, int opcode, String description, IConditionalBranchCode conditionalBranchCode) {
         setMnemonic(mnemonic);
         setOpcode(opcode);
         setDescription(description);

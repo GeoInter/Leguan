@@ -11,7 +11,7 @@ import thb.fbi.leguan.utility.MachineCodeTranslator;
 public class DataTransferInstruction extends Instruction {
     private IDataTransferCode dataTransferCode;
 
-    public DataTransferInstruction(String mnemonic, String opcode, String description, IDataTransferCode dataTransferCode) {
+    public DataTransferInstruction(String mnemonic, int opcode, String description, IDataTransferCode dataTransferCode) {
         setMnemonic(mnemonic);
         setOpcode(opcode);
         setDescription(description);

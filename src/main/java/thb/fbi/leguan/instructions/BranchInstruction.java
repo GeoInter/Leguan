@@ -10,7 +10,7 @@ import thb.fbi.leguan.utility.MachineCodeTranslator;
 public class BranchInstruction extends Instruction {
     private IBranchCode branchCode;
 
-    public BranchInstruction(String mnemonic, String opcode, String description, IBranchCode branchCode) {
+    public BranchInstruction(String mnemonic, int opcode, String description, IBranchCode branchCode) {
         setMnemonic(mnemonic);
         setOpcode(opcode);
         setDescription(description);
