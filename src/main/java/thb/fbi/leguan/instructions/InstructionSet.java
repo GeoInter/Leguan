@@ -174,7 +174,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ConditionalBranchInstruction("B.EQ",
-                        0b0,
+                        0b01010100,
                         "Branch Signed Equals",
                         new IConditionalBranchCode() {
                             @Override
@@ -190,7 +190,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ConditionalBranchInstruction("B.NE",
-                        0b0,
+                        0b01010100,
                         "Branch Signed Not Equals",
                         new IConditionalBranchCode() {
                             @Override
@@ -206,7 +206,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ConditionalBranchInstruction("B.LT",
-                        0b0,
+                        0b01010100,
                         "Branch Signed Less Than",
                         new IConditionalBranchCode() {
                             @Override
@@ -222,7 +222,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ConditionalBranchInstruction("B.LE",
-                        0b0,
+                        0b01010100,
                         "Branch Signed Less Equals",
                         new IConditionalBranchCode() {
                             @Override
@@ -238,7 +238,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ConditionalBranchInstruction("B.GT",
-                        0b0,
+                        0b01010100,
                         "Branch Signed Greater Than",
                         new IConditionalBranchCode() {
                             @Override
@@ -254,7 +254,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ConditionalBranchInstruction("B.GE",
-                        0b0,
+                        0b01010100,
                         "Branch Signed Greater Equals",
                         new IConditionalBranchCode() {
                             @Override
@@ -270,7 +270,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ConditionalBranchInstruction("B.MI",
-                        0b0,
+                        0b01010100,
                         "Branch on Minus",
                         new IConditionalBranchCode() {
                             @Override
@@ -286,7 +286,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ConditionalBranchInstruction("B.PL",
-                        0b0,
+                        0b01010100,
                         "Branch on Plus",
                         new IConditionalBranchCode() {
                             @Override
@@ -302,7 +302,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ConditionalBranchInstruction("B.VS",
-                        0b0,
+                        0b01010100,
                         "Branch on Overflow set",
                         new IConditionalBranchCode() {
                             @Override
@@ -318,7 +318,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ConditionalBranchInstruction("B.VC",
-                        0b0,
+                        0b01010100,
                         "Branch on Overflow clear",
                         new IConditionalBranchCode() {
                             @Override
@@ -711,7 +711,7 @@ public class InstructionSet {
                         }));
 
         //// Arithmetic Core Instruction Set ////
-        
+
         instructionSet.add(
                 new ArithmeticInstruction("MUL",
                         0b10011011000,
