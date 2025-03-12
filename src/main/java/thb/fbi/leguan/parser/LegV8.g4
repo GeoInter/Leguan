@@ -65,7 +65,7 @@ ascii: ASCII_String ;
 
 
 // ** Tokens **
-ArithmeticInstruction: 'ADD' | 'ADDS' | 'AND' | 'ANDS' | 'EOR' | 'ORR' | 'SUB' | 'SUBS' | 'MUL';
+ArithmeticInstruction: 'ADD' | 'ADDS' | 'AND' | 'ANDS' | 'EOR' | 'ORR' | 'MUL' | 'SDIV' | 'SMULH' | 'SUB' | 'SUBS' | 'UDIV' | 'UMULH';
 ShiftInstruction: 'LSL' | 'LSR' ;
 ImmediateInstruction : 'ADDI' | 'ADDIS' | 'ANDI' | 'ANDIS' | 'EORI' | 'ORRI' | 'SUBI' | 'SUBIS';
 WideImmediateInstrcution : 'MOVK' | 'MOVZ';

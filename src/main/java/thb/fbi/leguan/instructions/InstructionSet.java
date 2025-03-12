@@ -1,5 +1,6 @@
 package thb.fbi.leguan.instructions;
 
+import java.math.BigInteger;
 import java.util.Formatter;
 import java.util.TreeSet;
 
@@ -30,7 +31,7 @@ public class InstructionSet {
                         new IArithmeticCode() {
                             @Override
                             public void simulate(Register Rm, int shamt, Register Rn, Register Rd) {
-                                
+
                             }
                         }));
 
@@ -710,10 +711,10 @@ public class InstructionSet {
                         }));
 
         //// Arithmetic Core Instruction Set ////
-
+        
         instructionSet.add(
                 new ArithmeticInstruction("MUL",
-                        "0", // opcode unknown
+                        "10011011000",
                         "Multiplies two registers (only integers)",
                         new IArithmeticCode() {
                             @Override
@@ -726,11 +727,83 @@ public class InstructionSet {
                             }
                         }));
 
+        instructionSet.add(
+                new ArithmeticInstruction("SDIV",
+                        "10011010110",
+                        "Multiplies two registers (only integers)",
+                        new IArithmeticCode() {
+                            @Override
+                            public void simulate(Register Rm, int shamt, Register Rn, Register Rd) {
+                                long op1 = Rn.getValue();
+                                long op2 = Rm.getValue();
+                                long result = op1 / op2;
+
+                                Rd.setValue(result);
+                            }
+                        }));
+
+        instructionSet.add(
+                new ArithmeticInstruction("SMULH",
+                        "10011011010",
+                        "Multiplies two registers (only integers)",
+                        new IArithmeticCode() {
+                            @Override
+                            public void simulate(Register Rm, int shamt, Register Rn, Register Rd) {
+                                long op1 = Rn.getValue();
+                                long op2 = Rm.getValue();
+
+                                // Put result into BigInteger (for numbers exceeding 64bit)
+                                BigInteger bigInteger = BigInteger.valueOf(op1).multiply(BigInteger.valueOf(op2));
+                                // Cut off the lower 64 bit leaving bits 65-128
+                                bigInteger = bigInteger.shiftRight(64);
+                                // Put the higher 64 bit into a long
+                                long result = bigInteger.longValue();
+
+                                Rd.setValue(result);
+                            }
+                        }));
+
+        instructionSet.add(
+                new ArithmeticInstruction("UDIV",
+                        "10011010110",
+                        "Unsigned Division",
+                        new IArithmeticCode() {
+                            @Override
+                            public void simulate(Register Rm, int shamt, Register Rn, Register Rd) {
+                                long op1 = Rn.getValue();
+                                long op2 = Rm.getValue();
+                                long result = Long.divideUnsigned(op1, op2);
+
+                                Rd.setValue(result);
+                            }
+                        }));
+
+        instructionSet.add(
+                new ArithmeticInstruction("UMULH",
+                        "10011011110",
+                        "Unsigned Multiplication",
+                        new IArithmeticCode() {
+                            @Override
+                            public void simulate(Register Rm, int shamt, Register Rn, Register Rd) {
+                                long op1 = Rn.getValue();
+                                long op2 = Rm.getValue();
+
+                                // Put result into BigInteger (for numbers exceeding 64bit)
+                                BigInteger bigInteger = BigInteger.valueOf(op1).multiply(BigInteger.valueOf(op2));
+                                // Cut off the lower 64 bit leaving bits 65-128
+                                bigInteger = bigInteger.shiftRight(64);
+                                // Put the higher 64 bit into a long
+                                long result = bigInteger.longValue();
+
+                                Rd.setValue(result);
+                            }
+                        }));
+
         //// Other Instructions ////
 
         instructionSet.add(
                 new DataTransferInstruction("LDR",
-                        "11111000010", // opcode from LDUR 
+                        "11111000010", // opcode from LDUR
                         "Loads a program-relative or register-relative address into a register",
                         new IDataTransferCode() {
                             @Override
