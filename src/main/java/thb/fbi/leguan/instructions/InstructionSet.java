@@ -27,7 +27,7 @@ public class InstructionSet {
         instructionSet.add(
                 new ArithmeticInstruction("NOP",
                         0b0,
-                        "it is just empty",
+                        "Null operation - does nothing",
                         new IArithmeticCode() {
                             @Override
                             public void simulate(Register Rm, int shamt, Register Rn, Register Rd) {
@@ -40,7 +40,7 @@ public class InstructionSet {
         instructionSet.add(
                 new ArithmeticInstruction("ADD",
                         0b10001011000,
-                        "Adds value of Registers Rm and Rn and puts result in Rd without flags",
+                        "Adds value of Registers Rm and Rn and puts result in Rd without setting flags",
                         new IArithmeticCode() {
                             @Override
                             public void simulate(Register Rm, int shamt, Register Rn, Register Rd) {

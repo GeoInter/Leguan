@@ -35,6 +35,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SplitPane;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
@@ -79,6 +80,10 @@ public class SimulatorController {
     StackPane codeStackPane;
     @FXML
     SplitPane splitPane;
+    @FXML
+    Tab combinedTab;
+    @FXML
+    SplitPane combinedTab_SplitPane;
     @FXML
     SplitPane textSplitpane;
     @FXML
@@ -166,6 +171,14 @@ public class SimulatorController {
 
         // prevent rightside to resize (change divider position) when maximazing
         SplitPane.setResizableWithParent(rightSideAnchorPane, false);
+
+        // move divider to make room for the combined tab
+        combinedTab.selectedProperty().addListener((obs, wasSelected, isSelected) -> {
+            if (isSelected) {
+                splitPane.setDividerPositions(0.5);
+                combinedTab_SplitPane.setDividerPositions(0.5);
+            }
+        });
 
         // tabs fill header of tabPane
         // BUG: Switching Tabs (which are filling the tabPane) leaves empty extra space

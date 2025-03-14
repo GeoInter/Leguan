@@ -79,6 +79,13 @@
     background-color: -fx-main-color;
 }
 
+#combined_tab_splitPane:horizontal > .split-pane-divider {
+    -fx-background-color: -fx-secondary-color;
+    background-color: -fx-secondary-color;
+    -fx-padding: 6px;
+    padding: 6px;
+}
+
 /* Color of the text selection within the editor */
 .code-area .selection {
     -fx-fill: #264f78;
