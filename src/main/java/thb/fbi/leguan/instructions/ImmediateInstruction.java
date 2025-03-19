@@ -33,7 +33,7 @@ public class ImmediateInstruction extends Instruction {
      */
     public String getMachineCodeString(InstructionArguments args) {
         String s = "";
-        s = MachineCodeTranslator.convertToMachineCode(opcode, 10);
+        s = MachineCodeTranslator.convertOpCodeToBinary(opcode, 10);
         s += " " + MachineCodeTranslator.convertToMachineCode(args.getAlu_Immediate(), 12);
         s += " " + MachineCodeTranslator.convertToMachineCode(args.getRn().getID(), 5);
         s += " " + MachineCodeTranslator.convertToMachineCode(args.getRd().getID(), 5);

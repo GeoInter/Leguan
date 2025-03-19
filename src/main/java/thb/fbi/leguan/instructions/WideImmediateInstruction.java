@@ -35,7 +35,7 @@ public class WideImmediateInstruction extends Instruction {
      */
     public String getMachineCodeString(InstructionArguments args) {
         String s = "";
-        s = MachineCodeTranslator.convertToMachineCode(opcode, 11);
+        s = MachineCodeTranslator.convertOpCodeToBinary(opcode, 11);
         s += " " + MachineCodeTranslator.convertToMachineCode(args.getAlu_Immediate(), 16);
         s += " " + MachineCodeTranslator.convertToMachineCode(args.getRd().getID(), 5);
         return s;

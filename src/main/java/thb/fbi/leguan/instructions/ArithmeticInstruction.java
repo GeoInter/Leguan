@@ -34,7 +34,7 @@ public class ArithmeticInstruction extends Instruction {
      */
     public String getMachineCodeString(InstructionArguments args) {
         String s = "";
-        s = MachineCodeTranslator.convertToMachineCode(opcode, 11);
+        s = MachineCodeTranslator.convertOpCodeToBinary(opcode, 11);
         if(args.getRm() != null) {
             s += " " + MachineCodeTranslator.convertToMachineCode(args.getRm().getID(), 5);
         } else {

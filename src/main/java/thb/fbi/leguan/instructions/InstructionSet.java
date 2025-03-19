@@ -1,7 +1,10 @@
 package thb.fbi.leguan.instructions;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Formatter;
+import java.util.List;
 import java.util.TreeSet;
 
 import thb.fbi.leguan.simulation.FlagRegister;
@@ -54,7 +57,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ImmediateInstruction("ADDI",
-                        0b1001000100,
+                        0b10010001000,
                         "Adds value of Registers Rm and a constant and puts result in Rd without flags",
                         new IImmediateCode() {
                             @Override
@@ -67,7 +70,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ImmediateInstruction("ADDIS",
-                        0b1011000100,
+                        0b10110001000,
                         "Adds value of Registers Rm and a constant and puts result in Rd with flags",
                         new IImmediateCode() {
                             @Override
@@ -116,7 +119,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ImmediateInstruction("ANDI",
-                        0b1001001000,
+                        0b10010010000,
                         "AND Immediate",
                         new IImmediateCode() {
                             @Override
@@ -130,7 +133,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ImmediateInstruction("ANDIS",
-                        0b1111001000,
+                        0b11110010000,
                         "AND Immediate and Flags",
                         new IImmediateCode() {
                             @Override
@@ -163,7 +166,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new BranchInstruction("B",
-                        0b000101,
+                        0b00010100000,
                         "Branch",
                         new IBranchCode() {
                             @Override
@@ -174,7 +177,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ConditionalBranchInstruction("B.EQ",
-                        0b01010100,
+                        0b01010100000,
                         "Branch Signed Equals",
                         new IConditionalBranchCode() {
                             @Override
@@ -190,7 +193,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ConditionalBranchInstruction("B.NE",
-                        0b01010100,
+                        0b01010100000,
                         "Branch Signed Not Equals",
                         new IConditionalBranchCode() {
                             @Override
@@ -206,7 +209,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ConditionalBranchInstruction("B.LT",
-                        0b01010100,
+                        0b01010100000,
                         "Branch Signed Less Than",
                         new IConditionalBranchCode() {
                             @Override
@@ -222,7 +225,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ConditionalBranchInstruction("B.LE",
-                        0b01010100,
+                        0b01010100000,
                         "Branch Signed Less Equals",
                         new IConditionalBranchCode() {
                             @Override
@@ -238,7 +241,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ConditionalBranchInstruction("B.GT",
-                        0b01010100,
+                        0b01010100000,
                         "Branch Signed Greater Than",
                         new IConditionalBranchCode() {
                             @Override
@@ -254,7 +257,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ConditionalBranchInstruction("B.GE",
-                        0b01010100,
+                        0b01010100000,
                         "Branch Signed Greater Equals",
                         new IConditionalBranchCode() {
                             @Override
@@ -270,7 +273,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ConditionalBranchInstruction("B.MI",
-                        0b01010100,
+                        0b01010100000,
                         "Branch on Minus",
                         new IConditionalBranchCode() {
                             @Override
@@ -286,7 +289,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ConditionalBranchInstruction("B.PL",
-                        0b01010100,
+                        0b01010100000,
                         "Branch on Plus",
                         new IConditionalBranchCode() {
                             @Override
@@ -302,7 +305,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ConditionalBranchInstruction("B.VS",
-                        0b01010100,
+                        0b01010100000,
                         "Branch on Overflow set",
                         new IConditionalBranchCode() {
                             @Override
@@ -318,7 +321,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ConditionalBranchInstruction("B.VC",
-                        0b01010100,
+                        0b01010100000,
                         "Branch on Overflow clear",
                         new IConditionalBranchCode() {
                             @Override
@@ -334,7 +337,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new BranchInstruction("BL",
-                        0b100101,
+                        0b10010100000,
                         "Branch with Link",
                         new IBranchCode() {
                             @Override
@@ -361,7 +364,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ConditionalBranchInstruction("CBNZ",
-                        0b10110101,
+                        0b10110101000,
                         "Compare and Branch if not Zero",
                         new IConditionalBranchCode() {
                             @Override
@@ -377,7 +380,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ConditionalBranchInstruction("CBZ",
-                        0b10110100,
+                        0b10110100000,
                         "Compare and Branch if Zero",
                         new IConditionalBranchCode() {
                             @Override
@@ -408,7 +411,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ImmediateInstruction("EORI",
-                        0b1101001000,
+                        0b11010010000,
                         "Exclusive OR between Register and Immediate",
                         new IImmediateCode() {
                             @Override
@@ -521,7 +524,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new WideImmediateInstruction("MOVK",
-                        0b111100101,
+                        0b11110010100,
                         "Move wide with keep",
                         new IWideImmediateCode() {
                             @Override
@@ -536,7 +539,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new WideImmediateInstruction("MOVZ",
-                        0b110100101,
+                        0b11010010100,
                         "Move wide with zeroes",
                         new IWideImmediateCode() {
                             @Override
@@ -564,7 +567,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ImmediateInstruction("ORRI",
-                        0b1011001000,
+                        0b10110010000,
                         "Inclusive OR between Register and Immediate",
                         new IImmediateCode() {
                             @Override
@@ -664,7 +667,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ImmediateInstruction("SUBI",
-                        0b1101000100,
+                        0b11010001000,
                         "Subtracts value of Registers Rm and a constant and puts result in Rd without flags",
                         new IImmediateCode() {
                             @Override
@@ -677,7 +680,7 @@ public class InstructionSet {
 
         instructionSet.add(
                 new ImmediateInstruction("SUBIS",
-                        0b1111000100,
+                        0b11110001000,
                         "Subtracts value of Registers Rm and a constant and puts result in Rd without flags",
                         new IImmediateCode() {
                             @Override
@@ -826,12 +829,15 @@ public class InstructionSet {
         if (instructionSet == null)
             return null;
 
+        List<Instruction> sortInstructions = new ArrayList<Instruction>(instructionSet);
+        sortInstructions.sort(Comparator.comparing(Instruction::getOpcode));
+
         // int LEGv8InstrNr = 36;
         try (Formatter formatter = new Formatter()) {
             // formatter.format("\nSize: %d / %d\n\n", instructionSet.size(), LEGv8InstrNr);
-            formatter.format("%-15s %-30s %-15s\n", "Name", "Format", "Description");
-            for (Instruction ins : instructionSet) {
-                formatter.format("%-7s %-30s %-60s\n", ins.getMnemonic(), ins.getClass().getSimpleName(),
+            formatter.format("%-15s %-15s %-30s %-15s\n", "Opcode", "Name", "Format", "Description");
+            for (Instruction ins : sortInstructions) {
+                formatter.format("%-7s %-7s %-30s %-60s\n", Long.toHexString(ins.getOpcode()), ins.getMnemonic(), ins.getClass().getSimpleName(),
                         ins.getDescription());
             }
             return formatter.toString();

@@ -29,7 +29,7 @@ public class BranchInstruction extends Instruction {
      */
     public String getMachineCodeString(InstructionArguments args) {
         String s = "";
-        s = MachineCodeTranslator.convertToMachineCode(opcode, 6);
+        s = MachineCodeTranslator.convertOpCodeToBinary(opcode, 6);
         s += " " + MachineCodeTranslator.convertToMachineCode(args.getBr_Address(), 26);
         return s;
     }

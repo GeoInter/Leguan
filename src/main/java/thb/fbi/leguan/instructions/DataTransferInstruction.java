@@ -33,7 +33,7 @@ public class DataTransferInstruction extends Instruction {
      */
     public String getMachineCodeString(InstructionArguments args) {
         String s = "";
-        s = MachineCodeTranslator.convertToMachineCode(opcode, 11);
+        s = MachineCodeTranslator.convertOpCodeToBinary(opcode, 11);
         s += " " + MachineCodeTranslator.convertToMachineCode(args.getDt_Address(), 9);
         s += " 00 "; // opcode not used, therefore always 0
         s += " " + MachineCodeTranslator.convertToMachineCode(args.getRn().getID(), 5);

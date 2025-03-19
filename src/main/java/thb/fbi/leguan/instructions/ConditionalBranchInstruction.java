@@ -31,7 +31,7 @@ public class ConditionalBranchInstruction extends Instruction {
      */
     public String getMachineCodeString(InstructionArguments args) {
         String s = "";
-        s = MachineCodeTranslator.convertToMachineCode(opcode, 8);
+        s = MachineCodeTranslator.convertOpCodeToBinary(opcode, 8);
         s += " " + MachineCodeTranslator.convertToMachineCode(args.getCond_Br_Address(), 19);
         if (args.getRt() == null) { // instructions that not use RT but condition codes like B.EQ, B.LT
             s += " " + getMachineCodeForConditionCode(this.mnemonic);
