@@ -14,7 +14,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SplitPane;
-import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
@@ -55,8 +54,6 @@ public class SimulatorController {
 
     @FXML
     SplitPane splitPane;
-    @FXML
-    Tab combinedTab;
     @FXML
     SplitPane combinedTab_SplitPane;
     @FXML
@@ -282,8 +279,8 @@ public class SimulatorController {
      */
     private void switchStylesheets(String css) {
         Scene scene = registerPane.getScene();
-        scene.getStylesheets().remove(1); // remove except for base
-        scene.getStylesheets().add(this.getClass().getResource("/thb/fbi/leguan/css/" + css).toExternalForm());
+        scene.getStylesheets().remove(scene.getStylesheets().size()-1);
+        scene.getStylesheets().add(this.getClass().getResource("/thb/fbi/leguan/css/themes/" + css).toExternalForm());
         pipelineVisualizer.switchCSS(css);
     }
 

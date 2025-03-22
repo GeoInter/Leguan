@@ -124,22 +124,6 @@
                               <fx:include fx:id="memory" source="Memory.fxml" />
                            </content>
                         </Tab>
-                        <Tab fx:id="combinedTab" text="%splitpane.Tab.Both">
-                           <content>
-                              <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity">
-                                 <children>
-                                    <SplitPane id="combined_tab_splitPane" fx:id="combinedTab_SplitPane" dividerPositions="0.5" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                       <items>
-                                          <!-- content from RegisterPane.fxml included here -->
-                                          <fx:include fx:id="registerPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" source="RegisterPane.fxml" HBox.hgrow="ALWAYS" />
-                                          <!-- content from Memory.fxml included here -->
-                                          <fx:include fx:id="memory" source="Memory.fxml" HBox.hgrow="ALWAYS" />
-                                       </items>
-                                    </SplitPane>
-                                 </children>
-                              </AnchorPane>
-                           </content>
-                        </Tab>
                     </tabs>
                   </TabPane>              
                </children>
