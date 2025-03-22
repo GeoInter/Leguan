@@ -12,7 +12,6 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
@@ -75,7 +74,7 @@
               <buttons>
                   <Button fx:id="assembleButton" mnemonicParsing="false" onAction="#assembleCode" styleClass="simulator-button" text="%buttonbar.Assemble">
                      <graphic>
-                        <Circle id="codeStatus_changed" fx:id="assembleIdicator" fill="DODGERBLUE" radius="7.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Circle id="codeStatus_changed" fx:id="assembleIndicator" fill="DODGERBLUE" radius="7.0" stroke="BLACK" strokeType="INSIDE" />
                      </graphic></Button>
                   <Button fx:id="runButton" disable="true" mnemonicParsing="false" onAction="#runCode" styleClass="simulator-button" text="%buttonbar.Run" />
                   <Button fx:id="resetButton" mnemonicParsing="false" onAction="#reset" styleClass="simulator-button" text="%buttonbar.Reset" />
@@ -95,11 +94,8 @@
                <children>
                   <SplitPane fx:id="textSplitpane" dividerPositions="0.9" orientation="VERTICAL" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <items>
-                      <AnchorPane fx:id="codeAreaAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
-                           <children>
-                              <StackPane id="editor-stackpane" fx:id="codeStackPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                           </children>
-                        </AnchorPane>
+                      <!-- content from editor.fxml included here -->
+                     <fx:include fx:id="editor" source="editor.fxml" />
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                            <children>
                               <TextArea id="console" fx:id="console" editable="false" prefHeight="200.0" prefWidth="200.0" promptText="No errors" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
