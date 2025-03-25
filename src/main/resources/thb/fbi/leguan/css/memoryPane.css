@@ -1,0 +1,16 @@
+.memory-button {
+    -fx-background-color: -fx-element-color;
+    -fx-opacity: 1.0;
+}
+
+.memory-button:hover {
+    -fx-background-color: -button-hover;
+}
+
+.memory-button:disabled {
+    -fx-background-color: -main-theme-color;
+}
+
+#memory-vbox {
+    -fx-background-color: -fx-secondary-color; /* light f1f1f1 */
+}

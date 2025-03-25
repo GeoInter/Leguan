@@ -40,7 +40,18 @@ public class App extends Application {
 
         scene = new Scene(root);
         scene.getStylesheets().add(this.getClass().getResource("/thb/fbi/leguan/css/base.css").toExternalForm());
-        scene.getStylesheets().add(this.getClass().getResource("/thb/fbi/leguan/css/light.css").toExternalForm());
+        scene.getStylesheets().add(this.getClass().getResource("/thb/fbi/leguan/css/buttons.css").toExternalForm());
+        scene.getStylesheets().add(this.getClass().getResource("/thb/fbi/leguan/css/editor.css").toExternalForm());
+        scene.getStylesheets().add(this.getClass().getResource("/thb/fbi/leguan/css/images.css").toExternalForm());
+        scene.getStylesheets().add(this.getClass().getResource("/thb/fbi/leguan/css/memoryPane.css").toExternalForm());
+        scene.getStylesheets().add(this.getClass().getResource("/thb/fbi/leguan/css/registerPane.css").toExternalForm());
+        scene.getStylesheets().add(this.getClass().getResource("/thb/fbi/leguan/css/scrolling.css").toExternalForm());
+        scene.getStylesheets().add(this.getClass().getResource("/thb/fbi/leguan/css/syntax.css").toExternalForm());
+        scene.getStylesheets().add(this.getClass().getResource("/thb/fbi/leguan/css/tab.css").toExternalForm());
+        scene.getStylesheets().add(this.getClass().getResource("/thb/fbi/leguan/css/table.css").toExternalForm());
+        scene.getStylesheets().add(this.getClass().getResource("/thb/fbi/leguan/css/visualizer.css").toExternalForm());
+
+        scene.getStylesheets().add(this.getClass().getResource("/thb/fbi/leguan/css/themes/light.css").toExternalForm());
 
         App.stage.setScene(scene);
         App.stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/thb/fbi/leguan/images/leguan.png")));

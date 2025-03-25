@@ -78,8 +78,8 @@ public class PipelineVisualizerAdapter implements ILeguanTools {
     public void switchCSS(String newCSS) {
         if(this.stage != null) {
             Scene scene = this.stage.getScene();
-            scene.getStylesheets().remove(1);
-            scene.getStylesheets().add(this.getClass().getResource("/thb/fbi/leguan/css/" + newCSS).toExternalForm());
+            scene.getStylesheets().remove(scene.getStylesheets().size()-1); // remove latest added css (theme)
+            scene.getStylesheets().add(this.getClass().getResource("/thb/fbi/leguan/css/themes/" + newCSS).toExternalForm());
         }
     }
     

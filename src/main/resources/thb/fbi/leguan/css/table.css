@@ -1,0 +1,64 @@
+/** color the (sort) arrow of table */
+.table-view .column-header .arrow {
+    -fx-background-color: -fx-text-fill;
+}
+
+/** add slight dividers between headers */
+.table-view .column-header {
+    -fx-border-color: -fx-text-fill;
+    -fx-border-width: 0.3;
+}
+
+.table-view {
+    -fx-table-cell-border-color: -fx-text-fill;
+}
+
+/** remove corner of header section */
+.table-view .column-header-background .filler, .table-view .corner {
+    -fx-background-color: -fx-element-color;
+}
+
+/** color the scroll bar background and thumb */
+.table-view .scroll-bar {
+    -fx-background-color: -inverted-text-color;
+}
+.table-view .scroll-bar .thumb {
+    -fx-background-color: -scrollbar-divider-color;
+}
+
+.table-cell {
+    -fx-text-fill: -fx-textcolor;
+    -fx-border-color: -fx-text-fill;
+    -fx-border-width: 0.3;
+}
+
+.table-view .placeholder {
+    -fx-background-color: -table-view;
+}
+
+.table-row-cell:empty {
+    -fx-background-color: -table-view;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: -table-view;
+}
+
+.table-row-cell:even {
+    -fx-background-color: -table-row-even;
+}
+
+.list-cell:even,
+.list-cell:odd,
+.table-row-cell:even,
+.table-row-cell:odd{    
+    -fx-control-inner-background: derive(-fx-base, 15%);
+}
+
+.table-row-cell.highlight-memory {
+    -fx-background-color: -line-highlight-color;
+}
+
+.column-header {
+    -fx-background-color: -table-view;
+}

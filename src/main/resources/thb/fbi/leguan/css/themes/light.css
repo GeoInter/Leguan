@@ -1,0 +1,65 @@
+.root {
+    -fx-main-color: white;
+    -fx-secondary-color: #ececec;
+    -fx-tertiary-color: lightgrey;
+    -fx-menubar-color: #dddddd;
+    -main-theme-color: #99e550;
+    -secondary-theme-color: #8ecf51;
+    -tertiary-theme-color: #7fb34c;
+    -fx-element-color: rgb(165, 165, 165);
+    -scrollbar-divider-color: #adadad;
+
+    -button-hover: #ffffff;
+    -toggle-button: rgb(201, 201, 201);
+
+    -fx-background-color: -fx-main-color;
+    background-color: -fx-main-color;
+    -fx-text-fill: black;
+    -inverted-text-color: white;
+    -fx-textcolor: black;
+
+    -text-selection-color: #add6ff;
+    -line-highlight-color: #ffffba;
+
+    -table-row-even: #e0e0e0;
+    -table-view: #f1f1f1;
+
+    -visualizer-main-color: #497fac;
+    -visualizer-button-color: #469ee6;
+    -visualizer-button-hover: #cce8ff;
+    -visualizer-titled-pane: #5a9cd1;
+    -visualizer-choice-box: #3992db;
+    -visualizer-sub-choice-box: #adadad;
+}
+
+
+/* Syntax Highlight Colors*/
+.instruction {
+    -fx-fill: #be8126 !important;
+}
+
+.register {
+    -fx-fill: #248673 !important;
+}
+
+.jump-label {
+    -fx-fill: #af00db !important;
+}
+
+.number {
+    -fx-fill: #26aad7 !important;
+}
+
+.datatype {
+    -fx-fill: #1e42b8 !important;
+}
+
+.segment-variable {
+    -fx-fill: #b80ca1 !important;
+}
+
+.error {
+    -rtfx-underline-color: red;
+    -rtfx-underline-wave-radius: 5;
+    -rtfx-underline-width: 1.2;
+}

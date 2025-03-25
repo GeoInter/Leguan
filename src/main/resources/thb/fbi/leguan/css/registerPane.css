@@ -1,0 +1,52 @@
+#register-anchor-pane {
+    -fx-background-color: -fx-tertiary-color;
+}
+
+#register-vbox {
+    -fx-background-color: -fx-tertiary-color;
+}
+
+#register-pane {
+    -fx-background-color: -fx-tertiary-color;
+}
+
+.register-titleBar {
+    -fx-border-color: rgb(165, 165, 165); /* light #adadad */
+    -fx-border-width: 0 0 1 0;
+}
+
+.register-container {
+    -fx-background-color: -fx-secondary-color; /* f1f1f1 */
+}
+
+#register-scrollpane {
+    -fx-border-color: lightgrey;
+    -fx-border-insets: 1 0 0 0;
+}
+
+#register-title {
+    -fx-background-color: -fx-element-color;
+}
+
+#register-value-button {
+    -fx-background-color: -fx-element-color;
+    -fx-opacity: 1.0;
+    -fx-background-radius: 0;
+}
+
+#register-value-button:hover {
+    -fx-background-color: -button-hover;
+}
+
+#register-value-button:disabled {
+    -fx-background-color: -main-theme-color;
+}
+
+/* Flag Regsiter HBox */
+.flag-register {
+    -fx-background-color: -fx-secondary-color;
+}
+
+#highlight-value {
+    -fx-background-color: -line-highlight-color;
+}

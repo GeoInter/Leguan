@@ -1,0 +1,39 @@
+.tab {
+    -fx-background-color: -fx-element-color;
+    -fx-background-radius: 0;
+}
+
+.tab:selected {
+    -fx-background-color: -main-theme-color;
+}
+
+.tab:selected:hover { /* override hover effect if tab is already selected */
+    -fx-background-color: -main-theme-color;
+}
+
+.tab-header-background {
+    -fx-background-color: -fx-secondary-color; /* lightgrey in light */
+}
+
+.tab-pane {
+    -fx-background-color: lightgrey;
+    -fx-padding: 0 -1 -1 -1;
+}
+
+
+.tab-down-button {
+    -fx-padding: 0;
+}
+    
+.tab-down-button .arrow {
+    -fx-padding: 0;
+}
+
+/* Text color */
+.tab .tab-label {
+    -fx-text-fill: -fx-textcolor;
+}
+
+.tab:hover {
+    -fx-background-color: -button-hover;
+}

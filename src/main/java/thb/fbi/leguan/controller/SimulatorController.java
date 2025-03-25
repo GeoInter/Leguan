@@ -145,7 +145,10 @@ public class SimulatorController {
 
         pipelineVisualizer = new PipelineVisualizerAdapter();
         pipelineVisualizer.addInitCSS("/thb/fbi/leguan/css/base.css");
-        pipelineVisualizer.addInitCSS("/thb/fbi/leguan/css/light.css");
+        pipelineVisualizer.addInitCSS("/thb/fbi/leguan/css/buttons.css");
+        pipelineVisualizer.addInitCSS("/thb/fbi/leguan/css/table.css");
+        pipelineVisualizer.addInitCSS("/thb/fbi/leguan/css/visualizer.css");
+        pipelineVisualizer.addInitCSS("/thb/fbi/leguan/css/themes/light.css");
 
         // following gets called when app is about to be closed 
         App.getStage().setOnCloseRequest(event -> {
@@ -279,7 +282,7 @@ public class SimulatorController {
      */
     private void switchStylesheets(String css) {
         Scene scene = registerPane.getScene();
-        scene.getStylesheets().remove(scene.getStylesheets().size()-1);
+        scene.getStylesheets().remove(scene.getStylesheets().size()-1); // remove latest added css (theme)
         scene.getStylesheets().add(this.getClass().getResource("/thb/fbi/leguan/css/themes/" + css).toExternalForm());
         pipelineVisualizer.switchCSS(css);
     }

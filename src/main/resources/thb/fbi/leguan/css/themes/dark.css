@@ -1,0 +1,65 @@
+.root {
+    -fx-main-color: #1e1e1e;
+    -fx-secondary-color: #252526;
+    -fx-tertiary-color: #323232;
+    -fx-menubar-color: #3c3c3c;
+    -main-theme-color: #93d654;
+    -secondary-theme-color: #84bd4f;
+    -tertiary-theme-color: #74a048;
+    -fx-element-color: #6d6e6a;
+    -scrollbar-divider-color: #414141;
+
+    -button-hover: #c4c4c4;
+    -toggle-button: #6d6e6a;
+
+    -fx-background-color: -fx-main-color;
+    background-color: -fx-main-color;
+    -fx-text-fill: white;
+    -inverted-text-color: black;
+    -fx-textcolor: white;
+
+    -text-selection-color: #264f78;
+    -line-highlight-color: #727224;
+
+    -table-row-even: #929292;
+    -table-view: #80817c;
+
+    -visualizer-main-color: #497fac;
+    -visualizer-button-color: #3992db;
+    -visualizer-button-hover: #acc4d8;
+    -visualizer-titled-pane: #5a9cd1;
+    -visualizer-choice-box: #3992db;
+    -visualizer-sub-choice-box: rgb(165, 165, 165);
+}
+
+
+/* Syntax Highlight Colors*/
+.instruction {
+    -fx-fill: #dccd79 !important;
+}
+
+.register {
+    -fx-fill: #4ec9b0 !important;
+}
+
+.jump-label {
+    -fx-fill: #c586c0ed !important;
+}
+
+.number {
+    -fx-fill: #569cd6 !important;
+}
+
+.datatype {
+    -fx-fill: #6f66c0 !important;
+}
+
+.segment-variable {
+    -fx-fill: #cc5abd !important;
+}
+
+.error {
+    -rtfx-underline-color: red;
+    -rtfx-underline-wave-radius: 5;
+    -rtfx-underline-width: 1.2;
+}

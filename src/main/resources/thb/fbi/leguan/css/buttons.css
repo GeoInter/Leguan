@@ -1,0 +1,54 @@
+.button {
+    -fx-text-fill: -fx-textcolor;
+}
+
+#button-bar {
+    -fx-background-color: -tertiary-theme-color;
+}
+
+.menu-bar, 
+.menu-button, 
+.menu, 
+.context-menu {
+    -fx-background-color: -fx-menubar-color;
+}
+
+.menu-item {
+    -fx-background-color: -fx-menubar-color;
+    -fx-text-fill: -fx-textcolor;
+}
+
+.menu-item:focused {
+    -fx-background-color: -main-theme-color;
+}
+
+#filter-button {
+    -fx-background-color: -main-theme-color;
+}
+
+.simulator-button {
+    -fx-background-color: -main-theme-color;
+    -fx-font-size: 13px;
+    -fx-effect: dropshadow(one-pass-box, rgba(0, 0, 0, 0.3), 10, 0.1, 0, 0);
+}
+
+.simulator-button:hover {
+    -fx-background-color: -button-hover;
+}
+
+.simulator-bar {
+    -fx-background-color: -fx-secondary-color;
+}
+
+.toggle-button {
+    -fx-text-fill: -fx-textcolor;
+    -fx-background-color: -toggle-button;
+}
+
+.toggle-button:hover {
+    -fx-background-color: -button-hover;
+}
+
+.toggle-button:selected {
+    -fx-background-color: -main-theme-color;
+}

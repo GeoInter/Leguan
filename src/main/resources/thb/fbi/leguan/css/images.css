@@ -1,0 +1,9 @@
+#codeStatus_assembled {
+    -fx-fill: #3992db;
+    fill: #3992db;
+}
+
+#codeStatus_changed {
+    -fx-fill: #e94726;
+    fill: #e94726;
+}

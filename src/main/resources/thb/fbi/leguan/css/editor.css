@@ -1,0 +1,45 @@
+.code-area .selection {
+    -fx-fill: #add6ff;
+    fill: #add6ff;
+}
+
+.styled-text-area .paragraph-text .text {
+    -fx-font-size: 14px;
+    font-size: 14px;
+    -fx-fill: -fx-textcolor;
+    fill: -fx-textcolor;
+}
+
+/* aka cursor */
+.caret {
+    -fx-stroke: -fx-text-fill;
+}
+
+.line-highlighter {
+    -fx-fill: none;
+    -fx-stroke: -line-highlight-color;
+    -fx-stroke-width: 1;
+    -fx-stroke-line-cap: square;
+}
+
+#highlight-code {
+    -fx-opacity: 0.5;
+    -fx-fill: -line-highlight-color;
+}
+
+/* Linenumber Factory */
+.lineno {
+    -fx-background-color: -fx-main-color;
+    background-color: -fx-main-color;
+    -fx-text-fill: -fx-textcolor;
+    -fx-border-width: 0 1 0 0; 
+    border-width: 0 1 0 0;
+    -fx-border-color: -scrollbar-divider-color;
+    border-color: -scrollbar-divider-color;
+    -fx-font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.text-area {
+    -fx-text-fill: -fx-textcolor;
+}

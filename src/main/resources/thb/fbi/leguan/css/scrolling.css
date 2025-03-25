@@ -1,0 +1,36 @@
+.scroll-bar:vertical .thumb {
+    -fx-background-color: -scrollbar-divider-color;
+    background-color: -scrollbar-divider-color;
+}
+
+.scroll-bar .track {
+    -fx-fill: transparent;
+    fill: transparent;
+}
+
+.scroll-bar:vertical *.increment-button,
+.scroll-bar:vertical *.decrement-button {
+    -fx-background-color: transparent;
+    background-color: transparent;
+}
+
+.scroll-bar:vertical .track,
+.scroll-bar:vertical .track {
+    -fx-background-color :transparent;
+    background-color: transparent;
+    -fx-border-color :transparent;
+    border-color:  transparent;
+    -fx-background-radius : 0.0em;
+    -fx-border-radius :2.0em;
+    border-radius: 2.0em;
+}
+
+.scroll-pane {
+    -fx-background-color:transparent;
+    background-color: transparent;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+    background-color: transparent;
+}

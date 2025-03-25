@@ -1,0 +1,29 @@
+.pipe-button-bar {
+    -fx-background-color: -visualizer-main-color;
+}
+
+.pipe-simulator-button {
+    -fx-background-color: -visualizer-button-color;
+    -fx-font-size: 13px;
+    -fx-effect: dropshadow(one-pass-box, rgba(0, 0, 0, 0.3), 10, 0.1, 0, 0);
+}
+
+.pipe-simulator-button:hover, .choice-box:hover {
+    -fx-background-color: -visualizer-button-hover;
+}
+
+.pipe-titled-pane > .title {
+    -fx-background-color: -visualizer-titled-pane;
+}
+
+.choice-box .menu-item:focused { 
+    -fx-background-color: -visualizer-choice-box; 
+}
+
+.pipe_vis_sidebar {
+    -fx-background-color: -fx-tertiary-color;
+}
+
+.hazard-choice-box {
+    -fx-background-color: rgb(165, 165, 165);
+}
