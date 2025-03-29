@@ -29,39 +29,39 @@ public class ALU implements Serializable {
         } else if (ALUOp == 2) { // (10) operation determined by opcode field
             int result = 0;
             switch (opcode) {
-                case 1691: // 0x69B LSL (11bit)
+                case 0x69B: // 1691 (decimal) LSL (11bit)
                     result = A << B;
                     break;
-                case 1690: // 0x69A LSR (11bit)
+                case 0x69A: // 1690 (decimal) LSR (11bit)
                     result = A >>> B;
                     break;
-                case 1240: // 0x4D8 MUL (11bit)
+                case 0x4D8: // 1240 (decimal) MUL (11bit)
                     result = A * B;
                     break;
-                case 1112: // 0x458 ADD (11bit)
-                case 580: // 0x488 ADDI (10bit)
-                case 1368: // 0x558 ADDS (11bit)
-                case 708: // 0x588 ADDIS (10bit)
+                case 0x458: // 1112 (decimal) ADD (11bit)
+                case 0x488: // 580 (decimal) ADDI (10bit)
+                case 0x558: // 1368 (decimal) ADDS (11bit)
+                case 0x588: // 708 (decimal) ADDIS (10bit)
                     result = A + B;
                     break;
-                case 1624: // 0x658 SUB (11bit)
-                case 836: // 0x688 SUBI (10bit)
-                case 1880: // 0x758 SUBS (11bit)
-                case 964: // 0x788 SUBIS (10bit)
+                case 0x658: // 1624 (decimal) SUB (11bit)
+                case 0x688: // 836 (decimal) SUBI (10bit)
+                case 0x758: // 1880 (decimal) SUBS (11bit)
+                case 0x788: // 964 (decimal) SUBIS (10bit)
                     result = A - B;
                     break;
-                case 1104: // 0x450 AND (11bit)
-                case 584: // 0x490 ANDI (10bit)
-                case 1872: // 0x750 ANDS (11bit)
-                case 968: // 0x790 ANDIS (10bit)
+                case 0x450: // 1104 (decimal) AND (11bit)
+                case 0x490: // 584 (decimal) ANDI (10bit)
+                case 0x750: // 1872 (decimal) ANDS (11bit)
+                case 0x790: // 968 (decimal) ANDIS (10bit)
                     result = A & B;
                     break;
-                case 1360: // 0x550 ORR (11bit)
-                case 712: // 0x590 ORRI (10bit)
+                case 0x550: // 1360 (decimal) ORR (11bit)
+                case 0x590: // 712 (decimal) ORRI (10bit)
                     result = A | B;
                     break;
-                case 1616: // 0x650 EOR (11bit)
-                case 840: // 0x690 EORI (10bit)
+                case 0x650: // 1616 (decimal) EOR (11bit)
+                case 0x690: // 840 (decimal) EORI (10bit)
                     result = A ^ B;
                     break;
             }
