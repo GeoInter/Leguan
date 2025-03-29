@@ -2,22 +2,19 @@ package thb.fbi.pipeline_visualizer;
 
 import java.net.URL;
 
-import java.util.List;
-import java.util.ArrayList;
-
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import thb.fbi.leguan.data.ARMProgram;
+import thb.fbi.leguan.service.ThemeService;
 import thb.fbi.leguan.utility.ILeguanTools;
 import thb.fbi.pipeline_visualizer.controller.PipelineVisualizerController;
 
 public class PipelineVisualizerAdapter implements ILeguanTools {
 
     private PipelineVisualizerController pipelineVisualizerController;
-    private List<String> cssFiles = new ArrayList<String>();
     private Stage stage;
 
     @Override
@@ -31,9 +28,9 @@ public class PipelineVisualizerAdapter implements ILeguanTools {
                 this.stage = new Stage();
                 
                 Scene scene = new Scene(pipelineVisualizer);
-                for(String css : cssFiles) {
-                    scene.getStylesheets().add(this.getClass().getResource(css).toExternalForm());
-                }
+                
+                ThemeService.applyCSS(scene);
+
                 this.stage.setScene(scene);
                 this.stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/thb/fbi/leguan/images/leguan.png")));
                 this.stage.setTitle("Pipeline-Visualizer");
@@ -70,16 +67,10 @@ public class PipelineVisualizerAdapter implements ILeguanTools {
     }
 
     @Override
-    public void addInitCSS(String cssFile) {
-        cssFiles.add(cssFile);
-    }
-
-    @Override
     public void switchCSS(String newCSS) {
         if(this.stage != null) {
             Scene scene = this.stage.getScene();
-            scene.getStylesheets().remove(scene.getStylesheets().size()-1); // remove latest added css (theme)
-            scene.getStylesheets().add(this.getClass().getResource("/thb/fbi/leguan/css/themes/" + newCSS).toExternalForm());
+            ThemeService.switchTheme(scene, newCSS);
         }
     }
     

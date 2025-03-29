@@ -23,6 +23,7 @@ import javafx.scene.shape.Circle;
 import javafx.stage.WindowEvent;
 import thb.fbi.leguan.App;
 import thb.fbi.leguan.parser.ParsingError;
+import thb.fbi.leguan.service.ThemeService;
 import thb.fbi.leguan.simulation.FlagRegister;
 import thb.fbi.leguan.simulation.Memory;
 import thb.fbi.leguan.simulation.Simulator;
@@ -144,11 +145,6 @@ public class SimulatorController {
         FileManager.init(editorController.getCodeArea());
 
         pipelineVisualizer = new PipelineVisualizerAdapter();
-        pipelineVisualizer.addInitCSS("/thb/fbi/leguan/css/base.css");
-        pipelineVisualizer.addInitCSS("/thb/fbi/leguan/css/buttons.css");
-        pipelineVisualizer.addInitCSS("/thb/fbi/leguan/css/table.css");
-        pipelineVisualizer.addInitCSS("/thb/fbi/leguan/css/visualizer.css");
-        pipelineVisualizer.addInitCSS("/thb/fbi/leguan/css/themes/light.css");
 
         // following gets called when app is about to be closed 
         App.getStage().setOnCloseRequest(event -> {
@@ -282,8 +278,7 @@ public class SimulatorController {
      */
     private void switchStylesheets(String css) {
         Scene scene = registerPane.getScene();
-        scene.getStylesheets().remove(scene.getStylesheets().size()-1); // remove latest added css (theme)
-        scene.getStylesheets().add(this.getClass().getResource("/thb/fbi/leguan/css/themes/" + css).toExternalForm());
+        ThemeService.switchTheme(scene, css);
         pipelineVisualizer.switchCSS(css);
     }
 
