@@ -344,7 +344,7 @@ public class InstructionSet {
                             public void simulate(int br_address, PCRegister pc) {
                                 Simulator simulator = SimulatorSingleton.getSimulator();
                                 Register R30 = simulator.getRegisters()[30];
-                                R30.setValue((pc.getValue() + 1) * 4); // internal pc value is not multiplied by 4
+                                R30.setValue((pc.getValue() + 4)); // internal pc value is not multiplied by 4
                                 pc.setValue(br_address);
                             }
                         }));
@@ -357,7 +357,6 @@ public class InstructionSet {
                             @Override
                             public void simulate(int cond_br_address, Register Rt, PCRegister pc) {
                                 long address = Rt.getValue();
-                                address /= 4; // pc shows multiple of 4, but internally uses one quarter of shownValue
                                 pc.setValue(address);
                             }
                         }));
