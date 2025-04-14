@@ -6,6 +6,14 @@
   <artifactId>Leguan</artifactId>
   <version>1.2</version>
 
+  <name>Leguan</name>
+  <description>A LEGv8 Instruction Set Simulator</description>
+  <inceptionYear>2023</inceptionYear>
+
+  <organization>
+    <name>Technische Hochschule Brandenburg</name>
+  </organization>
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>11</maven.compiler.source>
