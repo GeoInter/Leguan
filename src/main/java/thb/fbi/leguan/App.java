@@ -9,9 +9,12 @@ import javafx.stage.Stage;
 import thb.fbi.leguan.service.ThemeService;
 import thb.fbi.leguan.simulation.SimulatorSingleton;
 import thb.fbi.leguan.utility.ExecutorServiceProvider;
+import thb.fbi.leguan.utility.FileManager;
 import thb.fbi.leguan.utility.I18N;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.net.URL;
@@ -48,6 +51,15 @@ public class App extends Application {
         App.stage.setTitle("Leguan - a LEGv8 Simulator");
         App.stage.setMaximized(true);
         App.stage.show();
+
+        // ** Read in given parameters **
+        // Open given file after startup
+        Parameters params = getParameters();
+        List<String> list = params.getRaw();
+        if (list.size() > 0) {
+            // check if file is readable and openable
+            FileManager.loadFileIntoEditor(new File(list.get(0)));
+        }
     }
 
     static void setRoot(String fxml) throws IOException {
@@ -60,7 +72,7 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
-        launch();
+        launch(args);
     }
 
     @Override

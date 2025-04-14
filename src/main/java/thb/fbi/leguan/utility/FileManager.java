@@ -68,7 +68,7 @@ public class FileManager {
         fileChooser.setInitialDirectory(defaultDirectory);
         File selectedFile = fileChooser.showOpenDialog(App.getStage());
         if(selectedFile != null) {
-            getTextFromFile(selectedFile);
+            loadFileIntoEditor(selectedFile);
             return true;
         }
         return false;
@@ -111,7 +111,7 @@ public class FileManager {
             if(parentDir != null && parentDir.isDirectory()) {
                 fileChooser.setInitialDirectory(parentDir);
             }
-            saveDialog();
+            showSaveDialog();
         } else {
             saveFileAs();
         }
@@ -120,10 +120,10 @@ public class FileManager {
     public static void saveFileAs() {
         fileChooser.setInitialFileName(null);
         fileChooser.setInitialDirectory(defaultDirectory);
-        saveDialog();
+        showSaveDialog();
     }
 
-    private static void saveDialog() {
+    private static void showSaveDialog() {
         File selectedFile = fileChooser.showSaveDialog(App.getStage());
         if(selectedFile != null) {
             saveTextToFile(selectedFile);
@@ -152,17 +152,17 @@ public class FileManager {
      * sets content of specified file into codearea
      * @param file selected file to open
      */
-    private static void getTextFromFile(File file) {
+    public static void loadFileIntoEditor(File file) {
         try {
             String content = Files.readString(file.toPath());
             codeArea.replaceText(content);
             isSaved = true;
             currentFile = file;
-        } catch(IOException e) {
+        } catch (IOException e) {
             showErrorAlert("Could not read file", "File could not be read. Abort loading.");
-        } catch(OutOfMemoryError m) {
+        } catch (OutOfMemoryError m) {
             showErrorAlert("Invalid file size", "File too large to handle. Abort loading.");
-        } catch(SecurityException s) {
+        } catch (SecurityException s) {
             showErrorAlert("Cannot access file", "File cannot be accessed. Abort loading.");
         }
     }
