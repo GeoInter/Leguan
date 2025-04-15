@@ -3,12 +3,18 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>thb.fbi.leguan</groupId>
   <artifactId>Leguan</artifactId>
+  <name>Leguan</name>
   <version>1.2</version>
+  <description>A LEGv8 Instruction Set Simulator</description>
+  <inceptionYear>2023</inceptionYear>
+  <organization>
+    <name>Technische Hochschule Brandenburg</name>
+  </organization>
   <build>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.10.1</version>
+        <version>3.14.0</version>
         <configuration>
           <release>${maven.compiler.target}</release>
         </configuration>
@@ -28,7 +34,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>3.5.3</version>
+        <version>3.6.0</version>
         <executions>
           <execution>
             <phase>package</phase>
@@ -129,7 +135,7 @@
   <properties>
     <sys.java.home>${env.JAVA_HOME}</sys.java.home>
     <maven.compiler.source>11</maven.compiler.source>
-    <antlr.version>4.11.1</antlr.version>
+    <antlr.version>4.13.2</antlr.version>
     <maven.compiler.target>11</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <javafx.version>18</javafx.version>

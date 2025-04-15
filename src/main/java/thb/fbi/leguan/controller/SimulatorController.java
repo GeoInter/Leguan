@@ -1,9 +1,16 @@
 package thb.fbi.leguan.controller;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.ResourceBundle;
+
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -20,6 +27,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
+import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import thb.fbi.leguan.App;
 import thb.fbi.leguan.parser.ParsingError;
@@ -42,9 +50,9 @@ public class SimulatorController {
 
     @FXML
     RegisterPaneController registerPaneController; // bound via registerPane + Controller (automatically)
-    @FXML 
+    @FXML
     MemoryController memoryController; // bound via memory + Controller (automatically)
-    @FXML 
+    @FXML
     EditorController editorController;
     @FXML
     Parent registerPane;
@@ -146,7 +154,7 @@ public class SimulatorController {
 
         pipelineVisualizer = new PipelineVisualizerAdapter();
 
-        // following gets called when app is about to be closed 
+        // following gets called when app is about to be closed
         App.getStage().setOnCloseRequest(event -> {
             confirmClosing(event);
         });
@@ -287,12 +295,37 @@ public class SimulatorController {
         editorController.setIsEnabledLineHighlighter(isEnabled);
     }
 
+    @FXML
+    private void showAboutPage() throws IOException {
+        Stage stage = new Stage();
+        Locale locale = I18N.getDefaultLocale();
+        ResourceBundle bundle =
+        ResourceBundle.getBundle("thb/fbi/leguan/languages/language", locale);
+        
+        URL fxmlLocation = getClass().getResource("/thb/fbi/leguan/about.fxml");
+        Parent root = FXMLLoader.load(fxmlLocation, bundle);
+        
+        Scene scene = new Scene(root);
+        
+        ThemeService.applyCSS(scene);
+        
+        stage.setScene(scene);
+        stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/thb/fbi/leguan/images/leguan.png")));
+        stage.setTitle("Leguan - a LEGv8 Simulator");
+        stage.setAlwaysOnTop(true);
+        stage.setResizable(false);
+        stage.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if(!newValue) stage.close();
+        });
+        stage.show();
+    }
+
     /**
      * Prompts dialog for saving file
      */
     public void confirmClosing(WindowEvent event) {
         pipelineVisualizer.closeExtension();
-        if(! FileManager.isSaved()) {
+        if (!FileManager.isSaved()) {
             Alert alert = new Alert(AlertType.CONFIRMATION);
             alert.setTitle("Current project is modified");
             alert.setContentText("Save?");
@@ -301,10 +334,10 @@ public class SimulatorController {
             ButtonType cancelButton = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
             alert.getButtonTypes().setAll(okButton, noButton, cancelButton);
             alert.showAndWait().ifPresent(response -> {
-                if(response == okButton) {
+                if (response == okButton) {
                     FileManager.saveFile();
                     Platform.exit();
-                } else if(response == cancelButton) { 
+                } else if (response == cancelButton) {
                     // cancel closing
                     event.consume();
                 }
