@@ -75,10 +75,10 @@ public class FileManager {
     }
 
     /**
-     * opens a predefined example file and put file content in text editor
+     * opens a predefined example file (packaged in jar) and load file content into text editor
      * @return boolean indicating if new file was succesful opened or not
      */
-    public static void openExample(String exampleFile) {
+    public static void openExampleFile(String exampleFile) {
         if(! isSaved) {
             Alert alert = new Alert(AlertType.CONFIRMATION);
             alert.setTitle("Current project is modified");
@@ -99,19 +99,16 @@ public class FileManager {
             codeArea.replaceText(content);
         } catch (IOException e) {
             showErrorAlert("Could not read file", "File could not be read. Abort loading.");
-        } catch(OutOfMemoryError m) {
+        } catch (OutOfMemoryError m) {
             showErrorAlert("Invalid file size", "File too large to handle. Abort loading.");
+        } catch (Exception exception) {
+            showErrorAlert("Could not read file", "Unkown Error.");
         }
     }
 
     public static void saveFile() {
-        if(currentFile != null) {
-            fileChooser.setInitialFileName(currentFile.getName());
-            File parentDir = currentFile.getParentFile();
-            if(parentDir != null && parentDir.isDirectory()) {
-                fileChooser.setInitialDirectory(parentDir);
-            }
-            showSaveDialog();
+        if(currentFile != null && currentFile.exists()) {
+            saveTextToFile(currentFile);
         } else {
             saveFileAs();
         }
@@ -143,8 +140,10 @@ public class FileManager {
             writer.close();
         } catch (IOException e) {
             showErrorAlert("Error read/ writing file", "File could not be read/ saved to. Abort save.");
-        } catch(SecurityException s) {
+        } catch (SecurityException s) {
             showErrorAlert("File writing access denied", "Writing access of file denied. Abort save.");
+        } catch (Exception exception) {
+            showErrorAlert("Error read/ writing file", "Unkown Error.");   
         }
     }
 
@@ -164,6 +163,8 @@ public class FileManager {
             showErrorAlert("Invalid file size", "File too large to handle. Abort loading.");
         } catch (SecurityException s) {
             showErrorAlert("Cannot access file", "File cannot be accessed. Abort loading.");
+        } catch (Exception exception) {
+            showErrorAlert("Could not read file", "Unkown Error.");   
         }
     }
 
