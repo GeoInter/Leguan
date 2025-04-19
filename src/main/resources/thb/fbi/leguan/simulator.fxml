@@ -21,12 +21,12 @@
       <MenuBar>
         <menus>
           <Menu fx:id="file_Menu" mnemonicParsing="false" text="%menubar.File">
-            <items>
-              <MenuItem mnemonicParsing="false" text="New" />
-                  <MenuItem mnemonicParsing="false" onAction="#saveFile" text="Save" />
-                  <MenuItem mnemonicParsing="false" onAction="#saveFileAs" text="Save as" />
-                  <MenuItem mnemonicParsing="false" onAction="#openFile" text="Open" />
-            </items>
+               <items>
+                  <MenuItem mnemonicParsing="false" text="%menubar.File.New" />
+                  <MenuItem mnemonicParsing="false" onAction="#saveFile" text="%menubar.File.Save" />
+                  <MenuItem mnemonicParsing="false" onAction="#saveFileAs" text="%menubar.File.SaveAs" />
+                  <MenuItem mnemonicParsing="false" onAction="#openFile" text="%menubar.File.Open" />
+               </items>
           </Menu>
           <Menu disable="true" mnemonicParsing="false" text="%menubar.Edit" visible="false" />
           <Menu mnemonicParsing="false" text="%menubar.View">
