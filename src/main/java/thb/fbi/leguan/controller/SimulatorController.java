@@ -18,6 +18,10 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
 import javafx.stage.WindowEvent;
@@ -149,6 +153,30 @@ public class SimulatorController {
         // following gets called when app is about to be closed 
         App.getStage().setOnCloseRequest(event -> {
             confirmClosing(event);
+        });
+    }
+
+    /**
+     * Register key shortcuts/ Key Code Combinations for the whole scene
+     */
+    public void registerEventFilter() {
+        /**
+         * If a TextControl has focus, it will consume Key Events and Accelerator Events
+         * despite being set on different nodes. 
+         * To prevent these events being consumed else, add Event Filter to the whole scene,
+         * so that any node can be focused and the events will be still correctly handled.
+         */
+        App.getStage().getScene().addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+            if (new KeyCodeCombination(KeyCode.PLUS, KeyCombination.CONTROL_DOWN).match(event)) {
+                zoomIn();           
+                event.consume(); // Prevents propagation to avoid double-handling
+            } else if (new KeyCodeCombination(KeyCode.MINUS, KeyCombination.CONTROL_DOWN).match(event)) {
+                zoomOut();
+                event.consume();
+            } else if (new KeyCodeCombination(KeyCode.S, KeyCodeCombination.CONTROL_DOWN).match(event)) {
+                saveFile();
+                event.consume();
+            }
         });
     }
 
