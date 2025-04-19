@@ -44,6 +44,27 @@ public class EditorController {
 
     private EditorCanvas editorCanvas;
 
+    /** px = (96 / 72)pt
+     * 14px -> 16 
+     * 
+     * 
+     *  6pt -> 
+     *  7pt -> 
+     *  8pt -> 12 [constant, but half of next line]     | 10,66666666666666666667
+     *  9pt -> 15 [little bit off the bottom]           | 12
+     * 10pt -> 16 [little bit off the bottom]           | 13,33333333333333333333
+     * 11pt -> 19 [Default]                             | 14,66666666666666666667
+     * 12pt -> 19                                       | 16
+     * 13pt -> 20                                       | 17,33333333333333333333
+     * 14pt -> 23                                       | 18,66666666666666666667
+     * 15pt -> 
+     * 16pt -> 
+     */
+
+    // default font size in pt
+    private final short defaultFontSize = 11;
+    private short currentFontSize = defaultFontSize;
+
     private VirtualizedScrollPane<CodeArea> codeAreaScrollPane;
 
     private ExecutorService executorService;
@@ -81,10 +102,14 @@ public class EditorController {
         editorCanvas = new EditorCanvas(codeArea, codeAreaScrollPane);
         codeStackPane.getChildren().add(editorCanvas);
 
+        // TODO: Fix Event not being triggered
         codeArea.addEventFilter(ScrollEvent.ANY, scroll -> {
+            System.out.println("Scrolling Detected");
             editorCanvas.reposition(codeAreaScrollPane.getEstimatedScrollY(),
                     codeAreaScrollPane.getTotalHeightEstimate(), scroll.getDeltaY());
         });
+
+        restoreDefaultFontSize();
     }
 
     private Task<StyleSpans<Collection<String>>> computeHighlightingAsync() {
@@ -138,6 +163,10 @@ public class EditorController {
         return codeArea.getText();
     }
 
+    public VirtualizedScrollPane<CodeArea> getVirtualizedScrollPane() {
+        return codeAreaScrollPane;
+    }
+
     public void setAssembleIndicator(Circle assembleIndicator) {
         this.assembleIndicator = assembleIndicator;
     }
@@ -148,5 +177,24 @@ public class EditorController {
 
     public void setLineNumber(int lineNumber) {
         editorCanvas.setLineNumber(lineNumber);
+    }
+
+    public void increaseFontSize() {
+        currentFontSize++;
+        codeArea.setStyle("-fx-font-size: "+ currentFontSize +"pt;");
+        //editorCanvas.setCurrentLineHeight(codeArea.getCaretBounds().get().getHeight());
+    }
+
+    public void decreaseFontSize() {
+        currentFontSize--;
+        codeArea.setStyle("-fx-font-size: "+ currentFontSize +"pt;");
+        //editorCanvas.setCurrentLineHeight(codeArea.getCaretBounds().get().getHeight());
+    }
+
+    public void restoreDefaultFontSize() {
+        currentFontSize = defaultFontSize;
+        codeArea.setStyle("-fx-font-size: "+ currentFontSize +"pt;");
+        //if (codeArea.getCaretBounds().isPresent())
+        //    editorCanvas.setCurrentLineHeight(codeArea.getCaretBounds().get().getHeight());
     }
 }

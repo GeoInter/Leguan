@@ -16,13 +16,14 @@ public class EditorCanvas extends Pane {
     private Rectangle highlighRectangle;
     private VirtualizedScrollPane<CodeArea> scrollpane;
     /* estimated line height constant, depends on CSS sytling of codeArea text */
-    private final int estimatedLineHeight = 16;
+    private final double defaultLineHeight = 19;
+    private double currentLineHeight = defaultLineHeight;
 
     public EditorCanvas(CodeArea codeArea, VirtualizedScrollPane<CodeArea> scrollpane) {
         super();
         this.scrollpane = scrollpane;
         highlighRectangle = new Rectangle();
-        highlighRectangle.setHeight(18);
+        highlighRectangle.setHeight(currentLineHeight);
         highlighRectangle.widthProperty().bind(codeArea.widthProperty());
         highlighRectangle.setY(0);
         highlighRectangle.setId("highlight-code");
@@ -79,7 +80,15 @@ public class EditorCanvas extends Pane {
             scrollAmount = 0;
             scrollPosition = scrollPaneHeight - getHeight();
         }
-        double  newYPos = (this.lineNumber * estimatedLineHeight) - scrollPosition + scrollAmount;
+        double  newYPos = (this.lineNumber * currentLineHeight) - scrollPosition + scrollAmount;
         translateYProperty().set(newYPos);
+    }
+
+    public double getCurrentLineHeight() {
+        return currentLineHeight;
+    }
+
+    public void setCurrentLineHeight(double lineHeight) {
+        currentLineHeight = lineHeight;
     }
 }

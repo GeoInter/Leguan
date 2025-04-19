@@ -4,8 +4,6 @@
 }
 
 .styled-text-area .paragraph-text .text {
-    -fx-font-size: 14px;
-    font-size: 14px;
     -fx-fill: -fx-textcolor;
     fill: -fx-textcolor;
 }

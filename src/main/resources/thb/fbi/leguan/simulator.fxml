@@ -31,6 +31,9 @@
           <Menu disable="true" mnemonicParsing="false" text="%menubar.Edit" visible="false" />
           <Menu mnemonicParsing="false" text="%menubar.View">
                <items>
+                  <MenuItem mnemonicParsing="false" onAction="#zoomIn" text="%menubar.View.ZoomIn" />
+                  <MenuItem mnemonicParsing="false" onAction="#zoomOut" text="%menubar.View.ZoomOut" />
+                  <MenuItem mnemonicParsing="false" onAction="#restoreDefaultZoom" text="%menubar.View.DefaultZoom" />
                   <MenuItem mnemonicParsing="false" onAction="#openPipelineVisualizer" text="%menubar.View.Pipeline" />
                </items></Menu>
             <Menu mnemonicParsing="false" text="%menubar.Settings">

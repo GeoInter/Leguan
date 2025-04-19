@@ -142,7 +142,7 @@ public class SimulatorController {
                 getClass().getResourceAsStream("/thb/fbi/leguan/images/backward.png"));
         stepBackwardButton.setGraphic(new ImageView(stepBackwardButtonImage));
 
-        FileManager.init(editorController.getCodeArea());
+        FileManager.init(editorController);
 
         pipelineVisualizer = new PipelineVisualizerAdapter();
 
@@ -233,6 +233,21 @@ public class SimulatorController {
     @FXML
     private void saveFileAs() {
         FileManager.saveFileAs();
+    }
+
+    @FXML
+    private void zoomIn() {
+        editorController.increaseFontSize();
+    }
+
+    @FXML
+    private void zoomOut() {
+        editorController.decreaseFontSize();
+    }
+
+    @FXML
+    private void restoreDefaultZoom() {
+        editorController.restoreDefaultFontSize();
     }
 
     @FXML
