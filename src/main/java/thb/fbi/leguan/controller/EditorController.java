@@ -44,33 +44,36 @@ public class EditorController {
 
     private EditorCanvas editorCanvas;
 
-    /** px = (96 / 72)pt
-     * 14px -> 16 
+    /**
+     * px = (96 / 72)pt
+     * 14px -> 16
      * 
      * 
-     *  6pt -> 
-     *  7pt -> 
-     *  8pt -> 12 [constant, but half of next line]     | 10,66666666666666666667
-     *  9pt -> 15 [little bit off the bottom]           | 12
-     * 10pt -> 16 [little bit off the bottom]           | 13,33333333333333333333
-     * 11pt -> 19 [Default]                             | 14,66666666666666666667
-     * 12pt -> 19                                       | 16
-     * 13pt -> 20                                       | 17,33333333333333333333
-     * 14pt -> 23                                       | 18,66666666666666666667
-     * 15pt -> 
-     * 16pt -> 
+     * 6pt ->
+     * 7pt ->
+     * 8pt -> 12 [constant, but half of next line] | 10,66666666666666666667
+     * 9pt -> 15 [little bit off the bottom] | 12
+     * 10pt -> 16 [little bit off the bottom] | 13,33333333333333333333
+     * 11pt -> 19 [Default] | 14,66666666666666666667
+     * 12pt -> 19 | 16
+     * 13pt -> 20 | 17,33333333333333333333
+     * 14pt -> 23 | 18,66666666666666666667
+     * 15pt ->
+     * 16pt ->
      */
 
     // default font size in pt
     private final short defaultFontSize = 11;
     private short currentFontSize = defaultFontSize;
+    private final short maxFontSize = 24;
+    private final short minFontSize = 9;
 
     private VirtualizedScrollPane<CodeArea> codeAreaScrollPane;
 
     private ExecutorService executorService;
 
     private Simulator simulator = SimulatorSingleton.getSimulator();
-    
+
     @FXML
     public void initialize() {
         executorService = ExecutorServiceProvider.getExecutorService();
@@ -180,21 +183,25 @@ public class EditorController {
     }
 
     public void increaseFontSize() {
-        currentFontSize++;
-        codeArea.setStyle("-fx-font-size: "+ currentFontSize +"pt;");
-        //editorCanvas.setCurrentLineHeight(codeArea.getCaretBounds().get().getHeight());
+        if (currentFontSize < maxFontSize) {
+            currentFontSize++;
+            codeArea.setStyle("-fx-font-size: " + currentFontSize + "pt;");
+            // editorCanvas.setCurrentLineHeight(codeArea.getCaretBounds().get().getHeight());
+        }
     }
 
     public void decreaseFontSize() {
-        currentFontSize--;
-        codeArea.setStyle("-fx-font-size: "+ currentFontSize +"pt;");
-        //editorCanvas.setCurrentLineHeight(codeArea.getCaretBounds().get().getHeight());
+        if (currentFontSize > minFontSize) {
+            currentFontSize--;
+            codeArea.setStyle("-fx-font-size: " + currentFontSize + "pt;");
+            // editorCanvas.setCurrentLineHeight(codeArea.getCaretBounds().get().getHeight());
+        }
     }
 
     public void restoreDefaultFontSize() {
         currentFontSize = defaultFontSize;
-        codeArea.setStyle("-fx-font-size: "+ currentFontSize +"pt;");
-        //if (codeArea.getCaretBounds().isPresent())
-        //    editorCanvas.setCurrentLineHeight(codeArea.getCaretBounds().get().getHeight());
+        codeArea.setStyle("-fx-font-size: " + currentFontSize + "pt;");
+        // if (codeArea.getCaretBounds().isPresent())
+        // editorCanvas.setCurrentLineHeight(codeArea.getCaretBounds().get().getHeight());
     }
 }
