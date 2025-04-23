@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
@@ -34,6 +35,7 @@
                   <MenuItem mnemonicParsing="false" onAction="#zoomIn" text="%menubar.View.ZoomIn" />
                   <MenuItem mnemonicParsing="false" onAction="#zoomOut" text="%menubar.View.ZoomOut" />
                   <MenuItem mnemonicParsing="false" onAction="#restoreDefaultZoom" text="%menubar.View.DefaultZoom" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
                   <MenuItem mnemonicParsing="false" onAction="#openPipelineVisualizer" text="%menubar.View.Pipeline" />
                </items></Menu>
             <Menu mnemonicParsing="false" text="%menubar.Settings">
