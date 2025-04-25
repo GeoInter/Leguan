@@ -228,9 +228,17 @@ public class SimulatorController {
         Memory.reset();
         FlagRegister.reset();
         simulator.reset();
+
         registerPaneController.clearRegisterHighlighting();
         registerPaneController.clearFlagHighlighting();
-        editorController.setLineNumber(0);
+
+        // set initial position of line highlighter at the first Instruction
+        if (simulator.getArmProgram() != null && simulator.getArmProgram().getProgramStatements().size() > 0) {
+            int lineNumber = simulator.getArmProgram().getProgramStatement(Memory.CODE_SEGMENT_START).getStartingLineNumber();
+            editorController.setLineNumber(lineNumber);
+        } else {
+            editorController.setLineNumber(0);
+        }
     }
 
     @FXML
