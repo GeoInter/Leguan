@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
@@ -21,16 +22,20 @@
       <MenuBar>
         <menus>
           <Menu fx:id="file_Menu" mnemonicParsing="false" text="%menubar.File">
-            <items>
-              <MenuItem mnemonicParsing="false" text="New" />
-                  <MenuItem mnemonicParsing="false" onAction="#saveFile" text="Save" />
-                  <MenuItem mnemonicParsing="false" onAction="#saveFileAs" text="Save as" />
-                  <MenuItem mnemonicParsing="false" onAction="#openFile" text="Open" />
-            </items>
+               <items>
+                  <MenuItem mnemonicParsing="false" text="%menubar.File.New" />
+                  <MenuItem mnemonicParsing="false" onAction="#saveFile" text="%menubar.File.Save" />
+                  <MenuItem mnemonicParsing="false" onAction="#saveFileAs" text="%menubar.File.SaveAs" />
+                  <MenuItem mnemonicParsing="false" onAction="#openFile" text="%menubar.File.Open" />
+               </items>
           </Menu>
           <Menu disable="true" mnemonicParsing="false" text="%menubar.Edit" visible="false" />
           <Menu mnemonicParsing="false" text="%menubar.View">
                <items>
+                  <MenuItem mnemonicParsing="false" onAction="#zoomIn" text="%menubar.View.ZoomIn" />
+                  <MenuItem mnemonicParsing="false" onAction="#zoomOut" text="%menubar.View.ZoomOut" />
+                  <MenuItem mnemonicParsing="false" onAction="#restoreDefaultZoom" text="%menubar.View.DefaultZoom" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
                   <MenuItem mnemonicParsing="false" onAction="#openPipelineVisualizer" text="%menubar.View.Pipeline" />
                </items></Menu>
             <Menu mnemonicParsing="false" text="%menubar.Settings">

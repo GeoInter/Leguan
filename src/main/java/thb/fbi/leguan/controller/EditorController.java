@@ -44,12 +44,18 @@ public class EditorController {
 
     private EditorCanvas editorCanvas;
 
+    // default font size in pt
+    private final short defaultFontSize = 11;
+    private short currentFontSize = defaultFontSize;
+    private final short maxFontSize = 19;
+    private final short minFontSize = 9;
+
     private VirtualizedScrollPane<CodeArea> codeAreaScrollPane;
 
     private ExecutorService executorService;
 
     private Simulator simulator = SimulatorSingleton.getSimulator();
-    
+
     @FXML
     public void initialize() {
         executorService = ExecutorServiceProvider.getExecutorService();
@@ -81,10 +87,19 @@ public class EditorController {
         editorCanvas = new EditorCanvas(codeArea, codeAreaScrollPane);
         codeStackPane.getChildren().add(editorCanvas);
 
+        // TODO: Fix Event not being triggered
         codeArea.addEventFilter(ScrollEvent.ANY, scroll -> {
+            System.out.println("Scrolling Detected");
             editorCanvas.reposition(codeAreaScrollPane.getEstimatedScrollY(),
                     codeAreaScrollPane.getTotalHeightEstimate(), scroll.getDeltaY());
         });
+        /*codeArea.estimatedScrollYProperty().addListener((obs, oldVal, newVal) -> {
+            //System.out.println("Scrolled Y to: " + newVal);
+            //editorCanvas.reposition(codeAreaScrollPane.getEstimatedScrollY(),
+            //        codeAreaScrollPane.getTotalHeightEstimate(), newVal);
+        });*/
+
+        restoreDefaultFontSize();
     }
 
     private Task<StyleSpans<Collection<String>>> computeHighlightingAsync() {
@@ -138,6 +153,10 @@ public class EditorController {
         return codeArea.getText();
     }
 
+    public VirtualizedScrollPane<CodeArea> getVirtualizedScrollPane() {
+        return codeAreaScrollPane;
+    }
+
     public void setAssembleIndicator(Circle assembleIndicator) {
         this.assembleIndicator = assembleIndicator;
     }
@@ -148,5 +167,27 @@ public class EditorController {
 
     public void setLineNumber(int lineNumber) {
         editorCanvas.setLineNumber(lineNumber);
+    }
+
+    public void increaseFontSize() {
+        if (currentFontSize < maxFontSize) {
+            currentFontSize++;
+            codeArea.setStyle("-fx-font-size: " + currentFontSize + "pt;");
+            editorCanvas.setCurrentLineHeight(currentFontSize);
+        }
+    }
+
+    public void decreaseFontSize() {
+        if (currentFontSize > minFontSize) {
+            currentFontSize--;
+            codeArea.setStyle("-fx-font-size: " + currentFontSize + "pt;");
+            editorCanvas.setCurrentLineHeight(currentFontSize);
+        }
+    }
+
+    public void restoreDefaultFontSize() {
+        currentFontSize = defaultFontSize;
+        codeArea.setStyle("-fx-font-size: " + currentFontSize + "pt;");
+        editorCanvas.setCurrentLineHeight(currentFontSize);
     }
 }
