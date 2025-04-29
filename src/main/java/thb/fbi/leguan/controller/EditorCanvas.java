@@ -8,6 +8,7 @@ import org.fxmisc.richtext.CodeArea;
 
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
+import thb.fbi.leguan.data.InstructionPosition;
 
 /**
  * Overlay Canvas for CodeArea/ Text Editor
@@ -26,7 +27,7 @@ public class EditorCanvas extends Pane {
      * size programmatically.
      */
     private final Map<Integer, Double> lineHeights = new HashMap<>();
-    private double currentLineHeight = -1;
+    private double currentLineHeight = 0;
 
     public EditorCanvas(CodeArea codeArea, VirtualizedScrollPane<CodeArea> scrollpane) {
         super();
@@ -60,10 +61,18 @@ public class EditorCanvas extends Pane {
         highlighRectangle.setVisible(isVisible);
     }
 
-    public void setLineNumber(int lineNumber) {
-        this.lineNumber = lineNumber;
-        highlighRectangle.setVisible(true);
-        reposition(scrollpane.getEstimatedScrollY(), 0, 0);
+    public void setLineNumber(InstructionPosition position) {
+        if (position != null) {
+            if (position.isOneLine()) {
+                highlighRectangle.setHeight(currentLineHeight);
+            } else {
+                int diff = (position.getEndingLineNumber() - position.getStartingLineNumber()) + 1;
+                highlighRectangle.setHeight(currentLineHeight * diff);
+            }
+            this.lineNumber = position.getStartingLineNumber();
+            highlighRectangle.setVisible(true);
+            reposition(scrollpane.getEstimatedScrollY(), 0, 0);
+        }
     }
 
     public int getLineNumber() {
@@ -109,7 +118,6 @@ public class EditorCanvas extends Pane {
         }
         double newYPos = (this.lineNumber * currentLineHeight) - scrollPosition + scrollAmount;
         translateYProperty().set(newYPos);
-        // System.out.println("=> " + newYPos);
     }
 
     public double getCurrentLineHeight() {

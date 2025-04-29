@@ -26,6 +26,7 @@ import javafx.fxml.FXML;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
+import thb.fbi.leguan.data.InstructionPosition;
 import thb.fbi.leguan.parser.SyntaxHighlighter;
 import thb.fbi.leguan.parser.antlr.LegV8Lexer;
 import thb.fbi.leguan.parser.antlr.LegV8Parser;
@@ -87,12 +88,12 @@ public class EditorController {
         editorCanvas = new EditorCanvas(codeArea, codeAreaScrollPane);
         codeStackPane.getChildren().add(editorCanvas);
 
-        // TODO: Fix Event not being triggered
+        // reposition Line Highlighter when scrolling down (using arrow keys)
         codeArea.addEventFilter(ScrollEvent.ANY, scroll -> {
-            System.out.println("Scrolling Detected");
             editorCanvas.reposition(codeAreaScrollPane.getEstimatedScrollY(),
                     codeAreaScrollPane.getTotalHeightEstimate(), scroll.getDeltaY());
         });
+        
         /*codeArea.estimatedScrollYProperty().addListener((obs, oldVal, newVal) -> {
             //System.out.println("Scrolled Y to: " + newVal);
             //editorCanvas.reposition(codeAreaScrollPane.getEstimatedScrollY(),
@@ -165,8 +166,8 @@ public class EditorController {
         editorCanvas.setVisible(isEnabled);
     }
 
-    public void setLineNumber(int lineNumber) {
-        editorCanvas.setLineNumber(lineNumber);
+    public void setLineNumber(InstructionPosition position) {
+        editorCanvas.setLineNumber(position);
     }
 
     public void increaseFontSize() {
