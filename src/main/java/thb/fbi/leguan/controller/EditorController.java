@@ -173,22 +173,28 @@ public class EditorController {
     public void increaseFontSize() {
         if (currentFontSize < maxFontSize) {
             currentFontSize++;
-            codeArea.setStyle("-fx-font-size: " + currentFontSize + "pt;");
-            editorCanvas.setCurrentLineHeight(currentFontSize);
+            updateEditor();
         }
     }
 
     public void decreaseFontSize() {
         if (currentFontSize > minFontSize) {
             currentFontSize--;
-            codeArea.setStyle("-fx-font-size: " + currentFontSize + "pt;");
-            editorCanvas.setCurrentLineHeight(currentFontSize);
+            updateEditor();
         }
     }
 
     public void restoreDefaultFontSize() {
         currentFontSize = defaultFontSize;
+        updateEditor();
+    }
+
+    private void updateEditor() {
         codeArea.setStyle("-fx-font-size: " + currentFontSize + "pt;");
+        // force resizing of select line/ caret position in order to update line height
+        int prevPosition = codeArea.getCaretPosition();
+        codeArea.displaceCaret(0);
+        codeArea.displaceCaret(prevPosition);
         editorCanvas.setCurrentLineHeight(currentFontSize);
     }
 }

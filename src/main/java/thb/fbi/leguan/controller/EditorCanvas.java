@@ -28,6 +28,7 @@ public class EditorCanvas extends Pane {
      */
     private final Map<Integer, Double> lineHeights = new HashMap<>();
     private double currentLineHeight = 0;
+    private int numberOfLines = 1;
 
     public EditorCanvas(CodeArea codeArea, VirtualizedScrollPane<CodeArea> scrollpane) {
         super();
@@ -64,10 +65,9 @@ public class EditorCanvas extends Pane {
     public void setLineNumber(InstructionPosition position) {
         if (position != null) {
             if (position.isOneLine()) {
-                highlighRectangle.setHeight(currentLineHeight);
+                numberOfLines = 1;
             } else {
-                int diff = (position.getEndingLineNumber() - position.getStartingLineNumber()) + 1;
-                highlighRectangle.setHeight(currentLineHeight * diff);
+                numberOfLines = (position.getEndingLineNumber() - position.getStartingLineNumber()) + 1;
             }
             this.lineNumber = position.getStartingLineNumber();
             highlighRectangle.setVisible(true);
@@ -105,6 +105,8 @@ public class EditorCanvas extends Pane {
          * When Scrollbar is not present (all text fits into codeArea) no further
          * repositioning is needed
          */
+        highlighRectangle.setHeight(currentLineHeight * numberOfLines);
+
         if (scrollPaneHeight < getHeight()) {
             scrollAmount = 0;
         } else if (scrollPosition <= 39 && scrollAmount > 0) {
@@ -128,7 +130,6 @@ public class EditorCanvas extends Pane {
         double lineHeight = lineHeights.get(fontSize);
         if (lineHeight != 0) {
             currentLineHeight = lineHeight;
-            highlighRectangle.setHeight(lineHeight);
         }
         reposition(scrollpane.getEstimatedScrollY(), 0, 0);
     }
