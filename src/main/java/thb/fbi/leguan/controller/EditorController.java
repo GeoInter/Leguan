@@ -93,12 +93,6 @@ public class EditorController {
             editorCanvas.reposition(codeAreaScrollPane.getEstimatedScrollY(),
                     codeAreaScrollPane.getTotalHeightEstimate(), scroll.getDeltaY());
         });
-        
-        /*codeArea.estimatedScrollYProperty().addListener((obs, oldVal, newVal) -> {
-            //System.out.println("Scrolled Y to: " + newVal);
-            //editorCanvas.reposition(codeAreaScrollPane.getEstimatedScrollY(),
-            //        codeAreaScrollPane.getTotalHeightEstimate(), newVal);
-        });*/
 
         restoreDefaultFontSize();
     }
