@@ -32,6 +32,7 @@ import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import thb.fbi.leguan.App;
+import thb.fbi.leguan.data.InstructionPosition;
 import thb.fbi.leguan.parser.ParsingError;
 import thb.fbi.leguan.service.ThemeService;
 import thb.fbi.leguan.simulation.FlagRegister;
@@ -202,7 +203,7 @@ public class SimulatorController {
             assembleIndicator.setId("codeStatus_assembled");
         } else {
             setConsoleText(simulator.getErrors());
-            editorController.setLineNumber(-1);
+            editorController.setLineNumber(null);
             stepForwardButton.setDisable(true);
             // stepBackwardButton.setDisable(true);
         }
@@ -217,7 +218,7 @@ public class SimulatorController {
         } else {
             setConsoleText(simulator.getErrors());
         }
-        editorController.setLineNumber(-1);
+        editorController.setLineNumber(null);
     }
 
     /**
@@ -228,15 +229,24 @@ public class SimulatorController {
         Memory.reset();
         FlagRegister.reset();
         simulator.reset();
+
         registerPaneController.clearRegisterHighlighting();
         registerPaneController.clearFlagHighlighting();
-        editorController.setLineNumber(0);
+
+        // set initial position of line highlighter at the first Instruction
+        if (simulator.getArmProgram() != null && simulator.getArmProgram().getProgramStatements().size() > 0) {
+            InstructionPosition position = simulator.getArmProgram().getProgramStatement(Memory.CODE_SEGMENT_START).getLinePosition();
+            editorController.setLineNumber(position);
+        } else {
+            editorController.setLineNumber(null);
+        }
     }
 
     @FXML
     private void stepForward() {
-        int lineNumber = simulator.forwardStep();
-        editorController.setLineNumber(lineNumber);
+        InstructionPosition position = simulator.forwardStep();
+        if (position != null)
+            editorController.setLineNumber(position);
     }
 
     // run clear line
