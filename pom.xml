@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>thb.fbi.leguan</groupId>
   <artifactId>Leguan</artifactId>
-  <version>1.2</version>
+  <version>1.3</version>
 
   <name>Leguan</name>
   <description>A LEGv8 Instruction Set Simulator</description>
