@@ -133,9 +133,6 @@ public class SimulatorController {
         lightThemeItem.setOnAction((evt) -> switchStylesheets("light.css"));
         darkThemeItem.setOnAction((evt) -> switchStylesheets("dark.css"));
 
-        enableLineHighlighterButton.setOnAction((evt) -> enableLineHighlighter(true));
-        disableLineHighlighterButton.setOnAction((evt) -> enableLineHighlighter(false));
-
         runButton.disableProperty().bind(simulator.getIsRunning());
         stopButton.disableProperty().bind(simulator.getIsRunning().not());
         // file_Menu.textProperty().bind(I18N.createStringBinding("menubar.File"));
@@ -339,11 +336,6 @@ public class SimulatorController {
         Scene scene = registerPane.getScene();
         ThemeService.switchTheme(scene, css);
         pipelineVisualizer.switchCSS(css);
-    }
-
-    @FXML
-    private void enableLineHighlighter(boolean isEnabled) {
-        editorController.setIsEnabledLineHighlighter(isEnabled);
     }
 
     @FXML

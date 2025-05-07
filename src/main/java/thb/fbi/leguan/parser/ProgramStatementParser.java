@@ -116,7 +116,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
         int endOfLabel = codeString.indexOf(":");
         codeString = codeString.substring(endOfLabel+1);
         codeString = codeString.trim();
-        return new ProgramStatement(instr, args, codeString, ctx.start.getLine() - 1, ctx.stop.getLine() - 1); // lines are off by 1
+        return new ProgramStatement(instr, args, codeString, ctx.start.getLine() - 1, ctx.stop.getLine() - 1); // lines are starting at 1
     }
 
     /**
