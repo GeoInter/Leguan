@@ -22,7 +22,7 @@ import thb.fbi.leguan.parser.ProgramParser;
 import thb.fbi.leguan.parser.SyntaxErrorListener;
 import thb.fbi.leguan.parser.antlr.LegV8Lexer;
 import thb.fbi.leguan.parser.antlr.LegV8Parser;
-import thb.fbi.leguan.utility.ExecutorServiceProvider;
+import thb.fbi.leguan.service.ExecutorServiceProvider;
 
 /** 
  * class for simulating a processor and instruction execution

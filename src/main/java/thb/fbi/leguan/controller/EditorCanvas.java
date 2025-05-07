@@ -71,7 +71,7 @@ public class EditorCanvas extends Pane {
             }
             this.lineNumber = position.getStartingLineNumber();
             highlighRectangle.setVisible(true);
-            reposition(scrollpane.getEstimatedScrollY(), 0, 0);
+            reposition(scrollpane.getEstimatedScrollY(), scrollpane.getTotalHeightEstimate(), 0);
         }
     }
 
@@ -131,6 +131,6 @@ public class EditorCanvas extends Pane {
         if (lineHeight != 0) {
             currentLineHeight = lineHeight;
         }
-        reposition(scrollpane.getEstimatedScrollY(), 0, 0);
+        reposition(scrollpane.getEstimatedScrollY(), scrollpane.getTotalHeightEstimate(), 0);
     }
 }

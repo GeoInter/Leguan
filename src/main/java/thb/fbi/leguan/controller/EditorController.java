@@ -30,9 +30,9 @@ import thb.fbi.leguan.data.InstructionPosition;
 import thb.fbi.leguan.parser.SyntaxHighlighter;
 import thb.fbi.leguan.parser.antlr.LegV8Lexer;
 import thb.fbi.leguan.parser.antlr.LegV8Parser;
+import thb.fbi.leguan.service.ExecutorServiceProvider;
 import thb.fbi.leguan.simulation.Simulator;
 import thb.fbi.leguan.simulation.SimulatorSingleton;
-import thb.fbi.leguan.utility.ExecutorServiceProvider;
 
 public class EditorController {
 
@@ -167,23 +167,23 @@ public class EditorController {
     public void increaseFontSize() {
         if (currentFontSize < maxFontSize) {
             currentFontSize++;
-            updateEditor();
+            updateFontSize();
         }
     }
 
     public void decreaseFontSize() {
         if (currentFontSize > minFontSize) {
             currentFontSize--;
-            updateEditor();
+            updateFontSize();
         }
     }
 
     public void restoreDefaultFontSize() {
         currentFontSize = defaultFontSize;
-        updateEditor();
+        updateFontSize();
     }
 
-    private void updateEditor() {
+    private void updateFontSize() {
         codeArea.setStyle("-fx-font-size: " + currentFontSize + "pt;");
         // force resizing of select line/ caret position in order to update line height
         int prevPosition = codeArea.getCaretPosition();
