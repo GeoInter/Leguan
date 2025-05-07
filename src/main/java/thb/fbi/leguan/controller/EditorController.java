@@ -46,7 +46,7 @@ public class EditorController {
     // default font size in pt
     private final short defaultFontSize = 11;
     private short currentFontSize = defaultFontSize;
-    private final short maxFontSize = 19;
+    private final short maxFontSize = 25;
     private final short minFontSize = 9;
 
     private VirtualizedScrollPane<CodeArea> codeAreaScrollPane;
