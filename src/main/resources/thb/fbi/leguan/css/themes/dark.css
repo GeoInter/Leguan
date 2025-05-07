@@ -19,7 +19,7 @@
     -fx-textcolor: white;
 
     -text-selection-color: #264f78;
-    -line-highlight-color: #727224;
+    -line-highlight-color: rgba(114, 114, 36, 0.7);
 
     -table-row-even: #929292;
     -table-view: #80817c;

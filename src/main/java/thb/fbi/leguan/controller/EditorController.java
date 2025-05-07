@@ -3,6 +3,7 @@ package thb.fbi.leguan.controller;
 import java.time.Duration;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.function.IntFunction;
 
@@ -23,7 +24,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
-import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
 import thb.fbi.leguan.data.InstructionPosition;
@@ -42,8 +42,6 @@ public class EditorController {
     private Circle assembleIndicator;
 
     private CodeArea codeArea;
-
-    private EditorCanvas editorCanvas;
 
     // default font size in pt
     private final short defaultFontSize = 11;
@@ -67,7 +65,6 @@ public class EditorController {
 
         IntFunction<String> lineNumberFormat = (digits -> " %" + digits + "d\t");
         codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea, lineNumberFormat));
-        codeArea.setLineHighlighterOn(true);
         codeArea.textProperty().addListener(new ChangeListener<String>() {
 
             @Override
@@ -84,15 +81,6 @@ public class EditorController {
                 .supplyTask(this::computeHighlightingAsync)
                 .awaitLatest(textChanges)
                 .subscribe(this::applyHighlighting);
-
-        editorCanvas = new EditorCanvas(codeArea, codeAreaScrollPane);
-        codeStackPane.getChildren().add(editorCanvas);
-
-        // reposition Line Highlighter when scrolling down (using arrow keys)
-        codeArea.addEventFilter(ScrollEvent.ANY, scroll -> {
-            editorCanvas.reposition(codeAreaScrollPane.getEstimatedScrollY(),
-                    codeAreaScrollPane.getTotalHeightEstimate(), scroll.getDeltaY());
-        });
 
         restoreDefaultFontSize();
     }
@@ -156,12 +144,22 @@ public class EditorController {
         this.assembleIndicator = assembleIndicator;
     }
 
-    public void setIsEnabledLineHighlighter(boolean isEnabled) {
-        editorCanvas.setVisible(isEnabled);
-    }
-
     public void setLineNumber(InstructionPosition position) {
-        editorCanvas.setLineNumber(position);
+        if (position != null) {
+            int totalLines = codeArea.getParagraphs().size();
+            for (int i = 0; i < totalLines; i++) {
+                if (i >= position.getStartingLineNumber() && i <= position.getEndingLineNumber()) {
+                    codeArea.setParagraphStyle(i, List.of("highlight-code"));
+                } else {
+                    codeArea.setParagraphStyle(i, Collections.emptyList());
+                }
+            }
+        } else {
+            int totalLines = codeArea.getParagraphs().size();
+            for (int i = 0; i < totalLines; i++) {
+                codeArea.setParagraphStyle(i, Collections.emptyList());
+            }
+        }
     }
 
     public void increaseFontSize() {
@@ -189,6 +187,5 @@ public class EditorController {
         int prevPosition = codeArea.getCaretPosition();
         codeArea.displaceCaret(0);
         codeArea.displaceCaret(prevPosition);
-        editorCanvas.setCurrentLineHeight(currentFontSize);
     }
 }

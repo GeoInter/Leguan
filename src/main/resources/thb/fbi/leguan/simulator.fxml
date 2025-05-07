@@ -52,12 +52,6 @@
                         <MenuItem fx:id="switchDEButton" mnemonicParsing="false" text="Deutsch" />
                     </items>
                   </Menu>
-                  <Menu mnemonicParsing="false" text="%menubar.LineHighlighter">
-                    <items>
-                      <MenuItem fx:id="enableLineHighlighterButton" mnemonicParsing="false" text="True" />
-                        <MenuItem fx:id="disableLineHighlighterButton" mnemonicParsing="false" text="False" />
-                    </items>
-                  </Menu>
               </items>
             </Menu>
             <Menu mnemonicParsing="false" text="%menubar.Help">
