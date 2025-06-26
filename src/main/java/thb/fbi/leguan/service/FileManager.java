@@ -1,4 +1,4 @@
-package thb.fbi.leguan.utility;
+package thb.fbi.leguan.service;
 
 import java.io.File;
 import java.io.IOException;
@@ -6,8 +6,6 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-
-import org.fxmisc.richtext.CodeArea;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -18,6 +16,7 @@ import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import thb.fbi.leguan.App;
+import thb.fbi.leguan.controller.EditorController;
 
 /**
  * class for opening and saving files
@@ -26,18 +25,18 @@ public class FileManager {
 
     private static FileChooser fileChooser = new FileChooser();
     private static File defaultDirectory = new File(System.getProperty("user.home"));
-    private static CodeArea codeArea;
+    private static EditorController editorController;
     private static boolean isSaved = true;
     private static File currentFile = null;
 
-    public static void init(CodeArea codeArea) {
+    public static void init(EditorController editorController) {
         fileChooser.setInitialDirectory(defaultDirectory);
         fileChooser.getExtensionFilters().add(new ExtensionFilter("Assembly Code", "*.txt", "*.asm", "*.s", "*.S"));
         fileChooser.getExtensionFilters().add(new ExtensionFilter("All Files", "*.*"));
         fileChooser.getExtensionFilters().add(new ExtensionFilter("Text File", "*.txt"));
         fileChooser.getExtensionFilters().add(new ExtensionFilter("Assembly Language Source Code File", "*.asm", "*.s", "*.S"));
-        FileManager.codeArea = codeArea;
-        FileManager.codeArea.textProperty().addListener(new ChangeListener<String>() {
+        FileManager.editorController = editorController;
+        editorController.getCodeArea().textProperty().addListener(new ChangeListener<String>() {
 
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -75,10 +74,10 @@ public class FileManager {
     }
 
     /**
-     * opens a predefined example file and put file content in text editor
+     * opens a predefined example file (packaged in jar) and load file content into text editor
      * @return boolean indicating if new file was succesful opened or not
      */
-    public static void openExample(String exampleFile) {
+    public static void openExampleFile(String exampleFile) {
         if(! isSaved) {
             Alert alert = new Alert(AlertType.CONFIRMATION);
             alert.setTitle("Current project is modified");
@@ -96,22 +95,20 @@ public class FileManager {
         try {
             InputStream textSource = FileManager.class.getResourceAsStream(exampleFile);
             String content = new String(textSource.readAllBytes(), StandardCharsets.UTF_8);
-            codeArea.replaceText(content);
+            editorController.getCodeArea().replaceText(content);
         } catch (IOException e) {
             showErrorAlert("Could not read file", "File could not be read. Abort loading.");
-        } catch(OutOfMemoryError m) {
+        } catch (OutOfMemoryError m) {
             showErrorAlert("Invalid file size", "File too large to handle. Abort loading.");
+        } catch (Exception exception) {
+            showErrorAlert("Could not read file", "Unkown Error.");
         }
     }
 
     public static void saveFile() {
-        if(currentFile != null) {
-            fileChooser.setInitialFileName(currentFile.getName());
-            File parentDir = currentFile.getParentFile();
-            if(parentDir != null && parentDir.isDirectory()) {
-                fileChooser.setInitialDirectory(parentDir);
-            }
-            showSaveDialog();
+        if(currentFile != null && currentFile.exists()) {
+            saveTextToFile(currentFile);
+            isSaved = true;
         } else {
             saveFileAs();
         }
@@ -139,12 +136,14 @@ public class FileManager {
     private static void saveTextToFile(File file) {
         try {
             PrintWriter writer = new PrintWriter(file);
-            writer.println(codeArea.textProperty().getValue());
+            writer.println(editorController.getCodeArea().textProperty().getValue());
             writer.close();
         } catch (IOException e) {
             showErrorAlert("Error read/ writing file", "File could not be read/ saved to. Abort save.");
-        } catch(SecurityException s) {
+        } catch (SecurityException s) {
             showErrorAlert("File writing access denied", "Writing access of file denied. Abort save.");
+        } catch (Exception exception) {
+            showErrorAlert("Error read/ writing file", "Unkown Error.");   
         }
     }
 
@@ -155,7 +154,8 @@ public class FileManager {
     public static void loadFileIntoEditor(File file) {
         try {
             String content = Files.readString(file.toPath());
-            codeArea.replaceText(content);
+            editorController.getCodeArea().replaceText(content);
+            editorController.getVirtualizedScrollPane().scrollToPixel(0, 0); // scroll to top
             isSaved = true;
             currentFile = file;
         } catch (IOException e) {
@@ -164,6 +164,8 @@ public class FileManager {
             showErrorAlert("Invalid file size", "File too large to handle. Abort loading.");
         } catch (SecurityException s) {
             showErrorAlert("Cannot access file", "File cannot be accessed. Abort loading.");
+        } catch (Exception exception) {
+            showErrorAlert("Could not read file", "Unkown Error.");   
         }
     }
 

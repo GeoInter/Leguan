@@ -1,9 +1,14 @@
 package thb.fbi.leguan.controller;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.ResourceBundle;
+
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -18,17 +23,23 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
+import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import thb.fbi.leguan.App;
+import thb.fbi.leguan.data.InstructionPosition;
 import thb.fbi.leguan.parser.ParsingError;
+import thb.fbi.leguan.service.FileManager;
 import thb.fbi.leguan.service.ThemeService;
 import thb.fbi.leguan.simulation.FlagRegister;
 import thb.fbi.leguan.simulation.Memory;
 import thb.fbi.leguan.simulation.Simulator;
 import thb.fbi.leguan.simulation.SimulatorSingleton;
-import thb.fbi.leguan.utility.FileManager;
 import thb.fbi.leguan.utility.I18N;
 import thb.fbi.leguan.utility.ILeguanTools;
 import thb.fbi.pipeline_visualizer.PipelineVisualizerAdapter;
@@ -42,9 +53,9 @@ public class SimulatorController {
 
     @FXML
     RegisterPaneController registerPaneController; // bound via registerPane + Controller (automatically)
-    @FXML 
+    @FXML
     MemoryController memoryController; // bound via memory + Controller (automatically)
-    @FXML 
+    @FXML
     EditorController editorController;
     @FXML
     Parent registerPane;
@@ -122,9 +133,6 @@ public class SimulatorController {
         lightThemeItem.setOnAction((evt) -> switchStylesheets("light.css"));
         darkThemeItem.setOnAction((evt) -> switchStylesheets("dark.css"));
 
-        enableLineHighlighterButton.setOnAction((evt) -> enableLineHighlighter(true));
-        disableLineHighlighterButton.setOnAction((evt) -> enableLineHighlighter(false));
-
         runButton.disableProperty().bind(simulator.getIsRunning());
         stopButton.disableProperty().bind(simulator.getIsRunning().not());
         // file_Menu.textProperty().bind(I18N.createStringBinding("menubar.File"));
@@ -142,13 +150,37 @@ public class SimulatorController {
                 getClass().getResourceAsStream("/thb/fbi/leguan/images/backward.png"));
         stepBackwardButton.setGraphic(new ImageView(stepBackwardButtonImage));
 
-        FileManager.init(editorController.getCodeArea());
+        FileManager.init(editorController);
 
         pipelineVisualizer = new PipelineVisualizerAdapter();
 
-        // following gets called when app is about to be closed 
+        // following gets called when app is about to be closed
         App.getStage().setOnCloseRequest(event -> {
             confirmClosing(event);
+        });
+    }
+
+    /**
+     * Register key shortcuts/ Key Code Combinations for the whole scene
+     */
+    public void registerEventFilter() {
+        /**
+         * If a TextControl has focus, it will consume Key Events and Accelerator Events
+         * despite being set on different nodes. 
+         * To prevent these events being consumed else, add Event Filter to the whole scene,
+         * so that any node can be focused and the events will be still correctly handled.
+         */
+        App.getStage().getScene().addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+            if (new KeyCodeCombination(KeyCode.PLUS, KeyCombination.CONTROL_DOWN).match(event)) {
+                zoomIn();           
+                event.consume(); // Prevents propagation to avoid double-handling
+            } else if (new KeyCodeCombination(KeyCode.MINUS, KeyCombination.CONTROL_DOWN).match(event)) {
+                zoomOut();
+                event.consume();
+            } else if (new KeyCodeCombination(KeyCode.S, KeyCodeCombination.CONTROL_DOWN).match(event)) {
+                saveFile();
+                event.consume();
+            }
         });
     }
 
@@ -168,7 +200,7 @@ public class SimulatorController {
             assembleIndicator.setId("codeStatus_assembled");
         } else {
             setConsoleText(simulator.getErrors());
-            editorController.setLineNumber(-1);
+            editorController.setLineNumber(null);
             stepForwardButton.setDisable(true);
             // stepBackwardButton.setDisable(true);
         }
@@ -183,7 +215,7 @@ public class SimulatorController {
         } else {
             setConsoleText(simulator.getErrors());
         }
-        editorController.setLineNumber(-1);
+        editorController.setLineNumber(null);
     }
 
     /**
@@ -194,15 +226,24 @@ public class SimulatorController {
         Memory.reset();
         FlagRegister.reset();
         simulator.reset();
+
         registerPaneController.clearRegisterHighlighting();
         registerPaneController.clearFlagHighlighting();
-        editorController.setLineNumber(0);
+
+        // set initial position of line highlighter at the first Instruction
+        if (simulator.getArmProgram() != null && simulator.getArmProgram().getProgramStatements().size() > 0) {
+            InstructionPosition position = simulator.getArmProgram().getProgramStatement(Memory.CODE_SEGMENT_START).getLinePosition();
+            editorController.setLineNumber(position);
+        } else {
+            editorController.setLineNumber(null);
+        }
     }
 
     @FXML
     private void stepForward() {
-        int lineNumber = simulator.forwardStep();
-        editorController.setLineNumber(lineNumber);
+        InstructionPosition position = simulator.forwardStep();
+        if (position != null)
+            editorController.setLineNumber(position);
     }
 
     // run clear line
@@ -236,13 +277,28 @@ public class SimulatorController {
     }
 
     @FXML
+    private void zoomIn() {
+        editorController.increaseFontSize();
+    }
+
+    @FXML
+    private void zoomOut() {
+        editorController.decreaseFontSize();
+    }
+
+    @FXML
+    private void restoreDefaultZoom() {
+        editorController.restoreDefaultFontSize();
+    }
+
+    @FXML
     private void loadExample_simpleLoop() {
-        FileManager.openExample("/thb/fbi/leguan/examples/counterExample.txt");
+        FileManager.openExampleFile("/thb/fbi/leguan/examples/counterExample.txt");
     }
 
     @FXML
     private void loadExample_dataSegment() {
-        FileManager.openExample("/thb/fbi/leguan/examples/dataSegment.txt");
+        FileManager.openExampleFile("/thb/fbi/leguan/examples/dataSegment.txt");
     }
 
     /**
@@ -283,8 +339,28 @@ public class SimulatorController {
     }
 
     @FXML
-    private void enableLineHighlighter(boolean isEnabled) {
-        editorController.setIsEnabledLineHighlighter(isEnabled);
+    private void showAboutPage() throws IOException {
+        Stage stage = new Stage();
+        Locale locale = I18N.getDefaultLocale();
+        ResourceBundle bundle =
+        ResourceBundle.getBundle("thb/fbi/leguan/languages/language", locale);
+        
+        URL fxmlLocation = getClass().getResource("/thb/fbi/leguan/about.fxml");
+        Parent root = FXMLLoader.load(fxmlLocation, bundle);
+        
+        Scene scene = new Scene(root);
+        
+        ThemeService.applyCSS(scene);
+        
+        stage.setScene(scene);
+        stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/thb/fbi/leguan/images/leguan.png")));
+        stage.setTitle("Leguan - a LEGv8 Simulator");
+        stage.setAlwaysOnTop(true);
+        stage.setResizable(false);
+        stage.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if(!newValue) stage.close();
+        });
+        stage.show();
     }
 
     /**
@@ -292,7 +368,7 @@ public class SimulatorController {
      */
     public void confirmClosing(WindowEvent event) {
         pipelineVisualizer.closeExtension();
-        if(! FileManager.isSaved()) {
+        if (!FileManager.isSaved()) {
             Alert alert = new Alert(AlertType.CONFIRMATION);
             alert.setTitle("Current project is modified");
             alert.setContentText("Save?");
@@ -301,10 +377,10 @@ public class SimulatorController {
             ButtonType cancelButton = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
             alert.getButtonTypes().setAll(okButton, noButton, cancelButton);
             alert.showAndWait().ifPresent(response -> {
-                if(response == okButton) {
+                if (response == okButton) {
                     FileManager.saveFile();
                     Platform.exit();
-                } else if(response == cancelButton) { 
+                } else if (response == cancelButton) {
                     // cancel closing
                     event.consume();
                 }

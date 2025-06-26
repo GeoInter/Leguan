@@ -3,6 +3,7 @@ package thb.fbi.leguan.controller;
 import java.time.Duration;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.function.IntFunction;
 
@@ -23,15 +24,15 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
-import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
+import thb.fbi.leguan.data.InstructionPosition;
 import thb.fbi.leguan.parser.SyntaxHighlighter;
 import thb.fbi.leguan.parser.antlr.LegV8Lexer;
 import thb.fbi.leguan.parser.antlr.LegV8Parser;
+import thb.fbi.leguan.service.ExecutorServiceProvider;
 import thb.fbi.leguan.simulation.Simulator;
 import thb.fbi.leguan.simulation.SimulatorSingleton;
-import thb.fbi.leguan.utility.ExecutorServiceProvider;
 
 public class EditorController {
 
@@ -42,14 +43,18 @@ public class EditorController {
 
     private CodeArea codeArea;
 
-    private EditorCanvas editorCanvas;
+    // default font size in pt
+    private final short defaultFontSize = 11;
+    private short currentFontSize = defaultFontSize;
+    private final short maxFontSize = 25;
+    private final short minFontSize = 9;
 
     private VirtualizedScrollPane<CodeArea> codeAreaScrollPane;
 
     private ExecutorService executorService;
 
     private Simulator simulator = SimulatorSingleton.getSimulator();
-    
+
     @FXML
     public void initialize() {
         executorService = ExecutorServiceProvider.getExecutorService();
@@ -60,7 +65,6 @@ public class EditorController {
 
         IntFunction<String> lineNumberFormat = (digits -> " %" + digits + "d\t");
         codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea, lineNumberFormat));
-        codeArea.setLineHighlighterOn(true);
         codeArea.textProperty().addListener(new ChangeListener<String>() {
 
             @Override
@@ -78,13 +82,7 @@ public class EditorController {
                 .awaitLatest(textChanges)
                 .subscribe(this::applyHighlighting);
 
-        editorCanvas = new EditorCanvas(codeArea, codeAreaScrollPane);
-        codeStackPane.getChildren().add(editorCanvas);
-
-        codeArea.addEventFilter(ScrollEvent.ANY, scroll -> {
-            editorCanvas.reposition(codeAreaScrollPane.getEstimatedScrollY(),
-                    codeAreaScrollPane.getTotalHeightEstimate(), scroll.getDeltaY());
-        });
+        restoreDefaultFontSize();
     }
 
     private Task<StyleSpans<Collection<String>>> computeHighlightingAsync() {
@@ -138,15 +136,56 @@ public class EditorController {
         return codeArea.getText();
     }
 
+    public VirtualizedScrollPane<CodeArea> getVirtualizedScrollPane() {
+        return codeAreaScrollPane;
+    }
+
     public void setAssembleIndicator(Circle assembleIndicator) {
         this.assembleIndicator = assembleIndicator;
     }
 
-    public void setIsEnabledLineHighlighter(boolean isEnabled) {
-        editorCanvas.setVisible(isEnabled);
+    public void setLineNumber(InstructionPosition position) {
+        if (position != null) {
+            int totalLines = codeArea.getParagraphs().size();
+            for (int i = 0; i < totalLines; i++) {
+                if (i >= position.getStartingLineNumber() && i <= position.getEndingLineNumber()) {
+                    codeArea.setParagraphStyle(i, List.of("highlight-code"));
+                } else {
+                    codeArea.setParagraphStyle(i, Collections.emptyList());
+                }
+            }
+        } else {
+            int totalLines = codeArea.getParagraphs().size();
+            for (int i = 0; i < totalLines; i++) {
+                codeArea.setParagraphStyle(i, Collections.emptyList());
+            }
+        }
     }
 
-    public void setLineNumber(int lineNumber) {
-        editorCanvas.setLineNumber(lineNumber);
+    public void increaseFontSize() {
+        if (currentFontSize < maxFontSize) {
+            currentFontSize++;
+            updateFontSize();
+        }
+    }
+
+    public void decreaseFontSize() {
+        if (currentFontSize > minFontSize) {
+            currentFontSize--;
+            updateFontSize();
+        }
+    }
+
+    public void restoreDefaultFontSize() {
+        currentFontSize = defaultFontSize;
+        updateFontSize();
+    }
+
+    private void updateFontSize() {
+        codeArea.setStyle("-fx-font-size: " + currentFontSize + "pt;");
+        // force resizing of select line/ caret position in order to update line height
+        int prevPosition = codeArea.getCaretPosition();
+        codeArea.displaceCaret(0);
+        codeArea.displaceCaret(prevPosition);
     }
 }

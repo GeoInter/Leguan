@@ -1,4 +1,4 @@
-package thb.fbi.leguan.utility;
+package thb.fbi.leguan.service;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;

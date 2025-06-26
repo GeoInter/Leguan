@@ -6,10 +6,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import thb.fbi.leguan.controller.SimulatorController;
+import thb.fbi.leguan.service.ExecutorServiceProvider;
+import thb.fbi.leguan.service.FileManager;
 import thb.fbi.leguan.service.ThemeService;
 import thb.fbi.leguan.simulation.SimulatorSingleton;
-import thb.fbi.leguan.utility.ExecutorServiceProvider;
-import thb.fbi.leguan.utility.FileManager;
 import thb.fbi.leguan.utility.I18N;
 
 import java.io.File;
@@ -17,7 +18,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.net.URL;
 
 /**
  * \brief JavaFX App
@@ -28,6 +28,7 @@ public class App extends Application {
 
     private static Scene scene;
     private static Stage stage;
+    private static SimulatorController simulatorController;
 
     public static Stage getStage() {
         return stage;
@@ -39,8 +40,10 @@ public class App extends Application {
         Locale locale = I18N.getDefaultLocale();
         ResourceBundle bundle = ResourceBundle.getBundle("thb/fbi/leguan/languages/language", locale);
         
-        URL fxmlLocation = getClass().getResource("simulator.fxml");
-        Parent root = FXMLLoader.load(fxmlLocation, bundle);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("simulator.fxml"), bundle);
+        Parent root = loader.load();
+
+        App.simulatorController = loader.getController();
 
         scene = new Scene(root);
         
@@ -60,6 +63,9 @@ public class App extends Application {
             // check if file is readable and openable
             FileManager.loadFileIntoEditor(new File(list.get(0)));
         }
+
+        // register key shortcuts
+        simulatorController.registerEventFilter();
     }
 
     static void setRoot(String fxml) throws IOException {

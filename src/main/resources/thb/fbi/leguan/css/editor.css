@@ -4,8 +4,6 @@
 }
 
 .styled-text-area .paragraph-text .text {
-    -fx-font-size: 14px;
-    font-size: 14px;
     -fx-fill: -fx-textcolor;
     fill: -fx-textcolor;
 }
@@ -22,9 +20,8 @@
     -fx-stroke-line-cap: square;
 }
 
-#highlight-code {
-    -fx-opacity: 0.5;
-    -fx-fill: -line-highlight-color;
+.highlight-code {
+    -fx-background-color: -line-highlight-color;
 }
 
 /* Linenumber Factory */

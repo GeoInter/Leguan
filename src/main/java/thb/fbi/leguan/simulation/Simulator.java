@@ -13,6 +13,7 @@ import javafx.beans.value.ObservableValue;
 import thb.fbi.leguan.controller.MemoryController;
 import thb.fbi.leguan.controller.RegisterPaneController;
 import thb.fbi.leguan.data.ARMProgram;
+import thb.fbi.leguan.data.InstructionPosition;
 import thb.fbi.leguan.data.ProgramStatement;
 import thb.fbi.leguan.instructions.Instruction;
 import thb.fbi.leguan.instructions.InstructionSet;
@@ -21,7 +22,7 @@ import thb.fbi.leguan.parser.ProgramParser;
 import thb.fbi.leguan.parser.SyntaxErrorListener;
 import thb.fbi.leguan.parser.antlr.LegV8Lexer;
 import thb.fbi.leguan.parser.antlr.LegV8Parser;
-import thb.fbi.leguan.utility.ExecutorServiceProvider;
+import thb.fbi.leguan.service.ExecutorServiceProvider;
 
 /** 
  * class for simulating a processor and instruction execution
@@ -100,15 +101,15 @@ public class Simulator {
      * executes exactly one instruction
      * @param code program to execute
      */
-    public int forwardStep() {
+    public InstructionPosition forwardStep() {
         runNextInstruction();
 
         // get source line of next instruction
         ProgramStatement nextStatement = program.getProgramStatement((int) pc.getValue());
         if(nextStatement != null) {
-            return nextStatement.getSourceLine();
+            return nextStatement.getLinePosition();
         }
-        return -1;
+        return null;
     }
 
     /**

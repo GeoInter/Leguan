@@ -12,27 +12,27 @@ public class ProgramStatement {
     private InstructionArguments arguments;
     /** original line of code */
     private String source;
-    /** line number of the source code */
-    private int sourceLine;
+    /** line number/ position in editor */
+    private InstructionPosition linePosition;
 
-    public ProgramStatement(Instruction instruction, InstructionArguments arguments, String source, int sourceLine) {
+    public ProgramStatement(Instruction instruction, InstructionArguments arguments, String source, int startingLineNumber, int endingLineNumber) {
         this.setInstruction(instruction);
         this.setArguments(arguments);
         this.setSource(source);
-        this.setSourceLine(sourceLine);
+        this.setLinePosition(new InstructionPosition(startingLineNumber, endingLineNumber));
     }
 
     public String getMachineCodeString() {
         return this.instruction.getMachineCodeString(this.arguments);
     }
 
-    public int getSourceLine() {
-        return sourceLine;
+    public InstructionPosition getLinePosition() {
+        return linePosition;
     }
 
-    public void setSourceLine(int sourceLine) {
-        this.sourceLine = sourceLine;
-    }
+    public void setLinePosition(InstructionPosition linePosition) {
+        this.linePosition = linePosition;
+    }    
 
     public String getSource() {
         return source;
