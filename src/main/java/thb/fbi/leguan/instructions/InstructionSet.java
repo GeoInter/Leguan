@@ -7,6 +7,7 @@ import java.util.Formatter;
 import java.util.List;
 import java.util.TreeSet;
 
+import thb.fbi.leguan.simulation.FPRegister;
 import thb.fbi.leguan.simulation.FlagRegister;
 import thb.fbi.leguan.simulation.Memory;
 import thb.fbi.leguan.simulation.PCRegister;
@@ -798,6 +799,41 @@ public class InstructionSet {
                                 long result = bigInteger.longValue();
 
                                 Rd.setValue(result);
+                            }
+                        }));
+
+
+        //// Floating Point Instructions ////
+        
+        instructionSet.add(
+                new FloatingPointInstruction("FADDS", 
+                        0xF1, 
+                        "", 
+                        new IFloatingPointCode() {
+                            @Override
+                            public void simulate(FPRegister Rm, int shamt, FPRegister Rn, FPRegister Rd) {
+                                float op1 = Rm.getSPValue();
+                                float op2 = Rn.getSPValue();
+
+                                float result = op1 + op2;
+
+                                Rd.setSPValue(result);
+                            }
+                        }));
+
+        instructionSet.add(
+                new FloatingPointInstruction("FADDD", 
+                        0xF3, 
+                        "", 
+                        new IFloatingPointCode() {
+                            @Override
+                            public void simulate(FPRegister Rm, int shamt, FPRegister Rn, FPRegister Rd) {
+                                double op1 = Rm.getDPValue();
+                                double op2 = Rn.getDPValue();
+
+                                double result = op1 + op2;
+
+                                Rd.setDPValue(result);
                             }
                         }));
 
