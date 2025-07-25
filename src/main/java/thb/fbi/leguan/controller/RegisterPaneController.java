@@ -11,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import thb.fbi.leguan.simulation.FPRegister;
 import thb.fbi.leguan.simulation.FlagRegister;
 import thb.fbi.leguan.simulation.FlagRegisterObserver;
 import thb.fbi.leguan.simulation.Simulator;
@@ -27,74 +28,77 @@ public class RegisterPaneController implements FlagRegisterObserver {
     HBox flagRegisterPane;
 
     @FXML
-    RegisterTitleBarController pcController;
+    IntegerRegisterController pcController;
     @FXML
-    RegisterTitleBarController r0Controller;
+    IntegerRegisterController r0Controller;
     @FXML
-    RegisterTitleBarController r1Controller;
+    IntegerRegisterController r1Controller;
     @FXML
-    RegisterTitleBarController r2Controller;
+    IntegerRegisterController r2Controller;
     @FXML
-    RegisterTitleBarController r3Controller;
+    IntegerRegisterController r3Controller;
     @FXML
-    RegisterTitleBarController r4Controller;
+    IntegerRegisterController r4Controller;
     @FXML
-    RegisterTitleBarController r5Controller;
+    IntegerRegisterController r5Controller;
     @FXML
-    RegisterTitleBarController r6Controller;
+    IntegerRegisterController r6Controller;
     @FXML
-    RegisterTitleBarController r7Controller;
+    IntegerRegisterController r7Controller;
     @FXML
-    RegisterTitleBarController r8Controller;
+    IntegerRegisterController r8Controller;
 
     @FXML
-    RegisterTitleBarController r9Controller;
+    IntegerRegisterController r9Controller;
     @FXML
-    RegisterTitleBarController r10Controller;
+    IntegerRegisterController r10Controller;
     @FXML
-    RegisterTitleBarController r11Controller;
+    IntegerRegisterController r11Controller;
     @FXML
-    RegisterTitleBarController r12Controller;
+    IntegerRegisterController r12Controller;
     @FXML
-    RegisterTitleBarController r13Controller;
+    IntegerRegisterController r13Controller;
     @FXML
-    RegisterTitleBarController r14Controller;
+    IntegerRegisterController r14Controller;
     @FXML
-    RegisterTitleBarController r15Controller;
+    IntegerRegisterController r15Controller;
     @FXML
-    RegisterTitleBarController r16Controller;
+    IntegerRegisterController r16Controller;
     @FXML
-    RegisterTitleBarController r17Controller;
+    IntegerRegisterController r17Controller;
     @FXML
-    RegisterTitleBarController r18Controller;
+    IntegerRegisterController r18Controller;
 
     @FXML
-    RegisterTitleBarController r19Controller;
+    IntegerRegisterController r19Controller;
     @FXML
-    RegisterTitleBarController r20Controller;
+    IntegerRegisterController r20Controller;
     @FXML
-    RegisterTitleBarController r21Controller;
+    IntegerRegisterController r21Controller;
     @FXML
-    RegisterTitleBarController r22Controller;
+    IntegerRegisterController r22Controller;
     @FXML
-    RegisterTitleBarController r23Controller;
+    IntegerRegisterController r23Controller;
     @FXML
-    RegisterTitleBarController r24Controller;
+    IntegerRegisterController r24Controller;
     @FXML
-    RegisterTitleBarController r25Controller;
+    IntegerRegisterController r25Controller;
     @FXML
-    RegisterTitleBarController r26Controller;
+    IntegerRegisterController r26Controller;
     @FXML
-    RegisterTitleBarController r27Controller;
+    IntegerRegisterController r27Controller;
 
     @FXML
-    RegisterTitleBarController r28Controller;
+    IntegerRegisterController r28Controller;
     @FXML
-    RegisterTitleBarController r29Controller;
+    IntegerRegisterController r29Controller;
     @FXML
-    RegisterTitleBarController r30Controller;
+    IntegerRegisterController r30Controller;
     @FXML
-    RegisterTitleBarController r31Controller;
+    IntegerRegisterController r31Controller;
+
+    @FXML 
+    FPRegisterController fp1Controller;
 
     @FXML
     ToggleButton NFlagValue;
@@ -119,7 +123,7 @@ public class RegisterPaneController implements FlagRegisterObserver {
     CheckBox displayUnsignedCheckBox;
 
     private Simulator simulator = SimulatorSingleton.getSimulator();
-    private List<RegisterTitleBarController> registerControllerList = new ArrayList<RegisterTitleBarController>();
+    private List<IntegerRegisterController> registerControllerList = new ArrayList<IntegerRegisterController>();
 
     /**
      * initializes all UI components and binds values of the register side pane
@@ -166,6 +170,8 @@ public class RegisterPaneController implements FlagRegisterObserver {
         r29Controller.setProperties(simulator.getRegisters()[29], showAllRegisters, displayUnsigned);
         r30Controller.setProperties(simulator.getRegisters()[30], showAllRegisters, displayUnsigned);
         r31Controller.setProperties(simulator.getRegisters()[31], showAllRegisters, displayUnsigned);
+
+        fp1Controller.setProperties(new FPRegister("Test", 575.98763f, 575.98763f), showAllRegisters, displayUnsigned);
 
         registerControllerList.add(r0Controller);
         registerControllerList.add(r1Controller);
@@ -304,7 +310,7 @@ public class RegisterPaneController implements FlagRegisterObserver {
      * undo highlighting for all registers
      */
     public void clearRegisterHighlighting() {
-        for (RegisterTitleBarController controller : registerControllerList) {
+        for (IntegerRegisterController controller : registerControllerList) {
             controller.clearHighlighting();
         }
     }

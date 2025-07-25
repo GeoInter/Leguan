@@ -21,19 +21,19 @@ public class InstructionFactory {
             Instruction instruction = new Instruction();
             // register 
             if(statement.getArguments().getRd() != null) {
-                instruction.setRd(statement.getArguments().getRd().getID());
+                instruction.setRd(statement.getArguments().getRd().getId());
             } else {
                 instruction.setRd(31);
             }
             if(statement.getArguments().getRn() != null) {
-                instruction.setRn(statement.getArguments().getRn().getID());
+                instruction.setRn(statement.getArguments().getRn().getId());
             } else {
                 instruction.setRn(31);
             }
             if(statement.getArguments().getRt() != null) {
-                instruction.setRt(statement.getArguments().getRt().getID());
+                instruction.setRt(statement.getArguments().getRt().getId());
             } else if(statement.getArguments().getRm() != null)  {
-                instruction.setRt(statement.getArguments().getRm().getID());
+                instruction.setRt(statement.getArguments().getRm().getId());
             } else {
                 instruction.setRt(31);
             }

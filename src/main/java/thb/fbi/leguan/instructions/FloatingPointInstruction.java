@@ -32,14 +32,14 @@ public class FloatingPointInstruction extends Instruction {
         String s = "";
         s = MachineCodeTranslator.convertOpCodeToBinary(opcode, 11);
         if(args.getRm() != null) {
-            s += " " + MachineCodeTranslator.convertToMachineCode(args.getRm().getID(), 5);
+            s += " " + MachineCodeTranslator.convertToMachineCode(args.getRm().getId(), 5);
         } else {
             s += " 11111";
         }
         // TODO: get actual FP Register from Arguments
         s += " " + MachineCodeTranslator.convertToMachineCode(args.getShamt(), 6);
-        s += " " + MachineCodeTranslator.convertToMachineCode(args.getRn().getID(), 5);
-        s += " " + MachineCodeTranslator.convertToMachineCode(args.getRd().getID(), 5);
+        s += " " + MachineCodeTranslator.convertToMachineCode(args.getRn().getId(), 5);
+        s += " " + MachineCodeTranslator.convertToMachineCode(args.getRd().getId(), 5);
         return s;
     }
 

@@ -2,7 +2,7 @@ package thb.fbi.leguan.instructions;
 
 import thb.fbi.leguan.data.InstructionArguments;
 import thb.fbi.leguan.simulation.PCRegister;
-import thb.fbi.leguan.simulation.Register;
+import thb.fbi.leguan.simulation.IntegerRegister;
 import thb.fbi.leguan.utility.MachineCodeTranslator;
 
 /**
@@ -21,13 +21,13 @@ public class ConditionalBranchInstruction extends Instruction {
     @Override
     public void simulate(InstructionArguments argument, PCRegister pc) {
         int cond_br_address = argument.getCond_Br_Address();
-        Register Rt = argument.getRt();
+        IntegerRegister Rt = argument.getRt();
         this.conditionalBranchCode.simulate(cond_br_address, Rt, pc);
     }
 
     /**
      * returns this instructions machine code representation with provided arguments
-     * in the form of opcode(8b), cond_br_address(19b), Rt(5b)
+     * in the form of opcode(8bit), cond_br_address(19bit), Rt(5bit)
      */
     public String getMachineCodeString(InstructionArguments args) {
         String s = "";
@@ -36,7 +36,7 @@ public class ConditionalBranchInstruction extends Instruction {
         if (args.getRt() == null) { // instructions that not use RT but condition codes like B.EQ, B.LT
             s += " " + getMachineCodeForConditionCode(this.mnemonic);
         } else { // instructions that use RT like CBNZ, CBZ
-            s += " " + MachineCodeTranslator.convertToMachineCode(args.getRt().getID(), 5);
+            s += " " + MachineCodeTranslator.convertToMachineCode(args.getRt().getId(), 5);
         }
         return s;
     }

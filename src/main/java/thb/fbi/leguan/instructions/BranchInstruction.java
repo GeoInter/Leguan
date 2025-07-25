@@ -25,7 +25,7 @@ public class BranchInstruction extends Instruction {
 
     /**
      * returns this instructions machine code representation with provided arguments
-     * in the form of opcode(6b), br_address(26b)
+     * in the form of opcode(6bit), br_address(26bit)
      */
     public String getMachineCodeString(InstructionArguments args) {
         String s = "";

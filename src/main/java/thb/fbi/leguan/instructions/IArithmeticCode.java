@@ -1,10 +1,10 @@
 package thb.fbi.leguan.instructions;
 
-import thb.fbi.leguan.simulation.Register;
+import thb.fbi.leguan.simulation.IntegerRegister;
 
 /**
  * Interface for definining and executing code of arithmetic instructions
  */
 public interface IArithmeticCode {
-    public abstract void simulate(Register Rm, int shamt, Register Rn, Register Rd);
+    public abstract void simulate(IntegerRegister Rm, int shamt, IntegerRegister Rn, IntegerRegister Rd);
 }

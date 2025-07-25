@@ -34,7 +34,7 @@ public class Simulator {
     /** number of registers */
     public final int registerNr = 32;
     /** array of accessible regsiters */
-    private Register[] registers;
+    private IntegerRegister[] registers;
     /** programm counter */
     private PCRegister pc = new PCRegister("PC", Memory.CODE_SEGMENT_START, -1);
     /** register of processor flags */
@@ -59,10 +59,10 @@ public class Simulator {
     protected static MemoryController memoryController;
 
     public Simulator() {
-        registers = new Register[registerNr];
+        registers = new IntegerRegister[registerNr];
         instructionSet.populate();
         for (int i = 0; i < registers.length; i++) {
-            registers[i] = new Register("X"+i, 0, i);
+            registers[i] = new IntegerRegister("X"+i, 0, i);
             registers[i].setNumberFormat(Base.DEC);
         }
         pc.setValue(Memory.CODE_SEGMENT_START);
@@ -88,7 +88,7 @@ public class Simulator {
      * set register which not appear in program usedRegister list to false
      */
     public void updateShownRegisters() {
-        for (Register r : registers) {
+        for (IntegerRegister r : registers) {
             if(! program.getUsedRegisters().contains(r)) {
                 r.setIsUsed(false);
             } else {
@@ -158,9 +158,9 @@ public class Simulator {
 
                 // set highlighting for specific a specific registerbox
                 if(statement.getArguments().getRd() != null) {
-                    registerPaneController.updateRegisterHighlighting(statement.getArguments().getRd().getID());
+                    registerPaneController.updateRegisterHighlighting(statement.getArguments().getRd().getId());
                 } else if(statement.getArguments().getRt() != null) {
-                    registerPaneController.updateRegisterHighlighting(statement.getArguments().getRt().getID());
+                    registerPaneController.updateRegisterHighlighting(statement.getArguments().getRt().getId());
                 } else {
                     registerPaneController.updateRegisterHighlighting(-1);
                 }
@@ -249,7 +249,7 @@ public class Simulator {
      * resets all register values and pc to 0
      */
     public void reset() {
-        for (Register register : registers) {
+        for (IntegerRegister register : registers) {
             register.setValue(0);
         }
         pc.setValue(Memory.CODE_SEGMENT_START);
@@ -268,7 +268,7 @@ public class Simulator {
      * gets the list of all registers (R0 - R31)
      * @return List of registers
      */
-    public Register[] getRegisters() {
+    public IntegerRegister[] getRegisters() {
         return this.registers;
     }
 

@@ -36,6 +36,7 @@ import thb.fbi.leguan.parser.antlr.LegV8Parser.ShiftInstructionContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.ShiftParamContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.WideImmediateInstructionContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.WideImmediateParamContext;
+import thb.fbi.leguan.simulation.IntegerRegister;
 import thb.fbi.leguan.simulation.Register;
 import thb.fbi.leguan.simulation.Simulator;
 import thb.fbi.leguan.simulation.SimulatorSingleton;
@@ -124,7 +125,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
      * maps special registers to index
      */
     @Override
-    public Register visitRegister(RegisterContext ctx) {
+    public IntegerRegister visitRegister(RegisterContext ctx) {
         String registerName = ctx.REGISTER().getText();
         int index = 0;
         switch (registerName) {
@@ -145,7 +146,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
                 index = Integer.parseInt(registerName);
         }
 
-        Register register = null;
+        IntegerRegister register = null;
         try {
             register = simulator.getRegisters()[index];
             if (!usedRegisters.contains(register)) {
@@ -310,9 +311,9 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
 
     @Override
     public InstructionArguments visitArithmeticParam(ArithmeticParamContext ctx) {
-        Register Rd = visitRegister(ctx.register(0));
-        Register Rn = visitRegister(ctx.register(1));
-        Register Rm = visitRegister(ctx.register(2));
+        IntegerRegister Rd = visitRegister(ctx.register(0));
+        IntegerRegister Rn = visitRegister(ctx.register(1));
+        IntegerRegister Rm = visitRegister(ctx.register(2));
         InstructionArguments args = new InstructionArguments();
         args.setRd(Rd);
         args.setRn(Rn);
@@ -322,8 +323,8 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
 
     @Override
     public InstructionArguments visitImmediateParam(ImmediateParamContext ctx) {
-        Register Rd = visitRegister(ctx.register(0));
-        Register Rn = visitRegister(ctx.register(1));
+        IntegerRegister Rd = visitRegister(ctx.register(0));
+        IntegerRegister Rn = visitRegister(ctx.register(1));
         int alu_immediate = visitNum(ctx.num());
         InstructionArguments args = new InstructionArguments();
         args.setRd(Rd);
@@ -334,7 +335,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
 
     @Override
     public InstructionArguments visitWideImmediateParam(WideImmediateParamContext ctx) {
-        Register Rd = visitRegister(ctx.register());
+        IntegerRegister Rd = visitRegister(ctx.register());
         int immediate = visitNum(ctx.num(0));
         int shamt = visitNum(ctx.num(1));
         // only allows 0, 16, 32 and 48 as shift value
@@ -353,8 +354,8 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
 
     @Override
     public InstructionArguments visitDatatransferParam(DatatransferParamContext ctx) {
-        Register Rt = visitRegister(ctx.register(0));
-        Register Rn = visitRegister(ctx.register(1));
+        IntegerRegister Rt = visitRegister(ctx.register(0));
+        IntegerRegister Rn = visitRegister(ctx.register(1));
         int dt_address = visitNum(ctx.num());
         InstructionArguments args = new InstructionArguments();
         args.setRt(Rt);
@@ -365,9 +366,9 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
 
     @Override
     public InstructionArguments visitExclusiveParam(ExclusiveParamContext ctx) {
-        Register Rd = visitRegister(ctx.register(0));
-        Register Rn = visitRegister(ctx.register(1));
-        Register Rm = visitRegister(ctx.register(2));
+        IntegerRegister Rd = visitRegister(ctx.register(0));
+        IntegerRegister Rn = visitRegister(ctx.register(1));
+        IntegerRegister Rm = visitRegister(ctx.register(2));
         InstructionArguments args = new InstructionArguments();
         args.setRd(Rd);
         args.setRn(Rn);
@@ -377,7 +378,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
 
     @Override
     public InstructionArguments visitCondBranchParam(CondBranchParamContext ctx) {
-        Register Rt = visitRegister(ctx.register());
+        IntegerRegister Rt = visitRegister(ctx.register());
         int cond_br_address = visitJumpLabelReference(ctx.jumpLabelReference());
         InstructionArguments args = new InstructionArguments();
         args.setRt(Rt);
@@ -403,7 +404,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
 
     @Override
     public InstructionArguments visitBranchByRegisterParam(BranchByRegisterParamContext ctx) {
-        Register Rt = visitRegister(ctx.register());
+        IntegerRegister Rt = visitRegister(ctx.register());
         InstructionArguments args = new InstructionArguments();
         args.setRt(Rt);
         return args;
@@ -411,8 +412,8 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
 
     @Override
     public InstructionArguments visitShiftParam(ShiftParamContext ctx) {
-        Register Rd = visitRegister(ctx.register(0));
-        Register Rn = visitRegister(ctx.register(1));
+        IntegerRegister Rd = visitRegister(ctx.register(0));
+        IntegerRegister Rn = visitRegister(ctx.register(1));
         int shamt = visitNum(ctx.num());
         InstructionArguments args = new InstructionArguments();
         args.setRd(Rd);
@@ -423,8 +424,8 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
 
     @Override
     public InstructionArguments visitDataSegmentParam(DataSegmentParamContext ctx) {
-        Register Rt = visitRegister(ctx.register());
-        Register Rn = simulator.getRegisters()[31];
+        IntegerRegister Rt = visitRegister(ctx.register());
+        IntegerRegister Rn = simulator.getRegisters()[31];
         long dt_address = visitDataSegmentLabelReference(ctx.dataSegmentLabelReference());
         InstructionArguments args = new InstructionArguments();
         args.setRt(Rt);

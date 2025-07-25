@@ -12,7 +12,7 @@
 
 <?import java.util.ArrayList?>
 
-<VBox id="register-pane" fx:id="RegisterPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="thb.fbi.leguan.controller.RegisterPaneController">
+<VBox id="register-pane" fx:id="RegisterPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="thb.fbi.leguan.controller.RegisterPaneController">
    <children>
       <HBox alignment="CENTER" prefHeight="50.0" spacing="50.0">
          <children>
@@ -24,6 +24,22 @@
          <content>
             <VBox id="register-vbox" spacing="12.0">
                <children>
+                  <VBox prefHeight="200.0" prefWidth="100.0" styleClass="register-container">
+                     <children>
+                        <Label text="%register.Label.FloatingPoint" underline="true"> <!-- Floating Point -->
+                           <padding>
+                              <Insets top="10.0" />
+                           </padding>
+                           <VBox.margin>
+                              <Insets left="8.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <fx:include fx:id="fp1" source="FPRegister.fxml" />
+                     </children>
+                  </VBox>
                   <VBox prefWidth="100.0" styleClass="register-container">
                      <children>
                         <fx:include fx:id="pc" source="RegisterTitleBar.fxml" />

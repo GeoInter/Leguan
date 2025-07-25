@@ -1,6 +1,6 @@
 package thb.fbi.leguan.data;
 
-import thb.fbi.leguan.simulation.Register;
+import thb.fbi.leguan.simulation.IntegerRegister;
 
 /**
  * Class for holding all kinds of arguments for all instruction formats.
@@ -8,10 +8,10 @@ import thb.fbi.leguan.simulation.Register;
  */
 public class InstructionArguments {
     /** already translated arguments; can be directly used by an instruction */
-    private Register Rm;
-    private Register Rn;
-    private Register Rd;
-    private Register Rt;
+    private IntegerRegister Rm;
+    private IntegerRegister Rn;
+    private IntegerRegister Rd;
+    private IntegerRegister Rt;
     private int shamt; // 6bit
     private int alu_immediate; // 12bit
     private long dt_address; // 9bit
@@ -28,19 +28,19 @@ public class InstructionArguments {
         Rt = null;
     }
 
-    public Register getRm() {
+    public IntegerRegister getRm() {
         return Rm;
     }
 
-    public Register getRn() {
+    public IntegerRegister getRn() {
         return Rn;
     }
 
-    public Register getRd() {
+    public IntegerRegister getRd() {
         return Rd;
     }
 
-    public Register getRt() {
+    public IntegerRegister getRt() {
         return Rt;
     }
 
@@ -64,19 +64,19 @@ public class InstructionArguments {
         return cond_br_address;
     }
 
-    public void setRn(Register rn) {
+    public void setRn(IntegerRegister rn) {
         this.Rn = rn;
     }
 
-    public void setRm(Register rm) {
+    public void setRm(IntegerRegister rm) {
         this.Rm = rm;
     }
 
-    public void setRd(Register rd) {
+    public void setRd(IntegerRegister rd) {
         this.Rd = rd;
     }
 
-    public void setRt(Register rt) {
+    public void setRt(IntegerRegister rt) {
         this.Rt = rt;
     }
 

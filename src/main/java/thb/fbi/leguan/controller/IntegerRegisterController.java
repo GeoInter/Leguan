@@ -11,7 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import thb.fbi.leguan.simulation.Base;
 import thb.fbi.leguan.simulation.PCRegister;
-import thb.fbi.leguan.simulation.Register;
+import thb.fbi.leguan.simulation.IntegerRegister;
 
 /**
  * controller class for a register bar
@@ -19,10 +19,10 @@ import thb.fbi.leguan.simulation.Register;
  * controls only one specified register
  * register needs to be set seperate/ outside of this controller
  */
-public class RegisterTitleBarController {
+public class IntegerRegisterController {
 
     /** register to associate to this UI element */
-    private Register register;
+    private IntegerRegister register;
 
     private BooleanProperty displayUnsigned;
 
@@ -82,7 +82,7 @@ public class RegisterTitleBarController {
      * @param register
      * @param showAllRegisters
      */
-    public void setProperties(Register register, BooleanProperty showAllRegisters, BooleanProperty displayUnsigned) {
+    public void setProperties(IntegerRegister register, BooleanProperty showAllRegisters, BooleanProperty displayUnsigned) {
         this.register = register;
         registerTitle.setText(register.getName());
         addShownValueObserver();
