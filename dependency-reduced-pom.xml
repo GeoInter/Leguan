@@ -40,7 +40,7 @@
           <execution>
             <id>default-cli</id>
             <configuration>
-              <mainClass>thb.fbi.leguan/thb.fbi.leguan.Launcher</mainClass>
+              <mainClass>thb.fbi.leguan.Launcher</mainClass>
             </configuration>
           </execution>
         </executions>
@@ -109,8 +109,8 @@
                 <configuration>
                   <headerType>gui</headerType>
                   <stayAlive>true</stayAlive>
-                  <jar>${project.build.directory}/${project.build.finalName}.jar</jar>
-                  <outfile>${project.build.directory}/${app.name}</outfile>
+                  <jar>C:\Users\grigarzi\Leguan\target/Leguan-1.3.jar</jar>
+                  <outfile>C:\Users\grigarzi\Leguan\target/Leguan.exe</outfile>
                   <classPath>
                     <mainClass>thb.fbi.leguan.Launcher</mainClass>
                   </classPath>

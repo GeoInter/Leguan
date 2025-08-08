@@ -158,7 +158,7 @@
             <id>default-cli</id>
             <configuration>
               <!--<mainClass>thb.fbi.App</mainClass> -->
-              <mainClass>thb.fbi.leguan/thb.fbi.leguan.Launcher</mainClass>
+              <mainClass>thb.fbi.leguan.Launcher</mainClass>
             </configuration>
           </execution>
         </executions>
