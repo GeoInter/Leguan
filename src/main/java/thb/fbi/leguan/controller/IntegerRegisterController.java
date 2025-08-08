@@ -42,20 +42,15 @@ public class IntegerRegisterController {
     @FXML
     public void initialize() {
         registerValue.focusedProperty().addListener((arg0, oldValue, newValue) -> {
-            if(!newValue) {
-                if(!registerValue.getText().matches("^[0-9.]*$")) {
-                    // when text not a number
-                    registerValue.setText("0");
-                } else {
-                    try {
-                        String valueString = registerValue.getText();
-                        valueString = valueString.replace(".", "");
+            if (!newValue) {
+                try {
+                    String valueString = registerValue.getText();
+                    valueString = valueString.replace(".", "");
 
-                        long parsedValue = Long.parseLong(valueString);
-                        register.setValue(parsedValue);
-                    } catch(NumberFormatException e) {
-                        registerValue.setText("0");
-                    }
+                    long parsedValue = Long.parseLong(valueString);
+                    register.setValue(parsedValue);
+                } catch (NumberFormatException e) {
+                    registerValue.setText("0");
                 }
             }
         });
@@ -82,7 +77,8 @@ public class IntegerRegisterController {
      * @param register
      * @param showAllRegisters
      */
-    public void setProperties(IntegerRegister register, BooleanProperty showAllRegisters, BooleanProperty displayUnsigned) {
+    public void setProperties(IntegerRegister register, BooleanProperty showAllRegisters,
+            BooleanProperty displayUnsigned) {
         this.register = register;
         registerTitle.setText(register.getName());
         addShownValueObserver();

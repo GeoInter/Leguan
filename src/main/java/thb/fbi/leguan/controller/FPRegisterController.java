@@ -7,47 +7,59 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import thb.fbi.leguan.simulation.Base;
 import thb.fbi.leguan.simulation.FPRegister;
 import thb.fbi.leguan.simulation.FPRegisterObserver;
 
 public class FPRegisterController implements FPRegisterObserver {
 
-    @FXML HBox spRegisterBox;
+    @FXML
+    VBox registerBox;
 
-    @FXML Label spRegisterTitle;
+    @FXML
+    HBox spRegisterBox;
 
-    @FXML TextField spRegisterValue;
+    @FXML
+    Label spRegisterTitle;
 
-    @FXML Button spDecimalButton;
+    @FXML
+    TextField spRegisterValue;
 
-    @FXML Button spBinaryButton;
+    @FXML
+    Button spDecimalButton;
 
-    @FXML Button spHexadecimalButton;
+    @FXML
+    Button spBinaryButton;
 
+    @FXML
+    Button spHexadecimalButton;
 
-    @FXML Label dpRegisterTitle;
+    @FXML
+    Label dpRegisterTitle;
 
-    @FXML TextField dpRegisterValue;
+    @FXML
+    TextField dpRegisterValue;
 
-    @FXML ToggleButton toggleButton;
+    @FXML
+    ToggleButton toggleButton;
 
-    @FXML Button dpDecimalButton;
+    @FXML
+    Button dpDecimalButton;
 
-    @FXML Button dpBinaryButton;
+    @FXML
+    Button dpBinaryButton;
 
-    @FXML Button dpHexadecimalButton;
+    @FXML
+    Button dpHexadecimalButton;
 
     private FPRegister register;
 
     /*****
      * 
-     * TODO: Update Value when text is set manually in both directions (SP and DP)
      * TODO: Binding Boolean: show if used
      * TODO: Highlight value changes
-     * TODO: Fix BINARY missing leading zero if value is positive
-     * 
-     * 
+     * TODO: Fix BINARY too long for SP
      * 
      * 
      */
@@ -56,7 +68,7 @@ public class FPRegisterController implements FPRegisterObserver {
     public void initialize() {
         spRegisterBox.setManaged(false);
         spRegisterBox.setVisible(false);
-        
+
         toggleButton.selectedProperty().addListener((observableValue, oldValue, newValue) -> {
             if (toggleButton.isSelected()) {
                 spRegisterBox.setManaged(true);
@@ -66,6 +78,30 @@ public class FPRegisterController implements FPRegisterObserver {
                 spRegisterBox.setManaged(false);
                 spRegisterBox.setVisible(false);
                 toggleButton.setText("▼");
+            }
+        });
+
+        spRegisterValue.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+            if (!newValue) {
+                try {
+                    String valueString = spRegisterValue.getText();
+                    float parsedValue = Float.parseFloat(valueString);
+                    register.setSinlgePrecisionValue(parsedValue);
+                } catch (NumberFormatException e) {
+                    spRegisterValue.setText(register.getSinglePrecisionValueAsString());
+                }
+            }
+        });
+
+        dpRegisterValue.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+            if (!newValue) {
+                try {
+                    String valueString = dpRegisterValue.getText();
+                    double parsedValue = Double.parseDouble(valueString);
+                    register.setDoublePrecisionValue(parsedValue);
+                } catch (NumberFormatException e) {
+                    dpRegisterValue.setText(register.getDoublePrecisionValueAsString());
+                }
             }
         });
     }
@@ -82,10 +118,12 @@ public class FPRegisterController implements FPRegisterObserver {
         this.register = register;
         // set observer
         this.register.setObserver(this);
-        this.register.setSinlgePrecisionValue(1234.5678f);
 
-        dpRegisterTitle.setText("DP"+register.getId());
-        spRegisterTitle.setText("SP"+register.getId());
+        registerBox.managedProperty().bind(register.getIsUsed().or(showAllRegisters));
+        registerBox.visibleProperty().bind(register.getIsUsed().or(showAllRegisters));
+
+        dpRegisterTitle.setText("DP" + register.getId());
+        spRegisterTitle.setText("SP" + register.getId());
     }
 
     @Override
@@ -93,7 +131,7 @@ public class FPRegisterController implements FPRegisterObserver {
         spRegisterValue.setText(singlePrecisionValue);
         dpRegisterValue.setText(doublePrecisionValue);
     }
-    
+
     /**
      * updates displayed value to decimal format and deactivates the DEC button
      */
