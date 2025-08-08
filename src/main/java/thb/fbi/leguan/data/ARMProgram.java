@@ -1,6 +1,7 @@
 package thb.fbi.leguan.data;
 
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.TreeMap;
 
 import thb.fbi.leguan.simulation.Register;
@@ -13,7 +14,7 @@ import thb.fbi.leguan.simulation.Register;
 public class ARMProgram {
 
     private TreeMap<Integer, ProgramStatement> statements = new TreeMap<Integer, ProgramStatement>();
-    private ArrayList<Register> usedRegisters = new ArrayList<Register>();
+    private Set<Register> usedRegisters = new HashSet<Register>();
     private TreeMap<Long, Byte> dataSegment = new TreeMap<Long, Byte>();
 
     public ARMProgram() {
@@ -24,7 +25,7 @@ public class ARMProgram {
      * gets the list of used registers across the whole Program
      * @return list of used registers
      */
-    public ArrayList<Register> getUsedRegisters() {
+    public Set<Register> getUsedRegisters() {
         return this.usedRegisters;
     }
 
@@ -66,7 +67,7 @@ public class ARMProgram {
      * set list of used registers within this program
      * @param usedRegisters
      */
-    public void setUsedRegister(ArrayList<Register> usedRegisters) {
+    public void setUsedRegister(Set<Register> usedRegisters) {
         this.usedRegisters = usedRegisters;
     }
 

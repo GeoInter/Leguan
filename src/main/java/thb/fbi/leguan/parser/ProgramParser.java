@@ -2,6 +2,8 @@ package thb.fbi.leguan.parser;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.TreeMap;
 
 import org.antlr.v4.runtime.tree.TerminalNode;
@@ -25,7 +27,7 @@ public class ProgramParser extends LegV8BaseVisitor<ARMProgram> {
     /** List of all occured semantic Errors (occuring during parser/ non-syntax errors) */
     public ArrayList<ParsingError> semanticErrors = new ArrayList<ParsingError>();
     /** List of all used registers */
-    private ArrayList<Register> usedRegisters = new ArrayList<Register>();
+    private Set<Register> usedRegisters = new HashSet<Register>();
     /** Map of all (resolved) jump labels */
     private HashMap<String, Integer> jumpMarks = new HashMap<String, Integer>();
     /** Map of all (unresolved) jump label (=labels that were referenced before they were declared aka downward jump */

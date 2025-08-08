@@ -1,7 +1,7 @@
 package thb.fbi.leguan.parser;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 
 import org.antlr.v4.runtime.misc.Interval;
 
@@ -52,13 +52,12 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
     private static Simulator simulator = SimulatorSingleton.getSimulator();
     private int programIndex = 0; // current program statement in list
 
-    // TODO: Refactor to use Set
-    private ArrayList<Register> usedRegisters;
+    private Set<Register> usedRegisters;
     private HashMap<String, Integer> jumpMarks;
     private HashMap<Integer, String> unresolvedMarks;
     private HashMap<String, Long> dataSegmentVariables;
 
-    public ProgramStatementParser(ArrayList<Register> usedRegisters, HashMap<String, Integer> jumpMarks,
+    public ProgramStatementParser(Set<Register> usedRegisters, HashMap<String, Integer> jumpMarks,
             HashMap<Integer, String> unresolvedMarks, HashMap<String, Long> dataSegmentVariables) {
         this.usedRegisters = usedRegisters;
         this.jumpMarks = jumpMarks;
@@ -98,7 +97,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
      * 
      * @return list of (used) parsed registers
      */
-    public ArrayList<Register> getUsedRegisters() {
+    public Set<Register> getUsedRegisters() {
         return usedRegisters;
     }
 
