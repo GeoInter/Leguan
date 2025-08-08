@@ -11,9 +11,8 @@ import thb.fbi.leguan.simulation.FPRegister;
 import thb.fbi.leguan.simulation.FlagRegister;
 import thb.fbi.leguan.simulation.Memory;
 import thb.fbi.leguan.simulation.PCRegister;
+import thb.fbi.leguan.simulation.RegisterFile;
 import thb.fbi.leguan.simulation.IntegerRegister;
-import thb.fbi.leguan.simulation.Simulator;
-import thb.fbi.leguan.simulation.SimulatorSingleton;
 
 /**
  * List of usable LEGv8 Instructions.
@@ -343,8 +342,7 @@ public class InstructionSet {
                         new IBranchCode() {
                             @Override
                             public void simulate(int br_address, PCRegister pc) {
-                                Simulator simulator = SimulatorSingleton.getSimulator();
-                                IntegerRegister R30 = simulator.getRegisters()[30];
+                                IntegerRegister R30 = (IntegerRegister) RegisterFile.getIntegerRegisters()[30];
                                 R30.setValue((pc.getValue() + 4)); // internal pc value is not multiplied by 4
                                 pc.setValue(br_address);
                             }
@@ -836,6 +834,103 @@ public class InstructionSet {
                                 Rd.setDoublePrecisionValue(result);
                             }
                         }));
+
+        instructionSet.add(
+                new FloatingPointInstruction("FDIVS", 
+                        0xF1, 
+                        "", 
+                        new IFloatingPointCode() {
+                            @Override
+                            public void simulate(FPRegister Rm, int shamt, FPRegister Rn, FPRegister Rd) {
+                                float op1 = Rm.getSPValue();
+                                float op2 = Rn.getSPValue();
+
+                                float result = op1 / op2;
+
+                                Rd.setSinlgePrecisionValue(result);
+                            }
+                        }));
+
+        instructionSet.add(
+                new FloatingPointInstruction("FDIVD", 
+                        0xF3, 
+                        "", 
+                        new IFloatingPointCode() {
+                            @Override
+                            public void simulate(FPRegister Rm, int shamt, FPRegister Rn, FPRegister Rd) {
+                                double op1 = Rm.getDPValue();
+                                double op2 = Rn.getDPValue();
+
+                                double result = op1 / op2;
+
+                                Rd.setDoublePrecisionValue(result);
+                            }
+                        }));
+
+        instructionSet.add(
+                new FloatingPointInstruction("FMULS", 
+                        0xF1, 
+                        "", 
+                        new IFloatingPointCode() {
+                            @Override
+                            public void simulate(FPRegister Rm, int shamt, FPRegister Rn, FPRegister Rd) {
+                                float op1 = Rm.getSPValue();
+                                float op2 = Rn.getSPValue();
+
+                                float result = op1 * op2;
+
+                                Rd.setSinlgePrecisionValue(result);
+                            }
+                        }));
+
+        instructionSet.add(
+                new FloatingPointInstruction("FMULD", 
+                        0xF3, 
+                        "", 
+                        new IFloatingPointCode() {
+                            @Override
+                            public void simulate(FPRegister Rm, int shamt, FPRegister Rn, FPRegister Rd) {
+                                double op1 = Rm.getDPValue();
+                                double op2 = Rn.getDPValue();
+
+                                double result = op1 * op2;
+
+                                Rd.setDoublePrecisionValue(result);
+                            }
+                        }));
+
+        instructionSet.add(
+                new FloatingPointInstruction("FSUBS", 
+                        0xF1, 
+                        "", 
+                        new IFloatingPointCode() {
+                            @Override
+                            public void simulate(FPRegister Rm, int shamt, FPRegister Rn, FPRegister Rd) {
+                                float op1 = Rm.getSPValue();
+                                float op2 = Rn.getSPValue();
+
+                                float result = op1 - op2;
+
+                                Rd.setSinlgePrecisionValue(result);
+                            }
+                        }));
+
+        instructionSet.add(
+                new FloatingPointInstruction("FSUBD", 
+                        0xF3, 
+                        "", 
+                        new IFloatingPointCode() {
+                            @Override
+                            public void simulate(FPRegister Rm, int shamt, FPRegister Rn, FPRegister Rd) {
+                                double op1 = Rm.getDPValue();
+                                double op2 = Rn.getDPValue();
+
+                                double result = op1 - op2;
+
+                                Rd.setDoublePrecisionValue(result);
+                            }
+                        }));
+
 
         //// Other Instructions ////
 

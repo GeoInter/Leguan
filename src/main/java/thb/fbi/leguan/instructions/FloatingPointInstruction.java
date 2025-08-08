@@ -18,11 +18,10 @@ public class FloatingPointInstruction extends Instruction {
 
     @Override
     public void simulate(InstructionArguments argument, PCRegister pc) {
-        // TODO: Get FP register from Arguments
-        FPRegister Rm = null;
+        FPRegister Rm = (FPRegister) argument.getRm();
         int shamt = argument.getShamt();
-        FPRegister Rn = null;
-        FPRegister Rd = null;
+        FPRegister Rn = (FPRegister) argument.getRn();
+        FPRegister Rd = (FPRegister) argument.getRd();
         this.floatingPointCode.simulate(Rm, shamt, Rn, Rd);
         pc.increase();
     }
@@ -36,7 +35,7 @@ public class FloatingPointInstruction extends Instruction {
         } else {
             s += " 11111";
         }
-        // TODO: get actual FP Register from Arguments
+        // TODO: Fix retrieving Ids
         s += " " + MachineCodeTranslator.convertToMachineCode(args.getShamt(), 6);
         s += " " + MachineCodeTranslator.convertToMachineCode(args.getRn().getId(), 5);
         s += " " + MachineCodeTranslator.convertToMachineCode(args.getRd().getId(), 5);

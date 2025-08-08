@@ -109,6 +109,13 @@ public class LegV8BaseVisitor<T> extends AbstractParseTreeVisitor<T> implements 
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitFp_arithmeticInstruction(LegV8Parser.Fp_arithmeticInstructionContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitShiftInstruction(LegV8Parser.ShiftInstructionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
@@ -180,6 +187,13 @@ public class LegV8BaseVisitor<T> extends AbstractParseTreeVisitor<T> implements 
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitArithmeticParam(LegV8Parser.ArithmeticParamContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitFp_arithmeticParam(LegV8Parser.Fp_arithmeticParamContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -263,7 +277,14 @@ public class LegV8BaseVisitor<T> extends AbstractParseTreeVisitor<T> implements 
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitRegister(LegV8Parser.RegisterContext ctx) { return visitChildren(ctx); }
+	@Override public T visitInteger_register(LegV8Parser.Integer_registerContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitFp_register(LegV8Parser.Fp_registerContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

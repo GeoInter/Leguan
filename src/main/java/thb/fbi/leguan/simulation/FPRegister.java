@@ -19,10 +19,9 @@ public class FPRegister extends Register {
 
     private FPRegisterObserver observer;
 
-    // TODO: remove float parameter - currently used for testing purposes
-    public FPRegister(String name, float floatValue, double doubleValue) {
-        floatValueProperty.set(floatValue);
-        doubleValueProperty.set(doubleValue);
+    public FPRegister(int id) {
+        this.id = id;
+        this.name = "SP" + 0;
     }
 
     public String getSinglePrecisionValueAsString() {
@@ -37,6 +36,14 @@ public class FPRegister extends Register {
             return Double.toString(getDPValue());
         }
         return this.getShownValueAsString(Double.doubleToRawLongBits(getDPValue()), this.doublePrecisionNumberFormat);
+    }
+
+    public synchronized void reset() {
+        floatValueProperty.set(0);
+        doubleValueProperty.set(0);
+
+        this.observer.update(getSinglePrecisionValueAsString(),
+                getDoublePrecisionValueAsString());
     }
 
     public synchronized void setSinlgePrecisionValue(float value) {

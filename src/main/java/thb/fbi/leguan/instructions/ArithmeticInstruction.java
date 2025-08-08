@@ -20,10 +20,10 @@ public class ArithmeticInstruction extends Instruction {
 
     @Override
     public void simulate(InstructionArguments argument, PCRegister pc) {
-        IntegerRegister Rm = argument.getRm();
+        IntegerRegister Rm = (IntegerRegister) argument.getRm();
         int shamt = argument.getShamt();
-        IntegerRegister Rn = argument.getRn();
-        IntegerRegister Rd = argument.getRd();
+        IntegerRegister Rn = (IntegerRegister) argument.getRn();
+        IntegerRegister Rd = (IntegerRegister) argument.getRd();
         this.arithmeticCode.simulate(Rm, shamt, Rn, Rd);
         pc.increase();
     }

@@ -9,11 +9,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="thb.fbi.leguan.controller.FPRegisterController">
+<VBox fx:id="registerBox" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="thb.fbi.leguan.controller.FPRegisterController">
    <children>
       <HBox fx:id="dpRegisterBox" alignment="CENTER" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" styleClass="register-titleBar">
          <children>
-            <Label id="register-title" fx:id="dpRegisterTitle" alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="45.0" text="R0" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+            <Label id="register-title" fx:id="dpRegisterTitle" alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="50.0" text="R0" textAlignment="CENTER" HBox.hgrow="ALWAYS">
                <padding>
                   <Insets left="8.0" right="8.0" />
                </padding>
@@ -57,7 +57,7 @@
       </HBox>
       <HBox fx:id="spRegisterBox" alignment="CENTER" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" styleClass="register-titleBar" visible="false">
          <children>
-            <Label id="register-title" fx:id="spRegisterTitle" alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="45.0" text="R0" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+            <Label id="register-title" fx:id="spRegisterTitle" alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="50.0" text="R0" textAlignment="CENTER" HBox.hgrow="ALWAYS">
                <padding>
                   <Insets left="8.0" right="8.0" />
                </padding>
@@ -99,6 +99,9 @@
             </Button>
          </children>
       </HBox>
-      <ToggleButton fx:id="toggleButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="▼" textAlignment="CENTER" />
+      <ToggleButton fx:id="toggleButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="10.0" text="▼" textAlignment="CENTER">
+         <font>
+            <Font size="9.0" />
+         </font></ToggleButton>
    </children>
 </VBox>

@@ -24,22 +24,6 @@
          <content>
             <VBox id="register-vbox" spacing="12.0">
                <children>
-                  <VBox prefHeight="200.0" prefWidth="100.0" styleClass="register-container">
-                     <children>
-                        <Label text="%register.Label.FloatingPoint" underline="true"> <!-- Floating Point -->
-                           <padding>
-                              <Insets top="10.0" />
-                           </padding>
-                           <VBox.margin>
-                              <Insets left="8.0" />
-                           </VBox.margin>
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </Label>
-                        <fx:include fx:id="fp1" source="FPRegister.fxml" />
-                     </children>
-                  </VBox>
                   <VBox prefWidth="100.0" styleClass="register-container">
                      <children>
                         <fx:include fx:id="pc" source="RegisterTitleBar.fxml" />
@@ -163,6 +147,56 @@
                      <VBox.margin>
                         <Insets />
                      </VBox.margin>
+                     <padding>
+                        <Insets bottom="5.0" left="4.0" right="4.0" />
+                     </padding>
+                  </VBox>
+                  <VBox prefWidth="100.0" spacing="10.0" styleClass="register-container">
+                     <children>
+                        <Label text="%register.Label.FloatingPoint" underline="true"> <!-- Floating Point -->
+                           <padding>
+                              <Insets top="10.0" />
+                           </padding>
+                           <VBox.margin>
+                              <Insets left="8.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <fx:include fx:id="fp0" source="FPRegister.fxml" />
+                        <fx:include fx:id="fp1" source="FPRegister.fxml" />
+                        <fx:include fx:id="fp2" source="FPRegister.fxml" />
+                        <fx:include fx:id="fp3" source="FPRegister.fxml" />
+                        <fx:include fx:id="fp4" source="FPRegister.fxml" />
+                        <fx:include fx:id="fp5" source="FPRegister.fxml" />
+                        <fx:include fx:id="fp6" source="FPRegister.fxml" />
+                        <fx:include fx:id="fp7" source="FPRegister.fxml" />
+                        <fx:include fx:id="fp8" source="FPRegister.fxml" />
+                        <fx:include fx:id="fp9" source="FPRegister.fxml" />
+                        <fx:include fx:id="fp10" source="FPRegister.fxml" />
+                        <fx:include fx:id="fp11" source="FPRegister.fxml" />
+                        <fx:include fx:id="fp12" source="FPRegister.fxml" />
+                        <fx:include fx:id="fp13" source="FPRegister.fxml" />
+                        <fx:include fx:id="fp14" source="FPRegister.fxml" />
+                        <fx:include fx:id="fp15" source="FPRegister.fxml" />
+                        <fx:include fx:id="fp16" source="FPRegister.fxml" />
+                        <fx:include fx:id="fp17" source="FPRegister.fxml" />
+                        <fx:include fx:id="fp18" source="FPRegister.fxml" />
+                        <fx:include fx:id="fp19" source="FPRegister.fxml" />
+                        <fx:include fx:id="fp20" source="FPRegister.fxml" />
+                        <fx:include fx:id="fp21" source="FPRegister.fxml" />
+                        <fx:include fx:id="fp22" source="FPRegister.fxml" />
+                        <fx:include fx:id="fp23" source="FPRegister.fxml" />
+                        <fx:include fx:id="fp24" source="FPRegister.fxml" />
+                        <fx:include fx:id="fp25" source="FPRegister.fxml" />
+                        <fx:include fx:id="fp26" source="FPRegister.fxml" />
+                        <fx:include fx:id="fp27" source="FPRegister.fxml" />
+                        <fx:include fx:id="fp28" source="FPRegister.fxml" />
+                        <fx:include fx:id="fp29" source="FPRegister.fxml" />
+                        <fx:include fx:id="fp30" source="FPRegister.fxml" />
+                        <fx:include fx:id="fp31" source="FPRegister.fxml" />
+                     </children>
                      <padding>
                         <Insets bottom="5.0" left="4.0" right="4.0" />
                      </padding>

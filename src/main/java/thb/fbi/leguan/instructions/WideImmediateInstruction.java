@@ -22,7 +22,7 @@ public class WideImmediateInstruction extends Instruction {
 
     @Override
     public void simulate(InstructionArguments argument, PCRegister pc) {
-        IntegerRegister Rd = argument.getRd();
+        IntegerRegister Rd = (IntegerRegister) argument.getRd();
         int immediate = argument.getAlu_Immediate();
         int shamt = argument.getShamt();
         this.wideImmediateCode.simulate(Rd, immediate, shamt);

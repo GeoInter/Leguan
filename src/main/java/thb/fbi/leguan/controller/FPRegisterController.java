@@ -57,7 +57,6 @@ public class FPRegisterController implements FPRegisterObserver {
 
     /*****
      * 
-     * TODO: Binding Boolean: show if used
      * TODO: Highlight value changes
      * TODO: Fix BINARY too long for SP
      * 

@@ -173,6 +173,18 @@ public class LegV8BaseListener implements LegV8Listener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterFp_arithmeticInstruction(LegV8Parser.Fp_arithmeticInstructionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFp_arithmeticInstruction(LegV8Parser.Fp_arithmeticInstructionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterShiftInstruction(LegV8Parser.ShiftInstructionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -300,6 +312,18 @@ public class LegV8BaseListener implements LegV8Listener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitArithmeticParam(LegV8Parser.ArithmeticParamContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterFp_arithmeticParam(LegV8Parser.Fp_arithmeticParamContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFp_arithmeticParam(LegV8Parser.Fp_arithmeticParamContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -437,13 +461,25 @@ public class LegV8BaseListener implements LegV8Listener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterRegister(LegV8Parser.RegisterContext ctx) { }
+	@Override public void enterInteger_register(LegV8Parser.Integer_registerContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitRegister(LegV8Parser.RegisterContext ctx) { }
+	@Override public void exitInteger_register(LegV8Parser.Integer_registerContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterFp_register(LegV8Parser.Fp_registerContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFp_register(LegV8Parser.Fp_registerContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

@@ -21,7 +21,7 @@ public class ConditionalBranchInstruction extends Instruction {
     @Override
     public void simulate(InstructionArguments argument, PCRegister pc) {
         int cond_br_address = argument.getCond_Br_Address();
-        IntegerRegister Rt = argument.getRt();
+        IntegerRegister Rt = (IntegerRegister) argument.getRt();
         this.conditionalBranchCode.simulate(cond_br_address, Rt, pc);
     }
 

@@ -21,8 +21,8 @@ public class ImmediateInstruction extends Instruction {
     @Override
     public void simulate(InstructionArguments argument, PCRegister pc) {
         int alu_immediate = argument.getAlu_Immediate();
-        IntegerRegister Rn = argument.getRn();
-        IntegerRegister Rd = argument.getRd();
+        IntegerRegister Rn = (IntegerRegister) argument.getRn();
+        IntegerRegister Rd = (IntegerRegister) argument.getRd();
         this.immediateCode.simulate(alu_immediate, Rn, Rd);
         pc.increase();
     }

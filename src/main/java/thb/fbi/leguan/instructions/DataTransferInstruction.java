@@ -21,8 +21,8 @@ public class DataTransferInstruction extends Instruction {
     @Override
     public void simulate(InstructionArguments argument, PCRegister pc) {
         long dt_address = argument.getDt_Address();
-        IntegerRegister Rn = argument.getRn();
-        IntegerRegister Rt = argument.getRt();
+        IntegerRegister Rn = (IntegerRegister) argument.getRn();
+        IntegerRegister Rt = (IntegerRegister) argument.getRt();
         this.dataTransferCode.simulate(dt_address, Rn, Rt);
         pc.increase();
     }
