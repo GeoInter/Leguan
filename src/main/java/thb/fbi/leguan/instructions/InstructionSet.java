@@ -170,7 +170,7 @@ public class InstructionSet {
                         "Branch",
                         new IBranchCode() {
                             @Override
-                            public void simulate(int br_address, PCRegister pc) {
+                            public void simulate(long br_address, PCRegister pc) {
                                 pc.setValue(br_address);
                             }
                         }));
@@ -181,7 +181,7 @@ public class InstructionSet {
                         "Branch Signed Equals",
                         new IConditionalBranchCode() {
                             @Override
-                            public void simulate(int cond_br_address, IntegerRegister Rt, PCRegister pc) {
+                            public void simulate(long cond_br_address, IntegerRegister Rt, PCRegister pc) {
                                 // test Z == 1
                                 if (FlagRegister.getZFlag()) {
                                     pc.setValue(cond_br_address);
@@ -197,7 +197,7 @@ public class InstructionSet {
                         "Branch Signed Not Equals",
                         new IConditionalBranchCode() {
                             @Override
-                            public void simulate(int cond_br_address, IntegerRegister Rt, PCRegister pc) {
+                            public void simulate(long cond_br_address, IntegerRegister Rt, PCRegister pc) {
                                 // test Z == 0
                                 if (!FlagRegister.getZFlag()) {
                                     pc.setValue(cond_br_address);
@@ -213,7 +213,7 @@ public class InstructionSet {
                         "Branch Signed Less Than",
                         new IConditionalBranchCode() {
                             @Override
-                            public void simulate(int cond_br_address, IntegerRegister Rt, PCRegister pc) {
+                            public void simulate(long cond_br_address, IntegerRegister Rt, PCRegister pc) {
                                 // test N != V
                                 if (FlagRegister.getNFlag() != FlagRegister.getVFlag()) {
                                     pc.setValue(cond_br_address);
@@ -229,7 +229,7 @@ public class InstructionSet {
                         "Branch Signed Less Equals",
                         new IConditionalBranchCode() {
                             @Override
-                            public void simulate(int cond_br_address, IntegerRegister Rt, PCRegister pc) {
+                            public void simulate(long cond_br_address, IntegerRegister Rt, PCRegister pc) {
                                 // test ! (Z == 0 && N == V)
                                 if (!(!FlagRegister.getZFlag() && FlagRegister.getNFlag() == FlagRegister.getVFlag())) {
                                     pc.setValue(cond_br_address);
@@ -245,7 +245,7 @@ public class InstructionSet {
                         "Branch Signed Greater Than",
                         new IConditionalBranchCode() {
                             @Override
-                            public void simulate(int cond_br_address, IntegerRegister Rt, PCRegister pc) {
+                            public void simulate(long cond_br_address, IntegerRegister Rt, PCRegister pc) {
                                 // test (Z == 0 && N == V)
                                 if (!FlagRegister.getZFlag() && FlagRegister.getNFlag() == FlagRegister.getVFlag()) {
                                     pc.setValue(cond_br_address);
@@ -261,7 +261,7 @@ public class InstructionSet {
                         "Branch Signed Greater Equals",
                         new IConditionalBranchCode() {
                             @Override
-                            public void simulate(int cond_br_address, IntegerRegister Rt, PCRegister pc) {
+                            public void simulate(long cond_br_address, IntegerRegister Rt, PCRegister pc) {
                                 // test N == V
                                 if (FlagRegister.getNFlag() == FlagRegister.getVFlag()) {
                                     pc.setValue(cond_br_address);
@@ -277,7 +277,7 @@ public class InstructionSet {
                         "Branch on Minus",
                         new IConditionalBranchCode() {
                             @Override
-                            public void simulate(int cond_br_address, IntegerRegister Rt, PCRegister pc) {
+                            public void simulate(long cond_br_address, IntegerRegister Rt, PCRegister pc) {
                                 // test N == 1
                                 if (FlagRegister.getNFlag()) {
                                     pc.setValue(cond_br_address);
@@ -293,7 +293,7 @@ public class InstructionSet {
                         "Branch on Plus",
                         new IConditionalBranchCode() {
                             @Override
-                            public void simulate(int cond_br_address, IntegerRegister Rt, PCRegister pc) {
+                            public void simulate(long cond_br_address, IntegerRegister Rt, PCRegister pc) {
                                 // test N == 0
                                 if (!FlagRegister.getNFlag()) {
                                     pc.setValue(cond_br_address);
@@ -309,7 +309,7 @@ public class InstructionSet {
                         "Branch on Overflow set",
                         new IConditionalBranchCode() {
                             @Override
-                            public void simulate(int cond_br_address, IntegerRegister Rt, PCRegister pc) {
+                            public void simulate(long cond_br_address, IntegerRegister Rt, PCRegister pc) {
                                 // test V == 1
                                 if (FlagRegister.getVFlag()) {
                                     pc.setValue(cond_br_address);
@@ -325,7 +325,7 @@ public class InstructionSet {
                         "Branch on Overflow clear",
                         new IConditionalBranchCode() {
                             @Override
-                            public void simulate(int cond_br_address, IntegerRegister Rt, PCRegister pc) {
+                            public void simulate(long cond_br_address, IntegerRegister Rt, PCRegister pc) {
                                 // test V == 0
                                 if (!FlagRegister.getVFlag()) {
                                     pc.setValue(cond_br_address);
@@ -341,7 +341,7 @@ public class InstructionSet {
                         "Branch with Link",
                         new IBranchCode() {
                             @Override
-                            public void simulate(int br_address, PCRegister pc) {
+                            public void simulate(long br_address, PCRegister pc) {
                                 IntegerRegister R30 = (IntegerRegister) RegisterFile.getIntegerRegisters()[30];
                                 R30.setValue((pc.getValue() + 4)); // internal pc value is not multiplied by 4
                                 pc.setValue(br_address);
@@ -354,7 +354,7 @@ public class InstructionSet {
                         "Branch to register",
                         new IConditionalBranchCode() {
                             @Override
-                            public void simulate(int cond_br_address, IntegerRegister Rt, PCRegister pc) {
+                            public void simulate(long cond_br_address, IntegerRegister Rt, PCRegister pc) {
                                 long address = Rt.getValue();
                                 pc.setValue(address);
                             }
@@ -366,7 +366,7 @@ public class InstructionSet {
                         "Compare and Branch if not Zero",
                         new IConditionalBranchCode() {
                             @Override
-                            public void simulate(int cond_br_address, IntegerRegister Rt, PCRegister pc) {
+                            public void simulate(long cond_br_address, IntegerRegister Rt, PCRegister pc) {
                                 long op = Rt.getValue();
                                 if (op != 0) {
                                     pc.setValue(cond_br_address);
@@ -382,7 +382,7 @@ public class InstructionSet {
                         "Compare and Branch if Zero",
                         new IConditionalBranchCode() {
                             @Override
-                            public void simulate(int cond_br_address, IntegerRegister Rt, PCRegister pc) {
+                            public void simulate(long cond_br_address, IntegerRegister Rt, PCRegister pc) {
                                 long op = Rt.getValue();
                                 if (op == 0) {
                                     pc.setValue(cond_br_address);
@@ -931,6 +931,38 @@ public class InstructionSet {
                             }
                         }));
 
+
+        instructionSet.add(
+                new DataTransferInstruction("LDURS", 
+                        0x5E2, 
+                        "", 
+                        new IDataTransferCode() {
+                            @Override
+                            public void simulate(long dt_address, IntegerRegister Rn, IntegerRegister Rt) {
+                               /* TODO: FIX */ 
+                                long op1 = Rn.getValue();
+                                long address = op1 + dt_address;
+                                long value = Memory.loadDWord(address);
+                                Rt.setValue(value);
+                            }
+                        }));
+
+        instructionSet.add(
+                new DataTransferInstruction("LDURD", 
+                        0x7E2, 
+                        "", 
+                        new IDataTransferCode() {
+                            @Override
+                            public void simulate(long dt_address, IntegerRegister Rn, IntegerRegister Rt) {
+                                /* TODO: FIX */
+                                long op1 = Rn.getValue();
+                                long address = op1 + dt_address;
+                                long value = Memory.loadDWord(address);
+                                // convert long value into binary correct double value
+                                //double dpValue = Double.longBitsToDouble(value);
+                                Rt.setValue(value);
+                            }
+                        }));
 
         //// Other Instructions ////
 

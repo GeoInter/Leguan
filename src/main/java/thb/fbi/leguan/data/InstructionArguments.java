@@ -9,18 +9,16 @@ import thb.fbi.leguan.simulation.Register;
 public class InstructionArguments {
     /** already translated arguments; can be directly used by an instruction */
     private Register Rm;
-    private Register Rn; // TODO: Use index instead?
+    private Register Rn; // TODO: Use index instead? Currently problematic with LDURD and LDURS having their own parameters
     private Register Rd;
     private Register Rt;
     private int shamt; // 6bit
     private int alu_immediate; // 12bit 
-    //TODO: unify addresses
-    private long dt_address; // 9bit
-    private int br_address;
-    private int cond_br_address;
+    /**
+     * Address for instruction to jump to or to load from memory
+     */
+    private long address;
     // mov_immediate
-    
-
 
     public InstructionArguments() {
         Rm = null;
@@ -53,16 +51,8 @@ public class InstructionArguments {
         return alu_immediate;
     }
 
-    public long getDt_Address() {
-        return dt_address;
-    }
-
-    public int getBr_Address() {
-        return br_address;
-    }
-
-    public int getCond_Br_Address() {
-        return cond_br_address;
+    public long getAddress() {
+        return address;
     }
 
     public void setRn(Register rn) {
@@ -89,15 +79,7 @@ public class InstructionArguments {
         this.alu_immediate = alu_immediate;
     }
 
-    public void setDt_Address(long dt_address) {
-        this.dt_address = dt_address;
-    }
-
-    public void setBr_Address(int br_address) {
-        this.br_address = br_address;
-    }
-
-    public void setCond_Br_Address(int cond_br_address) {
-        this.cond_br_address = cond_br_address;
+    public void setAddress(long address) {
+        this.address = address;
     }
 }

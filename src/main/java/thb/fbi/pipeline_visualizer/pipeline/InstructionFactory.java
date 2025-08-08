@@ -14,9 +14,9 @@ import java.util.Map;
 
 public class InstructionFactory {
     
-    public static TreeMap<Integer, Instruction> mapToInstruction(ARMProgram program) {
-        TreeMap<Integer, Instruction> instructions = new TreeMap<Integer, Instruction>();
-        for(Map.Entry<Integer, ProgramStatement> entry : program.getProgramStatements().entrySet()) {
+    public static TreeMap<Long, Instruction> mapToInstruction(ARMProgram program) {
+        TreeMap<Long, Instruction> instructions = new TreeMap<Long, Instruction>();
+        for(Map.Entry<Long, ProgramStatement> entry : program.getProgramStatements().entrySet()) {
             ProgramStatement statement = entry.getValue();
             Instruction instruction = new Instruction();
             // register 
@@ -39,21 +39,21 @@ public class InstructionFactory {
             }
 
             // instruction
-            int jumpOffset = 0;
+            long jumpOffset = 0;
             if(statement.getInstruction() instanceof ArithmeticInstruction) {
                 instruction.setFormat(InstructionFormat.Arithmetic);
                 instruction.setShamt(statement.getArguments().getShamt());
             } else if(statement.getInstruction() instanceof BranchInstruction) {
                 instruction.setFormat(InstructionFormat.Branch);
-                jumpOffset = statement.getArguments().getBr_Address() - entry.getKey() - thb.fbi.leguan.instructions.Instruction.INSTRUCTION_LENGTH;
+                jumpOffset = statement.getArguments().getAddress() - entry.getKey() - thb.fbi.leguan.instructions.Instruction.INSTRUCTION_LENGTH;
                 instruction.setOffsetIJ(jumpOffset / thb.fbi.leguan.instructions.Instruction.INSTRUCTION_LENGTH);
             } else if(statement.getInstruction() instanceof ConditionalBranchInstruction) {
                 instruction.setFormat(InstructionFormat.Conditional_Branch);
-                jumpOffset = statement.getArguments().getCond_Br_Address() - entry.getKey() - thb.fbi.leguan.instructions.Instruction.INSTRUCTION_LENGTH;
+                jumpOffset = statement.getArguments().getAddress() - entry.getKey() - thb.fbi.leguan.instructions.Instruction.INSTRUCTION_LENGTH;
                 instruction.setOffsetIJ(jumpOffset / thb.fbi.leguan.instructions.Instruction.INSTRUCTION_LENGTH);
             } else if(statement.getInstruction() instanceof DataTransferInstruction) {
                 instruction.setFormat(InstructionFormat.Datatransfer);
-                instruction.setOffsetIJ((int) statement.getArguments().getDt_Address());
+                instruction.setOffsetIJ((int) statement.getArguments().getAddress());
             } else if(statement.getInstruction() instanceof ImmediateInstruction) {
                 instruction.setFormat(InstructionFormat.Immediate);
                 instruction.setOffsetIJ(statement.getArguments().getAlu_Immediate());

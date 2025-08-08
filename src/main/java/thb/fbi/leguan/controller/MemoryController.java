@@ -45,7 +45,7 @@ public class MemoryController implements MemoryObserver {
     TableColumn<Map.Entry<Long, Long>, String> contentColumn;
 
     @FXML 
-    TableView<Map.Entry<Integer, ProgramStatement>> codeTable;
+    TableView<Map.Entry<Long, ProgramStatement>> codeTable;
     @FXML
     TableColumn<Map.Entry<Integer, ProgramStatement>, String> codeAddressColumn;
     @FXML
@@ -475,7 +475,7 @@ public class MemoryController implements MemoryObserver {
     }
 
     public void updateCode(ARMProgram program) {
-        ObservableList<Map.Entry<Integer, ProgramStatement>> items = FXCollections.observableArrayList(program.getProgramStatements().entrySet());
+        ObservableList<Map.Entry<Long, ProgramStatement>> items = FXCollections.observableArrayList(program.getProgramStatements().entrySet());
         codeTable.setItems(items);
     }
 }

@@ -20,7 +20,7 @@ public class Instruction implements Serializable {
     /** shift amount */
     private int shamt;
     /** offset (can be address, immediate, etc.) */
-    private int offsetIJ; 
+    private long offsetIJ; 
     /** original line of code */
     private String codeString;
     /** instruction in binary representation */
@@ -104,11 +104,11 @@ public class Instruction implements Serializable {
         this.shamt = k;
     }
 
-    public int getOffsetIJ() {
+    public long getOffsetIJ() {
         return offsetIJ;
     }
 
-    public void setOffsetIJ(int offset) {
+    public void setOffsetIJ(long offset) {
         this.offsetIJ = offset;
     }
 

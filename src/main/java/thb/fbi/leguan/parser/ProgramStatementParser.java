@@ -50,15 +50,15 @@ import thb.fbi.leguan.simulation.SimulatorSingleton;
 public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
 
     private static Simulator simulator = SimulatorSingleton.getSimulator();
-    private int programIndex = 0; // current program statement in list
+    private long programIndex = 0; // current program statement in list
 
     private Set<Register> usedRegisters;
-    private HashMap<String, Integer> jumpMarks;
-    private HashMap<Integer, String> unresolvedMarks;
+    private HashMap<String, Long> jumpMarks;
+    private HashMap<Long, String> unresolvedMarks;
     private HashMap<String, Long> dataSegmentVariables;
 
-    public ProgramStatementParser(Set<Register> usedRegisters, HashMap<String, Integer> jumpMarks,
-            HashMap<Integer, String> unresolvedMarks, HashMap<String, Long> dataSegmentVariables) {
+    public ProgramStatementParser(Set<Register> usedRegisters, HashMap<String, Long> jumpMarks,
+            HashMap<Long, String> unresolvedMarks, HashMap<String, Long> dataSegmentVariables) {
         this.usedRegisters = usedRegisters;
         this.jumpMarks = jumpMarks;
         this.unresolvedMarks = unresolvedMarks;
@@ -70,7 +70,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
      * 
      * @param programIndex index of current ProgramStatement
      */
-    public void setProgramIndex(int programIndex) {
+    public void setProgramIndex(long programIndex) {
         this.programIndex = programIndex;
     }
 
@@ -79,7 +79,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
      * 
      * @return all jump marks
      */
-    public HashMap<String, Integer> getJumpMarks() {
+    public HashMap<String, Long> getJumpMarks() {
         return jumpMarks;
     }
 
@@ -88,7 +88,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
      * 
      * @return all unresolved jump marks
      */
-    public HashMap<Integer, String> getUnresolvedMarks() {
+    public HashMap<Long, String> getUnresolvedMarks() {
         return unresolvedMarks;
     }
 
@@ -227,10 +227,10 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
     }
 
     @Override
-    public Integer visitJumpLabelReference(JumpLabelReferenceContext ctx) {
+    public Long visitJumpLabelReference(JumpLabelReferenceContext ctx) {
         String id = ctx.PointerReference().getText();
         if (ParserHelper.isLabelNameValid(id)) {
-            Integer address = jumpMarks.get(id);
+            Long address = jumpMarks.get(id);
             if (address != null) {
                 return address;
             } else {
@@ -239,7 +239,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
         } else {
             ParserHelper.addSemanticError(ctx.PointerReference(), ParsingErrorType.InvalidLabelName);
         }
-        return -1;
+        return -1L;
     }
 
     @Override
@@ -389,7 +389,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
         InstructionArguments args = new InstructionArguments();
         args.setRt(Rt);
         args.setRn(Rn);
-        args.setDt_Address(dt_address);
+        args.setAddress(dt_address);
         return args;
     }
 
@@ -408,26 +408,26 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
     @Override
     public InstructionArguments visitCondBranchParam(CondBranchParamContext ctx) {
         Register Rt = visitIntegerRegister(ctx.integer_register());
-        int cond_br_address = visitJumpLabelReference(ctx.jumpLabelReference());
+        long cond_br_address = visitJumpLabelReference(ctx.jumpLabelReference());
         InstructionArguments args = new InstructionArguments();
         args.setRt(Rt);
-        args.setCond_Br_Address(cond_br_address);
+        args.setAddress(cond_br_address);
         return args;
     }
 
     @Override
     public InstructionArguments visitB_cond_Param(B_cond_ParamContext ctx) {
-        int cond_br_address = visitJumpLabelReference(ctx.jumpLabelReference());
+        long cond_br_address = visitJumpLabelReference(ctx.jumpLabelReference());
         InstructionArguments args = new InstructionArguments();
-        args.setCond_Br_Address(cond_br_address);
+        args.setAddress(cond_br_address);
         return args;
     }
 
     @Override
     public InstructionArguments visitBranchParam(BranchParamContext ctx) {
-        int br_address = visitJumpLabelReference(ctx.jumpLabelReference());
+        long br_address = visitJumpLabelReference(ctx.jumpLabelReference());
         InstructionArguments args = new InstructionArguments();
-        args.setBr_Address(br_address);
+        args.setAddress(br_address);
         return args;
     }
 
@@ -459,7 +459,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
         InstructionArguments args = new InstructionArguments();
         args.setRt(Rt);
         args.setRn(Rn);
-        args.setDt_Address(dt_address);
+        args.setAddress(dt_address);
         return args;
     }
 

@@ -22,16 +22,25 @@ public class ProgramParser extends LegV8BaseVisitor<ARMProgram> {
 
     /** Map of all entries in the dataSegment (Name, Address) */
     private HashMap<String, Long> dataSegmentVariables = new HashMap<String, Long>();
-    /** TreeMap of all static values being stored in memory defined within the dataSegment (address, value) */
+    /**
+     * TreeMap of all static values being stored in memory defined within the
+     * dataSegment (address, value)
+     */
     private TreeMap<Long, Byte> dataSegment = new TreeMap<Long, Byte>();
-    /** List of all occured semantic Errors (occuring during parser/ non-syntax errors) */
+    /**
+     * List of all occured semantic Errors (occuring during parser/ non-syntax
+     * errors)
+     */
     public ArrayList<ParsingError> semanticErrors = new ArrayList<ParsingError>();
     /** List of all used registers */
     private Set<Register> usedRegisters = new HashSet<Register>();
     /** Map of all (resolved) jump labels */
-    private HashMap<String, Integer> jumpMarks = new HashMap<String, Integer>();
-    /** Map of all (unresolved) jump label (=labels that were referenced before they were declared aka downward jump */
-    private HashMap<Integer, String> unresolvedMarks = new HashMap<Integer, String>();
+    private HashMap<String, Long> jumpMarks = new HashMap<String, Long>();
+    /**
+     * Map of all (unresolved) jump label (=labels that were referenced before they
+     * were declared aka downward jump
+     */
+    private HashMap<Long, String> unresolvedMarks = new HashMap<Long, String>();
 
     /**
      * clears all arrays and maps
@@ -46,7 +55,7 @@ public class ProgramParser extends LegV8BaseVisitor<ARMProgram> {
 
     // could be refactored
     // start and end point of parsing -> calls visitProgram + same return type
-    // using for setting ARMProgram property 
+    // using for setting ARMProgram property
     @Override
     public ARMProgram visitMain(MainContext ctx) {
         ARMProgram program = visitProgram(ctx.program());
@@ -55,52 +64,44 @@ public class ProgramParser extends LegV8BaseVisitor<ARMProgram> {
 
     @Override
     public ARMProgram visitProgram(ProgramContext ctx) {
-        // right after code segment starts the static data segment; Use Context to get number of instructions of program beforehand
+        // right after code segment starts the static data segment; Use Context to get
+        // number of instructions of program beforehand
         int endOfCodeSegmentAdress = Memory.CODE_SEGMENT_START + ctx.line().size() * Instruction.INSTRUCTION_LENGTH;
         ParserHelper.setSemanticErrors(this.semanticErrors);
         DataSegmentParser dataSegmentParser = new DataSegmentParser(dataSegmentVariables, endOfCodeSegmentAdress);
-        ProgramStatementParser statementVisitor = new ProgramStatementParser(usedRegisters, jumpMarks, unresolvedMarks, dataSegmentVariables);
-        TreeMap<Integer, ProgramStatement> lines = new TreeMap<Integer, ProgramStatement>();
+        ProgramStatementParser statementVisitor = new ProgramStatementParser(usedRegisters, jumpMarks, unresolvedMarks,
+                dataSegmentVariables);
+        TreeMap<Long, ProgramStatement> lines = new TreeMap<Long, ProgramStatement>();
 
         dataSegment = dataSegmentParser.visitDataSegment(ctx.dataSegment());
 
-        int codeAdress = Memory.CODE_SEGMENT_START;
-        for(int i = 0; i < ctx.line().size(); i++) {
+        long codeAdress = Memory.CODE_SEGMENT_START;
+        for (int i = 0; i < ctx.line().size(); i++) {
             statementVisitor.setProgramIndex(codeAdress);
             ProgramStatement statement = statementVisitor.visitLine(ctx.line(i));
             lines.put(codeAdress, statement);
             codeAdress = codeAdress + Instruction.INSTRUCTION_LENGTH;
         }
 
-
         // re-resolve marks when later declared
-        HashMap<String, Integer> jumpMarks = statementVisitor.getJumpMarks();
-        HashMap<Integer, String> unresolvedMarks = statementVisitor.getUnresolvedMarks();
+        HashMap<String, Long> jumpMarks = statementVisitor.getJumpMarks();
+        HashMap<Long, String> unresolvedMarks = statementVisitor.getUnresolvedMarks();
 
-        for (Integer index : unresolvedMarks.keySet()) {
+        for (Long index : unresolvedMarks.keySet()) {
             ProgramStatement statement = lines.get(index);
             InstructionArguments args = statement.getArguments();
 
-            if(args.getCond_Br_Address() == -1) {
-                String id = unresolvedMarks.get(index);
-                Integer sourceLine = jumpMarks.get(id);
+            String id = unresolvedMarks.get(index);
+            Long sourceLine = jumpMarks.get(id);
 
-                if(sourceLine == null) {
-                    addSemanticError(ctx.line(index).condBranchParam().jumpLabelReference().PointerReference(), ParsingErrorType.UndefinedJumpLabelReference);
-                } else {
-                    args.setCond_Br_Address(sourceLine);
-                }
-                
-            } else if(args.getBr_Address() == -1) {
-                String id = unresolvedMarks.get(index);
-                Integer sourceLine = jumpMarks.get(id);
-
-                if(sourceLine == null) {
-                    addSemanticError(ctx.line(index).branchParam().jumpLabelReference().PointerReference(), ParsingErrorType.UndefinedJumpLabelReference);
-                } else {
-                    args.setBr_Address(sourceLine);
-                }   
+            // TODO: check for BranchParam
+            if (sourceLine == null) {
+                addSemanticError(ctx.line(index.intValue()).condBranchParam().jumpLabelReference().PointerReference(),
+                        ParsingErrorType.UndefinedJumpLabelReference);
+            } else {
+                args.setAddress(sourceLine);
             }
+
         }
 
         ARMProgram program = new ARMProgram();
@@ -112,7 +113,9 @@ public class ProgramParser extends LegV8BaseVisitor<ARMProgram> {
 
     /**
      * helper function for adding parser error to list
-     * @param token the token of the parse tree which is responsible for throwing the error 
+     * 
+     * @param token     the token of the parse tree which is responsible for
+     *                  throwing the error
      * @param errorType type of parsing error
      */
     private void addSemanticError(TerminalNode node, ParsingErrorType errorType) {

@@ -20,7 +20,7 @@ public class MFrame implements Serializable {
     public ID_EX_Pipeline idExPipeline;
     public EX_MEM_Pipeline exMemPipeline;
     public MEM_WB_Pipeline memWbPipeline;
-    public int[] register;
+    public long[] register;
     public boolean[] regFlag; // boolean indicating if register was changed
     public Memory Memory;
     public ForwardingUnit fwdUnit;
@@ -29,18 +29,18 @@ public class MFrame implements Serializable {
     public ALU ALUnit;
     // used for the visualization part
     public String wbCodeString;
-    public int currentPC;
-    public int nextPC;
+    public long currentPC;
+    public long nextPC;
     public int dataHazardCounter; // indicates occurence of data hazard for this cycle
     public int controlHazardCounter; // indicates occurence of control hazard for this cycle
     public boolean isForwardingEnabled;
     public boolean is2BitPredictorEnabled;
     /** table of PC of Branch Instruction, Target PC and State of Predictor */
-    public HashMap<Integer, TwoBitPrecitionEntry> twoBitPredictionTable;
+    public HashMap<Long, TwoBitPrecitionEntry> twoBitPredictionTable;
     public TwoBitPredictorState startingStateOfPrediction;
 
     public MFrame(boolean isForwardingEnabled, boolean is2BitPredictorEnabled) {
-        register = new int[32];
+        register = new long[32];
         regFlag = new boolean[32];
         regFlag[31] = true;
         Memory = new Memory();
@@ -60,20 +60,20 @@ public class MFrame implements Serializable {
         wbCodeString = "NOP";
     }
 
-    int insertInstruction(Instruction instruction, int PC) {
+    long insertInstruction(Instruction instruction, long PC) {
         this.instruction = instruction; // needed only for the visualization part
 
         // add conditional branch instructions to prediction Table
         if(this.instruction != null) {
             if(this.instruction.getFormat() == InstructionFormat.Conditional_Branch) {
                 if(! twoBitPredictionTable.containsKey(PC)) {
-                    int targetAddress = (PC+4) + this.instruction.getOffsetIJ() * 4; // same calculation as in MEM stage (Note: instead of PC uses nextPC)
+                    long targetAddress = (PC+4) + this.instruction.getOffsetIJ() * 4; // same calculation as in MEM stage (Note: instead of PC uses nextPC)
                     TwoBitPrecitionEntry entry = new TwoBitPrecitionEntry(targetAddress, startingStateOfPrediction, this.instruction.getCodeString());
                     twoBitPredictionTable.put(PC, entry);
                 }
             } else if(this.instruction.getFormat() == InstructionFormat.Branch) { // unconditional Branches will be always taken
                 if(! twoBitPredictionTable.containsKey(PC)) {
-                    int targetAddress = (PC+4) + this.instruction.getOffsetIJ() * 4; // same calculation as in MEM stage (Note: instead of PC uses nextPC)
+                    long targetAddress = (PC+4) + this.instruction.getOffsetIJ() * 4; // same calculation as in MEM stage (Note: instead of PC uses nextPC)
                     TwoBitPrecitionEntry entry = new TwoBitPrecitionEntry(targetAddress, TwoBitPredictorState.Taken, this.instruction.getCodeString()); // Branch will be always taken
                     twoBitPredictionTable.put(PC, entry);
                 }
@@ -91,7 +91,7 @@ public class MFrame implements Serializable {
             this.fwdUnit.RegWriteMemWbFlag = this.memWbPipeline.WB.RegWrite;
             this.fwdUnit.RegWriteMemWbValue = 0;
 
-            int WriteData;
+            long WriteData;
             // Following if block does the writing to the reg library for any reg write
             // instruction.
             if (this.memWbPipeline.WB.RegWrite) {
@@ -188,8 +188,8 @@ public class MFrame implements Serializable {
             this.exMemPipeline.WB = this.idExPipeline.WB;
             this.exMemPipeline.MEM = this.idExPipeline.MEM;
             this.exMemPipeline.PC = this.idExPipeline.PC;
-            int operand1 = this.fwdUnit.valueMuxA();
-            int operand2 = this.fwdUnit.valueMuxB();
+            long operand1 = this.fwdUnit.valueMuxA();
+            long operand2 = this.fwdUnit.valueMuxB();
             this.exMemPipeline.MemDataWrite = operand2;
             
             
@@ -350,7 +350,7 @@ public class MFrame implements Serializable {
             TwoBitPrecitionEntry entry = twoBitPredictionTable.get(PC);
             if(entry != null) {
                 if(entry.getState() == TwoBitPredictorState.LikelyTaken || entry.getState() == TwoBitPredictorState.Taken) {
-                    Integer targetAddress = entry.getTargetPC();
+                    Long targetAddress = entry.getTargetPC();
                     this.ifIdPipeline = new IF_ID_Pipeline(instruction, PC + 4);
                     this.nextPC = targetAddress.intValue();
                     return targetAddress.intValue();
@@ -397,17 +397,17 @@ public class MFrame implements Serializable {
     public int tempExAluOp;
     public boolean tempExDestReg;
     public boolean tempExAluSource;
-    public int tempExPC;
-    public int tempExI32Offset;
+    public long tempExPC;
+    public long tempExI32Offset;
     public int tempExOpcode;
-    public int tempExShiftLeft2Offset;
-    public int tempExOperand2;
+    public long tempExShiftLeft2Offset;
+    public long tempExOperand2;
     public int tempExRd;
     public boolean tempMemMRead;
     public boolean tempMemMWrite;
-    public int tempMemWriteData;
+    public long tempMemWriteData;
     public int tempWbMemoryData;
-    public int tempWbAluResult;
+    public long tempWbAluResult;
     public boolean tempWbRegWrite;
     public boolean tempWbMemToReg;
 }

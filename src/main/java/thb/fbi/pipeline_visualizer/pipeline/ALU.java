@@ -21,13 +21,13 @@ public class ALU implements Serializable {
     ALU() {
     }
 
-    int process(int A, int B, short opcode, int ALUOp, boolean setsFlag) {
+    long process(long A, long B, short opcode, int ALUOp, boolean setsFlag) {
         if (ALUOp == 0) { // (00) add for loads and stores
             return A + B;
         } else if (ALUOp == 1) { // (01) pass inbut b for CBZ
             return A;
         } else if (ALUOp == 2) { // (10) operation determined by opcode field
-            int result = 0;
+            long result = 0;
             switch (opcode) {
                 case 0x69B: // 1691 (decimal) LSL (11bit)
                     result = A << B;
@@ -92,7 +92,7 @@ public class ALU implements Serializable {
      * @return boolean indicating if branch condition is met (if true then ALU_zero
      *         is true)
      */
-    public boolean checkBranchCondition(String mnemonic, int operand2, int ALU_result) {
+    public boolean checkBranchCondition(String mnemonic, long operand2, long ALU_result) {
         switch (mnemonic) {
             case "CBZ":
                 return (operand2 == 0);

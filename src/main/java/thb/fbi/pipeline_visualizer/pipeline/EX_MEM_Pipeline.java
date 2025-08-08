@@ -14,17 +14,17 @@ public class EX_MEM_Pipeline implements Serializable {
     /** MemoryAccess stage */
     public MEM MEM;
     /** address to branch to */
-    public int PCBranch;
+    public long PCBranch;
     /** result of ALU operation */
-    public int ALU_result;
+    public long ALU_result;
     /** flag indicating if ALU result was zero */
     public boolean ALU_zero;
     /** data to store into memory */
-    public int MemDataWrite;
+    public long MemDataWrite;
     /** destination register index */
     public int destReg;
     /** PC of the next instruction */
-    public int PC;
+    public long PC;
     /** unedited line of code belonging to this instruction */
     public String codeString;
     /** mnemonic of the instruction */
