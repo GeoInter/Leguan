@@ -22,7 +22,7 @@ public class ParserHelper {
             return false;
         }
         // pattern matches exactly Register Numbers 0 to 31
-        Pattern pattern = Pattern.compile("(X|SP|DP)(0|[1-9]|1[0-9]|2[0-9]|3[0-1])");
+        Pattern pattern = Pattern.compile("(X|S|D)(0|[1-9]|1[0-9]|2[0-9]|3[0-1])");
         Matcher matcher = pattern.matcher(label);
         if(matcher.matches()) {
             return false;
