@@ -21,7 +21,8 @@ public class ParserHelper {
         if(forbiddenNames.contains(label)) {
             return false;
         }
-        Pattern pattern = Pattern.compile("X(0|[1-9]|1[0-9]|2[0-9]|3[0-1])");
+        // pattern matches exactly Register Numbers 0 to 31
+        Pattern pattern = Pattern.compile("(X|SP|DP)(0|[1-9]|1[0-9]|2[0-9]|3[0-1])");
         Matcher matcher = pattern.matcher(label);
         if(matcher.matches()) {
             return false;

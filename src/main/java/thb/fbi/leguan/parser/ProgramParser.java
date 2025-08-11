@@ -40,7 +40,7 @@ public class ProgramParser extends LegV8BaseVisitor<ARMProgram> {
      * Map of all (unresolved) jump label (=labels that were referenced before they
      * were declared aka downward jump
      */
-    private HashMap<Long, String> unresolvedMarks = new HashMap<Long, String>();
+    private HashMap<Long, TerminalNode> unresolvedMarks = new HashMap<Long, TerminalNode>();
 
     /**
      * clears all arrays and maps
@@ -64,7 +64,7 @@ public class ProgramParser extends LegV8BaseVisitor<ARMProgram> {
 
     @Override
     public ARMProgram visitProgram(ProgramContext ctx) {
-        // right after code segment starts the static data segment; Use Context to get
+        // right after the code segment starts the static data segment; Use Context to get
         // number of instructions of program beforehand
         int endOfCodeSegmentAdress = Memory.CODE_SEGMENT_START + ctx.line().size() * Instruction.INSTRUCTION_LENGTH;
         ParserHelper.setSemanticErrors(this.semanticErrors);
@@ -85,23 +85,23 @@ public class ProgramParser extends LegV8BaseVisitor<ARMProgram> {
 
         // re-resolve marks when later declared
         HashMap<String, Long> jumpMarks = statementVisitor.getJumpMarks();
-        HashMap<Long, String> unresolvedMarks = statementVisitor.getUnresolvedMarks();
+        HashMap<Long, TerminalNode> unresolvedMarks = statementVisitor.getUnresolvedMarks();
 
-        for (Long index : unresolvedMarks.keySet()) {
-            ProgramStatement statement = lines.get(index);
+        for (Long instructionAddress : unresolvedMarks.keySet()) {
+            ProgramStatement statement = lines.get(instructionAddress);
             InstructionArguments args = statement.getArguments();
 
-            String id = unresolvedMarks.get(index);
-            Long sourceLine = jumpMarks.get(id);
+            TerminalNode pointerReference = unresolvedMarks.get(instructionAddress);
+            String pointerReferenceName = pointerReference.getText();
 
-            // TODO: check for BranchParam
+            Long sourceLine = jumpMarks.get(pointerReferenceName);
+
+            // if jump mark could not be resolved, create a parser error
             if (sourceLine == null) {
-                addSemanticError(ctx.line(index.intValue()).condBranchParam().jumpLabelReference().PointerReference(),
-                        ParsingErrorType.UndefinedJumpLabelReference);
+                addSemanticError(pointerReference, ParsingErrorType.UndefinedJumpLabelReference);
             } else {
                 args.setAddress(sourceLine);
             }
-
         }
 
         ARMProgram program = new ARMProgram();

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Set;
 
 import org.antlr.v4.runtime.misc.Interval;
+import org.antlr.v4.runtime.tree.TerminalNode;
 
 import thb.fbi.leguan.data.InstructionArguments;
 import thb.fbi.leguan.data.ProgramStatement;
@@ -54,11 +55,11 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
 
     private Set<Register> usedRegisters;
     private HashMap<String, Long> jumpMarks;
-    private HashMap<Long, String> unresolvedMarks;
+    private HashMap<Long, TerminalNode> unresolvedMarks;
     private HashMap<String, Long> dataSegmentVariables;
 
     public ProgramStatementParser(Set<Register> usedRegisters, HashMap<String, Long> jumpMarks,
-            HashMap<Long, String> unresolvedMarks, HashMap<String, Long> dataSegmentVariables) {
+            HashMap<Long, TerminalNode> unresolvedMarks, HashMap<String, Long> dataSegmentVariables) {
         this.usedRegisters = usedRegisters;
         this.jumpMarks = jumpMarks;
         this.unresolvedMarks = unresolvedMarks;
@@ -88,7 +89,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
      * 
      * @return all unresolved jump marks
      */
-    public HashMap<Long, String> getUnresolvedMarks() {
+    public HashMap<Long, TerminalNode> getUnresolvedMarks() {
         return unresolvedMarks;
     }
 
@@ -234,7 +235,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
             if (address != null) {
                 return address;
             } else {
-                unresolvedMarks.put(this.programIndex, id);
+                unresolvedMarks.put(this.programIndex, ctx.PointerReference());
             }
         } else {
             ParserHelper.addSemanticError(ctx.PointerReference(), ParsingErrorType.InvalidLabelName);
