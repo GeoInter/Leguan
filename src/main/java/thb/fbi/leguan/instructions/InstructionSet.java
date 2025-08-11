@@ -61,7 +61,7 @@ public class InstructionSet {
                         "Adds value of Registers Rm and a constant and puts result in Rd without flags",
                         new IImmediateCode() {
                             @Override
-                            public void simulate(int alu_immediate, IntegerRegister Rn, IntegerRegister Rd) {
+                            public void simulate(long alu_immediate, IntegerRegister Rn, IntegerRegister Rd) {
                                 long op1 = Rn.getValue();
                                 long result = op1 + alu_immediate;
                                 Rd.setValue(result);
@@ -74,7 +74,7 @@ public class InstructionSet {
                         "Adds value of Registers Rm and a constant and puts result in Rd with flags",
                         new IImmediateCode() {
                             @Override
-                            public void simulate(int alu_immediate, IntegerRegister Rn, IntegerRegister Rd) {
+                            public void simulate(long alu_immediate, IntegerRegister Rn, IntegerRegister Rd) {
                                 long op1 = Rn.getValue();
                                 long result = op1 + alu_immediate;
 
@@ -123,7 +123,7 @@ public class InstructionSet {
                         "AND Immediate",
                         new IImmediateCode() {
                             @Override
-                            public void simulate(int alu_immediate, IntegerRegister Rn, IntegerRegister Rd) {
+                            public void simulate(long alu_immediate, IntegerRegister Rn, IntegerRegister Rd) {
                                 long op1 = Rn.getValue();
                                 long result = op1 & alu_immediate;
 
@@ -137,7 +137,7 @@ public class InstructionSet {
                         "AND Immediate and Flags",
                         new IImmediateCode() {
                             @Override
-                            public void simulate(int alu_immediate, IntegerRegister Rn, IntegerRegister Rd) {
+                            public void simulate(long alu_immediate, IntegerRegister Rn, IntegerRegister Rd) {
                                 long op1 = Rn.getValue();
                                 long result = op1 & alu_immediate;
 
@@ -413,7 +413,7 @@ public class InstructionSet {
                         "Exclusive OR between Register and Immediate",
                         new IImmediateCode() {
                             @Override
-                            public void simulate(int alu_immediate, IntegerRegister Rn, IntegerRegister Rd) {
+                            public void simulate(long alu_immediate, IntegerRegister Rn, IntegerRegister Rd) {
                                 long op1 = Rn.getValue();
                                 long result = op1 ^ alu_immediate; // equals !=
 
@@ -569,7 +569,7 @@ public class InstructionSet {
                         "Inclusive OR between Register and Immediate",
                         new IImmediateCode() {
                             @Override
-                            public void simulate(int alu_immediate, IntegerRegister Rn, IntegerRegister Rd) {
+                            public void simulate(long alu_immediate, IntegerRegister Rn, IntegerRegister Rd) {
                                 long op1 = Rn.getValue();
                                 long result = op1 | alu_immediate;
 
@@ -669,7 +669,7 @@ public class InstructionSet {
                         "Subtracts value of Registers Rm and a constant and puts result in Rd without flags",
                         new IImmediateCode() {
                             @Override
-                            public void simulate(int alu_immediate, IntegerRegister Rn, IntegerRegister Rd) {
+                            public void simulate(long alu_immediate, IntegerRegister Rn, IntegerRegister Rd) {
                                 long op1 = Rn.getValue();
                                 long result = op1 - alu_immediate;
                                 Rd.setValue(result);
@@ -682,7 +682,7 @@ public class InstructionSet {
                         "Subtracts value of Registers Rm and a constant and puts result in Rd without flags",
                         new IImmediateCode() {
                             @Override
-                            public void simulate(int alu_immediate, IntegerRegister Rn, IntegerRegister Rd) {
+                            public void simulate(long alu_immediate, IntegerRegister Rn, IntegerRegister Rd) {
                                 long op1 = Rn.getValue();
                                 long result = op1 - alu_immediate;
 

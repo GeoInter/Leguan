@@ -13,12 +13,11 @@ public class InstructionArguments {
     private Register Rd;
     private Register Rt;
     private int shamt; // 6bit
-    private int alu_immediate; // 12bit 
     /**
-     * Address for instruction to jump to or to load from memory
+     * Constant value used for address for instruction to jump to or to load from memory
+     * or arithemtic calculations with a constant value
      */
-    private long address;
-    // mov_immediate
+    private long immediate;
 
     public InstructionArguments() {
         Rm = null;
@@ -47,12 +46,8 @@ public class InstructionArguments {
         return shamt;
     }
 
-    public int getAlu_Immediate() {
-        return alu_immediate;
-    }
-
-    public long getAddress() {
-        return address;
+    public long getImmediate() {
+        return immediate;
     }
 
     public void setRn(Register rn) {
@@ -75,11 +70,7 @@ public class InstructionArguments {
         this.shamt = shamt;
     }
 
-    public void setAlu_Immediate(int alu_immediate) {
-        this.alu_immediate = alu_immediate;
-    }
-
-    public void setAddress(long address) {
-        this.address = address;
+    public void setImmediate(long address) {
+        this.immediate = address;
     }
 }

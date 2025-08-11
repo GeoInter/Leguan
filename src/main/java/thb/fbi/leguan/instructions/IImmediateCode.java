@@ -6,5 +6,5 @@ import thb.fbi.leguan.simulation.IntegerRegister;
  * Interface for definining and executing code of immediate instructions
  */
 public interface IImmediateCode {
-    public abstract void simulate(int alu_immediate, IntegerRegister Rn, IntegerRegister Rd);
+    public abstract void simulate(long alu_immediate, IntegerRegister Rn, IntegerRegister Rd);
 }

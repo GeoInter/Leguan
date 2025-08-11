@@ -45,21 +45,21 @@ public class InstructionFactory {
                 instruction.setShamt(statement.getArguments().getShamt());
             } else if(statement.getInstruction() instanceof BranchInstruction) {
                 instruction.setFormat(InstructionFormat.Branch);
-                jumpOffset = statement.getArguments().getAddress() - entry.getKey() - thb.fbi.leguan.instructions.Instruction.INSTRUCTION_LENGTH;
+                jumpOffset = statement.getArguments().getImmediate() - entry.getKey() - thb.fbi.leguan.instructions.Instruction.INSTRUCTION_LENGTH;
                 instruction.setOffsetIJ(jumpOffset / thb.fbi.leguan.instructions.Instruction.INSTRUCTION_LENGTH);
             } else if(statement.getInstruction() instanceof ConditionalBranchInstruction) {
                 instruction.setFormat(InstructionFormat.Conditional_Branch);
-                jumpOffset = statement.getArguments().getAddress() - entry.getKey() - thb.fbi.leguan.instructions.Instruction.INSTRUCTION_LENGTH;
+                jumpOffset = statement.getArguments().getImmediate() - entry.getKey() - thb.fbi.leguan.instructions.Instruction.INSTRUCTION_LENGTH;
                 instruction.setOffsetIJ(jumpOffset / thb.fbi.leguan.instructions.Instruction.INSTRUCTION_LENGTH);
             } else if(statement.getInstruction() instanceof DataTransferInstruction) {
                 instruction.setFormat(InstructionFormat.Datatransfer);
-                instruction.setOffsetIJ((int) statement.getArguments().getAddress());
+                instruction.setOffsetIJ((int) statement.getArguments().getImmediate());
             } else if(statement.getInstruction() instanceof ImmediateInstruction) {
                 instruction.setFormat(InstructionFormat.Immediate);
-                instruction.setOffsetIJ(statement.getArguments().getAlu_Immediate());
+                instruction.setOffsetIJ(statement.getArguments().getImmediate());
             } else if(statement.getInstruction() instanceof WideImmediateInstruction) {
                 instruction.setFormat(InstructionFormat.Wide_Immediate);
-                instruction.setOffsetIJ(statement.getArguments().getAlu_Immediate());
+                instruction.setOffsetIJ(statement.getArguments().getImmediate());
             }
             instruction.setMnemonic(statement.getInstruction().getMnemonic());
             instruction.setOpcode(statement.getInstruction().getOpcode());

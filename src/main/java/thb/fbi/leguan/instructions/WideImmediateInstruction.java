@@ -23,7 +23,7 @@ public class WideImmediateInstruction extends Instruction {
     @Override
     public void simulate(InstructionArguments argument, PCRegister pc) {
         IntegerRegister Rd = (IntegerRegister) argument.getRd();
-        int immediate = argument.getAlu_Immediate();
+        long immediate = argument.getImmediate();
         int shamt = argument.getShamt();
         this.wideImmediateCode.simulate(Rd, immediate, shamt);
         pc.increase();
@@ -36,7 +36,7 @@ public class WideImmediateInstruction extends Instruction {
     public String getMachineCodeString(InstructionArguments args) {
         String s = "";
         s = MachineCodeTranslator.convertOpCodeToBinary(opcode, 11);
-        s += " " + MachineCodeTranslator.convertToMachineCode(args.getAlu_Immediate(), 16);
+        s += " " + MachineCodeTranslator.convertToMachineCode(args.getImmediate(), 16);
         s += " " + MachineCodeTranslator.convertToMachineCode(args.getRd().getId(), 5);
         return s;
     }

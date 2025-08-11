@@ -192,9 +192,9 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
      * visits a single num node
      */
     @Override
-    public Integer visitNum(NumContext ctx) {
+    public Long visitNum(NumContext ctx) {
         String numberText = ctx.NUMBER().getText();
-        int number = 0;
+        long number = 0;
         int radix = 0;
         if (numberText.startsWith("0x")) { // hex number
             radix = 16;
@@ -204,7 +204,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
         }
 
         try {
-            number = Integer.parseInt(numberText, radix);
+            number = Long.parseLong(numberText, radix);
         } catch (NumberFormatException e) {
             ParserHelper.addSemanticError(ctx.NUMBER(), ParsingErrorType.NumberFormatException);
         }
@@ -355,19 +355,19 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
     public InstructionArguments visitImmediateParam(ImmediateParamContext ctx) {
         Register Rd = visitIntegerRegister(ctx.integer_register(0));
         Register Rn = visitIntegerRegister(ctx.integer_register(1));
-        int alu_immediate = visitNum(ctx.num());
+        long alu_immediate = visitNum(ctx.num());
         InstructionArguments args = new InstructionArguments();
         args.setRd(Rd);
         args.setRn(Rn);
-        args.setAlu_Immediate(alu_immediate);
+        args.setImmediate(alu_immediate);
         return args;
     }
 
     @Override
     public InstructionArguments visitWideImmediateParam(WideImmediateParamContext ctx) {
         Register Rd = visitIntegerRegister(ctx.integer_register());
-        int immediate = visitNum(ctx.num(0));
-        int shamt = visitNum(ctx.num(1));
+        long immediate = visitNum(ctx.num(0));
+        int shamt = visitNum(ctx.num(1)).intValue();
         // only allows 0, 16, 32 and 48 as shift value
         if (shamt != 0 && shamt != 16 && shamt != 32 && shamt != 48) {
             ParserHelper.addSemanticError(ctx.num(1).NUMBER(), ParsingErrorType.WideImmediateShiftOutOfRange);
@@ -377,7 +377,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
         }
         InstructionArguments args = new InstructionArguments();
         args.setRd(Rd);
-        args.setAlu_Immediate(immediate);
+        args.setImmediate(immediate);
         args.setShamt(shamt);
         return args;
     }
@@ -386,11 +386,11 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
     public InstructionArguments visitDatatransferParam(DatatransferParamContext ctx) {
         Register Rt = visitIntegerRegister(ctx.integer_register(0));
         Register Rn = visitIntegerRegister(ctx.integer_register(1));
-        int dt_address = visitNum(ctx.num());
+        long dt_address = visitNum(ctx.num());
         InstructionArguments args = new InstructionArguments();
         args.setRt(Rt);
         args.setRn(Rn);
-        args.setAddress(dt_address);
+        args.setImmediate(dt_address);
         return args;
     }
 
@@ -412,7 +412,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
         long cond_br_address = visitJumpLabelReference(ctx.jumpLabelReference());
         InstructionArguments args = new InstructionArguments();
         args.setRt(Rt);
-        args.setAddress(cond_br_address);
+        args.setImmediate(cond_br_address);
         return args;
     }
 
@@ -420,7 +420,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
     public InstructionArguments visitB_cond_Param(B_cond_ParamContext ctx) {
         long cond_br_address = visitJumpLabelReference(ctx.jumpLabelReference());
         InstructionArguments args = new InstructionArguments();
-        args.setAddress(cond_br_address);
+        args.setImmediate(cond_br_address);
         return args;
     }
 
@@ -428,7 +428,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
     public InstructionArguments visitBranchParam(BranchParamContext ctx) {
         long br_address = visitJumpLabelReference(ctx.jumpLabelReference());
         InstructionArguments args = new InstructionArguments();
-        args.setAddress(br_address);
+        args.setImmediate(br_address);
         return args;
     }
 
@@ -444,7 +444,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
     public InstructionArguments visitShiftParam(ShiftParamContext ctx) {
         Register Rd = visitIntegerRegister(ctx.integer_register(0));
         Register Rn = visitIntegerRegister(ctx.integer_register(1));
-        int shamt = visitNum(ctx.num());
+        int shamt = visitNum(ctx.num()).intValue();
         InstructionArguments args = new InstructionArguments();
         args.setRd(Rd);
         args.setRn(Rn);
@@ -460,7 +460,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
         InstructionArguments args = new InstructionArguments();
         args.setRt(Rt);
         args.setRn(Rn);
-        args.setAddress(dt_address);
+        args.setImmediate(dt_address);
         return args;
     }
 

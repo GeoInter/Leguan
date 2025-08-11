@@ -19,7 +19,7 @@ public class BranchInstruction extends Instruction {
 
     @Override
     public void simulate(InstructionArguments argument, PCRegister pc) {
-        long br_address = argument.getAddress();
+        long br_address = argument.getImmediate();
         this.branchCode.simulate(br_address, pc);
     }
 
@@ -30,7 +30,7 @@ public class BranchInstruction extends Instruction {
     public String getMachineCodeString(InstructionArguments args) {
         String s = "";
         s = MachineCodeTranslator.convertOpCodeToBinary(opcode, 6);
-        s += " " + MachineCodeTranslator.convertToMachineCode(args.getAddress(), 26);
+        s += " " + MachineCodeTranslator.convertToMachineCode(args.getImmediate(), 26);
         return s;
     }
 

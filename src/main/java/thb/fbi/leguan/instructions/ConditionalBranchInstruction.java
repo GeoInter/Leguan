@@ -20,7 +20,7 @@ public class ConditionalBranchInstruction extends Instruction {
 
     @Override
     public void simulate(InstructionArguments argument, PCRegister pc) {
-        long cond_br_address = argument.getAddress();
+        long cond_br_address = argument.getImmediate();
         IntegerRegister Rt = (IntegerRegister) argument.getRt();
         this.conditionalBranchCode.simulate(cond_br_address, Rt, pc);
     }
@@ -32,7 +32,7 @@ public class ConditionalBranchInstruction extends Instruction {
     public String getMachineCodeString(InstructionArguments args) {
         String s = "";
         s = MachineCodeTranslator.convertOpCodeToBinary(opcode, 8);
-        s += " " + MachineCodeTranslator.convertToMachineCode(args.getAddress(), 19);
+        s += " " + MachineCodeTranslator.convertToMachineCode(args.getImmediate(), 19);
         if (args.getRt() == null) { // instructions that not use RT but condition codes like B.EQ, B.LT
             s += " " + getMachineCodeForConditionCode(this.mnemonic);
         } else { // instructions that use RT like CBNZ, CBZ

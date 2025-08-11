@@ -20,7 +20,7 @@ public class DataTransferInstruction extends Instruction {
 
     @Override
     public void simulate(InstructionArguments argument, PCRegister pc) {
-        long dt_address = argument.getAddress();
+        long dt_address = argument.getImmediate();
         IntegerRegister Rn = (IntegerRegister) argument.getRn();
         IntegerRegister Rt = (IntegerRegister) argument.getRt();
         this.dataTransferCode.simulate(dt_address, Rn, Rt);
@@ -34,7 +34,7 @@ public class DataTransferInstruction extends Instruction {
     public String getMachineCodeString(InstructionArguments args) {
         String s = "";
         s = MachineCodeTranslator.convertOpCodeToBinary(opcode, 11);
-        s += " " + MachineCodeTranslator.convertToMachineCode(args.getAddress(), 9);
+        s += " " + MachineCodeTranslator.convertToMachineCode(args.getImmediate(), 9);
         s += " 00 "; // opcode not used, therefore always 0
         s += " " + MachineCodeTranslator.convertToMachineCode(args.getRn().getId(), 5);
         s += " " + MachineCodeTranslator.convertToMachineCode(args.getRt().getId(), 5);

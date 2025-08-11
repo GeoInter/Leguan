@@ -100,7 +100,7 @@ public class ProgramParser extends LegV8BaseVisitor<ARMProgram> {
             if (sourceLine == null) {
                 addSemanticError(pointerReference, ParsingErrorType.UndefinedJumpLabelReference);
             } else {
-                args.setAddress(sourceLine);
+                args.setImmediate(sourceLine);
             }
         }
 

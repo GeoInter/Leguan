@@ -20,7 +20,7 @@ public class ImmediateInstruction extends Instruction {
 
     @Override
     public void simulate(InstructionArguments argument, PCRegister pc) {
-        int alu_immediate = argument.getAlu_Immediate();
+        long alu_immediate = argument.getImmediate();
         IntegerRegister Rn = (IntegerRegister) argument.getRn();
         IntegerRegister Rd = (IntegerRegister) argument.getRd();
         this.immediateCode.simulate(alu_immediate, Rn, Rd);
@@ -34,7 +34,7 @@ public class ImmediateInstruction extends Instruction {
     public String getMachineCodeString(InstructionArguments args) {
         String s = "";
         s = MachineCodeTranslator.convertOpCodeToBinary(opcode, 10);
-        s += " " + MachineCodeTranslator.convertToMachineCode(args.getAlu_Immediate(), 12);
+        s += " " + MachineCodeTranslator.convertToMachineCode(args.getImmediate(), 12);
         s += " " + MachineCodeTranslator.convertToMachineCode(args.getRn().getId(), 5);
         s += " " + MachineCodeTranslator.convertToMachineCode(args.getRd().getId(), 5);
         return s;
