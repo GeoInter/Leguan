@@ -58,6 +58,7 @@ public class FPRegisterController extends RegisterController implements FPRegist
     /*****
      * 
      * TODO: Fix BINARY too long for SP
+     * TODO: selecting a value textbox undoes the inputted string
      * 
      */
 

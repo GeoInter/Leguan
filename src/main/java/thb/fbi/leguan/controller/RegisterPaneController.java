@@ -185,7 +185,7 @@ public class RegisterPaneController implements FlagRegisterObserver {
 
     private List<RegisterController> registerControllerList = new ArrayList<RegisterController>();
 
-    // TODO: Use accordion for show registers of a given category
+    // TODO: Use accordion for show registers of a given category/ needs callback to this component
 
     /**
      * initializes all UI components and binds values of the register side pane

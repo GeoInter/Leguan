@@ -22,6 +22,7 @@ import thb.fbi.leguan.parser.antlr.LegV8Parser.DataSegmentVariableContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.DatatransferInstructionContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.ExclusiveInstructionContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.Fp_arithmeticInstructionContext;
+import thb.fbi.leguan.parser.antlr.LegV8Parser.Fp_datatransferInstructionContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.Fp_registerContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.ImmediateInstructionContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.Integer_registerContext;
@@ -112,6 +113,11 @@ public class SyntaxHighlighter extends LegV8BaseListener {
     @Override
     public void enterDatatransferInstruction(DatatransferInstructionContext ctx) {
         addStyle(ctx.DatatransferInstruction(), "instruction");
+    }
+
+    @Override
+    public void enterFp_datatransferInstruction(Fp_datatransferInstructionContext ctx) {
+        addStyle(ctx.FP_DatatransferInstruction(), "instruction");
     }
 
     @Override

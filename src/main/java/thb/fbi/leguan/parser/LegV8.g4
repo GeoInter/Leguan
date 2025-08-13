@@ -25,6 +25,7 @@ line : jumpLabelDeclaration? (arithmeticInstruction arithmeticParam |
                     immediateInstruction immediateParam | 
                     wideImmediateInstruction wideImmediateParam |
                     datatransferInstruction datatransferParam | 
+                    fp_datatransferInstruction fp_datatransferParam | 
                     exclusiveInstruction exclusiveParam |
                     condBranchInstruction condBranchParam | 
                     b_cond_Instruction b_cond_Param |
@@ -42,6 +43,7 @@ shiftInstruction: ShiftInstruction;
 immediateInstruction : ImmediateInstruction;
 wideImmediateInstruction : WideImmediateInstrcution;
 datatransferInstruction : DatatransferInstruction;
+fp_datatransferInstruction : FP_DatatransferInstruction;
 exclusiveInstruction : ExclusiveInstruction;
 condBranchInstruction : CondBranchInstruction;
 b_cond_Instruction : B_cond_Instruction;
@@ -55,6 +57,7 @@ shiftParam : integer_register COMMA integer_register COMMA num ; // separated fr
 immediateParam : integer_register COMMA integer_register COMMA num ;
 wideImmediateParam : integer_register COMMA num COMMA ShiftInstruction num ;
 datatransferParam : integer_register COMMA SQUARE_BRACKET_LEFT integer_register COMMA num SQUARE_BRACKET_RIGHT ;
+fp_datatransferParam : fp_register COMMA SQUARE_BRACKET_LEFT integer_register COMMA num SQUARE_BRACKET_RIGHT ;
 exclusiveParam : integer_register COMMA integer_register SQUARE_BRACKET_LEFT integer_register SQUARE_BRACKET_RIGHT ;
 condBranchParam : integer_register COMMA jumpLabelReference ;
 b_cond_Param: jumpLabelReference ;
@@ -75,6 +78,7 @@ ShiftInstruction: 'LSL' | 'LSR' ;
 ImmediateInstruction : 'ADDI' | 'ADDIS' | 'ANDI' | 'ANDIS' | 'EORI' | 'ORRI' | 'SUBI' | 'SUBIS';
 WideImmediateInstrcution : 'MOVK' | 'MOVZ';
 DatatransferInstruction : 'LDUR' | 'LDURB' | 'LDURH' | 'LDURSW' | 'LDXR' | 'STUR' | 'STURB' | 'STURH' | 'STURW';
+FP_DatatransferInstruction: 'LDURS' | 'LDURD' | 'STURS' | 'STURD' ;
 ExclusiveInstruction : 'STXR';
 CondBranchInstruction : 'CBNZ' | 'CBZ' ;
 B_cond_Instruction: 'B.EQ' | 'B.NE' | 'B.LT' | 'B.LE' | 'B.GT' | 'B.GE' | 'B.MI' | 'B.PL' | 'B.VS' | 'B.VC';

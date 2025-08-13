@@ -233,6 +233,18 @@ public class LegV8BaseListener implements LegV8Listener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterFp_datatransferInstruction(LegV8Parser.Fp_datatransferInstructionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFp_datatransferInstruction(LegV8Parser.Fp_datatransferInstructionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterExclusiveInstruction(LegV8Parser.ExclusiveInstructionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -372,6 +384,18 @@ public class LegV8BaseListener implements LegV8Listener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitDatatransferParam(LegV8Parser.DatatransferParamContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterFp_datatransferParam(LegV8Parser.Fp_datatransferParamContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFp_datatransferParam(LegV8Parser.Fp_datatransferParamContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

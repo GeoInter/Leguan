@@ -144,6 +144,13 @@ public class LegV8BaseVisitor<T> extends AbstractParseTreeVisitor<T> implements 
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitFp_datatransferInstruction(LegV8Parser.Fp_datatransferInstructionContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitExclusiveInstruction(LegV8Parser.ExclusiveInstructionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
@@ -222,6 +229,13 @@ public class LegV8BaseVisitor<T> extends AbstractParseTreeVisitor<T> implements 
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitDatatransferParam(LegV8Parser.DatatransferParamContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitFp_datatransferParam(LegV8Parser.Fp_datatransferParamContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

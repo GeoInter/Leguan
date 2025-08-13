@@ -7,6 +7,22 @@ import java.util.Formatter;
 import java.util.List;
 import java.util.TreeSet;
 
+import thb.fbi.leguan.instructions.floatingPoint.FPArithmeticInstruction;
+import thb.fbi.leguan.instructions.floatingPoint.FPDataTransferInstruction;
+import thb.fbi.leguan.instructions.floatingPoint.IFPArithmeticCode;
+import thb.fbi.leguan.instructions.floatingPoint.IFPDataTransferCode;
+import thb.fbi.leguan.instructions.integer.ArithmeticInstruction;
+import thb.fbi.leguan.instructions.integer.BranchInstruction;
+import thb.fbi.leguan.instructions.integer.ConditionalBranchInstruction;
+import thb.fbi.leguan.instructions.integer.DataTransferInstruction;
+import thb.fbi.leguan.instructions.integer.IArithmeticCode;
+import thb.fbi.leguan.instructions.integer.IBranchCode;
+import thb.fbi.leguan.instructions.integer.IConditionalBranchCode;
+import thb.fbi.leguan.instructions.integer.IDataTransferCode;
+import thb.fbi.leguan.instructions.integer.IImmediateCode;
+import thb.fbi.leguan.instructions.integer.IWideImmediateCode;
+import thb.fbi.leguan.instructions.integer.ImmediateInstruction;
+import thb.fbi.leguan.instructions.integer.WideImmediateInstruction;
 import thb.fbi.leguan.simulation.FPRegister;
 import thb.fbi.leguan.simulation.FlagRegister;
 import thb.fbi.leguan.simulation.Memory;
@@ -804,10 +820,10 @@ public class InstructionSet {
         //// Floating Point Instructions ////
         
         instructionSet.add(
-                new FloatingPointInstruction("FADDS", 
+                new FPArithmeticInstruction("FADDS", 
                         0xF1, 
                         "", 
-                        new IFloatingPointCode() {
+                        new IFPArithmeticCode() {
                             @Override
                             public void simulate(FPRegister Rm, int shamt, FPRegister Rn, FPRegister Rd) {
                                 float op1 = Rm.getSPValue();
@@ -820,10 +836,10 @@ public class InstructionSet {
                         }));
 
         instructionSet.add(
-                new FloatingPointInstruction("FADDD", 
+                new FPArithmeticInstruction("FADDD", 
                         0xF3, 
                         "", 
-                        new IFloatingPointCode() {
+                        new IFPArithmeticCode() {
                             @Override
                             public void simulate(FPRegister Rm, int shamt, FPRegister Rn, FPRegister Rd) {
                                 double op1 = Rm.getDPValue();
@@ -835,11 +851,14 @@ public class InstructionSet {
                             }
                         }));
 
+        // TODO: Add FCMPS
+        // TODO: Add FCMPD
+
         instructionSet.add(
-                new FloatingPointInstruction("FDIVS", 
+                new FPArithmeticInstruction("FDIVS", 
                         0xF1, 
                         "", 
-                        new IFloatingPointCode() {
+                        new IFPArithmeticCode() {
                             @Override
                             public void simulate(FPRegister Rm, int shamt, FPRegister Rn, FPRegister Rd) {
                                 float op1 = Rm.getSPValue();
@@ -852,10 +871,10 @@ public class InstructionSet {
                         }));
 
         instructionSet.add(
-                new FloatingPointInstruction("FDIVD", 
+                new FPArithmeticInstruction("FDIVD", 
                         0xF3, 
                         "", 
-                        new IFloatingPointCode() {
+                        new IFPArithmeticCode() {
                             @Override
                             public void simulate(FPRegister Rm, int shamt, FPRegister Rn, FPRegister Rd) {
                                 double op1 = Rm.getDPValue();
@@ -868,10 +887,10 @@ public class InstructionSet {
                         }));
 
         instructionSet.add(
-                new FloatingPointInstruction("FMULS", 
+                new FPArithmeticInstruction("FMULS", 
                         0xF1, 
                         "", 
-                        new IFloatingPointCode() {
+                        new IFPArithmeticCode() {
                             @Override
                             public void simulate(FPRegister Rm, int shamt, FPRegister Rn, FPRegister Rd) {
                                 float op1 = Rm.getSPValue();
@@ -884,10 +903,10 @@ public class InstructionSet {
                         }));
 
         instructionSet.add(
-                new FloatingPointInstruction("FMULD", 
+                new FPArithmeticInstruction("FMULD", 
                         0xF3, 
                         "", 
-                        new IFloatingPointCode() {
+                        new IFPArithmeticCode() {
                             @Override
                             public void simulate(FPRegister Rm, int shamt, FPRegister Rn, FPRegister Rd) {
                                 double op1 = Rm.getDPValue();
@@ -900,10 +919,10 @@ public class InstructionSet {
                         }));
 
         instructionSet.add(
-                new FloatingPointInstruction("FSUBS", 
+                new FPArithmeticInstruction("FSUBS", 
                         0xF1, 
                         "", 
-                        new IFloatingPointCode() {
+                        new IFPArithmeticCode() {
                             @Override
                             public void simulate(FPRegister Rm, int shamt, FPRegister Rn, FPRegister Rd) {
                                 float op1 = Rm.getSPValue();
@@ -916,10 +935,10 @@ public class InstructionSet {
                         }));
 
         instructionSet.add(
-                new FloatingPointInstruction("FSUBD", 
+                new FPArithmeticInstruction("FSUBD", 
                         0xF3, 
                         "", 
-                        new IFloatingPointCode() {
+                        new IFPArithmeticCode() {
                             @Override
                             public void simulate(FPRegister Rm, int shamt, FPRegister Rn, FPRegister Rd) {
                                 double op1 = Rm.getDPValue();
@@ -931,36 +950,59 @@ public class InstructionSet {
                             }
                         }));
 
-
         instructionSet.add(
-                new DataTransferInstruction("LDURS", 
+                new FPDataTransferInstruction("LDURS", 
                         0x5E2, 
                         "", 
-                        new IDataTransferCode() {
+                        new IFPDataTransferCode() {
                             @Override
-                            public void simulate(long dt_address, IntegerRegister Rn, IntegerRegister Rt) {
-                               /* TODO: FIX */ 
+                            public void simulate(long dt_address, IntegerRegister Rn, FPRegister Rt) {
                                 long op1 = Rn.getValue();
                                 long address = op1 + dt_address;
-                                long value = Memory.loadDWord(address);
-                                Rt.setValue(value);
+                                Long value = Memory.loadDWord(address);
+                                Rt.setSinlgePrecisionValue(Float.intBitsToFloat(value.intValue()));
                             }
                         }));
 
         instructionSet.add(
-                new DataTransferInstruction("LDURD", 
+                new FPDataTransferInstruction("LDURD", 
                         0x7E2, 
                         "", 
-                        new IDataTransferCode() {
+                        new IFPDataTransferCode() {
                             @Override
-                            public void simulate(long dt_address, IntegerRegister Rn, IntegerRegister Rt) {
-                                /* TODO: FIX */
+                            public void simulate(long dt_address, IntegerRegister Rn, FPRegister Rt) {
                                 long op1 = Rn.getValue();
                                 long address = op1 + dt_address;
                                 long value = Memory.loadDWord(address);
-                                // convert long value into binary correct double value
-                                //double dpValue = Double.longBitsToDouble(value);
-                                Rt.setValue(value);
+                                Rt.setDoublePrecisionValue(Double.longBitsToDouble(value));
+                            }
+                        }));
+
+        instructionSet.add(
+                new FPDataTransferInstruction("STURS", 
+                        0x5E2, 
+                        "", 
+                        new IFPDataTransferCode() {
+                            @Override
+                            public void simulate(long dt_address, IntegerRegister Rn, FPRegister Rt) {
+                                float value = Rt.getSPValue();
+                                long op1 = Rn.getValue();
+                                long address = op1 + dt_address;
+                                Memory.storeDWord(address, Float.floatToRawIntBits(value));
+                            }
+                        }));
+
+        instructionSet.add(
+                new FPDataTransferInstruction("STURD", 
+                        0x7E2, 
+                        "", 
+                        new IFPDataTransferCode() {
+                            @Override
+                            public void simulate(long dt_address, IntegerRegister Rn, FPRegister Rt) {
+                                double value = Rt.getDPValue();
+                                long op1 = Rn.getValue();
+                                long address = op1 + dt_address;
+                                Memory.storeDWord(address, Double.doubleToRawLongBits(value));
                             }
                         }));
 

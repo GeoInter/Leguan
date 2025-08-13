@@ -29,6 +29,8 @@ import thb.fbi.leguan.parser.antlr.LegV8Parser.ExclusiveInstructionContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.ExclusiveParamContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.Fp_arithmeticInstructionContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.Fp_arithmeticParamContext;
+import thb.fbi.leguan.parser.antlr.LegV8Parser.Fp_datatransferInstructionContext;
+import thb.fbi.leguan.parser.antlr.LegV8Parser.Fp_datatransferParamContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.Fp_registerContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.ImmediateInstructionContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.ImmediateParamContext;
@@ -479,6 +481,24 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
         args.setRd(Rd);
         args.setRn(Rn);
         args.setRm(Rm);
+        return args;
+    }
+
+    @Override
+    public Instruction visitFp_datatransferInstruction(Fp_datatransferInstructionContext ctx) {
+        String instructionName = ctx.FP_DatatransferInstruction().getText();
+        return getInstructionByName(instructionName);
+    }
+
+    @Override
+    public InstructionArguments visitFp_datatransferParam(Fp_datatransferParamContext ctx) {
+        Register Rt = visitFPRegister(ctx.fp_register());
+        Register Rn = visitIntegerRegister(ctx.integer_register());
+        long dt_address = visitNum(ctx.num());
+        InstructionArguments args = new InstructionArguments();
+        args.setRt(Rt);
+        args.setRn(Rn);
+        args.setImmediate(dt_address);
         return args;
     }
 

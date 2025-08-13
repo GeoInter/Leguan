@@ -2,12 +2,12 @@ package thb.fbi.pipeline_visualizer.instruction;
 
 import thb.fbi.leguan.data.ARMProgram;
 import thb.fbi.leguan.data.ProgramStatement;
-import thb.fbi.leguan.instructions.ArithmeticInstruction;
-import thb.fbi.leguan.instructions.BranchInstruction;
-import thb.fbi.leguan.instructions.ConditionalBranchInstruction;
-import thb.fbi.leguan.instructions.DataTransferInstruction;
-import thb.fbi.leguan.instructions.ImmediateInstruction;
-import thb.fbi.leguan.instructions.WideImmediateInstruction;
+import thb.fbi.leguan.instructions.integer.ArithmeticInstruction;
+import thb.fbi.leguan.instructions.integer.BranchInstruction;
+import thb.fbi.leguan.instructions.integer.ConditionalBranchInstruction;
+import thb.fbi.leguan.instructions.integer.DataTransferInstruction;
+import thb.fbi.leguan.instructions.integer.ImmediateInstruction;
+import thb.fbi.leguan.instructions.integer.WideImmediateInstruction;
 
 import java.util.TreeMap;
 import java.util.Map;

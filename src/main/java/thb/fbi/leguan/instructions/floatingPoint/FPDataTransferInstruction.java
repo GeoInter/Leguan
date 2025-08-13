@@ -1,28 +1,29 @@
-package thb.fbi.leguan.instructions;
+package thb.fbi.leguan.instructions.floatingPoint;
 
 import thb.fbi.leguan.data.InstructionArguments;
+import thb.fbi.leguan.instructions.Instruction;
 import thb.fbi.leguan.simulation.FPRegister;
+import thb.fbi.leguan.simulation.IntegerRegister;
 import thb.fbi.leguan.simulation.PCRegister;
 import thb.fbi.leguan.utility.MachineCodeTranslator;
 
-public class FloatingPointInstruction extends Instruction {
+public class FPDataTransferInstruction extends Instruction {
+    
+    private IFPDataTransferCode dataTransferCode;
 
-    private IFloatingPointCode floatingPointCode;
-
-    public FloatingPointInstruction(String mnemonic, int opcode, String description, IFloatingPointCode floatingPointCode) {
+    public FPDataTransferInstruction(String mnemonic, int opcode, String description, IFPDataTransferCode dataTransferCode) {
         setMnemonic(mnemonic);
         setOpcode(opcode);
         setDescription(description);
-        setFloatingPointCode(floatingPointCode);
+        setDataTransferCode(dataTransferCode);
     }
 
     @Override
     public void simulate(InstructionArguments argument, PCRegister pc) {
-        FPRegister Rm = (FPRegister) argument.getRm();
-        int shamt = argument.getShamt();
-        FPRegister Rn = (FPRegister) argument.getRn();
-        FPRegister Rd = (FPRegister) argument.getRd();
-        this.floatingPointCode.simulate(Rm, shamt, Rn, Rd);
+        long dt_address = argument.getImmediate();
+        IntegerRegister Rn = (IntegerRegister) argument.getRn();
+        FPRegister Rt = (FPRegister) argument.getRt();
+        this.dataTransferCode.simulate(dt_address, Rn, Rt);
         pc.increase();
     }
 
@@ -38,17 +39,15 @@ public class FloatingPointInstruction extends Instruction {
         // TODO: Fix retrieving Ids
         s += " " + MachineCodeTranslator.convertToMachineCode(args.getShamt(), 6);
         s += " " + MachineCodeTranslator.convertToMachineCode(args.getRn().getId(), 5);
-        s += " " + MachineCodeTranslator.convertToMachineCode(args.getRd().getId(), 5);
+        s += " " + MachineCodeTranslator.convertToMachineCode(args.getRt().getId(), 5);
         return s;
     }
 
-    public IFloatingPointCode getFloatingPointCode() {
-        return floatingPointCode;
+    public IFPDataTransferCode getDataTransferCode() {
+        return dataTransferCode;
     }
 
-    public void setFloatingPointCode(IFloatingPointCode floatingPointCode) {
-        this.floatingPointCode = floatingPointCode;
+    public void setDataTransferCode(IFPDataTransferCode dataTransferCode) {
+        this.dataTransferCode = dataTransferCode;
     }
-
-    
 }

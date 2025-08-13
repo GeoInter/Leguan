@@ -1,6 +1,7 @@
-package thb.fbi.leguan.instructions;
+package thb.fbi.leguan.instructions.integer;
 
 import thb.fbi.leguan.data.InstructionArguments;
+import thb.fbi.leguan.instructions.Instruction;
 import thb.fbi.leguan.simulation.PCRegister;
 import thb.fbi.leguan.utility.MachineCodeTranslator;
 
