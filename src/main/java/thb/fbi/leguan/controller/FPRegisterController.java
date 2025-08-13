@@ -58,7 +58,6 @@ public class FPRegisterController extends RegisterController implements FPRegist
     /*****
      * 
      * TODO: Fix BINARY too long for SP
-     * TODO: selecting a value textbox undoes the inputted string
      * 
      */
 
@@ -84,7 +83,10 @@ public class FPRegisterController extends RegisterController implements FPRegist
                 try {
                     String valueString = spRegisterValue.getText();
                     float parsedValue = Float.parseFloat(valueString);
-                    register.setSinlgePrecisionValue(parsedValue);
+
+                    if (parsedValue != register.getSPValue() && ! Float.isNaN(parsedValue)) {
+                        register.setSinlgePrecisionValue(parsedValue);
+                    }
                 } catch (NumberFormatException e) {
                     spRegisterValue.setText(register.getSinglePrecisionValueAsString());
                 }
@@ -96,7 +98,11 @@ public class FPRegisterController extends RegisterController implements FPRegist
                 try {
                     String valueString = dpRegisterValue.getText();
                     double parsedValue = Double.parseDouble(valueString);
-                    register.setDoublePrecisionValue(parsedValue);
+                    
+                    System.out.println(parsedValue + " vs. " + register.getDPValue());
+                    if (parsedValue != register.getDPValue() && ! Double.isNaN(parsedValue)) {
+                        register.setDoublePrecisionValue(parsedValue);
+                    }
                 } catch (NumberFormatException e) {
                     dpRegisterValue.setText(register.getDoublePrecisionValueAsString());
                 }

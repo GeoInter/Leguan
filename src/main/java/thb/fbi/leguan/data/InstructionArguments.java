@@ -9,7 +9,7 @@ import thb.fbi.leguan.simulation.Register;
 public class InstructionArguments {
     /** already translated arguments; can be directly used by an instruction */
     private Register Rm;
-    private Register Rn; // TODO: Use index instead? Currently problematic with LDURD and LDURS having their own parameters
+    private Register Rn;
     private Register Rd;
     private Register Rt;
     private int shamt; // 6bit
