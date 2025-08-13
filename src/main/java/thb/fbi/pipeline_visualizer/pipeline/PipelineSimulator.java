@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.TreeMap;
 
 import thb.fbi.leguan.data.ARMProgram;
+import thb.fbi.pipeline_visualizer.instruction.Instruction;
+import thb.fbi.pipeline_visualizer.instruction.InstructionFactory;
 
 
 public class PipelineSimulator {
@@ -68,7 +70,7 @@ public class PipelineSimulator {
             }
 
             if(debugOutput) System.out.println("clock: " + (Frames.size() + 1) + " PC: " + (i * 4));
-            i = this.Frame.insertInstruction(instruction, i);
+            i = this.Frame.executeClockCycle(instruction, i);
 
             if (i < 0) {
                 System.err.println("Negative PC returned: " + i);

@@ -13,6 +13,12 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.HashMap;
 
+import thb.fbi.pipeline_visualizer.instruction.Instruction;
+import thb.fbi.pipeline_visualizer.instruction.InstructionFormat;
+import thb.fbi.pipeline_visualizer.predictor.TwoBitPrecitionEntry;
+import thb.fbi.pipeline_visualizer.predictor.TwoBitPredictorAutomata;
+import thb.fbi.pipeline_visualizer.predictor.TwoBitPredictorState;
+
 public class MFrame implements Serializable {
 
     public Instruction instruction;
@@ -243,16 +249,19 @@ public class MFrame implements Serializable {
         this.idExPipeline.memoryAccessExclusive = this.cUnit.memoryAccessExclusive;
         this.idExPipeline.setsFlag = this.cUnit.setsFlag;
 
-        if (this.ifIdPipeline.instruction.getRd() >= 0)
-            this.idExPipeline.rd = this.ifIdPipeline.instruction.getRd();
-        else
-            this.idExPipeline.rd = 0; // TODO: what?
+        this.idExPipeline.rd = this.ifIdPipeline.instruction.getRd();
 
         // Input For Hazard UNIT
         this.hdUnit.ifIdRn = this.ifIdPipeline.instruction.getRn();
         this.hdUnit.ifIdRt = this.ifIdPipeline.instruction.getRt();
     }
 
+    /**
+     * Executes the Fetch stage. Use a selected Control Hazard option to 
+     * determine the next instruction/ next PC value
+     * @param PC current program counter value
+     * @return adress of the next instruction to load/ fetch
+     */
     private long executeFetchStage(long PC) {
         if (is2BitPredictorEnabled && this.memWbPipeline != null) { // dynamic prediction
             // Branching evaluated in MEM stage, +12 behind current PC in Fetch
@@ -341,6 +350,11 @@ public class MFrame implements Serializable {
         return PC + 4;
     }
 
+    /**
+     * Updates the prediction table by checking if entry already in table or not
+     * @param initialPredictorState state to add for this entry
+     * @param PC current program counter value
+     */
     private void updatePredictionTable(TwoBitPredictorState initialPredictorState, long PC) {
         if (!twoBitPredictionTable.containsKey(PC)) {
             // same calculation as in MEM stage (Note: instead of PC uses nextPC)
@@ -351,7 +365,13 @@ public class MFrame implements Serializable {
         }
     }
 
-    long insertInstruction(Instruction instruction, long PC) {
+    /**
+     * executes a clockcycle for a given instruction and pc
+     * @param instruction instruction to start to fetch (in Fetch stage)
+     * @param PC current program counter value
+     * @return next program counter value
+     */
+    long executeClockCycle(Instruction instruction, long PC) {
         this.instruction = instruction; // needed only for the visualization part
 
         // add conditional branch instructions to prediction Table

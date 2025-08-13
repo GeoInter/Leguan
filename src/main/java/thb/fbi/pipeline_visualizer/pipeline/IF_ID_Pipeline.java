@@ -7,6 +7,8 @@ package thb.fbi.pipeline_visualizer.pipeline;
 
 import java.io.Serializable;
 
+import thb.fbi.pipeline_visualizer.instruction.Instruction;
+
 public class IF_ID_Pipeline implements Serializable {
     /** instruction */
     public Instruction instruction;

@@ -1,4 +1,4 @@
-package thb.fbi.pipeline_visualizer.pipeline;
+package thb.fbi.pipeline_visualizer.predictor;
 
 import java.io.Serializable;
 

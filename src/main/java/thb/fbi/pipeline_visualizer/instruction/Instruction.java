@@ -3,7 +3,7 @@
  * Tahsin Kabir
  * M Tahmid Bari
  */
-package thb.fbi.pipeline_visualizer.pipeline;
+package thb.fbi.pipeline_visualizer.instruction;
 
 import java.io.Serializable;
 

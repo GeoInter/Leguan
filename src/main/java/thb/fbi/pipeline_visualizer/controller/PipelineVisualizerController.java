@@ -24,7 +24,7 @@ import javafx.util.Callback;
 import thb.fbi.leguan.data.ARMProgram;
 import thb.fbi.pipeline_visualizer.pipeline.MFrame;
 import thb.fbi.pipeline_visualizer.pipeline.PipelineSimulator;
-import thb.fbi.pipeline_visualizer.pipeline.TwoBitPrecitionEntry;
+import thb.fbi.pipeline_visualizer.predictor.TwoBitPrecitionEntry;
 
 public class PipelineVisualizerController {
 

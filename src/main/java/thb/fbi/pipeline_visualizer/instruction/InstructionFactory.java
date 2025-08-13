@@ -1,4 +1,4 @@
-package thb.fbi.pipeline_visualizer.pipeline;
+package thb.fbi.pipeline_visualizer.instruction;
 
 import thb.fbi.leguan.data.ARMProgram;
 import thb.fbi.leguan.data.ProgramStatement;
