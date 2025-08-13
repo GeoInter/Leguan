@@ -19,9 +19,9 @@ public class FPRegister extends Register {
 
     private FPRegisterObserver observer;
 
-    public FPRegister(int id) {
+    public FPRegister(String name, int id) {
         this.id = id;
-        this.name = "SP" + 0;
+        this.name = name;
     }
 
     public String getSinglePrecisionValueAsString() {

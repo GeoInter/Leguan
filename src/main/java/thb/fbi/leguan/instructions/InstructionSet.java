@@ -342,7 +342,7 @@ public class InstructionSet {
                         new IBranchCode() {
                             @Override
                             public void simulate(long br_address, PCRegister pc) {
-                                IntegerRegister R30 = (IntegerRegister) RegisterFile.getIntegerRegisters()[30];
+                                IntegerRegister R30 = (IntegerRegister) RegisterFile.getIntegerRegister(30);
                                 R30.setValue((pc.getValue() + 4)); // internal pc value is not multiplied by 4
                                 pc.setValue(br_address);
                             }

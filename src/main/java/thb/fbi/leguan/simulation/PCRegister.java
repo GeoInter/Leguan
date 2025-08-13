@@ -8,7 +8,8 @@ import thb.fbi.leguan.instructions.Instruction;
 public class PCRegister extends IntegerRegister {
 
     public PCRegister(String name, long value, int id) {
-        super("PC", value, id);
+        super("PC", id);
+        this.setValue(value);
     }
 
     /**

@@ -16,10 +16,9 @@ public class IntegerRegister extends Register {
     /** format of value to be shown can be either binary, decimal or hexadecimal */
     protected Base numberFormat = Base.DEC;
 
-    public IntegerRegister(String name, long value, int id) {
+    public IntegerRegister(String name, int id) {
         this.name = name;
         this.id = id;
-        valueProperty.set(value);
     }
 
     /**

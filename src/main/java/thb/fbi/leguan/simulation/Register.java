@@ -13,6 +13,7 @@ public abstract class Register {
     protected SimpleBooleanProperty isUsed = new SimpleBooleanProperty(true);
 
     // TODO: Use a NumberFormatter instead of insert into the String 
+    // TODO: Split case into own functions for better overriding
     /**
      * Updates the shown value in UI
      * delimites binary and hex number in pairs of 4

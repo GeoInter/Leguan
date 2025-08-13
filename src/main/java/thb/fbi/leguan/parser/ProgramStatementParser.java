@@ -159,7 +159,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
 
         IntegerRegister register = null;
         try {
-            register = RegisterFile.getIntegerRegisters()[index];
+            register = RegisterFile.getIntegerRegister(index);
             if (!usedRegisters.contains(register)) {
                 usedRegisters.add(register);
             }
@@ -173,12 +173,12 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
         String registerName = ctx.getText();
         int index = 0;
 
-        registerName = registerName.substring(2);
+        registerName = registerName.substring(1);
         index = Integer.parseInt(registerName);
 
         FPRegister register = null; 
         try {
-            register = RegisterFile.getFPRegisters()[index];
+            register = RegisterFile.getFPRegister(index);
             if (!usedRegisters.contains(register)) {
                 usedRegisters.add(register);
             }
@@ -455,7 +455,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
     @Override
     public InstructionArguments visitDataSegmentParam(DataSegmentParamContext ctx) {
         Register Rt = visitIntegerRegister(ctx.integer_register());
-        Register Rn = RegisterFile.getIntegerRegisters()[31];
+        Register Rn = RegisterFile.getIntegerRegister(31);
         long dt_address = visitDataSegmentLabelReference(ctx.dataSegmentLabelReference());
         InstructionArguments args = new InstructionArguments();
         args.setRt(Rt);

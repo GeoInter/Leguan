@@ -16,18 +16,20 @@ public class RegisterFile {
     private static FlagRegister flagRegister = new FlagRegister();
 
     /** number of registers */
-    public static final int registerNr = 32;
+    public static final int AMOUNT_OF_REGISTERS = 32;
+
+    public static final int FP_START_INDEX = 32;
 
     public static void initRegisterFile() {
-        integerRegisters = new IntegerRegister[registerNr];
+        integerRegisters = new IntegerRegister[AMOUNT_OF_REGISTERS];
         for (int i = 0; i < integerRegisters.length; i++) {
-            integerRegisters[i] = new IntegerRegister("X"+i, 0, i);
+            integerRegisters[i] = new IntegerRegister("X"+i, i);
             integerRegisters[i].setNumberFormat(Base.DEC);
         }
 
-        fpRegisters = new FPRegister[registerNr];
+        fpRegisters = new FPRegister[AMOUNT_OF_REGISTERS];
         for (int i = 0; i < fpRegisters.length; i++) {
-            fpRegisters[i] = new FPRegister(i);
+            fpRegisters[i] = new FPRegister("D"+i, i + FP_START_INDEX);
             fpRegisters[i].setSinglePrecisionNumberFormat(Base.DEC);
             fpRegisters[i].setDoublePrecisionNumberFormat(Base.DEC);
         }
@@ -36,19 +38,19 @@ public class RegisterFile {
     }
 
     /**
-     * gets the list of all registers (R0 - R31)
+     * gets the list of all integer registers (R0 - R31)
      * @return List of registers
      */
-    public static IntegerRegister[] getIntegerRegisters() {
-        return integerRegisters;
+    public static IntegerRegister getIntegerRegister(int index) {
+        return integerRegisters[index];
     }
 
     /**
-     * gets the list of all registers (R0 - R31)
+     * gets the list of all floating point registers (S0/ D0 - S31/ D31)
      * @return List of registers
      */
-    public static FPRegister[] getFPRegisters() {
-        return fpRegisters;
+    public static FPRegister getFPRegister(int index) {
+        return fpRegisters[index];
     }
 
     public static FlagRegister getFlagRegister() {

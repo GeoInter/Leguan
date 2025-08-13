@@ -19,7 +19,7 @@ import thb.fbi.leguan.simulation.IntegerRegister;
  * controls only one specified register
  * register needs to be set seperate/ outside of this controller
  */
-public class IntegerRegisterController {
+public class IntegerRegisterController extends RegisterController {
 
     /** register to associate to this UI element */
     private IntegerRegister register;
@@ -105,10 +105,14 @@ public class IntegerRegisterController {
         });
     }
 
+    @Override
+    public void setHighlighting() {
+        registerValue.setId("highlight-value");
+    }
+    
+    @Override
     public void clearHighlighting() {
-        Platform.runLater(() -> {
-            registerValue.setId(null);
-        });
+        registerValue.setId(null);
     }
 
     private void setDisplayUnsigned(BooleanProperty displayUnsigned) {

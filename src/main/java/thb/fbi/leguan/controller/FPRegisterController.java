@@ -12,7 +12,7 @@ import thb.fbi.leguan.simulation.Base;
 import thb.fbi.leguan.simulation.FPRegister;
 import thb.fbi.leguan.simulation.FPRegisterObserver;
 
-public class FPRegisterController implements FPRegisterObserver {
+public class FPRegisterController extends RegisterController implements FPRegisterObserver {
 
     @FXML
     VBox registerBox;
@@ -57,9 +57,7 @@ public class FPRegisterController implements FPRegisterObserver {
 
     /*****
      * 
-     * TODO: Highlight value changes
      * TODO: Fix BINARY too long for SP
-     * 
      * 
      */
 
@@ -121,8 +119,20 @@ public class FPRegisterController implements FPRegisterObserver {
         registerBox.managedProperty().bind(register.getIsUsed().or(showAllRegisters));
         registerBox.visibleProperty().bind(register.getIsUsed().or(showAllRegisters));
 
-        dpRegisterTitle.setText("DP" + register.getId());
-        spRegisterTitle.setText("SP" + register.getId());
+        dpRegisterTitle.setText(register.getName());
+        spRegisterTitle.setText(register.getName().replace("D", "S"));
+    }
+
+    @Override
+    public void setHighlighting() {
+        spRegisterValue.setId("highlight-value");
+        dpRegisterValue.setId("highlight-value");
+    }
+    
+    @Override
+    public void clearHighlighting() {
+        spRegisterValue.setId(null);
+        dpRegisterValue.setId(null);
     }
 
     @Override
