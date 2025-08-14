@@ -5,6 +5,7 @@ import thb.fbi.leguan.instructions.Instruction;
 import thb.fbi.leguan.simulation.FPRegister;
 import thb.fbi.leguan.simulation.IntegerRegister;
 import thb.fbi.leguan.simulation.PCRegister;
+import thb.fbi.leguan.simulation.RegisterFile;
 import thb.fbi.leguan.utility.MachineCodeTranslator;
 
 public class FPDataTransferInstruction extends Instruction {
@@ -31,15 +32,11 @@ public class FPDataTransferInstruction extends Instruction {
     public String getMachineCodeString(InstructionArguments args) {
         String s = "";
         s = MachineCodeTranslator.convertOpCodeToBinary(opcode, 11);
-        if(args.getRm() != null) {
-            s += " " + MachineCodeTranslator.convertToMachineCode(args.getRm().getId(), 5);
-        } else {
-            s += " 11111";
-        }
-        // TODO: Fix retrieving Ids
-        s += " " + MachineCodeTranslator.convertToMachineCode(args.getShamt(), 6);
+        s += " " + MachineCodeTranslator.convertToMachineCode(args.getImmediate(), 9);
+        s += " 00 "; // opcode not used, therefore always 0
+        // FP register id is bigger than 5 bit. Exception is Rn which is an integer register
         s += " " + MachineCodeTranslator.convertToMachineCode(args.getRn().getId(), 5);
-        s += " " + MachineCodeTranslator.convertToMachineCode(args.getRt().getId(), 5);
+        s += " " + MachineCodeTranslator.convertToMachineCode(args.getRt().getId() - RegisterFile.FP_START_INDEX, 5);
         return s;
     }
 

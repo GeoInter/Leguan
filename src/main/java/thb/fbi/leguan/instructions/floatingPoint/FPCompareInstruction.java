@@ -4,6 +4,8 @@ import thb.fbi.leguan.data.InstructionArguments;
 import thb.fbi.leguan.instructions.Instruction;
 import thb.fbi.leguan.simulation.FPRegister;
 import thb.fbi.leguan.simulation.PCRegister;
+import thb.fbi.leguan.simulation.RegisterFile;
+import thb.fbi.leguan.utility.MachineCodeTranslator;
 
 public class FPCompareInstruction extends Instruction {
     
@@ -26,8 +28,15 @@ public class FPCompareInstruction extends Instruction {
 
     @Override
     public String getMachineCodeString(InstructionArguments args) {
-        // TODO: Fix
-        return "";
+        String s = "";
+        s = MachineCodeTranslator.convertOpCodeToBinary(opcode, 11);
+        // FP register id is bigger than 5 bit - convert back to fit range 0-31
+        s += " " + MachineCodeTranslator.convertToMachineCode(args.getRm().getId() - RegisterFile.FP_START_INDEX, 5);
+        s += " " + MachineCodeTranslator.convertToMachineCode(args.getShamt(), 6);
+        s += " " + MachineCodeTranslator.convertToMachineCode(args.getRn().getId() - RegisterFile.FP_START_INDEX, 5);
+        // Rd is not set
+        s += " 11111";
+        return s;
     }
 
     
