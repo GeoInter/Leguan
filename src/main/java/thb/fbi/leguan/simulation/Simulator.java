@@ -78,6 +78,7 @@ public class Simulator {
         RegisterFile.updateShownRegisters(program);
     }
 
+    // TODO: after last step highlighter should not be visible anymore
     /**
      * executes exactly one instruction
      * @param code program to execute

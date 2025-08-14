@@ -69,7 +69,7 @@ public class FlagRegister {
     }
 
     /**
-     * sets the Negative condition flag
+     * sets the Negative condition flag. Should only be used by UI.
      * @param n boolean to change the flag to
      */
     public static synchronized void setNFlag(boolean n) {
@@ -77,7 +77,7 @@ public class FlagRegister {
     }
 
     /**
-     * sets the Zero condition flag
+     * sets the Zero condition flag. Should only be used by UI.
      * @param z boolean to change the flag to
      */
     public static synchronized void setZFlag(boolean z) {
@@ -85,7 +85,7 @@ public class FlagRegister {
     }
 
     /**
-     * sets the Carry condition flag
+     * sets the Carry condition flag. Should only be used by UI.
      * @param c boolean to change the flag to
      */
     public static synchronized void setCFlag(boolean c) {
@@ -93,11 +93,19 @@ public class FlagRegister {
     }
 
     /**
-     * sets the Overflow condition flag
+     * sets the Overflow condition flag. Should only be used by UI.
      * @param v boolean to change the flag to
      */
     public static synchronized void setVFlag(boolean v) {
         FlagRegister.v = v;
+    }
+
+    public static void setAllFlags(boolean n, boolean z, boolean c, boolean v) {
+        setNFlag(n);
+        setZFlag(z);
+        setCFlag(c);
+        setVFlag(v);
+        observer.update(n, z, c, v);
     }
 
     public static void setAllFlags(long op1, long op2, long result) {

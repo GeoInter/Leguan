@@ -31,7 +31,9 @@ line : jumpLabelDeclaration? (arithmeticInstruction arithmeticParam |
                     b_cond_Instruction b_cond_Param |
                     branchInstruction branchParam |
                     branchByRegisterInstruction branchByRegisterParam |
-                    dataSegmentInstruction dataSegmentParam);
+                    dataSegmentInstruction dataSegmentParam | 
+                    fp_compareInstruction fp_compareParam
+                    );
 
 jumpLabelDeclaration: PointerDeclaration ;
 jumpLabelReference: PointerReference ;
@@ -50,6 +52,7 @@ b_cond_Instruction : B_cond_Instruction;
 branchInstruction : BranchInstruction;
 branchByRegisterInstruction : BranchByRegisterInstruction;
 dataSegmentInstruction: DataSegmentInstruction;
+fp_compareInstruction : FP_CompareInstruction;
 
 arithmeticParam : integer_register COMMA integer_register COMMA integer_register ;
 fp_arithmeticParam: fp_register COMMA fp_register COMMA fp_register ;
@@ -64,6 +67,7 @@ b_cond_Param: jumpLabelReference ;
 branchParam : jumpLabelReference ;
 branchByRegisterParam : integer_register ;
 dataSegmentParam : integer_register COMMA EQUALS_SIGN dataSegmentLabelReference ;
+fp_compareParam : fp_register COMMA fp_register ;
 
 num: NUMBER ;
 integer_register: INTEGER_REGISTER ;
@@ -85,6 +89,7 @@ B_cond_Instruction: 'B.EQ' | 'B.NE' | 'B.LT' | 'B.LE' | 'B.GT' | 'B.GE' | 'B.MI'
 BranchInstruction : 'B' | 'BL' ;
 BranchByRegisterInstruction : 'BR';
 DataSegmentInstruction : 'LDR' ;
+FP_CompareInstruction : 'FCMPS' | 'FCMPD' ;
 
 
 // skipped Tokens

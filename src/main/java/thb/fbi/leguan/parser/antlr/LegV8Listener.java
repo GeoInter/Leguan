@@ -258,6 +258,16 @@ public interface LegV8Listener extends ParseTreeListener {
 	 */
 	void exitDataSegmentInstruction(LegV8Parser.DataSegmentInstructionContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link LegV8Parser#fp_compareInstruction}.
+	 * @param ctx the parse tree
+	 */
+	void enterFp_compareInstruction(LegV8Parser.Fp_compareInstructionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LegV8Parser#fp_compareInstruction}.
+	 * @param ctx the parse tree
+	 */
+	void exitFp_compareInstruction(LegV8Parser.Fp_compareInstructionContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link LegV8Parser#arithmeticParam}.
 	 * @param ctx the parse tree
 	 */
@@ -387,6 +397,16 @@ public interface LegV8Listener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitDataSegmentParam(LegV8Parser.DataSegmentParamContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link LegV8Parser#fp_compareParam}.
+	 * @param ctx the parse tree
+	 */
+	void enterFp_compareParam(LegV8Parser.Fp_compareParamContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LegV8Parser#fp_compareParam}.
+	 * @param ctx the parse tree
+	 */
+	void exitFp_compareParam(LegV8Parser.Fp_compareParamContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link LegV8Parser#num}.
 	 * @param ctx the parse tree

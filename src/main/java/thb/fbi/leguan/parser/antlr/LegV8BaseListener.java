@@ -317,6 +317,18 @@ public class LegV8BaseListener implements LegV8Listener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterFp_compareInstruction(LegV8Parser.Fp_compareInstructionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFp_compareInstruction(LegV8Parser.Fp_compareInstructionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterArithmeticParam(LegV8Parser.ArithmeticParamContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -468,6 +480,18 @@ public class LegV8BaseListener implements LegV8Listener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitDataSegmentParam(LegV8Parser.DataSegmentParamContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterFp_compareParam(LegV8Parser.Fp_compareParamContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFp_compareParam(LegV8Parser.Fp_compareParamContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

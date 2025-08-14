@@ -8,8 +8,10 @@ import java.util.List;
 import java.util.TreeSet;
 
 import thb.fbi.leguan.instructions.floatingPoint.FPArithmeticInstruction;
+import thb.fbi.leguan.instructions.floatingPoint.FPCompareInstruction;
 import thb.fbi.leguan.instructions.floatingPoint.FPDataTransferInstruction;
 import thb.fbi.leguan.instructions.floatingPoint.IFPArithmeticCode;
+import thb.fbi.leguan.instructions.floatingPoint.IFPCompareCode;
 import thb.fbi.leguan.instructions.floatingPoint.IFPDataTransferCode;
 import thb.fbi.leguan.instructions.integer.ArithmeticInstruction;
 import thb.fbi.leguan.instructions.integer.BranchInstruction;
@@ -816,13 +818,12 @@ public class InstructionSet {
                             }
                         }));
 
-
         //// Floating Point Instructions ////
-        
+
         instructionSet.add(
-                new FPArithmeticInstruction("FADDS", 
-                        0xF1, 
-                        "", 
+                new FPArithmeticInstruction("FADDS",
+                        0xF1,
+                        "",
                         new IFPArithmeticCode() {
                             @Override
                             public void simulate(FPRegister Rm, int shamt, FPRegister Rn, FPRegister Rd) {
@@ -836,9 +837,9 @@ public class InstructionSet {
                         }));
 
         instructionSet.add(
-                new FPArithmeticInstruction("FADDD", 
-                        0xF3, 
-                        "", 
+                new FPArithmeticInstruction("FADDD",
+                        0xF3,
+                        "",
                         new IFPArithmeticCode() {
                             @Override
                             public void simulate(FPRegister Rm, int shamt, FPRegister Rn, FPRegister Rd) {
@@ -851,13 +852,60 @@ public class InstructionSet {
                             }
                         }));
 
-        // TODO: Add FCMPS
-        // TODO: Add FCMPD
+        instructionSet.add(
+                new FPCompareInstruction("FCMPS",
+                        0xF1,
+                        "",
+                        new IFPCompareCode() {
+                            @Override
+                            public void simulate(FPRegister Rn, FPRegister Rm) {
+                                float op1 = Rm.getSPValue();
+                                float op2 = Rn.getSPValue();
+
+                                if (Float.isNaN(op1) || Float.isNaN(op2)) {
+                                    // according to the Green Card: operands are unordered
+                                } else {
+                                    if (op1 == op2) {
+                                        FlagRegister.setAllFlags(false, true, true, false);
+                                    } else if (op1 < op2) {
+                                        FlagRegister.setAllFlags(true, false, false, false);
+                                    } else if (op1 > op2) {
+                                        FlagRegister.setAllFlags(false, false, true, false);
+                                    }
+                                }
+
+                            }
+                        }));
 
         instructionSet.add(
-                new FPArithmeticInstruction("FDIVS", 
-                        0xF1, 
-                        "", 
+                new FPCompareInstruction("FCMPD",
+                        0xF3,
+                        "",
+                        new IFPCompareCode() {
+                            @Override
+                            public void simulate(FPRegister Rn, FPRegister Rm) {
+                                double op1 = Rm.getDPValue();
+                                double op2 = Rn.getDPValue();
+
+                                if (Double.isNaN(op1) || Double.isNaN(op2)) {
+                                    // according to the Green Card: operands are unordered
+                                } else {
+                                    if (op1 == op2) {
+                                        FlagRegister.setAllFlags(false, true, true, false);
+                                    } else if (op1 < op2) {
+                                        FlagRegister.setAllFlags(true, false, false, false);
+                                    } else if (op1 > op2) {
+                                        FlagRegister.setAllFlags(false, false, true, false);
+                                    }
+                                }
+
+                            }
+                        }));
+
+        instructionSet.add(
+                new FPArithmeticInstruction("FDIVS",
+                        0xF1,
+                        "",
                         new IFPArithmeticCode() {
                             @Override
                             public void simulate(FPRegister Rm, int shamt, FPRegister Rn, FPRegister Rd) {
@@ -871,9 +919,9 @@ public class InstructionSet {
                         }));
 
         instructionSet.add(
-                new FPArithmeticInstruction("FDIVD", 
-                        0xF3, 
-                        "", 
+                new FPArithmeticInstruction("FDIVD",
+                        0xF3,
+                        "",
                         new IFPArithmeticCode() {
                             @Override
                             public void simulate(FPRegister Rm, int shamt, FPRegister Rn, FPRegister Rd) {
@@ -887,9 +935,9 @@ public class InstructionSet {
                         }));
 
         instructionSet.add(
-                new FPArithmeticInstruction("FMULS", 
-                        0xF1, 
-                        "", 
+                new FPArithmeticInstruction("FMULS",
+                        0xF1,
+                        "",
                         new IFPArithmeticCode() {
                             @Override
                             public void simulate(FPRegister Rm, int shamt, FPRegister Rn, FPRegister Rd) {
@@ -903,9 +951,9 @@ public class InstructionSet {
                         }));
 
         instructionSet.add(
-                new FPArithmeticInstruction("FMULD", 
-                        0xF3, 
-                        "", 
+                new FPArithmeticInstruction("FMULD",
+                        0xF3,
+                        "",
                         new IFPArithmeticCode() {
                             @Override
                             public void simulate(FPRegister Rm, int shamt, FPRegister Rn, FPRegister Rd) {
@@ -919,9 +967,9 @@ public class InstructionSet {
                         }));
 
         instructionSet.add(
-                new FPArithmeticInstruction("FSUBS", 
-                        0xF1, 
-                        "", 
+                new FPArithmeticInstruction("FSUBS",
+                        0xF1,
+                        "",
                         new IFPArithmeticCode() {
                             @Override
                             public void simulate(FPRegister Rm, int shamt, FPRegister Rn, FPRegister Rd) {
@@ -935,9 +983,9 @@ public class InstructionSet {
                         }));
 
         instructionSet.add(
-                new FPArithmeticInstruction("FSUBD", 
-                        0xF3, 
-                        "", 
+                new FPArithmeticInstruction("FSUBD",
+                        0xF3,
+                        "",
                         new IFPArithmeticCode() {
                             @Override
                             public void simulate(FPRegister Rm, int shamt, FPRegister Rn, FPRegister Rd) {
@@ -951,9 +999,9 @@ public class InstructionSet {
                         }));
 
         instructionSet.add(
-                new FPDataTransferInstruction("LDURS", 
-                        0x5E2, 
-                        "", 
+                new FPDataTransferInstruction("LDURS",
+                        0x5E2,
+                        "",
                         new IFPDataTransferCode() {
                             @Override
                             public void simulate(long dt_address, IntegerRegister Rn, FPRegister Rt) {
@@ -965,9 +1013,9 @@ public class InstructionSet {
                         }));
 
         instructionSet.add(
-                new FPDataTransferInstruction("LDURD", 
-                        0x7E2, 
-                        "", 
+                new FPDataTransferInstruction("LDURD",
+                        0x7E2,
+                        "",
                         new IFPDataTransferCode() {
                             @Override
                             public void simulate(long dt_address, IntegerRegister Rn, FPRegister Rt) {
@@ -979,9 +1027,9 @@ public class InstructionSet {
                         }));
 
         instructionSet.add(
-                new FPDataTransferInstruction("STURS", 
-                        0x5E2, 
-                        "", 
+                new FPDataTransferInstruction("STURS",
+                        0x5E2,
+                        "",
                         new IFPDataTransferCode() {
                             @Override
                             public void simulate(long dt_address, IntegerRegister Rn, FPRegister Rt) {
@@ -993,9 +1041,9 @@ public class InstructionSet {
                         }));
 
         instructionSet.add(
-                new FPDataTransferInstruction("STURD", 
-                        0x7E2, 
-                        "", 
+                new FPDataTransferInstruction("STURD",
+                        0x7E2,
+                        "",
                         new IFPDataTransferCode() {
                             @Override
                             public void simulate(long dt_address, IntegerRegister Rn, FPRegister Rt) {
@@ -1041,7 +1089,8 @@ public class InstructionSet {
             // formatter.format("\nSize: %d / %d\n\n", instructionSet.size(), LEGv8InstrNr);
             formatter.format("%-15s %-15s %-30s %-15s\n", "Opcode", "Name", "Format", "Description");
             for (Instruction ins : sortInstructions) {
-                formatter.format("%-7s %-7s %-30s %-60s\n", Long.toHexString(ins.getOpcode()), ins.getMnemonic(), ins.getClass().getSimpleName(),
+                formatter.format("%-7s %-7s %-30s %-60s\n", Long.toHexString(ins.getOpcode()), ins.getMnemonic(),
+                        ins.getClass().getSimpleName(),
                         ins.getDescription());
             }
             return formatter.toString();
