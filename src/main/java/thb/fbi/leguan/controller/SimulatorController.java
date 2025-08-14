@@ -242,8 +242,7 @@ public class SimulatorController {
     @FXML
     private void stepForward() {
         InstructionPosition position = simulator.forwardStep();
-        if (position != null)
-            editorController.setLineNumber(position);
+        editorController.setLineNumber(position);
     }
 
     // run clear line
