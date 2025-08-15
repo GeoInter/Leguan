@@ -185,7 +185,11 @@ public class RegisterPaneController implements FlagRegisterObserver {
 
     private List<RegisterController> registerControllerList = new ArrayList<RegisterController>();
 
-    // TODO: Use accordion for show registers of a given category/ needs callback to this component
+    // id of the last register that was highlighted in UI (value was changed or accessed)
+    private int lastHighlightedRegisterId = 0;
+
+    // TODO: Use accordion for show registers of a given category/ needs callback to
+    // this component
 
     /**
      * initializes all UI components and binds values of the register side pane
@@ -422,12 +426,10 @@ public class RegisterPaneController implements FlagRegisterObserver {
      */
     public void updateRegisterHighlighting(int index) {
         Platform.runLater(() -> {
-            for (int i = 0; i < registerControllerList.size(); i++) {
-                if (i == index) {
-                    registerControllerList.get(i).setHighlighting();
-                } else {
-                    registerControllerList.get(i).clearHighlighting();
-                }
+            registerControllerList.get(lastHighlightedRegisterId).clearHighlighting();
+            if (index >= 0) {
+                lastHighlightedRegisterId = index;
+                registerControllerList.get(index).setHighlighting();
             }
         });
     }
