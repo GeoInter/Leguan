@@ -55,12 +55,6 @@ public class FPRegisterController extends RegisterController implements FPRegist
 
     private FPRegister register;
 
-    /*****
-     * 
-     * TODO: Fix BINARY too long for SP
-     * 
-     */
-
     @FXML
     public void initialize() {
         spRegisterBox.setManaged(false);
@@ -99,7 +93,6 @@ public class FPRegisterController extends RegisterController implements FPRegist
                     String valueString = dpRegisterValue.getText();
                     double parsedValue = Double.parseDouble(valueString);
                     
-                    System.out.println(parsedValue + " vs. " + register.getDPValue());
                     if (parsedValue != register.getDPValue() && ! Double.isNaN(parsedValue)) {
                         register.setDoublePrecisionValue(parsedValue);
                     }

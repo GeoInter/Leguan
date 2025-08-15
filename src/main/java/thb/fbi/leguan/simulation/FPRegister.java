@@ -28,7 +28,7 @@ public class FPRegister extends Register {
         if (this.singlePrecisionNumberFormat == Base.DEC) {
             return Float.toString(getSPValue());
         }
-        return this.getShownValueAsString(Float.floatToRawIntBits(getSPValue()), this.singlePrecisionNumberFormat);
+        return this.getShownValueAsString(Float.floatToRawIntBits(getSPValue()), this.singlePrecisionNumberFormat, 32);
     }
 
     public String getDoublePrecisionValueAsString() {
