@@ -47,11 +47,11 @@ public class MemoryController implements MemoryObserver {
     @FXML 
     TableView<Map.Entry<Long, ProgramStatement>> codeTable;
     @FXML
-    TableColumn<Map.Entry<Integer, ProgramStatement>, String> codeAddressColumn;
+    TableColumn<Map.Entry<Long, ProgramStatement>, String> codeAddressColumn;
     @FXML
-    TableColumn<Map.Entry<Integer, ProgramStatement>, String> machineCodeColumn;
+    TableColumn<Map.Entry<Long, ProgramStatement>, String> machineCodeColumn;
     @FXML
-    TableColumn<Map.Entry<Integer, ProgramStatement>, String> codeOriginalStringColumn;
+    TableColumn<Map.Entry<Long, ProgramStatement>, String> codeOriginalStringColumn;
 
     @FXML
     TextField startAddressTextField;
@@ -203,11 +203,12 @@ public class MemoryController implements MemoryObserver {
         Simulator.setMemoryController(this);
 
         codeAddressColumn.setComparator(new NumberComparator());
-        codeAddressColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Map.Entry<Integer, ProgramStatement>,String>,ObservableValue<String>>() {
+        codeAddressColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Map.Entry<Long, ProgramStatement>,String>,ObservableValue<String>>() {
 
             @Override
-            public ObservableValue<String> call(CellDataFeatures<Map.Entry<Integer, ProgramStatement>, String> param) {
+            public ObservableValue<String> call(CellDataFeatures<Map.Entry<Long, ProgramStatement>, String> param) {
                 if (displayAddressAsHex) {
+                    // Class Cast Exception Long to Int
                     StringBuilder str = new StringBuilder(
                             Long.toHexString(param.getValue().getKey()).toUpperCase());
                     str.insert(0, "0x");
@@ -219,19 +220,19 @@ public class MemoryController implements MemoryObserver {
             
         });
 
-        machineCodeColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Map.Entry<Integer, ProgramStatement>,String>,ObservableValue<String>>() {
+        machineCodeColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Map.Entry<Long, ProgramStatement>,String>,ObservableValue<String>>() {
 
             @Override
-            public ObservableValue<String> call(CellDataFeatures<Map.Entry<Integer, ProgramStatement>, String> param) {
+            public ObservableValue<String> call(CellDataFeatures<Map.Entry<Long, ProgramStatement>, String> param) {
                 return new SimpleStringProperty(param.getValue().getValue().getMachineCodeString());
             }
             
         });
 
-        codeOriginalStringColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Map.Entry<Integer, ProgramStatement>,String>,ObservableValue<String>>() {
+        codeOriginalStringColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Map.Entry<Long, ProgramStatement>,String>,ObservableValue<String>>() {
 
             @Override
-            public ObservableValue<String> call(CellDataFeatures<Map.Entry<Integer, ProgramStatement>, String> param) {
+            public ObservableValue<String> call(CellDataFeatures<Map.Entry<Long, ProgramStatement>, String> param) {
                 return new SimpleStringProperty(param.getValue().getValue().getSource());
             }
             
