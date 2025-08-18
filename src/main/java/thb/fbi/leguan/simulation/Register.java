@@ -87,6 +87,8 @@ public abstract class Register {
         }
     }
 
+    public abstract void reset();
+
     public String getName() {
         return name;
     }

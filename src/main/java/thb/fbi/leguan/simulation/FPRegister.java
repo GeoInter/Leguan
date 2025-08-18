@@ -1,17 +1,14 @@
 package thb.fbi.leguan.simulation;
 
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleFloatProperty;
-
 /**
  * Class reprensting a Assembler register
  * which holds double and single precision floating point values
  */
 public class FPRegister extends Register {
 
-    private SimpleFloatProperty floatValueProperty = new SimpleFloatProperty(0);
+    private float floatValue;
 
-    private SimpleDoubleProperty doubleValueProperty = new SimpleDoubleProperty(0);
+    private double doubleValue;
 
     private Base singlePrecisionNumberFormat = Base.DEC;
 
@@ -38,46 +35,47 @@ public class FPRegister extends Register {
         return this.getShownValueAsString(Double.doubleToRawLongBits(getDPValue()), this.doublePrecisionNumberFormat);
     }
 
+    @Override
     public synchronized void reset() {
-        floatValueProperty.set(0);
-        doubleValueProperty.set(0);
+        floatValue = 0;
+        doubleValue = 0;
 
         this.observer.update(getSinglePrecisionValueAsString(),
                 getDoublePrecisionValueAsString());
     }
 
     public synchronized void setSinlgePrecisionValue(float value) {
-        floatValueProperty.set(value);
+        floatValue = value;
         // Set lower 32bits of the double precision register value
-        long doublePrecisionValue = Double.doubleToRawLongBits(doubleValueProperty.get());
-        int singlePrecisionValue = Float.floatToRawIntBits(floatValueProperty.get());
+        long doublePrecisionValue = Double.doubleToRawLongBits(doubleValue);
+        int singlePrecisionValue = Float.floatToRawIntBits(floatValue);
         // clear lower half for the next step
         doublePrecisionValue = doublePrecisionValue & 0xFFFFFFFF00000000L;
         // override the lower half with the float value
         doublePrecisionValue = doublePrecisionValue | singlePrecisionValue;
-        doubleValueProperty.set(Double.longBitsToDouble(doublePrecisionValue));
+        doubleValue = Double.longBitsToDouble(doublePrecisionValue);
 
         this.observer.update(getSinglePrecisionValueAsString(),
                 getDoublePrecisionValueAsString());
     }
 
     public synchronized void setDoublePrecisionValue(double value) {
-        doubleValueProperty.set(value);
+        doubleValue = value;
         // Copy lower 32bits into the single precision register value
         long doublePrecisionValue = Double.doubleToRawLongBits(value);
         long singlePrecisionValue = 0x00000000FFFFFFFF & doublePrecisionValue;
-        floatValueProperty.set(Float.intBitsToFloat((int) singlePrecisionValue));
+        floatValue = Float.intBitsToFloat((int) singlePrecisionValue);
 
         this.observer.update(getSinglePrecisionValueAsString(),
                 getDoublePrecisionValueAsString());
     }
 
     public float getSPValue() {
-        return floatValueProperty.get();
+        return floatValue;
     }
 
     public double getDPValue() {
-        return doubleValueProperty.get();
+        return doubleValue;
     }
 
     public Base getSinglePrecisionNumberFormat() {

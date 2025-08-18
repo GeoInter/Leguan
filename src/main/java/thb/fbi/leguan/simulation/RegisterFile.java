@@ -10,7 +10,7 @@ public class RegisterFile {
     private static FPRegister[] fpRegisters;
 
     /** programm counter */
-    private static PCRegister pc = new PCRegister("PC", Memory.CODE_SEGMENT_START, -1);
+    private static PCRegister pc;
 
     /** register of processor flags */
     private static FlagRegister flagRegister = new FlagRegister();
@@ -21,6 +21,8 @@ public class RegisterFile {
     public static final int FP_START_INDEX = 32;
 
     public static void initRegisterFile() {
+        pc = new PCRegister("PC", Memory.CODE_SEGMENT_START, -1);
+
         integerRegisters = new IntegerRegister[AMOUNT_OF_REGISTERS];
         for (int i = 0; i < integerRegisters.length; i++) {
             integerRegisters[i] = new IntegerRegister("X"+i, i);
@@ -33,8 +35,6 @@ public class RegisterFile {
             fpRegisters[i].setSinglePrecisionNumberFormat(Base.DEC);
             fpRegisters[i].setDoublePrecisionNumberFormat(Base.DEC);
         }
-
-        pc.setValue(Memory.CODE_SEGMENT_START);
     }
 
     /**
@@ -67,7 +67,7 @@ public class RegisterFile {
 
     public static void reset() {
         for (IntegerRegister register : integerRegisters) {
-            register.setValue(0);
+            register.reset();
         }
         for (FPRegister register : fpRegisters) {
             register.reset();

@@ -1,6 +1,5 @@
 package thb.fbi.leguan.controller;
 
-import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -12,6 +11,7 @@ import javafx.scene.layout.HBox;
 import thb.fbi.leguan.simulation.Base;
 import thb.fbi.leguan.simulation.PCRegister;
 import thb.fbi.leguan.simulation.IntegerRegister;
+import thb.fbi.leguan.simulation.IntegerRegisterObserver;
 
 /**
  * controller class for a register bar
@@ -19,7 +19,7 @@ import thb.fbi.leguan.simulation.IntegerRegister;
  * controls only one specified register
  * register needs to be set seperate/ outside of this controller
  */
-public class IntegerRegisterController extends RegisterController {
+public class IntegerRegisterController extends RegisterController implements IntegerRegisterObserver {
 
     /** register to associate to this UI element */
     private IntegerRegister register;
@@ -63,8 +63,11 @@ public class IntegerRegisterController extends RegisterController {
      */
     public void setProperties(PCRegister register, BooleanProperty displayUnsigned) {
         this.register = register;
+        this.register.setObserver(this);
+
         registerTitle.setText(register.getName());
-        addShownValueObserver();
+        registerValue.setText(register.getValueAsString());
+        
         setDisplayUnsigned(displayUnsigned);
         updateToHex(); // force update in UI
     }
@@ -80,30 +83,17 @@ public class IntegerRegisterController extends RegisterController {
     public void setProperties(IntegerRegister register, BooleanProperty showAllRegisters,
             BooleanProperty displayUnsigned) {
         this.register = register;
+        this.register.setObserver(this);
+
         registerTitle.setText(register.getName());
-        addShownValueObserver();
+        registerValue.setText(register.getValueAsString());
+
         registerBox.managedProperty().bind(register.getIsUsed().or(showAllRegisters));
         registerBox.visibleProperty().bind(register.getIsUsed().or(showAllRegisters));
         setDisplayUnsigned(displayUnsigned);
     }
 
-    /**
-     * adds an observer to change UI
-     * listens to shownValue of register
-     * uses Platform.runLater for threading
-     */
-    public void addShownValueObserver() {
-        register.getShownValue().addListener(new ChangeListener<String>() {
-
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                Platform.runLater(() -> {
-                    registerValue.setText(register.getShownValue().get());
-                });
-            }
-
-        });
-    }
+    // TODO: persist inputted string (highlight that value is externally set, add button for quick removable of input)
 
     @Override
     public void setHighlighting() {
@@ -113,6 +103,11 @@ public class IntegerRegisterController extends RegisterController {
     @Override
     public void clearHighlighting() {
         registerValue.setId(null);
+    }
+
+    @Override
+    public void update(String value) {
+        registerValue.setText(value);
     }
 
     private void setDisplayUnsigned(BooleanProperty displayUnsigned) {
@@ -144,6 +139,7 @@ public class IntegerRegisterController extends RegisterController {
         decButton.setDisable(true);
         binButton.setDisable(false);
         hexButton.setDisable(false);
+        registerValue.setText(register.getValueAsString());
     }
 
     /**
@@ -155,6 +151,7 @@ public class IntegerRegisterController extends RegisterController {
         decButton.setDisable(false);
         binButton.setDisable(true);
         hexButton.setDisable(false);
+        registerValue.setText(register.getValueAsString());
     }
 
     /**
@@ -166,6 +163,7 @@ public class IntegerRegisterController extends RegisterController {
         decButton.setDisable(false);
         binButton.setDisable(false);
         hexButton.setDisable(true);
+        registerValue.setText(register.getValueAsString());
     }
 
 }

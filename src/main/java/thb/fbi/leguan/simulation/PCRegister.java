@@ -9,14 +9,14 @@ public class PCRegister extends IntegerRegister {
 
     public PCRegister(String name, long value, int id) {
         super("PC", id);
-        this.setValue(value);
+        this.value = value;
     }
 
     /**
      * increase the program count by Instruction.INSTRUCTION_LENGTH
      */
     public void increase() {
-        setValue(valueProperty.get() + Instruction.INSTRUCTION_LENGTH);
+        setValue(value + Instruction.INSTRUCTION_LENGTH);
     }
 
     /** 
@@ -24,8 +24,9 @@ public class PCRegister extends IntegerRegister {
      */
     @Override
     public synchronized void setValue(long value) {
-        valueProperty.set(value);
-        this.shownValue.set(getShownValueAsString(value, this.numberFormat));
+        this.value = value;
+
+        this.observer.update(getShownValueAsString(value, numberFormat));
     }
 
     /** 
@@ -34,6 +35,5 @@ public class PCRegister extends IntegerRegister {
     @Override
     public void setNumberFormat(Base format) {
         this.numberFormat = format;
-        this.shownValue.set(getShownValueAsString(valueProperty.get(), this.numberFormat));
     }
 }
