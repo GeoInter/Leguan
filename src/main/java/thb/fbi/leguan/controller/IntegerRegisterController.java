@@ -1,6 +1,7 @@
 package thb.fbi.leguan.controller;
 
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -94,6 +95,11 @@ public class IntegerRegisterController extends RegisterController implements Int
     }
 
     // TODO: persist inputted string (highlight that value is externally set, add button for quick removable of input)
+
+    @Override
+    public SimpleBooleanProperty getIsVisible() {
+        return this.register.getIsUsed();
+    }
 
     @Override
     public void setHighlighting() {

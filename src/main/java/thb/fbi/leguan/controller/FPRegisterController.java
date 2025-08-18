@@ -1,6 +1,7 @@
 package thb.fbi.leguan.controller;
 
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -121,6 +122,11 @@ public class FPRegisterController extends RegisterController implements FPRegist
 
         dpRegisterTitle.setText(register.getName());
         spRegisterTitle.setText(register.getName().replace("D", "S"));
+    }
+
+    @Override
+    public SimpleBooleanProperty getIsVisible() {
+        return this.register.getIsUsed();
     }
 
     @Override

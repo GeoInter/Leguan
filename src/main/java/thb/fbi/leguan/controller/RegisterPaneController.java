@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.application.Platform;
+import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.BooleanProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
@@ -25,6 +26,17 @@ public class RegisterPaneController implements FlagRegisterObserver {
     VBox RegisterPane;
     @FXML
     HBox flagRegisterPane;
+
+    @FXML
+    VBox argumentRegisterBox;
+    @FXML
+    VBox temporaryRegisterBox;
+    @FXML
+    VBox savedRegisterBox;
+    @FXML
+    VBox otherRegisterBox;
+    @FXML
+    VBox floatingPointRegisterBox;
 
     @FXML
     IntegerRegisterController pcController;
@@ -185,11 +197,13 @@ public class RegisterPaneController implements FlagRegisterObserver {
 
     private List<RegisterController> registerControllerList = new ArrayList<RegisterController>();
 
-    // id of the last register that was highlighted in UI (value was changed or accessed)
+    /**
+     * id of the last register that was highlighted in UI 
+     * (value was changed or accessed)
+     */ 
     private int lastHighlightedRegisterId = 0;
 
-    // TODO: Use accordion for show registers of a given category/ needs callback to
-    // this component
+    private BooleanProperty showAllRegisters;
 
     /**
      * initializes all UI components and binds values of the register side pane
@@ -197,7 +211,7 @@ public class RegisterPaneController implements FlagRegisterObserver {
     @FXML
     public void initialize() {
 
-        BooleanProperty showAllRegisters = showUnusedRegisterCheckBox.selectedProperty();
+        showAllRegisters = showUnusedRegisterCheckBox.selectedProperty();
         BooleanProperty displayUnsigned = displayUnsignedCheckBox.selectedProperty();
 
         pcController.setProperties(RegisterFile.getPC(), displayUnsigned);
@@ -336,6 +350,19 @@ public class RegisterPaneController implements FlagRegisterObserver {
         registerControllerList.add(fp30Controller);
         registerControllerList.add(fp31Controller);
 
+        
+        initFlagRegister();
+        initRegisterBoxBindings();
+        
+
+        Simulator.setRegisterPaneController(this);
+        FlagRegister.setObserver(this);
+    }
+
+    /**
+     * Sets up flagRegisterController and adds ChangeListener
+     */
+    private void initFlagRegister() {
         CFlagValue.setText("0");
         NFlagValue.setText("0");
         VFlagValue.setText("0");
@@ -373,9 +400,115 @@ public class RegisterPaneController implements FlagRegisterObserver {
                 ZFlagValue.setText("0");
             }
         });
+    }
 
-        Simulator.setRegisterPaneController(this);
-        FlagRegister.setObserver(this);
+    /**
+     * Sets up the bindings for all register boxes.
+     * Binds visible and managed property for all VBoxes.
+     */
+    private void initRegisterBoxBindings() {
+        BooleanBinding argumentIsVisible = showAllRegisters.or(
+                    r0Controller.getIsVisible().or(
+                    r1Controller.getIsVisible().or(
+                    r2Controller.getIsVisible().or(
+                    r3Controller.getIsVisible().or(
+                    r4Controller.getIsVisible().or(
+                    r5Controller.getIsVisible().or(
+                    r6Controller.getIsVisible().or(
+                    r7Controller.getIsVisible().or(
+                    r8Controller.getIsVisible())))))))));
+
+        argumentRegisterBox.visibleProperty()
+                .bind(argumentIsVisible);
+        argumentRegisterBox.managedProperty()
+                .bind(argumentIsVisible);
+
+
+        BooleanBinding temporaryIsVisible = showAllRegisters.or(
+                    r9Controller.getIsVisible().or(
+                    r10Controller.getIsVisible().or(
+                    r11Controller.getIsVisible().or(
+                    r12Controller.getIsVisible().or(
+                    r13Controller.getIsVisible().or(
+                    r14Controller.getIsVisible().or(
+                    r15Controller.getIsVisible().or(
+                    r16Controller.getIsVisible().or(
+                    r17Controller.getIsVisible().or(
+                    r18Controller.getIsVisible()))))))))));
+
+        temporaryRegisterBox.visibleProperty()
+                .bind(temporaryIsVisible);
+        temporaryRegisterBox.managedProperty()
+                .bind(temporaryIsVisible);
+
+
+        BooleanBinding savedIsVisible = showAllRegisters.or(
+                    r19Controller.getIsVisible().or(
+                    r20Controller.getIsVisible().or(
+                    r21Controller.getIsVisible().or(
+                    r22Controller.getIsVisible().or(
+                    r23Controller.getIsVisible().or(
+                    r24Controller.getIsVisible().or(
+                    r25Controller.getIsVisible().or(
+                    r26Controller.getIsVisible().or(
+                    r27Controller.getIsVisible())))))))));
+
+        savedRegisterBox.visibleProperty()
+                .bind(savedIsVisible);
+        savedRegisterBox.managedProperty()
+                .bind(savedIsVisible);
+        
+
+        BooleanBinding otherIsVisible = showAllRegisters.or(
+                    r28Controller.getIsVisible().or(
+                    r29Controller.getIsVisible().or(
+                    r30Controller.getIsVisible().or(
+                    r31Controller.getIsVisible()))));
+
+        otherRegisterBox.visibleProperty()
+                .bind(otherIsVisible);
+        otherRegisterBox.managedProperty()
+                .bind(otherIsVisible);
+
+
+        BooleanBinding floatingPointIsVisible = showAllRegisters.or(
+                    fp0Controller.getIsVisible().or(
+                    fp1Controller.getIsVisible().or(
+                    fp2Controller.getIsVisible().or(
+                    fp3Controller.getIsVisible().or(
+                    fp4Controller.getIsVisible().or(
+                    fp5Controller.getIsVisible().or(
+                    fp6Controller.getIsVisible().or(
+                    fp7Controller.getIsVisible().or(
+                    fp8Controller.getIsVisible().or(
+                    fp9Controller.getIsVisible().or(
+                    fp10Controller.getIsVisible().or(
+                    fp11Controller.getIsVisible().or(
+                    fp12Controller.getIsVisible().or(
+                    fp13Controller.getIsVisible().or(
+                    fp14Controller.getIsVisible().or(
+                    fp15Controller.getIsVisible().or(
+                    fp16Controller.getIsVisible().or(
+                    fp17Controller.getIsVisible().or(
+                    fp18Controller.getIsVisible().or(
+                    fp19Controller.getIsVisible().or(
+                    fp20Controller.getIsVisible().or(
+                    fp21Controller.getIsVisible().or(
+                    fp22Controller.getIsVisible().or(
+                    fp23Controller.getIsVisible().or(
+                    fp24Controller.getIsVisible().or(
+                    fp25Controller.getIsVisible().or(
+                    fp26Controller.getIsVisible().or(
+                    fp27Controller.getIsVisible().or(
+                    fp28Controller.getIsVisible().or(
+                    fp29Controller.getIsVisible().or(
+                    fp30Controller.getIsVisible().or(
+                    fp31Controller.getIsVisible()))))))))))))))))))))))))))))))));
+
+        floatingPointRegisterBox.visibleProperty()
+                .bind(floatingPointIsVisible);
+        floatingPointRegisterBox.managedProperty()
+                .bind(floatingPointIsVisible);
     }
 
     @Override
