@@ -6,21 +6,82 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <?import java.util.ArrayList?>
 
-<VBox id="register-pane" fx:id="RegisterPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="thb.fbi.leguan.controller.RegisterPaneController">
-   <children>
-      <HBox alignment="CENTER" prefHeight="50.0" spacing="50.0">
+<BorderPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="thb.fbi.leguan.controller.RegisterPaneController">
+   <top>
+      <HBox alignment="CENTER" prefHeight="50.0" spacing="50.0" BorderPane.alignment="CENTER">
          <children>
             <CheckBox fx:id="showUnusedRegisterCheckBox" alignment="CENTER" mnemonicParsing="false" text="%register.Label.showUnused" />
             <CheckBox fx:id="displayUnsignedCheckBox" mnemonicParsing="false" text="%register.Label.showUnsigned" />
          </children>
       </HBox>
-      <ScrollPane id="register-scrollpane" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" maxHeight="800.0" pannable="true" prefViewportHeight="400.0" vbarPolicy="ALWAYS" VBox.vgrow="ALWAYS">
+   </top>
+   <bottom>
+      <HBox fx:id="flagRegisterPane" alignment="BOTTOM_CENTER" fillHeight="false" prefHeight="60.0" prefWidth="300.0" styleClass="flag-register" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label fx:id="NFlagNameLabel" text="N">
+                     <tooltip>
+                        <Tooltip text="Negative Condition Flag" />
+                     </tooltip>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </Label>
+                  <ToggleButton fx:id="NFlagValue" mnemonicParsing="false" text="0" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label fx:id="ZFlagNameLabel" text="Z">
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                     <tooltip>
+                        <Tooltip text="Zero Condition Flag" />
+                     </tooltip>
+                  </Label>
+                  <ToggleButton fx:id="ZFlagValue" mnemonicParsing="false" text="0" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label fx:id="CFlagNameLabel" text="C">
+                     <tooltip>
+                        <Tooltip text="Carry Condition Flag" />
+                     </tooltip>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </Label>
+                  <ToggleButton fx:id="CFlagValue" mnemonicParsing="false" text="0" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label fx:id="VFlagNameLabel" text="V">
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                     <tooltip>
+                        <Tooltip text="Overflow Condition Flag" />
+                     </tooltip>
+                  </Label>
+                  <ToggleButton fx:id="VFlagValue" mnemonicParsing="false" text="0" />
+               </children>
+            </HBox>
+         </children>
+      </HBox>
+   </bottom>
+   <center>
+      <ScrollPane id="register-scrollpane" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" pannable="true" vbarPolicy="ALWAYS" BorderPane.alignment="CENTER">
          <content>
             <VBox id="register-vbox" spacing="12.0">
                <children>
@@ -35,7 +96,7 @@
                         <Insets bottom="5.0" left="4.0" right="4.0" top="5.0" />
                      </padding>
                   </VBox>
-                  <VBox prefWidth="100.0" spacing="7.0" styleClass="register-container">
+                  <VBox fx:id="argumentRegisterBox" prefWidth="100.0" spacing="7.0" styleClass="register-container">
                      <children>
                         <Label text="%register.Label.Arguments" underline="true"> <!-- 0 to 8 -->
                            <padding>
@@ -65,7 +126,7 @@
                         <Insets bottom="5.0" left="4.0" right="4.0" />
                      </padding>
                   </VBox>
-                  <VBox prefWidth="100.0" spacing="7.0" styleClass="register-container">
+                  <VBox fx:id="temporaryRegisterBox" prefWidth="100.0" spacing="7.0" styleClass="register-container">
                      <children>
                         <Label text="%register.Label.Temporaries" underline="true"> <!-- 9 to 18 -->
                            <padding>
@@ -96,7 +157,7 @@
                         <Insets bottom="5.0" left="4.0" right="4.0" />
                      </padding>
                   </VBox>
-                  <VBox prefWidth="100.0" spacing="7.0" styleClass="register-container">
+                  <VBox fx:id="savedRegisterBox" prefWidth="100.0" spacing="7.0" styleClass="register-container">
                      <children>
                         <Label text="%register.Label.Saved" underline="true"> <!-- 19 to 27 -->
                            <padding>
@@ -126,7 +187,7 @@
                         <Insets bottom="5.0" left="4.0" right="4.0" />
                      </padding>
                   </VBox>
-                  <VBox prefWidth="100.0" spacing="7.0" styleClass="register-container">
+                  <VBox fx:id="otherRegisterBox" prefWidth="100.0" spacing="7.0" styleClass="register-container">
                      <children>
                         <Label text="%register.Label.Others" underline="true"> <!-- 28 to 31(XZR) -->
                            <padding>
@@ -151,7 +212,7 @@
                         <Insets bottom="5.0" left="4.0" right="4.0" />
                      </padding>
                   </VBox>
-                  <VBox prefWidth="100.0" spacing="10.0" styleClass="register-container">
+                  <VBox fx:id="floatingPointRegisterBox" prefWidth="100.0" spacing="10.0" styleClass="register-container">
                      <children>
                         <Label text="%register.Label.FloatingPoint" underline="true"> <!-- Floating Point -->
                            <padding>
@@ -241,64 +302,5 @@
             </VBox>
          </content>
       </ScrollPane>
-      <HBox fx:id="flagRegisterPane" alignment="BOTTOM_CENTER" fillHeight="false" prefHeight="60.0" prefWidth="300.0" styleClass="flag-register">
-         <children>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <Label fx:id="NFlagNameLabel" text="N">
-                     <tooltip>
-                        <Tooltip text="Negative Condition Flag" />
-                     </tooltip>
-                     <padding>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </padding>
-                  </Label>
-                  <ToggleButton fx:id="NFlagValue" mnemonicParsing="false" text="0" />
-               </children>
-            </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <Label fx:id="ZFlagNameLabel" text="Z">
-                     <padding>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </padding>
-                     <tooltip>
-                        <Tooltip text="Zero Condition Flag" />
-                     </tooltip>
-                  </Label>
-                  <ToggleButton fx:id="ZFlagValue" mnemonicParsing="false" text="0" />
-               </children>
-            </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <Label fx:id="CFlagNameLabel" text="C">
-                     <tooltip>
-                        <Tooltip text="Carry Condition Flag" />
-                     </tooltip>
-                     <padding>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </padding>
-                  </Label>
-                  <ToggleButton fx:id="CFlagValue" mnemonicParsing="false" text="0" />
-               </children>
-            </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <Label fx:id="VFlagNameLabel" text="V">
-                     <padding>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </padding>
-                     <tooltip>
-                        <Tooltip text="Overflow Condition Flag" />
-                     </tooltip>
-                  </Label>
-                  <ToggleButton fx:id="VFlagValue" mnemonicParsing="false" text="0" />
-               </children>
-            </HBox>
-         </children>
-         <VBox.margin>
-            <Insets />
-         </VBox.margin>
-      </HBox>
-   </children>
-</VBox>
+   </center>
+</BorderPane>
