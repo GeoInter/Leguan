@@ -80,7 +80,6 @@ public class Simulator {
 
     /**
      * executes exactly one instruction
-     * @param code program to execute
      */
     public InstructionPosition forwardStep() {
         runNextInstruction();
@@ -94,8 +93,7 @@ public class Simulator {
     }
 
     /**
-     * parses and executes the whole written code 
-     * @param code written text to parse
+     * parses and executes the whole written code
      */
     public void runAllInstructions() {
         executor.execute(new Runnable() {

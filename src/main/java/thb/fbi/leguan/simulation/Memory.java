@@ -9,13 +9,14 @@ import java.util.TreeMap;
  */
 public class Memory {
 
-    // TODO: Since FP also can stored entries - maybe implement new class for holding data (long, byte, etc)
-
     private static TreeMap<Long, Byte> dataStorage = new TreeMap<Long, Byte>(); // address used as key
+    
     /** lock addresses; boolean indicates if changed by other store instruction than STXR */
     private static HashMap<Long, Boolean> lockStorage = new HashMap<Long, Boolean>();
+
     /** start of the dynamic data segment (1000 0000 hex) */
     public final static long DATA_SEGMENT_START = 268435456;
+
     /** start of the code/ text segment (40 0000 hex) */
     public final static int CODE_SEGMENT_START = 4194304; 
 

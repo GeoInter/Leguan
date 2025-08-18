@@ -75,7 +75,7 @@ public class FileManager {
 
     /**
      * opens a predefined example file (packaged in jar) and load file content into text editor
-     * @return boolean indicating if new file was succesful opened or not
+     * @param exampleFile path to the example file within the project folder (path should start with /thb/fbi/examples/)
      */
     public static void openExampleFile(String exampleFile) {
         if(! isSaved) {

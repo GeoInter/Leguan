@@ -30,9 +30,8 @@ public class ARMProgram {
     }
 
     /**
-     * gets a Program Statement at the specified index
-     * @param address index pointing to statement
-     * @return Program Statement at specified index
+     * returns all ProgramStatements of this program
+     * @return ProgramStatement from this program
      */
     public TreeMap<Long, ProgramStatement> getProgramStatements() {
         return this.statements;
@@ -57,7 +56,7 @@ public class ARMProgram {
 
     /**
      * adds a List of Program Statement/ Line of Source Code to this instance
-     * @param statement List of Program Statements to set 
+     * @param statements List of Program Statements to set 
      */
     public void setStatement(TreeMap<Long, ProgramStatement> statements) {
         this.statements = statements;

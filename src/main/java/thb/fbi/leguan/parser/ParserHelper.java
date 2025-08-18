@@ -33,7 +33,7 @@ public class ParserHelper {
     /**
      * helper function for adding semantic errors to list
      * 
-     * @param token     the token of the parse tree which is responsible for
+     * @param node the node of the parse tree which is responsible for
      *                  throwing the error
      * @param errorType type of parsing error
      */

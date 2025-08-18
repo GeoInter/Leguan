@@ -114,7 +114,7 @@ public class ProgramParser extends LegV8BaseVisitor<ARMProgram> {
     /**
      * helper function for adding parser error to list
      * 
-     * @param token     the token of the parse tree which is responsible for
+     * @param node     the node of the parse tree which is responsible for
      *                  throwing the error
      * @param errorType type of parsing error
      */
