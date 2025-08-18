@@ -6,6 +6,7 @@ import java.util.List;
 import javafx.application.Platform;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -407,16 +408,7 @@ public class RegisterPaneController implements FlagRegisterObserver {
      * Binds visible and managed property for all VBoxes.
      */
     private void initRegisterBoxBindings() {
-        BooleanBinding argumentIsVisible = showAllRegisters.or(
-                    r0Controller.getIsVisible().or(
-                    r1Controller.getIsVisible().or(
-                    r2Controller.getIsVisible().or(
-                    r3Controller.getIsVisible().or(
-                    r4Controller.getIsVisible().or(
-                    r5Controller.getIsVisible().or(
-                    r6Controller.getIsVisible().or(
-                    r7Controller.getIsVisible().or(
-                    r8Controller.getIsVisible())))))))));
+        BooleanBinding argumentIsVisible = getBindings(0, 8);
 
         argumentRegisterBox.visibleProperty()
                 .bind(argumentIsVisible);
@@ -424,17 +416,7 @@ public class RegisterPaneController implements FlagRegisterObserver {
                 .bind(argumentIsVisible);
 
 
-        BooleanBinding temporaryIsVisible = showAllRegisters.or(
-                    r9Controller.getIsVisible().or(
-                    r10Controller.getIsVisible().or(
-                    r11Controller.getIsVisible().or(
-                    r12Controller.getIsVisible().or(
-                    r13Controller.getIsVisible().or(
-                    r14Controller.getIsVisible().or(
-                    r15Controller.getIsVisible().or(
-                    r16Controller.getIsVisible().or(
-                    r17Controller.getIsVisible().or(
-                    r18Controller.getIsVisible()))))))))));
+        BooleanBinding temporaryIsVisible = getBindings(9, 18);
 
         temporaryRegisterBox.visibleProperty()
                 .bind(temporaryIsVisible);
@@ -442,16 +424,7 @@ public class RegisterPaneController implements FlagRegisterObserver {
                 .bind(temporaryIsVisible);
 
 
-        BooleanBinding savedIsVisible = showAllRegisters.or(
-                    r19Controller.getIsVisible().or(
-                    r20Controller.getIsVisible().or(
-                    r21Controller.getIsVisible().or(
-                    r22Controller.getIsVisible().or(
-                    r23Controller.getIsVisible().or(
-                    r24Controller.getIsVisible().or(
-                    r25Controller.getIsVisible().or(
-                    r26Controller.getIsVisible().or(
-                    r27Controller.getIsVisible())))))))));
+        BooleanBinding savedIsVisible = getBindings(19, 27);
 
         savedRegisterBox.visibleProperty()
                 .bind(savedIsVisible);
@@ -459,11 +432,7 @@ public class RegisterPaneController implements FlagRegisterObserver {
                 .bind(savedIsVisible);
         
 
-        BooleanBinding otherIsVisible = showAllRegisters.or(
-                    r28Controller.getIsVisible().or(
-                    r29Controller.getIsVisible().or(
-                    r30Controller.getIsVisible().or(
-                    r31Controller.getIsVisible()))));
+        BooleanBinding otherIsVisible = getBindings(28, 31);
 
         otherRegisterBox.visibleProperty()
                 .bind(otherIsVisible);
@@ -471,44 +440,27 @@ public class RegisterPaneController implements FlagRegisterObserver {
                 .bind(otherIsVisible);
 
 
-        BooleanBinding floatingPointIsVisible = showAllRegisters.or(
-                    fp0Controller.getIsVisible().or(
-                    fp1Controller.getIsVisible().or(
-                    fp2Controller.getIsVisible().or(
-                    fp3Controller.getIsVisible().or(
-                    fp4Controller.getIsVisible().or(
-                    fp5Controller.getIsVisible().or(
-                    fp6Controller.getIsVisible().or(
-                    fp7Controller.getIsVisible().or(
-                    fp8Controller.getIsVisible().or(
-                    fp9Controller.getIsVisible().or(
-                    fp10Controller.getIsVisible().or(
-                    fp11Controller.getIsVisible().or(
-                    fp12Controller.getIsVisible().or(
-                    fp13Controller.getIsVisible().or(
-                    fp14Controller.getIsVisible().or(
-                    fp15Controller.getIsVisible().or(
-                    fp16Controller.getIsVisible().or(
-                    fp17Controller.getIsVisible().or(
-                    fp18Controller.getIsVisible().or(
-                    fp19Controller.getIsVisible().or(
-                    fp20Controller.getIsVisible().or(
-                    fp21Controller.getIsVisible().or(
-                    fp22Controller.getIsVisible().or(
-                    fp23Controller.getIsVisible().or(
-                    fp24Controller.getIsVisible().or(
-                    fp25Controller.getIsVisible().or(
-                    fp26Controller.getIsVisible().or(
-                    fp27Controller.getIsVisible().or(
-                    fp28Controller.getIsVisible().or(
-                    fp29Controller.getIsVisible().or(
-                    fp30Controller.getIsVisible().or(
-                    fp31Controller.getIsVisible()))))))))))))))))))))))))))))))));
+        BooleanBinding floatingPointIsVisible = getBindings(32, 63);
 
         floatingPointRegisterBox.visibleProperty()
                 .bind(floatingPointIsVisible);
         floatingPointRegisterBox.managedProperty()
                 .bind(floatingPointIsVisible);
+    }
+
+    /**
+     * Generate Bindings based on visibe/ managed property of register controller.
+     * @param start start index
+     * @param end last index (inclusive)
+     * @return binding containing the properties of all registers in the given range
+     */
+    private BooleanBinding getBindings(int start, int end) {
+        BooleanBinding binding = new SimpleBooleanProperty(true).not();
+        binding = binding.or(showAllRegisters);
+        for (int i = start; i < end; i++) {
+            binding = binding.or(registerControllerList.get(i).getIsVisible());
+        }
+        return binding;
     }
 
     @Override
