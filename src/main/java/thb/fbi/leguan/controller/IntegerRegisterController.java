@@ -20,7 +20,7 @@ import thb.fbi.leguan.simulation.IntegerRegisterObserver;
  * controls only one specified register
  * register needs to be set seperate/ outside of this controller
  */
-public class IntegerRegisterController extends RegisterController implements IntegerRegisterObserver {
+public class IntegerRegisterController extends RegisterController<IntegerRegister> implements IntegerRegisterObserver {
 
     /** register to associate to this UI element */
     private IntegerRegister register;
@@ -81,6 +81,7 @@ public class IntegerRegisterController extends RegisterController implements Int
      * @param register
      * @param showAllRegisters
      */
+    @Override
     public void setProperties(IntegerRegister register, BooleanProperty showAllRegisters,
             BooleanProperty displayUnsigned) {
         this.register = register;

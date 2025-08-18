@@ -13,7 +13,7 @@ import thb.fbi.leguan.simulation.Base;
 import thb.fbi.leguan.simulation.FPRegister;
 import thb.fbi.leguan.simulation.FPRegisterObserver;
 
-public class FPRegisterController extends RegisterController implements FPRegisterObserver {
+public class FPRegisterController extends RegisterController<FPRegister> implements FPRegisterObserver {
 
     @FXML
     VBox registerBox;
@@ -112,6 +112,7 @@ public class FPRegisterController extends RegisterController implements FPRegist
      * @param register
      * @param showAllRegisters
      */
+    @Override
     public void setProperties(FPRegister register, BooleanProperty showAllRegisters, BooleanProperty displayUnsigned) {
         this.register = register;
         // set observer
