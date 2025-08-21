@@ -388,6 +388,6 @@ public class SimulatorController {
 
     @FXML
     private void openPipelineVisualizer() {
-        pipelineVisualizer.openExtension();
+        pipelineVisualizer.openExtension(simulator.getArmProgram(), editorController.getCodeAreaText());
     }
 }

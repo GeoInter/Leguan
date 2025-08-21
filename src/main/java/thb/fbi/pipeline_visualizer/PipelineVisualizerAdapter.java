@@ -18,7 +18,7 @@ public class PipelineVisualizerAdapter implements ILeguanTools {
     private Stage stage;
 
     @Override
-    public void openExtension() {
+    public void openExtension(ARMProgram program, String code) {
         if (pipelineVisualizerController == null) {
             try {
                 URL fxmlLocation = getClass().getResource("/thb/fbi/pipeline_visualizer/pipelineVisualizer.fxml");
@@ -39,6 +39,10 @@ public class PipelineVisualizerAdapter implements ILeguanTools {
                     unsetPipelineVisualizerController();
                 });
                 this.stage.show();
+                // update code if it is parsed
+                if (! program.getProgramStatements().isEmpty()) {
+                    updateCode(program, code);
+                }
             } catch (Exception e) {
                 pipelineVisualizerController = null;
                 e.printStackTrace();
