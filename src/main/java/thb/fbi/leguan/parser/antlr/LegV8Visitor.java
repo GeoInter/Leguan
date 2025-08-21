@@ -89,6 +89,12 @@ public interface LegV8Visitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitArithmeticInstruction(LegV8Parser.ArithmeticInstructionContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link LegV8Parser#fp_arithmeticInstruction}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFp_arithmeticInstruction(LegV8Parser.Fp_arithmeticInstructionContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link LegV8Parser#shiftInstruction}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -112,6 +118,12 @@ public interface LegV8Visitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitDatatransferInstruction(LegV8Parser.DatatransferInstructionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link LegV8Parser#fp_datatransferInstruction}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFp_datatransferInstruction(LegV8Parser.Fp_datatransferInstructionContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link LegV8Parser#exclusiveInstruction}.
 	 * @param ctx the parse tree
@@ -149,11 +161,23 @@ public interface LegV8Visitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitDataSegmentInstruction(LegV8Parser.DataSegmentInstructionContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link LegV8Parser#fp_compareInstruction}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFp_compareInstruction(LegV8Parser.Fp_compareInstructionContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link LegV8Parser#arithmeticParam}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitArithmeticParam(LegV8Parser.ArithmeticParamContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link LegV8Parser#fp_arithmeticParam}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFp_arithmeticParam(LegV8Parser.Fp_arithmeticParamContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link LegV8Parser#shiftParam}.
 	 * @param ctx the parse tree
@@ -178,6 +202,12 @@ public interface LegV8Visitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitDatatransferParam(LegV8Parser.DatatransferParamContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link LegV8Parser#fp_datatransferParam}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFp_datatransferParam(LegV8Parser.Fp_datatransferParamContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link LegV8Parser#exclusiveParam}.
 	 * @param ctx the parse tree
@@ -215,17 +245,29 @@ public interface LegV8Visitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitDataSegmentParam(LegV8Parser.DataSegmentParamContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link LegV8Parser#fp_compareParam}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFp_compareParam(LegV8Parser.Fp_compareParamContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link LegV8Parser#num}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitNum(LegV8Parser.NumContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link LegV8Parser#register}.
+	 * Visit a parse tree produced by {@link LegV8Parser#integer_register}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitRegister(LegV8Parser.RegisterContext ctx);
+	T visitInteger_register(LegV8Parser.Integer_registerContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link LegV8Parser#fp_register}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFp_register(LegV8Parser.Fp_registerContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link LegV8Parser#ascii}.
 	 * @param ctx the parse tree

@@ -1,7 +1,7 @@
 package thb.fbi.leguan.controller;
 
-import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -11,7 +11,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import thb.fbi.leguan.simulation.Base;
 import thb.fbi.leguan.simulation.PCRegister;
-import thb.fbi.leguan.simulation.Register;
+import thb.fbi.leguan.simulation.IntegerRegister;
+import thb.fbi.leguan.simulation.IntegerRegisterObserver;
 
 /**
  * controller class for a register bar
@@ -19,10 +20,10 @@ import thb.fbi.leguan.simulation.Register;
  * controls only one specified register
  * register needs to be set seperate/ outside of this controller
  */
-public class RegisterTitleBarController {
+public class IntegerRegisterController extends RegisterController<IntegerRegister> implements IntegerRegisterObserver {
 
     /** register to associate to this UI element */
-    private Register register;
+    private IntegerRegister register;
 
     private BooleanProperty displayUnsigned;
 
@@ -42,20 +43,15 @@ public class RegisterTitleBarController {
     @FXML
     public void initialize() {
         registerValue.focusedProperty().addListener((arg0, oldValue, newValue) -> {
-            if(!newValue) {
-                if(!registerValue.getText().matches("^[0-9.]*$")) {
-                    // when text not a number
-                    registerValue.setText("0");
-                } else {
-                    try {
-                        String valueString = registerValue.getText();
-                        valueString = valueString.replace(".", "");
+            if (!newValue) {
+                try {
+                    String valueString = registerValue.getText();
+                    valueString = valueString.replace(".", "");
 
-                        long parsedValue = Long.parseLong(valueString);
-                        register.setValue(parsedValue);
-                    } catch(NumberFormatException e) {
-                        registerValue.setText("0");
-                    }
+                    long parsedValue = Long.parseLong(valueString);
+                    register.setValue(parsedValue);
+                } catch (NumberFormatException e) {
+                    registerValue.setText("0");
                 }
             }
         });
@@ -68,8 +64,11 @@ public class RegisterTitleBarController {
      */
     public void setProperties(PCRegister register, BooleanProperty displayUnsigned) {
         this.register = register;
+        this.register.setObserver(this);
+
         registerTitle.setText(register.getName());
-        addShownValueObserver();
+        registerValue.setText(register.getValueAsString());
+        
         setDisplayUnsigned(displayUnsigned);
         updateToHex(); // force update in UI
     }
@@ -82,37 +81,40 @@ public class RegisterTitleBarController {
      * @param register
      * @param showAllRegisters
      */
-    public void setProperties(Register register, BooleanProperty showAllRegisters, BooleanProperty displayUnsigned) {
+    @Override
+    public void setProperties(IntegerRegister register, BooleanProperty showAllRegisters,
+            BooleanProperty displayUnsigned) {
         this.register = register;
+        this.register.setObserver(this);
+
         registerTitle.setText(register.getName());
-        addShownValueObserver();
+        registerValue.setText(register.getValueAsString());
+
         registerBox.managedProperty().bind(register.getIsUsed().or(showAllRegisters));
         registerBox.visibleProperty().bind(register.getIsUsed().or(showAllRegisters));
         setDisplayUnsigned(displayUnsigned);
     }
 
-    /**
-     * adds an observer to change UI
-     * listens to shownValue of register
-     * uses Platform.runLater for threading
-     */
-    public void addShownValueObserver() {
-        register.getShownValue().addListener(new ChangeListener<String>() {
+    // TODO: persist inputted string (highlight that value is externally set, add button for quick removable of input)
 
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                Platform.runLater(() -> {
-                    registerValue.setText(register.getShownValue().get());
-                });
-            }
-
-        });
+    @Override
+    public SimpleBooleanProperty getIsVisible() {
+        return this.register.getIsUsed();
     }
 
+    @Override
+    public void setHighlighting() {
+        registerValue.setId("highlight-value");
+    }
+    
+    @Override
     public void clearHighlighting() {
-        Platform.runLater(() -> {
-            registerValue.setId(null);
-        });
+        registerValue.setId(null);
+    }
+
+    @Override
+    public void update(String value) {
+        registerValue.setText(value);
     }
 
     private void setDisplayUnsigned(BooleanProperty displayUnsigned) {
@@ -144,6 +146,7 @@ public class RegisterTitleBarController {
         decButton.setDisable(true);
         binButton.setDisable(false);
         hexButton.setDisable(false);
+        registerValue.setText(register.getValueAsString());
     }
 
     /**
@@ -155,6 +158,7 @@ public class RegisterTitleBarController {
         decButton.setDisable(false);
         binButton.setDisable(true);
         hexButton.setDisable(false);
+        registerValue.setText(register.getValueAsString());
     }
 
     /**
@@ -166,6 +170,7 @@ public class RegisterTitleBarController {
         decButton.setDisable(false);
         binButton.setDisable(false);
         hexButton.setDisable(true);
+        registerValue.setText(register.getValueAsString());
     }
 
 }

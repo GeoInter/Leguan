@@ -1,9 +1,11 @@
 package thb.fbi.leguan.parser;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 
 import org.antlr.v4.runtime.misc.Interval;
+import org.antlr.v4.runtime.tree.TerminalNode;
+
 import thb.fbi.leguan.data.InstructionArguments;
 import thb.fbi.leguan.data.ProgramStatement;
 import thb.fbi.leguan.instructions.Instruction;
@@ -25,33 +27,43 @@ import thb.fbi.leguan.parser.antlr.LegV8Parser.DatatransferInstructionContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.DatatransferParamContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.ExclusiveInstructionContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.ExclusiveParamContext;
+import thb.fbi.leguan.parser.antlr.LegV8Parser.Fp_arithmeticInstructionContext;
+import thb.fbi.leguan.parser.antlr.LegV8Parser.Fp_arithmeticParamContext;
+import thb.fbi.leguan.parser.antlr.LegV8Parser.Fp_compareInstructionContext;
+import thb.fbi.leguan.parser.antlr.LegV8Parser.Fp_compareParamContext;
+import thb.fbi.leguan.parser.antlr.LegV8Parser.Fp_datatransferInstructionContext;
+import thb.fbi.leguan.parser.antlr.LegV8Parser.Fp_datatransferParamContext;
+import thb.fbi.leguan.parser.antlr.LegV8Parser.Fp_registerContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.ImmediateInstructionContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.ImmediateParamContext;
+import thb.fbi.leguan.parser.antlr.LegV8Parser.Integer_registerContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.JumpLabelDeclarationContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.JumpLabelReferenceContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.LineContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.NumContext;
-import thb.fbi.leguan.parser.antlr.LegV8Parser.RegisterContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.ShiftInstructionContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.ShiftParamContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.WideImmediateInstructionContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.WideImmediateParamContext;
+import thb.fbi.leguan.simulation.FPRegister;
+import thb.fbi.leguan.simulation.IntegerRegister;
 import thb.fbi.leguan.simulation.Register;
+import thb.fbi.leguan.simulation.RegisterFile;
 import thb.fbi.leguan.simulation.Simulator;
 import thb.fbi.leguan.simulation.SimulatorSingleton;
 
 public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
 
     private static Simulator simulator = SimulatorSingleton.getSimulator();
-    private int programIndex = 0; // current program statement in list
+    private long programIndex = 0; // current program statement in list
 
-    private ArrayList<Register> usedRegisters;
-    private HashMap<String, Integer> jumpMarks;
-    private HashMap<Integer, String> unresolvedMarks;
+    private Set<Register> usedRegisters;
+    private HashMap<String, Long> jumpMarks;
+    private HashMap<Long, TerminalNode> unresolvedMarks;
     private HashMap<String, Long> dataSegmentVariables;
 
-    public ProgramStatementParser(ArrayList<Register> usedRegisters, HashMap<String, Integer> jumpMarks,
-            HashMap<Integer, String> unresolvedMarks, HashMap<String, Long> dataSegmentVariables) {
+    public ProgramStatementParser(Set<Register> usedRegisters, HashMap<String, Long> jumpMarks,
+            HashMap<Long, TerminalNode> unresolvedMarks, HashMap<String, Long> dataSegmentVariables) {
         this.usedRegisters = usedRegisters;
         this.jumpMarks = jumpMarks;
         this.unresolvedMarks = unresolvedMarks;
@@ -63,7 +75,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
      * 
      * @param programIndex index of current ProgramStatement
      */
-    public void setProgramIndex(int programIndex) {
+    public void setProgramIndex(long programIndex) {
         this.programIndex = programIndex;
     }
 
@@ -72,7 +84,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
      * 
      * @return all jump marks
      */
-    public HashMap<String, Integer> getJumpMarks() {
+    public HashMap<String, Long> getJumpMarks() {
         return jumpMarks;
     }
 
@@ -81,7 +93,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
      * 
      * @return all unresolved jump marks
      */
-    public HashMap<Integer, String> getUnresolvedMarks() {
+    public HashMap<Long, TerminalNode> getUnresolvedMarks() {
         return unresolvedMarks;
     }
 
@@ -90,7 +102,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
      * 
      * @return list of (used) parsed registers
      */
-    public ArrayList<Register> getUsedRegisters() {
+    public Set<Register> getUsedRegisters() {
         return usedRegisters;
     }
 
@@ -123,10 +135,10 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
      * visits a single register node
      * maps special registers to index
      */
-    @Override
-    public Register visitRegister(RegisterContext ctx) {
-        String registerName = ctx.REGISTER().getText();
+    private IntegerRegister visitIntegerRegister(Integer_registerContext ctx) {
+        String registerName = ctx.INTEGER_REGISTER().getText();
         int index = 0;
+
         switch (registerName) {
             case "SP":
                 index = 28;
@@ -145,14 +157,37 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
                 index = Integer.parseInt(registerName);
         }
 
-        Register register = null;
+        if (index > 31) {
+            ParserHelper.addSemanticError(ctx.INTEGER_REGISTER(), ParsingErrorType.RegisterOutOfRange);
+        }
+
+        IntegerRegister register = null;
         try {
-            register = simulator.getRegisters()[index];
+            register = RegisterFile.getIntegerRegister(index);
             if (!usedRegisters.contains(register)) {
                 usedRegisters.add(register);
             }
         } catch (ArrayIndexOutOfBoundsException e) {
-            ParserHelper.addSemanticError(ctx.REGISTER(), ParsingErrorType.RegisterOutOfRange);
+            ParserHelper.addSemanticError(ctx.INTEGER_REGISTER(), ParsingErrorType.RegisterOutOfRange);
+        }
+        return register;
+    }
+
+    private FPRegister visitFPRegister(Fp_registerContext ctx) {
+        String registerName = ctx.getText();
+        int index = 0;
+
+        registerName = registerName.substring(1);
+        index = Integer.parseInt(registerName);
+
+        FPRegister register = null; 
+        try {
+            register = RegisterFile.getFPRegister(index);
+            if (!usedRegisters.contains(register)) {
+                usedRegisters.add(register);
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            ParserHelper.addSemanticError(ctx.FP_REGISTER(), ParsingErrorType.RegisterOutOfRange);
         }
         return register;
     }
@@ -161,9 +196,9 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
      * visits a single num node
      */
     @Override
-    public Integer visitNum(NumContext ctx) {
+    public Long visitNum(NumContext ctx) {
         String numberText = ctx.NUMBER().getText();
-        int number = 0;
+        long number = 0;
         int radix = 0;
         if (numberText.startsWith("0x")) { // hex number
             radix = 16;
@@ -173,7 +208,7 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
         }
 
         try {
-            number = Integer.parseInt(numberText, radix);
+            number = Long.parseLong(numberText, radix);
         } catch (NumberFormatException e) {
             ParserHelper.addSemanticError(ctx.NUMBER(), ParsingErrorType.NumberFormatException);
         }
@@ -197,19 +232,19 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
     }
 
     @Override
-    public Integer visitJumpLabelReference(JumpLabelReferenceContext ctx) {
+    public Long visitJumpLabelReference(JumpLabelReferenceContext ctx) {
         String id = ctx.PointerReference().getText();
         if (ParserHelper.isLabelNameValid(id)) {
-            Integer address = jumpMarks.get(id);
+            Long address = jumpMarks.get(id);
             if (address != null) {
                 return address;
             } else {
-                unresolvedMarks.put(this.programIndex, id);
+                unresolvedMarks.put(this.programIndex, ctx.PointerReference());
             }
         } else {
             ParserHelper.addSemanticError(ctx.PointerReference(), ParsingErrorType.InvalidLabelName);
         }
-        return -1;
+        return -1L;
     }
 
     @Override
@@ -310,9 +345,9 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
 
     @Override
     public InstructionArguments visitArithmeticParam(ArithmeticParamContext ctx) {
-        Register Rd = visitRegister(ctx.register(0));
-        Register Rn = visitRegister(ctx.register(1));
-        Register Rm = visitRegister(ctx.register(2));
+        Register Rd = visitIntegerRegister(ctx.integer_register(0));
+        Register Rn = visitIntegerRegister(ctx.integer_register(1));
+        Register Rm = visitIntegerRegister(ctx.integer_register(2));
         InstructionArguments args = new InstructionArguments();
         args.setRd(Rd);
         args.setRn(Rn);
@@ -322,21 +357,21 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
 
     @Override
     public InstructionArguments visitImmediateParam(ImmediateParamContext ctx) {
-        Register Rd = visitRegister(ctx.register(0));
-        Register Rn = visitRegister(ctx.register(1));
-        int alu_immediate = visitNum(ctx.num());
+        Register Rd = visitIntegerRegister(ctx.integer_register(0));
+        Register Rn = visitIntegerRegister(ctx.integer_register(1));
+        long alu_immediate = visitNum(ctx.num());
         InstructionArguments args = new InstructionArguments();
         args.setRd(Rd);
         args.setRn(Rn);
-        args.setAlu_Immediate(alu_immediate);
+        args.setImmediate(alu_immediate);
         return args;
     }
 
     @Override
     public InstructionArguments visitWideImmediateParam(WideImmediateParamContext ctx) {
-        Register Rd = visitRegister(ctx.register());
-        int immediate = visitNum(ctx.num(0));
-        int shamt = visitNum(ctx.num(1));
+        Register Rd = visitIntegerRegister(ctx.integer_register());
+        long immediate = visitNum(ctx.num(0));
+        int shamt = visitNum(ctx.num(1)).intValue();
         // only allows 0, 16, 32 and 48 as shift value
         if (shamt != 0 && shamt != 16 && shamt != 32 && shamt != 48) {
             ParserHelper.addSemanticError(ctx.num(1).NUMBER(), ParsingErrorType.WideImmediateShiftOutOfRange);
@@ -346,28 +381,28 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
         }
         InstructionArguments args = new InstructionArguments();
         args.setRd(Rd);
-        args.setAlu_Immediate(immediate);
+        args.setImmediate(immediate);
         args.setShamt(shamt);
         return args;
     }
 
     @Override
     public InstructionArguments visitDatatransferParam(DatatransferParamContext ctx) {
-        Register Rt = visitRegister(ctx.register(0));
-        Register Rn = visitRegister(ctx.register(1));
-        int dt_address = visitNum(ctx.num());
+        Register Rt = visitIntegerRegister(ctx.integer_register(0));
+        Register Rn = visitIntegerRegister(ctx.integer_register(1));
+        long dt_address = visitNum(ctx.num());
         InstructionArguments args = new InstructionArguments();
         args.setRt(Rt);
         args.setRn(Rn);
-        args.setDt_Address(dt_address);
+        args.setImmediate(dt_address);
         return args;
     }
 
     @Override
     public InstructionArguments visitExclusiveParam(ExclusiveParamContext ctx) {
-        Register Rd = visitRegister(ctx.register(0));
-        Register Rn = visitRegister(ctx.register(1));
-        Register Rm = visitRegister(ctx.register(2));
+        Register Rd = visitIntegerRegister(ctx.integer_register(0));
+        Register Rn = visitIntegerRegister(ctx.integer_register(1));
+        Register Rm = visitIntegerRegister(ctx.integer_register(2));
         InstructionArguments args = new InstructionArguments();
         args.setRd(Rd);
         args.setRn(Rn);
@@ -377,33 +412,33 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
 
     @Override
     public InstructionArguments visitCondBranchParam(CondBranchParamContext ctx) {
-        Register Rt = visitRegister(ctx.register());
-        int cond_br_address = visitJumpLabelReference(ctx.jumpLabelReference());
+        Register Rt = visitIntegerRegister(ctx.integer_register());
+        long cond_br_address = visitJumpLabelReference(ctx.jumpLabelReference());
         InstructionArguments args = new InstructionArguments();
         args.setRt(Rt);
-        args.setCond_Br_Address(cond_br_address);
+        args.setImmediate(cond_br_address);
         return args;
     }
 
     @Override
     public InstructionArguments visitB_cond_Param(B_cond_ParamContext ctx) {
-        int cond_br_address = visitJumpLabelReference(ctx.jumpLabelReference());
+        long cond_br_address = visitJumpLabelReference(ctx.jumpLabelReference());
         InstructionArguments args = new InstructionArguments();
-        args.setCond_Br_Address(cond_br_address);
+        args.setImmediate(cond_br_address);
         return args;
     }
 
     @Override
     public InstructionArguments visitBranchParam(BranchParamContext ctx) {
-        int br_address = visitJumpLabelReference(ctx.jumpLabelReference());
+        long br_address = visitJumpLabelReference(ctx.jumpLabelReference());
         InstructionArguments args = new InstructionArguments();
-        args.setBr_Address(br_address);
+        args.setImmediate(br_address);
         return args;
     }
 
     @Override
     public InstructionArguments visitBranchByRegisterParam(BranchByRegisterParamContext ctx) {
-        Register Rt = visitRegister(ctx.register());
+        Register Rt = visitIntegerRegister(ctx.integer_register());
         InstructionArguments args = new InstructionArguments();
         args.setRt(Rt);
         return args;
@@ -411,9 +446,9 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
 
     @Override
     public InstructionArguments visitShiftParam(ShiftParamContext ctx) {
-        Register Rd = visitRegister(ctx.register(0));
-        Register Rn = visitRegister(ctx.register(1));
-        int shamt = visitNum(ctx.num());
+        Register Rd = visitIntegerRegister(ctx.integer_register(0));
+        Register Rn = visitIntegerRegister(ctx.integer_register(1));
+        int shamt = visitNum(ctx.num()).intValue();
         InstructionArguments args = new InstructionArguments();
         args.setRd(Rd);
         args.setRn(Rn);
@@ -423,13 +458,65 @@ public class ProgramStatementParser extends LegV8BaseVisitor<Object> {
 
     @Override
     public InstructionArguments visitDataSegmentParam(DataSegmentParamContext ctx) {
-        Register Rt = visitRegister(ctx.register());
-        Register Rn = simulator.getRegisters()[31];
+        Register Rt = visitIntegerRegister(ctx.integer_register());
+        Register Rn = RegisterFile.getIntegerRegister(31);
         long dt_address = visitDataSegmentLabelReference(ctx.dataSegmentLabelReference());
         InstructionArguments args = new InstructionArguments();
         args.setRt(Rt);
         args.setRn(Rn);
-        args.setDt_Address(dt_address);
+        args.setImmediate(dt_address);
+        return args;
+    }
+
+    @Override
+    public Instruction visitFp_arithmeticInstruction(Fp_arithmeticInstructionContext ctx) {
+        String instructionName = ctx.FP_ArithemticInstruction().getText();
+        return getInstructionByName(instructionName);
+    }
+
+    @Override
+    public InstructionArguments visitFp_arithmeticParam(Fp_arithmeticParamContext ctx) {
+        Register Rd = visitFPRegister(ctx.fp_register(0));
+        Register Rn = visitFPRegister(ctx.fp_register(1));
+        Register Rm = visitFPRegister(ctx.fp_register(2));
+        InstructionArguments args = new InstructionArguments();
+        args.setRd(Rd);
+        args.setRn(Rn);
+        args.setRm(Rm);
+        return args;
+    }
+
+    @Override
+    public Instruction visitFp_datatransferInstruction(Fp_datatransferInstructionContext ctx) {
+        String instructionName = ctx.FP_DatatransferInstruction().getText();
+        return getInstructionByName(instructionName);
+    }
+
+    @Override
+    public InstructionArguments visitFp_datatransferParam(Fp_datatransferParamContext ctx) {
+        Register Rt = visitFPRegister(ctx.fp_register());
+        Register Rn = visitIntegerRegister(ctx.integer_register());
+        long dt_address = visitNum(ctx.num());
+        InstructionArguments args = new InstructionArguments();
+        args.setRt(Rt);
+        args.setRn(Rn);
+        args.setImmediate(dt_address);
+        return args;
+    }
+
+    @Override
+    public Instruction visitFp_compareInstruction(Fp_compareInstructionContext ctx) {
+        String instructionName = ctx.FP_CompareInstruction().getText();
+        return getInstructionByName(instructionName);
+    }
+
+    @Override
+    public InstructionArguments visitFp_compareParam(Fp_compareParamContext ctx) {
+        Register Rn = visitFPRegister(ctx.fp_register(0));
+        Register Rm = visitFPRegister(ctx.fp_register(1));
+        InstructionArguments args = new InstructionArguments();
+        args.setRn(Rn);
+        args.setRm(Rm);
         return args;
     }
 

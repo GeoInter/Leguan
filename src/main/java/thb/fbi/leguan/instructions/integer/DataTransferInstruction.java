@@ -1,8 +1,9 @@
-package thb.fbi.leguan.instructions;
+package thb.fbi.leguan.instructions.integer;
 
 import thb.fbi.leguan.data.InstructionArguments;
+import thb.fbi.leguan.instructions.Instruction;
 import thb.fbi.leguan.simulation.PCRegister;
-import thb.fbi.leguan.simulation.Register;
+import thb.fbi.leguan.simulation.IntegerRegister;
 import thb.fbi.leguan.utility.MachineCodeTranslator;
 
 /**
@@ -20,24 +21,24 @@ public class DataTransferInstruction extends Instruction {
 
     @Override
     public void simulate(InstructionArguments argument, PCRegister pc) {
-        long dt_address = argument.getDt_Address();
-        Register Rn = argument.getRn();
-        Register Rt = argument.getRt();
+        long dt_address = argument.getImmediate();
+        IntegerRegister Rn = (IntegerRegister) argument.getRn();
+        IntegerRegister Rt = (IntegerRegister) argument.getRt();
         this.dataTransferCode.simulate(dt_address, Rn, Rt);
         pc.increase();
     }
 
     /**
      * returns this instructions machine code representation with provided arguments
-     * in the form of opcode(11b), dt_address(9b), op2(2b), Rn(5b), Rt(5b)
+     * in the form of opcode(11bit), dt_address(9bit), op2(2bit), Rn(5bit), Rt(5bit)
      */
     public String getMachineCodeString(InstructionArguments args) {
         String s = "";
         s = MachineCodeTranslator.convertOpCodeToBinary(opcode, 11);
-        s += " " + MachineCodeTranslator.convertToMachineCode(args.getDt_Address(), 9);
+        s += " " + MachineCodeTranslator.convertToMachineCode(args.getImmediate(), 9);
         s += " 00 "; // opcode not used, therefore always 0
-        s += " " + MachineCodeTranslator.convertToMachineCode(args.getRn().getID(), 5);
-        s += " " + MachineCodeTranslator.convertToMachineCode(args.getRt().getID(), 5);
+        s += " " + MachineCodeTranslator.convertToMachineCode(args.getRn().getId(), 5);
+        s += " " + MachineCodeTranslator.convertToMachineCode(args.getRt().getId(), 5);
         return s;
     }
 

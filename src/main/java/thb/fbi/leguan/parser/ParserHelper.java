@@ -21,7 +21,8 @@ public class ParserHelper {
         if(forbiddenNames.contains(label)) {
             return false;
         }
-        Pattern pattern = Pattern.compile("X(0|[1-9]|1[0-9]|2[0-9]|3[0-1])");
+        // pattern matches exactly Register Numbers 0 to 31
+        Pattern pattern = Pattern.compile("(X|S|D)(0|[1-9]|1[0-9]|2[0-9]|3[0-1])");
         Matcher matcher = pattern.matcher(label);
         if(matcher.matches()) {
             return false;
@@ -32,7 +33,7 @@ public class ParserHelper {
     /**
      * helper function for adding semantic errors to list
      * 
-     * @param token     the token of the parse tree which is responsible for
+     * @param node the node of the parse tree which is responsible for
      *                  throwing the error
      * @param errorType type of parsing error
      */

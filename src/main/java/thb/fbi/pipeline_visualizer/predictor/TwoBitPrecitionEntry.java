@@ -1,4 +1,4 @@
-package thb.fbi.pipeline_visualizer.pipeline;
+package thb.fbi.pipeline_visualizer.predictor;
 
 import java.io.Serializable;
 
@@ -9,19 +9,19 @@ public class TwoBitPrecitionEntry implements Serializable {
     
     private String code;
     private TwoBitPredictorState state;
-    private Integer targetPC; // PC to branch to, if taken
+    private Long targetPC; // PC to branch to, if taken
 
-    public TwoBitPrecitionEntry(Integer targetPC, TwoBitPredictorState state, String code) {
+    public TwoBitPrecitionEntry(Long targetPC, TwoBitPredictorState state, String code) {
         this.targetPC = targetPC;
         this.state = state;
         this.code = code;
     }
 
-    public Integer getTargetPC() {
+    public Long getTargetPC() {
         return targetPC;
     }
 
-    public void setTargetPC(Integer targetPC) {
+    public void setTargetPC(Long targetPC) {
         this.targetPC = targetPC;
     }
 

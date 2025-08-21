@@ -40,7 +40,7 @@
           <execution>
             <id>default-cli</id>
             <configuration>
-              <mainClass>thb.fbi.leguan/thb.fbi.leguan.Launcher</mainClass>
+              <mainClass>thb.fbi.leguan.Launcher</mainClass>
             </configuration>
           </execution>
         </executions>
@@ -116,7 +116,7 @@
                   </classPath>
                   <icon>src/main/resources/thb/fbi/leguan/images/Leguan.ico</icon>
                   <jre>
-                    <minVersion>11</minVersion>
+                    <minVersion>${maven.compiler.target}</minVersion>
                     <path>%JAVA_HOME%;%PATH%</path>
                   </jre>
                 </configuration>
@@ -154,9 +154,9 @@
   </profiles>
   <properties>
     <sys.java.home>${env.JAVA_HOME}</sys.java.home>
-    <maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.source>21</maven.compiler.source>
     <antlr.version>4.13.2</antlr.version>
-    <maven.compiler.target>11</maven.compiler.target>
+    <maven.compiler.target>21</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <javafx.version>18</javafx.version>
     <app.name>Leguan</app.name>

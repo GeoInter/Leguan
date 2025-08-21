@@ -14,8 +14,7 @@ public class ParsingError {
 
     /**
      * constructor using defined (semantic) error messages
-     * @param line line number of error
-     * @param charPositionInLine position of char where error starts
+     * @param node that caused the error
      * @param e type of error 
      */
     public ParsingError(TerminalNode node, ParsingErrorType e) {

@@ -27,7 +27,7 @@ This simulator aims to provide an accessible way to learn and experiment with **
 
 ## Installation
 
-* Requires **Java11+ (JDK)** [Download via OpenLogic](https://www.openlogic.com/openjdk-downloads) or [via Adoptium](https://adoptium.net/de/temurin/releases/?version=11)
+* Requires **Java 21+ (JDK)** [Download via OpenLogic](https://www.openlogic.com/openjdk-downloads) or [via Adoptium](https://adoptium.net/de/temurin/releases/?version=21)
 
 
 ### Windows
@@ -44,6 +44,12 @@ This simulator aims to provide an accessible way to learn and experiment with **
 
 ## Developer Setup
 
-* Install **Java11+**
+* Install **Java 21+**
 * Install **maven** 
 * Run: `mvn javafx:run -f .\pom.xml`
+
+
+### Documentation
+Code is documented using JavaDoc. Using maven-javadoc-plugin and nl.talsmasoftware.umldoclet.UMLDoclet a Documentaion (including class diagrams) can be locally generated using 
+`mvn javadoc:javadoc`.
+Please note that generating takes ~1 minute.

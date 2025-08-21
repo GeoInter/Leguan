@@ -3,39 +3,24 @@ package thb.fbi.leguan.simulation;
 import java.text.NumberFormat;
 
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleLongProperty;
-import javafx.beans.property.SimpleStringProperty;
 
-/**
- * \brief class reprenting a register
- * 
- * class for representing a register for the simulation as well a model for UI
- */
-public class Register {
+public abstract class Register {
     /** name of the register */
     protected String name;
     /** number/ id/ index of the register */
     protected int id;
-    /** value in the register, Property instead of primitive for easier updating UI */
-    protected SimpleLongProperty valueProperty = new SimpleLongProperty(0);
     /** Property for indicating if register is in use or can be grayed out in UI */
-    private SimpleBooleanProperty isUsed = new SimpleBooleanProperty(true);
-    /** value and format as to be seen in UI */
-    protected SimpleStringProperty shownValue = new SimpleStringProperty("0");
-    /** format of value to be shown can be either binary, decimal or hexadecimal */
-    protected Base numberFormat = Base.DEC;
-
-    public Register(String name, long value, int id) {
-        this.name = name;
-        this.id = id;
-        valueProperty.set(value);
-    }
+    protected SimpleBooleanProperty isUsed = new SimpleBooleanProperty(true);
 
     /**
      * Updates the shown value in UI
+     * delimites binary and hex number in pairs of 4
+     * formats decimal with set Locale (points/ commas)
+     * @param value to show in UI
+     * @param numberFormat
      */
-    public void updateShownValue() {
-        updateShownValue(this.valueProperty.get());
+    protected String getShownValueAsString(long value, Base numberFormat) {
+        return getShownValueAsString(value, numberFormat, 64);
     }
 
     /**
@@ -43,28 +28,48 @@ public class Register {
      * delimites binary and hex number in pairs of 4
      * formats decimal with set Locale (points/ commas)
      * @param value to show in UI
+     * @param numberFormat
+     * @param size maximum number of bits the string should contain
      */
-    protected void updateShownValue(long value) {
+    protected String getShownValueAsString(long value, Base numberFormat, int size) {
         StringBuilder str;
+        int length = 0;
         switch(numberFormat) {
             case BIN: // binary (space delimited in pairs of 4)
                 String bin = Long.toBinaryString(value);
                 str = new StringBuilder(bin);
-                for(int i = bin.length()-4; i > 0; i-= 4) {
+
+                // remove digits if length exceeds specified size
+                if (str.length() > size) {
+                    str.delete(0, size);
+                }
+
+                // insert space every 4 digits
+                length = str.length();
+                for(int i = length - 4; i > 0; i-= 4) {
                     str.insert(i, " ");
                 }
+
                 str.insert(0, "0b");
-                this.shownValue.set(str.toString());
-                break;
+                return str.toString();
             case HEX: // hexadecimal (space delimited in pairs of 4)
                 String hex = Long.toHexString(value).toUpperCase();
                 str = new StringBuilder(hex);
-                for(int i = hex.length()-4; i > 0; i-= 4) {
+
+                // remove digits if length exceeds specified size
+                // in hexadecimal a digits equals 4 bit
+                if (str.length() > size / 4) {
+                    str.delete(0, size / 4);
+                }
+
+                // insert space every 4 digits
+                length = str.length();
+                for(int i = length - 4; i > 0; i-= 4) {
                     str.insert(i, " ");
                 }
+
                 str.insert(0, "0x");
-                this.shownValue.set(str.toString());
-                break;
+                return str.toString();
             case uDEC: // unsigned decimal (point delimited in pairs of 3)
                 String unsigned = Long.toUnsignedString(value);
                 str = new StringBuilder(unsigned);
@@ -72,71 +77,61 @@ public class Register {
                     str.insert(i, ".");
                 }
                 str.insert(0, "u ");
-                this.shownValue.set(str.toString());
-                break;
+                return str.toString();
             case ASCII: 
-                throw new IllegalArgumentException("Usage of ASCII in register is not yet supported");
+                throw new IllegalArgumentException("Usage of ASCII in integer register is not yet supported");
             case DEC: // signed decimal
             default:
                 NumberFormat nf = NumberFormat.getInstance();
-                this.shownValue.set("" + nf.format(value));
-                break;
+                return nf.format(value);
         }
     }
 
+    public abstract void reset();
+
     public String getName() {
         return name;
-    }
-
-    public int getID() {
-        return id;
-    }
-
-    public SimpleLongProperty getValueProperty() {
-        return valueProperty;
-    }
-
-    public long getValue() {
-        return valueProperty.get();
-    }
-
-    public SimpleBooleanProperty getIsUsed() {
-        return isUsed;
-    }
-
-    public SimpleStringProperty getShownValue() {
-        return shownValue;
-    }
-
-    public Base getNumberFormat() {
-        return numberFormat;
-    }
-
-    /** 
-     * when value of register changes update shown value in UI 
-     */
-    public synchronized void setValue(long value) {
-        valueProperty.set(value);
-        updateShownValue();
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public SimpleBooleanProperty getIsUsed() {
+        return isUsed;
+    }
+
     public void setIsUsed(Boolean isUsed) {
         this.isUsed.set(isUsed);
     }
 
-    public void setShownValue(SimpleStringProperty shownValue) {
-        this.shownValue = shownValue;
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + id;
+        return result;
     }
 
-    /** 
-     * when NumberFormat changes update the shown value in UI 
-     */
-    public void setNumberFormat(Base format) {
-        this.numberFormat = format;
-        updateShownValue();
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Register other = (Register) obj;
+        if (id != other.id)
+            return false;
+        return true;
     }
 }

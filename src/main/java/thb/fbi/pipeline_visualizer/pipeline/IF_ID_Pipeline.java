@@ -7,15 +7,17 @@ package thb.fbi.pipeline_visualizer.pipeline;
 
 import java.io.Serializable;
 
+import thb.fbi.pipeline_visualizer.instruction.Instruction;
+
 public class IF_ID_Pipeline implements Serializable {
     /** instruction */
     public Instruction instruction;
     /** PC of the next instruction */
-    public int PC;
+    public long PC;
     /** original line of code/instruction */
     public String codeString;
     
-    IF_ID_Pipeline(Instruction instruction, int pc)
+    IF_ID_Pipeline(Instruction instruction, long pc)
     {
         this.instruction = instruction;
         this.PC = pc;

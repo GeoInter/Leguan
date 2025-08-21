@@ -21,12 +21,16 @@ import thb.fbi.leguan.parser.antlr.LegV8Parser.DataSegmentTypeContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.DataSegmentVariableContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.DatatransferInstructionContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.ExclusiveInstructionContext;
+import thb.fbi.leguan.parser.antlr.LegV8Parser.Fp_arithmeticInstructionContext;
+import thb.fbi.leguan.parser.antlr.LegV8Parser.Fp_compareInstructionContext;
+import thb.fbi.leguan.parser.antlr.LegV8Parser.Fp_datatransferInstructionContext;
+import thb.fbi.leguan.parser.antlr.LegV8Parser.Fp_registerContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.ImmediateInstructionContext;
+import thb.fbi.leguan.parser.antlr.LegV8Parser.Integer_registerContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.JumpLabelDeclarationContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.JumpLabelReferenceContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.MainContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.NumContext;
-import thb.fbi.leguan.parser.antlr.LegV8Parser.RegisterContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.ShiftInstructionContext;
 import thb.fbi.leguan.parser.antlr.LegV8Parser.WideImmediateInstructionContext;
 
@@ -83,6 +87,11 @@ public class SyntaxHighlighter extends LegV8BaseListener {
     }
 
     @Override
+    public void enterFp_arithmeticInstruction(Fp_arithmeticInstructionContext ctx) {
+        addStyle(ctx.FP_ArithemticInstruction(), "instruction");
+    }
+
+    @Override
     public void enterBranchInstruction(BranchInstructionContext ctx) {
         addStyle(ctx.BranchInstruction(), "instruction");
     }
@@ -105,6 +114,11 @@ public class SyntaxHighlighter extends LegV8BaseListener {
     @Override
     public void enterDatatransferInstruction(DatatransferInstructionContext ctx) {
         addStyle(ctx.DatatransferInstruction(), "instruction");
+    }
+
+    @Override
+    public void enterFp_datatransferInstruction(Fp_datatransferInstructionContext ctx) {
+        addStyle(ctx.FP_DatatransferInstruction(), "instruction");
     }
 
     @Override
@@ -133,8 +147,18 @@ public class SyntaxHighlighter extends LegV8BaseListener {
     }
 
     @Override
-    public void enterRegister(RegisterContext ctx) {
-        addStyle(ctx.REGISTER(), "register");
+    public void enterFp_compareInstruction(Fp_compareInstructionContext ctx) {
+        addStyle(ctx.FP_CompareInstruction(), "instruction");
+    }
+
+    @Override
+    public void enterFp_register(Fp_registerContext ctx) {
+        addStyle(ctx.FP_REGISTER(), "register");
+    }
+
+    @Override
+    public void enterInteger_register(Integer_registerContext ctx) {
+        addStyle(ctx.INTEGER_REGISTER(), "register");
     }
 
     @Override

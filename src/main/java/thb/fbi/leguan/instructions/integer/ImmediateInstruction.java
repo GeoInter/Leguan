@@ -1,8 +1,9 @@
-package thb.fbi.leguan.instructions;
+package thb.fbi.leguan.instructions.integer;
 
 import thb.fbi.leguan.data.InstructionArguments;
+import thb.fbi.leguan.instructions.Instruction;
 import thb.fbi.leguan.simulation.PCRegister;
-import thb.fbi.leguan.simulation.Register;
+import thb.fbi.leguan.simulation.IntegerRegister;
 import thb.fbi.leguan.utility.MachineCodeTranslator;
 
 /**
@@ -20,23 +21,23 @@ public class ImmediateInstruction extends Instruction {
 
     @Override
     public void simulate(InstructionArguments argument, PCRegister pc) {
-        int alu_immediate = argument.getAlu_Immediate();
-        Register Rn = argument.getRn();
-        Register Rd = argument.getRd();
+        long alu_immediate = argument.getImmediate();
+        IntegerRegister Rn = (IntegerRegister) argument.getRn();
+        IntegerRegister Rd = (IntegerRegister) argument.getRd();
         this.immediateCode.simulate(alu_immediate, Rn, Rd);
         pc.increase();
     }
 
     /**
      * returns this instructions machine code representation with provided arguments
-     * in the form of opcode(10b), immediate(12b), Rn(5b), Rd(5b)
+     * in the form of opcode(10bit), immediate(12bit), Rn(5bit), Rd(5bit)
      */
     public String getMachineCodeString(InstructionArguments args) {
         String s = "";
         s = MachineCodeTranslator.convertOpCodeToBinary(opcode, 10);
-        s += " " + MachineCodeTranslator.convertToMachineCode(args.getAlu_Immediate(), 12);
-        s += " " + MachineCodeTranslator.convertToMachineCode(args.getRn().getID(), 5);
-        s += " " + MachineCodeTranslator.convertToMachineCode(args.getRd().getID(), 5);
+        s += " " + MachineCodeTranslator.convertToMachineCode(args.getImmediate(), 12);
+        s += " " + MachineCodeTranslator.convertToMachineCode(args.getRn().getId(), 5);
+        s += " " + MachineCodeTranslator.convertToMachineCode(args.getRd().getId(), 5);
         return s;
     }
 

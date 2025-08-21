@@ -11,19 +11,19 @@ public class ForwardingUnit implements Serializable {
     /** register operand index */
     public int rn;
     /** register operand value */
-    public int rnValue;
+    public long rnValue;
     /** register operand index */
     public int rt;
     /** register operand value */
-    public int rtValue;
+    public long rtValue;
     /** destination register index from EX/MEM Pipeline */
     public int RegWriteExMemAdd;
     /** destination register value from EX/MEM Pipeline */
-    public int RegWriteExMemValue;
+    public long RegWriteExMemValue;
     /** destination register index from MEM/WB Pipeline */
     public int RegWriteMemWbAdd; // destination register from MEM/WB Pipe
     /** destination register value from MEM/WB Pipeline */
-    public int RegWriteMemWbValue;
+    public long RegWriteMemWbValue;
     /** RegWriteFlag from EX/MEM Pipeline */
     public boolean RegWriteExMemFlag = false;
     /** RegWriteFlag from MEM/WB Pipeline */
@@ -45,7 +45,7 @@ public class ForwardingUnit implements Serializable {
     }
 
     // returns MUX A output signal
-    public int valueMuxA() {
+    public long valueMuxA() {
         if(!isForwardingEnabled) return rnValue;
 
         if (rn == RegWriteExMemAdd && RegWriteExMemFlag) {
@@ -58,7 +58,7 @@ public class ForwardingUnit implements Serializable {
     }
 
     // returns MUX B output signal
-    public int valueMuxB() {
+    public long valueMuxB() {
         if(!isForwardingEnabled) return rtValue;
 
         if (rt == RegWriteExMemAdd && RegWriteExMemFlag) {

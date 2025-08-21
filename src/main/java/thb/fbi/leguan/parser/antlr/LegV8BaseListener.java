@@ -173,6 +173,18 @@ public class LegV8BaseListener implements LegV8Listener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterFp_arithmeticInstruction(LegV8Parser.Fp_arithmeticInstructionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFp_arithmeticInstruction(LegV8Parser.Fp_arithmeticInstructionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterShiftInstruction(LegV8Parser.ShiftInstructionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -216,6 +228,18 @@ public class LegV8BaseListener implements LegV8Listener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitDatatransferInstruction(LegV8Parser.DatatransferInstructionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterFp_datatransferInstruction(LegV8Parser.Fp_datatransferInstructionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFp_datatransferInstruction(LegV8Parser.Fp_datatransferInstructionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -293,6 +317,18 @@ public class LegV8BaseListener implements LegV8Listener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterFp_compareInstruction(LegV8Parser.Fp_compareInstructionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFp_compareInstruction(LegV8Parser.Fp_compareInstructionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterArithmeticParam(LegV8Parser.ArithmeticParamContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -300,6 +336,18 @@ public class LegV8BaseListener implements LegV8Listener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitArithmeticParam(LegV8Parser.ArithmeticParamContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterFp_arithmeticParam(LegV8Parser.Fp_arithmeticParamContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFp_arithmeticParam(LegV8Parser.Fp_arithmeticParamContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -348,6 +396,18 @@ public class LegV8BaseListener implements LegV8Listener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitDatatransferParam(LegV8Parser.DatatransferParamContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterFp_datatransferParam(LegV8Parser.Fp_datatransferParamContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFp_datatransferParam(LegV8Parser.Fp_datatransferParamContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -425,6 +485,18 @@ public class LegV8BaseListener implements LegV8Listener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterFp_compareParam(LegV8Parser.Fp_compareParamContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFp_compareParam(LegV8Parser.Fp_compareParamContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterNum(LegV8Parser.NumContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -437,13 +509,25 @@ public class LegV8BaseListener implements LegV8Listener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterRegister(LegV8Parser.RegisterContext ctx) { }
+	@Override public void enterInteger_register(LegV8Parser.Integer_registerContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitRegister(LegV8Parser.RegisterContext ctx) { }
+	@Override public void exitInteger_register(LegV8Parser.Integer_registerContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterFp_register(LegV8Parser.Fp_registerContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFp_register(LegV8Parser.Fp_registerContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

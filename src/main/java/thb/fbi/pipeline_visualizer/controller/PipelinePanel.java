@@ -1598,7 +1598,7 @@ public class PipelinePanel extends JPanel {
                         
                         registerValues[i][0] = Integer.toString(i);
                         if (currentFrame.regFlag[i] == true) {
-                            registerValues[i][1] = Integer.toString(currentFrame.register[i]);
+                            registerValues[i][1] = Long.toString(currentFrame.register[i]);
                         } else {
                             registerValues[i][1] = "X";
                         }

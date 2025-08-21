@@ -31,14 +31,6 @@ import thb.fbi.leguan.service.ExecutorServiceProvider;
 public class Simulator {
     /** used set of instruction for this simulator instance */
     private InstructionSet instructionSet = new InstructionSet();
-    /** number of registers */
-    public final int registerNr = 32;
-    /** array of accessible regsiters */
-    private Register[] registers;
-    /** programm counter */
-    private PCRegister pc = new PCRegister("PC", Memory.CODE_SEGMENT_START, -1);
-    /** register of processor flags */
-    private FlagRegister flagRegister = new FlagRegister();
     /** program to execute */
     private ARMProgram program;
     /** Listener for Syntax Errors */
@@ -59,13 +51,8 @@ public class Simulator {
     protected static MemoryController memoryController;
 
     public Simulator() {
-        registers = new Register[registerNr];
+        RegisterFile.initRegisterFile();
         instructionSet.populate();
-        for (int i = 0; i < registers.length; i++) {
-            registers[i] = new Register("X"+i, 0, i);
-            registers[i].setNumberFormat(Base.DEC);
-        }
-        pc.setValue(Memory.CODE_SEGMENT_START);
         this.program = new ARMProgram();
         syntaxErrorListener = new SyntaxErrorListener();
         programParser = new ProgramParser();
@@ -88,24 +75,17 @@ public class Simulator {
      * set register which not appear in program usedRegister list to false
      */
     public void updateShownRegisters() {
-        for (Register r : registers) {
-            if(! program.getUsedRegisters().contains(r)) {
-                r.setIsUsed(false);
-            } else {
-                r.setIsUsed(true);
-            }
-        }
+        RegisterFile.updateShownRegisters(program);
     }
 
     /**
      * executes exactly one instruction
-     * @param code program to execute
      */
     public InstructionPosition forwardStep() {
         runNextInstruction();
 
         // get source line of next instruction
-        ProgramStatement nextStatement = program.getProgramStatement((int) pc.getValue());
+        ProgramStatement nextStatement = program.getProgramStatement((int) RegisterFile.getPCValue());
         if(nextStatement != null) {
             return nextStatement.getLinePosition();
         }
@@ -113,8 +93,7 @@ public class Simulator {
     }
 
     /**
-     * parses and executes the whole written code 
-     * @param code written text to parse
+     * parses and executes the whole written code
      */
     public void runAllInstructions() {
         executor.execute(new Runnable() {
@@ -146,7 +125,7 @@ public class Simulator {
      * @return boolean indicating if an instruction was executed or not (statement/ instruction was null)
      */
     private boolean runNextInstruction() {
-        ProgramStatement statement = program.getProgramStatement((int) pc.getValue());
+        ProgramStatement statement = program.getProgramStatement((int) RegisterFile.getPCValue());
         if(statement != null) {
             Instruction instruction = statement.getInstruction();
             if(instruction != null) {
@@ -154,13 +133,13 @@ public class Simulator {
                 registerPaneController.clearFlagHighlighting();
                 memoryController.clearMemoryHighlighting();
 
-                instruction.simulate(statement.getArguments(), pc);
+                instruction.simulate(statement.getArguments(), RegisterFile.getPC());
 
                 // set highlighting for specific a specific registerbox
                 if(statement.getArguments().getRd() != null) {
-                    registerPaneController.updateRegisterHighlighting(statement.getArguments().getRd().getID());
+                    registerPaneController.updateRegisterHighlighting(statement.getArguments().getRd().getId());
                 } else if(statement.getArguments().getRt() != null) {
-                    registerPaneController.updateRegisterHighlighting(statement.getArguments().getRt().getID());
+                    registerPaneController.updateRegisterHighlighting(statement.getArguments().getRt().getId());
                 } else {
                     registerPaneController.updateRegisterHighlighting(-1);
                 }
@@ -237,23 +216,11 @@ public class Simulator {
     }
 
     /**
-     * changes the numberformat of a specified register
-     * @param format numberformat to be displayed
-     * @param index index of the register to change its numberformat
-     */
-    public void UpdateRegisterValueFormat(Base format, int index) {
-        this.registers[index].setNumberFormat(format);
-    }
-
-    /**
      * resets all register values and pc to 0
      */
     public void reset() {
-        for (Register register : registers) {
-            register.setValue(0);
-        }
-        pc.setValue(Memory.CODE_SEGMENT_START);
         Memory.storeDataSegment(this.program.getDataSegment());
+        RegisterFile.reset();
         stopThread();
     }
 
@@ -264,28 +231,8 @@ public class Simulator {
         isRunning.set(false);
     }
 
-    /**
-     * gets the list of all registers (R0 - R31)
-     * @return List of registers
-     */
-    public Register[] getRegisters() {
-        return this.registers;
-    }
-
-    public FlagRegister getFlagRegister() {
-        return this.flagRegister;
-    }
-
     public ARMProgram getArmProgram() {
         return this.program;
-    }
-
-    public PCRegister getPC() {
-        return this.pc;
-    }
-
-    public long getPCValue() {
-        return this.pc.getValue();
     }
 
     public InstructionSet getInstructionSet() {
@@ -298,6 +245,11 @@ public class Simulator {
 
     public SimpleBooleanProperty getIsCodeChanged() {
         return isCodeChanged;
+    }
+
+    public void removeArmProgram() {
+        this.program = new ARMProgram();
+        this.isCodeParsed.set(false);
     }
 
     public static void setRegisterPaneController(RegisterPaneController registerPaneController) {

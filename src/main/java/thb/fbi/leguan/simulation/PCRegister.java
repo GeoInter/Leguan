@@ -5,17 +5,18 @@ import thb.fbi.leguan.instructions.Instruction;
 /**
  * class for special register PC (Program Count)
  */
-public class PCRegister extends Register {
+public class PCRegister extends IntegerRegister {
 
     public PCRegister(String name, long value, int id) {
-        super("PC", value, id);
+        super("PC", id);
+        this.value = value;
     }
 
     /**
      * increase the program count by Instruction.INSTRUCTION_LENGTH
      */
     public void increase() {
-        setValue(valueProperty.get() + Instruction.INSTRUCTION_LENGTH);
+        setValue(value + Instruction.INSTRUCTION_LENGTH);
     }
 
     /** 
@@ -23,8 +24,9 @@ public class PCRegister extends Register {
      */
     @Override
     public synchronized void setValue(long value) {
-        valueProperty.set(value);
-        super.updateShownValue(value);
+        this.value = value;
+
+        this.observer.update(getShownValueAsString(value, numberFormat));
     }
 
     /** 
@@ -33,6 +35,5 @@ public class PCRegister extends Register {
     @Override
     public void setNumberFormat(Base format) {
         this.numberFormat = format;
-        updateShownValue(valueProperty.get());
     }
 }

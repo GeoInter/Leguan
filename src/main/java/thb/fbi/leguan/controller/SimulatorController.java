@@ -242,12 +242,8 @@ public class SimulatorController {
     @FXML
     private void stepForward() {
         InstructionPosition position = simulator.forwardStep();
-        if (position != null)
-            editorController.setLineNumber(position);
+        editorController.setLineNumber(position);
     }
-
-    // run clear line
-    // get instr, check for null, return lineNumber
 
     @FXML
     private void stepBackward() {
@@ -262,6 +258,8 @@ public class SimulatorController {
     @FXML
     private void openFile() {
         if (FileManager.openFile()) {
+            stepForwardButton.setDisable(true);
+            simulator.removeArmProgram();
             reset();
         }
     }
@@ -390,6 +388,6 @@ public class SimulatorController {
 
     @FXML
     private void openPipelineVisualizer() {
-        pipelineVisualizer.openExtension();
+        pipelineVisualizer.openExtension(simulator.getArmProgram(), editorController.getCodeAreaText());
     }
 }

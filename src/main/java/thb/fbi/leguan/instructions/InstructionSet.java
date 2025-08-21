@@ -7,12 +7,30 @@ import java.util.Formatter;
 import java.util.List;
 import java.util.TreeSet;
 
+import thb.fbi.leguan.instructions.floatingPoint.FPArithmeticInstruction;
+import thb.fbi.leguan.instructions.floatingPoint.FPCompareInstruction;
+import thb.fbi.leguan.instructions.floatingPoint.FPDataTransferInstruction;
+import thb.fbi.leguan.instructions.floatingPoint.IFPArithmeticCode;
+import thb.fbi.leguan.instructions.floatingPoint.IFPCompareCode;
+import thb.fbi.leguan.instructions.floatingPoint.IFPDataTransferCode;
+import thb.fbi.leguan.instructions.integer.ArithmeticInstruction;
+import thb.fbi.leguan.instructions.integer.BranchInstruction;
+import thb.fbi.leguan.instructions.integer.ConditionalBranchInstruction;
+import thb.fbi.leguan.instructions.integer.DataTransferInstruction;
+import thb.fbi.leguan.instructions.integer.IArithmeticCode;
+import thb.fbi.leguan.instructions.integer.IBranchCode;
+import thb.fbi.leguan.instructions.integer.IConditionalBranchCode;
+import thb.fbi.leguan.instructions.integer.IDataTransferCode;
+import thb.fbi.leguan.instructions.integer.IImmediateCode;
+import thb.fbi.leguan.instructions.integer.IWideImmediateCode;
+import thb.fbi.leguan.instructions.integer.ImmediateInstruction;
+import thb.fbi.leguan.instructions.integer.WideImmediateInstruction;
+import thb.fbi.leguan.simulation.FPRegister;
 import thb.fbi.leguan.simulation.FlagRegister;
 import thb.fbi.leguan.simulation.Memory;
 import thb.fbi.leguan.simulation.PCRegister;
-import thb.fbi.leguan.simulation.Register;
-import thb.fbi.leguan.simulation.Simulator;
-import thb.fbi.leguan.simulation.SimulatorSingleton;
+import thb.fbi.leguan.simulation.RegisterFile;
+import thb.fbi.leguan.simulation.IntegerRegister;
 
 /**
  * List of usable LEGv8 Instructions.
@@ -33,7 +51,7 @@ public class InstructionSet {
                         "Null operation - does nothing",
                         new IArithmeticCode() {
                             @Override
-                            public void simulate(Register Rm, int shamt, Register Rn, Register Rd) {
+                            public void simulate(IntegerRegister Rm, int shamt, IntegerRegister Rn, IntegerRegister Rd) {
 
                             }
                         }));
@@ -46,7 +64,7 @@ public class InstructionSet {
                         "Adds value of Registers Rm and Rn and puts result in Rd without setting flags",
                         new IArithmeticCode() {
                             @Override
-                            public void simulate(Register Rm, int shamt, Register Rn, Register Rd) {
+                            public void simulate(IntegerRegister Rm, int shamt, IntegerRegister Rn, IntegerRegister Rd) {
                                 // simple addition
                                 long op1 = Rm.getValue();
                                 long op2 = Rn.getValue();
@@ -61,7 +79,7 @@ public class InstructionSet {
                         "Adds value of Registers Rm and a constant and puts result in Rd without flags",
                         new IImmediateCode() {
                             @Override
-                            public void simulate(int alu_immediate, Register Rn, Register Rd) {
+                            public void simulate(long alu_immediate, IntegerRegister Rn, IntegerRegister Rd) {
                                 long op1 = Rn.getValue();
                                 long result = op1 + alu_immediate;
                                 Rd.setValue(result);
@@ -74,7 +92,7 @@ public class InstructionSet {
                         "Adds value of Registers Rm and a constant and puts result in Rd with flags",
                         new IImmediateCode() {
                             @Override
-                            public void simulate(int alu_immediate, Register Rn, Register Rd) {
+                            public void simulate(long alu_immediate, IntegerRegister Rn, IntegerRegister Rd) {
                                 long op1 = Rn.getValue();
                                 long result = op1 + alu_immediate;
 
@@ -90,7 +108,7 @@ public class InstructionSet {
                         "Adds value of Registers Rm and Rn and puts result in Rd with flags",
                         new IArithmeticCode() {
                             @Override
-                            public void simulate(Register Rm, int shamt, Register Rn, Register Rd) {
+                            public void simulate(IntegerRegister Rm, int shamt, IntegerRegister Rn, IntegerRegister Rd) {
                                 // simple addition
                                 long op1 = Rm.getValue();
                                 long op2 = Rn.getValue();
@@ -108,7 +126,7 @@ public class InstructionSet {
                         "AND",
                         new IArithmeticCode() {
                             @Override
-                            public void simulate(Register Rm, int shamt, Register Rn, Register Rd) {
+                            public void simulate(IntegerRegister Rm, int shamt, IntegerRegister Rn, IntegerRegister Rd) {
                                 long op1 = Rm.getValue();
                                 long op2 = Rn.getValue();
                                 long result = op1 & op2;
@@ -123,7 +141,7 @@ public class InstructionSet {
                         "AND Immediate",
                         new IImmediateCode() {
                             @Override
-                            public void simulate(int alu_immediate, Register Rn, Register Rd) {
+                            public void simulate(long alu_immediate, IntegerRegister Rn, IntegerRegister Rd) {
                                 long op1 = Rn.getValue();
                                 long result = op1 & alu_immediate;
 
@@ -137,7 +155,7 @@ public class InstructionSet {
                         "AND Immediate and Flags",
                         new IImmediateCode() {
                             @Override
-                            public void simulate(int alu_immediate, Register Rn, Register Rd) {
+                            public void simulate(long alu_immediate, IntegerRegister Rn, IntegerRegister Rd) {
                                 long op1 = Rn.getValue();
                                 long result = op1 & alu_immediate;
 
@@ -153,7 +171,7 @@ public class InstructionSet {
                         "AND with Flags",
                         new IArithmeticCode() {
                             @Override
-                            public void simulate(Register Rm, int shamt, Register Rn, Register Rd) {
+                            public void simulate(IntegerRegister Rm, int shamt, IntegerRegister Rn, IntegerRegister Rd) {
                                 long op1 = Rm.getValue();
                                 long op2 = Rn.getValue();
                                 long result = op1 & op2;
@@ -170,7 +188,7 @@ public class InstructionSet {
                         "Branch",
                         new IBranchCode() {
                             @Override
-                            public void simulate(int br_address, PCRegister pc) {
+                            public void simulate(long br_address, PCRegister pc) {
                                 pc.setValue(br_address);
                             }
                         }));
@@ -181,7 +199,7 @@ public class InstructionSet {
                         "Branch Signed Equals",
                         new IConditionalBranchCode() {
                             @Override
-                            public void simulate(int cond_br_address, Register Rt, PCRegister pc) {
+                            public void simulate(long cond_br_address, IntegerRegister Rt, PCRegister pc) {
                                 // test Z == 1
                                 if (FlagRegister.getZFlag()) {
                                     pc.setValue(cond_br_address);
@@ -197,7 +215,7 @@ public class InstructionSet {
                         "Branch Signed Not Equals",
                         new IConditionalBranchCode() {
                             @Override
-                            public void simulate(int cond_br_address, Register Rt, PCRegister pc) {
+                            public void simulate(long cond_br_address, IntegerRegister Rt, PCRegister pc) {
                                 // test Z == 0
                                 if (!FlagRegister.getZFlag()) {
                                     pc.setValue(cond_br_address);
@@ -213,7 +231,7 @@ public class InstructionSet {
                         "Branch Signed Less Than",
                         new IConditionalBranchCode() {
                             @Override
-                            public void simulate(int cond_br_address, Register Rt, PCRegister pc) {
+                            public void simulate(long cond_br_address, IntegerRegister Rt, PCRegister pc) {
                                 // test N != V
                                 if (FlagRegister.getNFlag() != FlagRegister.getVFlag()) {
                                     pc.setValue(cond_br_address);
@@ -229,7 +247,7 @@ public class InstructionSet {
                         "Branch Signed Less Equals",
                         new IConditionalBranchCode() {
                             @Override
-                            public void simulate(int cond_br_address, Register Rt, PCRegister pc) {
+                            public void simulate(long cond_br_address, IntegerRegister Rt, PCRegister pc) {
                                 // test ! (Z == 0 && N == V)
                                 if (!(!FlagRegister.getZFlag() && FlagRegister.getNFlag() == FlagRegister.getVFlag())) {
                                     pc.setValue(cond_br_address);
@@ -245,7 +263,7 @@ public class InstructionSet {
                         "Branch Signed Greater Than",
                         new IConditionalBranchCode() {
                             @Override
-                            public void simulate(int cond_br_address, Register Rt, PCRegister pc) {
+                            public void simulate(long cond_br_address, IntegerRegister Rt, PCRegister pc) {
                                 // test (Z == 0 && N == V)
                                 if (!FlagRegister.getZFlag() && FlagRegister.getNFlag() == FlagRegister.getVFlag()) {
                                     pc.setValue(cond_br_address);
@@ -261,7 +279,7 @@ public class InstructionSet {
                         "Branch Signed Greater Equals",
                         new IConditionalBranchCode() {
                             @Override
-                            public void simulate(int cond_br_address, Register Rt, PCRegister pc) {
+                            public void simulate(long cond_br_address, IntegerRegister Rt, PCRegister pc) {
                                 // test N == V
                                 if (FlagRegister.getNFlag() == FlagRegister.getVFlag()) {
                                     pc.setValue(cond_br_address);
@@ -277,7 +295,7 @@ public class InstructionSet {
                         "Branch on Minus",
                         new IConditionalBranchCode() {
                             @Override
-                            public void simulate(int cond_br_address, Register Rt, PCRegister pc) {
+                            public void simulate(long cond_br_address, IntegerRegister Rt, PCRegister pc) {
                                 // test N == 1
                                 if (FlagRegister.getNFlag()) {
                                     pc.setValue(cond_br_address);
@@ -293,7 +311,7 @@ public class InstructionSet {
                         "Branch on Plus",
                         new IConditionalBranchCode() {
                             @Override
-                            public void simulate(int cond_br_address, Register Rt, PCRegister pc) {
+                            public void simulate(long cond_br_address, IntegerRegister Rt, PCRegister pc) {
                                 // test N == 0
                                 if (!FlagRegister.getNFlag()) {
                                     pc.setValue(cond_br_address);
@@ -309,7 +327,7 @@ public class InstructionSet {
                         "Branch on Overflow set",
                         new IConditionalBranchCode() {
                             @Override
-                            public void simulate(int cond_br_address, Register Rt, PCRegister pc) {
+                            public void simulate(long cond_br_address, IntegerRegister Rt, PCRegister pc) {
                                 // test V == 1
                                 if (FlagRegister.getVFlag()) {
                                     pc.setValue(cond_br_address);
@@ -325,7 +343,7 @@ public class InstructionSet {
                         "Branch on Overflow clear",
                         new IConditionalBranchCode() {
                             @Override
-                            public void simulate(int cond_br_address, Register Rt, PCRegister pc) {
+                            public void simulate(long cond_br_address, IntegerRegister Rt, PCRegister pc) {
                                 // test V == 0
                                 if (!FlagRegister.getVFlag()) {
                                     pc.setValue(cond_br_address);
@@ -341,9 +359,8 @@ public class InstructionSet {
                         "Branch with Link",
                         new IBranchCode() {
                             @Override
-                            public void simulate(int br_address, PCRegister pc) {
-                                Simulator simulator = SimulatorSingleton.getSimulator();
-                                Register R30 = simulator.getRegisters()[30];
+                            public void simulate(long br_address, PCRegister pc) {
+                                IntegerRegister R30 = (IntegerRegister) RegisterFile.getIntegerRegister(30);
                                 R30.setValue((pc.getValue() + 4)); // internal pc value is not multiplied by 4
                                 pc.setValue(br_address);
                             }
@@ -355,7 +372,7 @@ public class InstructionSet {
                         "Branch to register",
                         new IConditionalBranchCode() {
                             @Override
-                            public void simulate(int cond_br_address, Register Rt, PCRegister pc) {
+                            public void simulate(long cond_br_address, IntegerRegister Rt, PCRegister pc) {
                                 long address = Rt.getValue();
                                 pc.setValue(address);
                             }
@@ -367,7 +384,7 @@ public class InstructionSet {
                         "Compare and Branch if not Zero",
                         new IConditionalBranchCode() {
                             @Override
-                            public void simulate(int cond_br_address, Register Rt, PCRegister pc) {
+                            public void simulate(long cond_br_address, IntegerRegister Rt, PCRegister pc) {
                                 long op = Rt.getValue();
                                 if (op != 0) {
                                     pc.setValue(cond_br_address);
@@ -383,7 +400,7 @@ public class InstructionSet {
                         "Compare and Branch if Zero",
                         new IConditionalBranchCode() {
                             @Override
-                            public void simulate(int cond_br_address, Register Rt, PCRegister pc) {
+                            public void simulate(long cond_br_address, IntegerRegister Rt, PCRegister pc) {
                                 long op = Rt.getValue();
                                 if (op == 0) {
                                     pc.setValue(cond_br_address);
@@ -399,7 +416,7 @@ public class InstructionSet {
                         "Exclusive OR between two Registers",
                         new IArithmeticCode() {
                             @Override
-                            public void simulate(Register Rm, int shamt, Register Rn, Register Rd) {
+                            public void simulate(IntegerRegister Rm, int shamt, IntegerRegister Rn, IntegerRegister Rd) {
                                 long op1 = Rm.getValue();
                                 long op2 = Rn.getValue();
                                 long result = op1 ^ op2; // equals !=
@@ -414,7 +431,7 @@ public class InstructionSet {
                         "Exclusive OR between Register and Immediate",
                         new IImmediateCode() {
                             @Override
-                            public void simulate(int alu_immediate, Register Rn, Register Rd) {
+                            public void simulate(long alu_immediate, IntegerRegister Rn, IntegerRegister Rd) {
                                 long op1 = Rn.getValue();
                                 long result = op1 ^ alu_immediate; // equals !=
 
@@ -428,7 +445,7 @@ public class InstructionSet {
                         "Load a double word from memory to register",
                         new IDataTransferCode() {
                             @Override
-                            public void simulate(long dt_address, Register Rn, Register Rt) {
+                            public void simulate(long dt_address, IntegerRegister Rn, IntegerRegister Rt) {
                                 long op1 = Rn.getValue();
                                 long address = op1 + dt_address;
                                 long value = Memory.loadDWord(address);
@@ -442,7 +459,7 @@ public class InstructionSet {
                         "Load a Byte from memory to register",
                         new IDataTransferCode() {
                             @Override
-                            public void simulate(long dt_address, Register Rn, Register Rt) {
+                            public void simulate(long dt_address, IntegerRegister Rn, IntegerRegister Rt) {
                                 long op1 = Rn.getValue();
                                 long address = op1 + dt_address;
                                 long value = Memory.loadByte(address);
@@ -456,7 +473,7 @@ public class InstructionSet {
                         "Load a half word from memory to register",
                         new IDataTransferCode() {
                             @Override
-                            public void simulate(long dt_address, Register Rn, Register Rt) {
+                            public void simulate(long dt_address, IntegerRegister Rn, IntegerRegister Rt) {
                                 long op1 = Rn.getValue();
                                 long address = op1 + dt_address;
                                 long value = Memory.loadHalfword(address);
@@ -470,7 +487,7 @@ public class InstructionSet {
                         "Load a word from memory to register",
                         new IDataTransferCode() {
                             @Override
-                            public void simulate(long dt_address, Register Rn, Register Rt) {
+                            public void simulate(long dt_address, IntegerRegister Rn, IntegerRegister Rt) {
                                 long op1 = Rn.getValue();
                                 long address = op1 + dt_address;
                                 long value = Memory.loadWord(address);
@@ -484,7 +501,7 @@ public class InstructionSet {
                         "Exclusive load a word from memory to register",
                         new IDataTransferCode() {
                             @Override
-                            public void simulate(long dt_address, Register Rn, Register Rt) {
+                            public void simulate(long dt_address, IntegerRegister Rn, IntegerRegister Rt) {
                                 long op1 = Rn.getValue();
                                 long address = op1 + dt_address;
                                 long value = Memory.loadExclusive(address);
@@ -498,7 +515,7 @@ public class InstructionSet {
                         "Logical Shift Left",
                         new IArithmeticCode() {
                             @Override
-                            public void simulate(Register Rm, int shamt, Register Rn, Register Rd) {
+                            public void simulate(IntegerRegister Rm, int shamt, IntegerRegister Rn, IntegerRegister Rd) {
                                 long op1 = Rn.getValue();
                                 long result = op1 << shamt;
 
@@ -512,7 +529,7 @@ public class InstructionSet {
                         "Logical Shift Right",
                         new IArithmeticCode() {
                             @Override
-                            public void simulate(Register Rm, int shamt, Register Rn, Register Rd) {
+                            public void simulate(IntegerRegister Rm, int shamt, IntegerRegister Rn, IntegerRegister Rd) {
                                 long op1 = Rn.getValue();
                                 long result = op1 >>> shamt; // unsigned shift = shifts a zero into the leftmost
                                                              // position
@@ -527,7 +544,7 @@ public class InstructionSet {
                         "Move wide with keep",
                         new IWideImmediateCode() {
                             @Override
-                            public void simulate(Register Rd, long immediate, int shamt) {
+                            public void simulate(IntegerRegister Rd, long immediate, int shamt) {
                                 long oldValue = Rd.getValue();
                                 long result = immediate << shamt;
                                 result += oldValue;
@@ -542,7 +559,7 @@ public class InstructionSet {
                         "Move wide with zeroes",
                         new IWideImmediateCode() {
                             @Override
-                            public void simulate(Register Rd, long immediate, int shamt) {
+                            public void simulate(IntegerRegister Rd, long immediate, int shamt) {
                                 long result = immediate << shamt;
 
                                 Rd.setValue(result);
@@ -555,7 +572,7 @@ public class InstructionSet {
                         "Inclusive OR between two Registers",
                         new IArithmeticCode() {
                             @Override
-                            public void simulate(Register Rm, int shamt, Register Rn, Register Rd) {
+                            public void simulate(IntegerRegister Rm, int shamt, IntegerRegister Rn, IntegerRegister Rd) {
                                 long op1 = Rm.getValue();
                                 long op2 = Rn.getValue();
                                 long result = op1 | op2;
@@ -570,7 +587,7 @@ public class InstructionSet {
                         "Inclusive OR between Register and Immediate",
                         new IImmediateCode() {
                             @Override
-                            public void simulate(int alu_immediate, Register Rn, Register Rd) {
+                            public void simulate(long alu_immediate, IntegerRegister Rn, IntegerRegister Rd) {
                                 long op1 = Rn.getValue();
                                 long result = op1 | alu_immediate;
 
@@ -584,7 +601,7 @@ public class InstructionSet {
                         "Store a double word from register into memory",
                         new IDataTransferCode() {
                             @Override
-                            public void simulate(long dt_address, Register Rn, Register Rt) {
+                            public void simulate(long dt_address, IntegerRegister Rn, IntegerRegister Rt) {
                                 long value = Rt.getValue();
                                 long op1 = Rn.getValue();
                                 long address = op1 + dt_address;
@@ -598,7 +615,7 @@ public class InstructionSet {
                         "Store a Byte from register into memory",
                         new IDataTransferCode() {
                             @Override
-                            public void simulate(long dt_address, Register Rn, Register Rt) {
+                            public void simulate(long dt_address, IntegerRegister Rn, IntegerRegister Rt) {
                                 byte value = (byte) Rt.getValue();
                                 long op1 = Rn.getValue();
                                 long address = op1 + dt_address;
@@ -612,7 +629,7 @@ public class InstructionSet {
                         "Store a half word from register into memory",
                         new IDataTransferCode() {
                             @Override
-                            public void simulate(long dt_address, Register Rn, Register Rt) {
+                            public void simulate(long dt_address, IntegerRegister Rn, IntegerRegister Rt) {
                                 short value = (short) Rt.getValue();
                                 long op1 = Rn.getValue();
                                 long address = op1 + dt_address;
@@ -626,7 +643,7 @@ public class InstructionSet {
                         "Store a word from register into memory",
                         new IDataTransferCode() {
                             @Override
-                            public void simulate(long dt_address, Register Rn, Register Rt) {
+                            public void simulate(long dt_address, IntegerRegister Rn, IntegerRegister Rt) {
                                 int value = (int) Rt.getValue();
                                 long op1 = Rn.getValue();
                                 long address = op1 + dt_address;
@@ -640,7 +657,7 @@ public class InstructionSet {
                         "Exclusive Store a word from register into memory",
                         new IArithmeticCode() {
                             @Override
-                            public void simulate(Register Rm, int shamt, Register Rn, Register Rd) {
+                            public void simulate(IntegerRegister Rm, int shamt, IntegerRegister Rn, IntegerRegister Rd) {
                                 int value = (int) Rd.getValue();
                                 if (Memory.storeExclusive(Rm.getValue(), value)) {
                                     Rn.setValue(0);
@@ -656,7 +673,7 @@ public class InstructionSet {
                         "Subtracts value of Registers Rm and Rn and puts result in Rd without flags",
                         new IArithmeticCode() {
                             @Override
-                            public void simulate(Register Rm, int shamt, Register Rn, Register Rd) {
+                            public void simulate(IntegerRegister Rm, int shamt, IntegerRegister Rn, IntegerRegister Rd) {
                                 // simple subtraction
                                 long op1 = Rn.getValue();
                                 long op2 = Rm.getValue();
@@ -670,7 +687,7 @@ public class InstructionSet {
                         "Subtracts value of Registers Rm and a constant and puts result in Rd without flags",
                         new IImmediateCode() {
                             @Override
-                            public void simulate(int alu_immediate, Register Rn, Register Rd) {
+                            public void simulate(long alu_immediate, IntegerRegister Rn, IntegerRegister Rd) {
                                 long op1 = Rn.getValue();
                                 long result = op1 - alu_immediate;
                                 Rd.setValue(result);
@@ -683,7 +700,7 @@ public class InstructionSet {
                         "Subtracts value of Registers Rm and a constant and puts result in Rd without flags",
                         new IImmediateCode() {
                             @Override
-                            public void simulate(int alu_immediate, Register Rn, Register Rd) {
+                            public void simulate(long alu_immediate, IntegerRegister Rn, IntegerRegister Rd) {
                                 long op1 = Rn.getValue();
                                 long result = op1 - alu_immediate;
 
@@ -700,7 +717,7 @@ public class InstructionSet {
                         "Subtracts value of Registers Rm and Rn and puts result in Rd with flags",
                         new IArithmeticCode() {
                             @Override
-                            public void simulate(Register Rm, int shamt, Register Rn, Register Rd) {
+                            public void simulate(IntegerRegister Rm, int shamt, IntegerRegister Rn, IntegerRegister Rd) {
                                 // simple subtraction
                                 long op1 = Rn.getValue();
                                 long op2 = Rm.getValue();
@@ -720,7 +737,7 @@ public class InstructionSet {
                         "Multiplies two registers (only integers)",
                         new IArithmeticCode() {
                             @Override
-                            public void simulate(Register Rm, int shamt, Register Rn, Register Rd) {
+                            public void simulate(IntegerRegister Rm, int shamt, IntegerRegister Rn, IntegerRegister Rd) {
                                 long op1 = Rn.getValue();
                                 long op2 = Rm.getValue();
                                 long result = op1 * op2;
@@ -735,7 +752,7 @@ public class InstructionSet {
                         "Multiplies two registers (only integers)",
                         new IArithmeticCode() {
                             @Override
-                            public void simulate(Register Rm, int shamt, Register Rn, Register Rd) {
+                            public void simulate(IntegerRegister Rm, int shamt, IntegerRegister Rn, IntegerRegister Rd) {
                                 long op1 = Rn.getValue();
                                 long op2 = Rm.getValue();
                                 long result = op1 / op2;
@@ -750,7 +767,7 @@ public class InstructionSet {
                         "Multiplies two registers (only integers)",
                         new IArithmeticCode() {
                             @Override
-                            public void simulate(Register Rm, int shamt, Register Rn, Register Rd) {
+                            public void simulate(IntegerRegister Rm, int shamt, IntegerRegister Rn, IntegerRegister Rd) {
                                 long op1 = Rn.getValue();
                                 long op2 = Rm.getValue();
 
@@ -771,7 +788,7 @@ public class InstructionSet {
                         "Unsigned Division",
                         new IArithmeticCode() {
                             @Override
-                            public void simulate(Register Rm, int shamt, Register Rn, Register Rd) {
+                            public void simulate(IntegerRegister Rm, int shamt, IntegerRegister Rn, IntegerRegister Rd) {
                                 long op1 = Rn.getValue();
                                 long op2 = Rm.getValue();
                                 long result = Long.divideUnsigned(op1, op2);
@@ -786,7 +803,7 @@ public class InstructionSet {
                         "Unsigned Multiplication",
                         new IArithmeticCode() {
                             @Override
-                            public void simulate(Register Rm, int shamt, Register Rn, Register Rd) {
+                            public void simulate(IntegerRegister Rm, int shamt, IntegerRegister Rn, IntegerRegister Rd) {
                                 long op1 = Rn.getValue();
                                 long op2 = Rm.getValue();
 
@@ -801,6 +818,242 @@ public class InstructionSet {
                             }
                         }));
 
+        //// Floating Point Instructions ////
+
+        instructionSet.add(
+                new FPArithmeticInstruction("FADDS",
+                        0xF1,
+                        "",
+                        new IFPArithmeticCode() {
+                            @Override
+                            public void simulate(FPRegister Rm, int shamt, FPRegister Rn, FPRegister Rd) {
+                                float op1 = Rm.getSPValue();
+                                float op2 = Rn.getSPValue();
+
+                                float result = op1 + op2;
+
+                                Rd.setSinlgePrecisionValue(result);
+                            }
+                        }));
+
+        instructionSet.add(
+                new FPArithmeticInstruction("FADDD",
+                        0xF3,
+                        "",
+                        new IFPArithmeticCode() {
+                            @Override
+                            public void simulate(FPRegister Rm, int shamt, FPRegister Rn, FPRegister Rd) {
+                                double op1 = Rm.getDPValue();
+                                double op2 = Rn.getDPValue();
+
+                                double result = op1 + op2;
+
+                                Rd.setDoublePrecisionValue(result);
+                            }
+                        }));
+
+        instructionSet.add(
+                new FPCompareInstruction("FCMPS",
+                        0xF1,
+                        "",
+                        new IFPCompareCode() {
+                            @Override
+                            public void simulate(FPRegister Rn, FPRegister Rm) {
+                                float op1 = Rm.getSPValue();
+                                float op2 = Rn.getSPValue();
+
+                                if (Float.isNaN(op1) || Float.isNaN(op2)) {
+                                    // according to the Green Card: operands are unordered
+                                } else {
+                                    if (op1 == op2) {
+                                        FlagRegister.setAllFlags(false, true, true, false);
+                                    } else if (op1 < op2) {
+                                        FlagRegister.setAllFlags(true, false, false, false);
+                                    } else if (op1 > op2) {
+                                        FlagRegister.setAllFlags(false, false, true, false);
+                                    }
+                                }
+
+                            }
+                        }));
+
+        instructionSet.add(
+                new FPCompareInstruction("FCMPD",
+                        0xF3,
+                        "",
+                        new IFPCompareCode() {
+                            @Override
+                            public void simulate(FPRegister Rn, FPRegister Rm) {
+                                double op1 = Rm.getDPValue();
+                                double op2 = Rn.getDPValue();
+
+                                if (Double.isNaN(op1) || Double.isNaN(op2)) {
+                                    // according to the Green Card: operands are unordered
+                                } else {
+                                    if (op1 == op2) {
+                                        FlagRegister.setAllFlags(false, true, true, false);
+                                    } else if (op1 < op2) {
+                                        FlagRegister.setAllFlags(true, false, false, false);
+                                    } else if (op1 > op2) {
+                                        FlagRegister.setAllFlags(false, false, true, false);
+                                    }
+                                }
+
+                            }
+                        }));
+
+        instructionSet.add(
+                new FPArithmeticInstruction("FDIVS",
+                        0xF1,
+                        "",
+                        new IFPArithmeticCode() {
+                            @Override
+                            public void simulate(FPRegister Rm, int shamt, FPRegister Rn, FPRegister Rd) {
+                                float op1 = Rm.getSPValue();
+                                float op2 = Rn.getSPValue();
+
+                                float result = op1 / op2;
+
+                                Rd.setSinlgePrecisionValue(result);
+                            }
+                        }));
+
+        instructionSet.add(
+                new FPArithmeticInstruction("FDIVD",
+                        0xF3,
+                        "",
+                        new IFPArithmeticCode() {
+                            @Override
+                            public void simulate(FPRegister Rm, int shamt, FPRegister Rn, FPRegister Rd) {
+                                double op1 = Rm.getDPValue();
+                                double op2 = Rn.getDPValue();
+
+                                double result = op1 / op2;
+
+                                Rd.setDoublePrecisionValue(result);
+                            }
+                        }));
+
+        instructionSet.add(
+                new FPArithmeticInstruction("FMULS",
+                        0xF1,
+                        "",
+                        new IFPArithmeticCode() {
+                            @Override
+                            public void simulate(FPRegister Rm, int shamt, FPRegister Rn, FPRegister Rd) {
+                                float op1 = Rm.getSPValue();
+                                float op2 = Rn.getSPValue();
+
+                                float result = op1 * op2;
+
+                                Rd.setSinlgePrecisionValue(result);
+                            }
+                        }));
+
+        instructionSet.add(
+                new FPArithmeticInstruction("FMULD",
+                        0xF3,
+                        "",
+                        new IFPArithmeticCode() {
+                            @Override
+                            public void simulate(FPRegister Rm, int shamt, FPRegister Rn, FPRegister Rd) {
+                                double op1 = Rm.getDPValue();
+                                double op2 = Rn.getDPValue();
+
+                                double result = op1 * op2;
+
+                                Rd.setDoublePrecisionValue(result);
+                            }
+                        }));
+
+        instructionSet.add(
+                new FPArithmeticInstruction("FSUBS",
+                        0xF1,
+                        "",
+                        new IFPArithmeticCode() {
+                            @Override
+                            public void simulate(FPRegister Rm, int shamt, FPRegister Rn, FPRegister Rd) {
+                                float op1 = Rm.getSPValue();
+                                float op2 = Rn.getSPValue();
+
+                                float result = op1 - op2;
+
+                                Rd.setSinlgePrecisionValue(result);
+                            }
+                        }));
+
+        instructionSet.add(
+                new FPArithmeticInstruction("FSUBD",
+                        0xF3,
+                        "",
+                        new IFPArithmeticCode() {
+                            @Override
+                            public void simulate(FPRegister Rm, int shamt, FPRegister Rn, FPRegister Rd) {
+                                double op1 = Rm.getDPValue();
+                                double op2 = Rn.getDPValue();
+
+                                double result = op1 - op2;
+
+                                Rd.setDoublePrecisionValue(result);
+                            }
+                        }));
+
+        instructionSet.add(
+                new FPDataTransferInstruction("LDURS",
+                        0x5E2,
+                        "",
+                        new IFPDataTransferCode() {
+                            @Override
+                            public void simulate(long dt_address, IntegerRegister Rn, FPRegister Rt) {
+                                long op1 = Rn.getValue();
+                                long address = op1 + dt_address;
+                                Long value = Memory.loadDWord(address);
+                                Rt.setSinlgePrecisionValue(Float.intBitsToFloat(value.intValue()));
+                            }
+                        }));
+
+        instructionSet.add(
+                new FPDataTransferInstruction("LDURD",
+                        0x7E2,
+                        "",
+                        new IFPDataTransferCode() {
+                            @Override
+                            public void simulate(long dt_address, IntegerRegister Rn, FPRegister Rt) {
+                                long op1 = Rn.getValue();
+                                long address = op1 + dt_address;
+                                long value = Memory.loadDWord(address);
+                                Rt.setDoublePrecisionValue(Double.longBitsToDouble(value));
+                            }
+                        }));
+
+        instructionSet.add(
+                new FPDataTransferInstruction("STURS",
+                        0x5E2,
+                        "",
+                        new IFPDataTransferCode() {
+                            @Override
+                            public void simulate(long dt_address, IntegerRegister Rn, FPRegister Rt) {
+                                float value = Rt.getSPValue();
+                                long op1 = Rn.getValue();
+                                long address = op1 + dt_address;
+                                Memory.storeDWord(address, Float.floatToRawIntBits(value));
+                            }
+                        }));
+
+        instructionSet.add(
+                new FPDataTransferInstruction("STURD",
+                        0x7E2,
+                        "",
+                        new IFPDataTransferCode() {
+                            @Override
+                            public void simulate(long dt_address, IntegerRegister Rn, FPRegister Rt) {
+                                double value = Rt.getDPValue();
+                                long op1 = Rn.getValue();
+                                long address = op1 + dt_address;
+                                Memory.storeDWord(address, Double.doubleToRawLongBits(value));
+                            }
+                        }));
+
         //// Other Instructions ////
 
         instructionSet.add(
@@ -809,7 +1062,7 @@ public class InstructionSet {
                         "Loads a program-relative or register-relative address into a register",
                         new IDataTransferCode() {
                             @Override
-                            public void simulate(long dt_address, Register Rn, Register Rt) {
+                            public void simulate(long dt_address, IntegerRegister Rn, IntegerRegister Rt) {
                                 Rt.setValue(dt_address);
                             }
                         }));
@@ -836,7 +1089,8 @@ public class InstructionSet {
             // formatter.format("\nSize: %d / %d\n\n", instructionSet.size(), LEGv8InstrNr);
             formatter.format("%-15s %-15s %-30s %-15s\n", "Opcode", "Name", "Format", "Description");
             for (Instruction ins : sortInstructions) {
-                formatter.format("%-7s %-7s %-30s %-60s\n", Long.toHexString(ins.getOpcode()), ins.getMnemonic(), ins.getClass().getSimpleName(),
+                formatter.format("%-7s %-7s %-30s %-60s\n", Long.toHexString(ins.getOpcode()), ins.getMnemonic(),
+                        ins.getClass().getSimpleName(),
                         ins.getDescription());
             }
             return formatter.toString();

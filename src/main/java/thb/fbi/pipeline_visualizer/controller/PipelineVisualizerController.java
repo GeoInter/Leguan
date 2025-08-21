@@ -24,7 +24,7 @@ import javafx.util.Callback;
 import thb.fbi.leguan.data.ARMProgram;
 import thb.fbi.pipeline_visualizer.pipeline.MFrame;
 import thb.fbi.pipeline_visualizer.pipeline.PipelineSimulator;
-import thb.fbi.pipeline_visualizer.pipeline.TwoBitPrecitionEntry;
+import thb.fbi.pipeline_visualizer.predictor.TwoBitPrecitionEntry;
 
 public class PipelineVisualizerController {
 
@@ -41,7 +41,7 @@ public class PipelineVisualizerController {
     ChoiceBox<ControlHazardOption> controlHazardOption;
 
     @FXML
-    TableView<Map.Entry<Integer, TwoBitPrecitionEntry>> twoBitPredictorTable;
+    TableView<Map.Entry<Long, TwoBitPrecitionEntry>> twoBitPredictorTable;
     @FXML
     TableColumn<Map.Entry<Integer, TwoBitPrecitionEntry>, String> codeColumn;
     @FXML
@@ -187,8 +187,8 @@ public class PipelineVisualizerController {
      * 
      * @param table new table to be inserted
      */
-    private void updateTwoBitPredictorTable(HashMap<Integer, TwoBitPrecitionEntry> table) {
-        ObservableList<Map.Entry<Integer, TwoBitPrecitionEntry>> items = FXCollections
+    private void updateTwoBitPredictorTable(HashMap<Long, TwoBitPrecitionEntry> table) {
+        ObservableList<Map.Entry<Long, TwoBitPrecitionEntry>> items = FXCollections
                 .observableArrayList(table.entrySet());
         this.twoBitPredictorTable.setItems(items);
         this.twoBitPredictorTable.refresh();

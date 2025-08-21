@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.TreeMap;
 
 import thb.fbi.leguan.data.ARMProgram;
+import thb.fbi.pipeline_visualizer.instruction.Instruction;
+import thb.fbi.pipeline_visualizer.instruction.InstructionFactory;
 
 
 public class PipelineSimulator {
@@ -17,8 +19,8 @@ public class PipelineSimulator {
     public ArrayList<MFrame> Frames; // equals a clock cycle
     public MFrame FramesRet[];
     public MFrame Frame;
-    public int i = 0;
-    public int last = 0;
+    public long i = 0;
+    public long last = 0;
     public String[] Registers = { "X0", "X1", "X2", "X3", "X4", "X5", "X6",
             "X7", "X8", "X9", "X10", "X11", "X12", "X13", "X14",
             "X15", "X16", "X17", "X18", "X19", "X20", "X21", "X22",
@@ -44,7 +46,7 @@ public class PipelineSimulator {
     }
 
     public MFrame[] execute() {
-        TreeMap<Integer, Instruction> instructions = InstructionFactory.mapToInstruction(this.program);
+        TreeMap<Long, Instruction> instructions = InstructionFactory.mapToInstruction(this.program);
         Frames = new ArrayList<MFrame>();
         Frame = new MFrame(isForwardingEnabled, is2BitPredictorEnabled);
         // add Data Segment to Memory
@@ -68,7 +70,7 @@ public class PipelineSimulator {
             }
 
             if(debugOutput) System.out.println("clock: " + (Frames.size() + 1) + " PC: " + (i * 4));
-            i = this.Frame.insertInstruction(instruction, i);
+            i = this.Frame.executeClockCycle(instruction, i);
 
             if (i < 0) {
                 System.err.println("Negative PC returned: " + i);
@@ -108,12 +110,12 @@ public class PipelineSimulator {
         i = 0;
         this.FramesRet = new MFrame[Frames.size()];
         while (i < Frames.size()) {
-            FramesRet[i] = (MFrame) Frames.get(i);
+            FramesRet[(int) i] = (MFrame) Frames.get((int) i);
 
             if(debugOutput) {
-                if (FramesRet[i].ifIdPipeline == null)
+                if (FramesRet[(int) i].ifIdPipeline == null)
                     System.out.println("IfId null at " + i);
-                else if (FramesRet[i].ifIdPipeline.instruction == null)
+                else if (FramesRet[(int) i].ifIdPipeline.instruction == null)
                     System.out.println("IfId not null but ins null at " + i);
             }
 

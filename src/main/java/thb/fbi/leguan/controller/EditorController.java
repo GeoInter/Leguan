@@ -144,6 +144,12 @@ public class EditorController {
         this.assembleIndicator = assembleIndicator;
     }
 
+    /**
+     * Sets the line highlighting
+     * 
+     * @param position range of lines in the editor to highlight or null if nothing
+     *                 should be highlighted
+     */
     public void setLineNumber(InstructionPosition position) {
         if (position != null) {
             int totalLines = codeArea.getParagraphs().size();
@@ -151,13 +157,13 @@ public class EditorController {
                 if (i >= position.getStartingLineNumber() && i <= position.getEndingLineNumber()) {
                     codeArea.setParagraphStyle(i, List.of("highlight-code"));
                 } else {
-                    codeArea.setParagraphStyle(i, Collections.emptyList());
+                    codeArea.clearParagraphStyle(i);
                 }
             }
         } else {
             int totalLines = codeArea.getParagraphs().size();
             for (int i = 0; i < totalLines; i++) {
-                codeArea.setParagraphStyle(i, Collections.emptyList());
+                codeArea.clearParagraphStyle(i);
             }
         }
     }

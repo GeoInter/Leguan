@@ -1,8 +1,9 @@
-package thb.fbi.leguan.instructions;
+package thb.fbi.leguan.instructions.integer;
 
 import thb.fbi.leguan.data.InstructionArguments;
+import thb.fbi.leguan.instructions.Instruction;
 import thb.fbi.leguan.simulation.PCRegister;
-import thb.fbi.leguan.simulation.Register;
+import thb.fbi.leguan.simulation.IntegerRegister;
 import thb.fbi.leguan.utility.MachineCodeTranslator;
 
 /**
@@ -20,29 +21,29 @@ public class ArithmeticInstruction extends Instruction {
 
     @Override
     public void simulate(InstructionArguments argument, PCRegister pc) {
-        Register Rm = argument.getRm();
+        IntegerRegister Rm = (IntegerRegister) argument.getRm();
         int shamt = argument.getShamt();
-        Register Rn = argument.getRn();
-        Register Rd = argument.getRd();
+        IntegerRegister Rn = (IntegerRegister) argument.getRn();
+        IntegerRegister Rd = (IntegerRegister) argument.getRd();
         this.arithmeticCode.simulate(Rm, shamt, Rn, Rd);
         pc.increase();
     }
 
     /**
      * returns this instructions machine code representation with provided arguments
-     * in the form of opcode(11b), Rm(5b), shamt(6b), Rn(5b), Rd(5b)
+     * in the form of opcode(11bit), Rm(5bit), shamt(6bit), Rn(5bit), Rd(5bit)
      */
     public String getMachineCodeString(InstructionArguments args) {
         String s = "";
         s = MachineCodeTranslator.convertOpCodeToBinary(opcode, 11);
         if(args.getRm() != null) {
-            s += " " + MachineCodeTranslator.convertToMachineCode(args.getRm().getID(), 5);
+            s += " " + MachineCodeTranslator.convertToMachineCode(args.getRm().getId(), 5);
         } else {
             s += " 11111";
         }
         s += " " + MachineCodeTranslator.convertToMachineCode(args.getShamt(), 6);
-        s += " " + MachineCodeTranslator.convertToMachineCode(args.getRn().getID(), 5);
-        s += " " + MachineCodeTranslator.convertToMachineCode(args.getRd().getID(), 5);
+        s += " " + MachineCodeTranslator.convertToMachineCode(args.getRn().getId(), 5);
+        s += " " + MachineCodeTranslator.convertToMachineCode(args.getRd().getId(), 5);
         return s;
     }
 

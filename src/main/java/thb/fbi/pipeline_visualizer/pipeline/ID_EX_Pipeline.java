@@ -19,21 +19,21 @@ public class ID_EX_Pipeline implements Serializable {
     /** WriteBack stage */
     public WB  WB;
     /** PC of the next instruction */
-    public int PC;
+    public long PC;
     /** register operand index */
     public int rn;
     /** register operand value */
-    public int rnValue;
+    public long rnValue;
     /** register operand index */
     public int rt;
     /** register operand value */
-    public int rtValue;
+    public long rtValue;
     /** destination register index */
     public int rd;
     /** non-extended offset */
-    public int Offset;
+    public long Offset;
     /** extended offset (32bit) */
-    public int i32Offset;
+    public long i32Offset;
     /** opcode of the instruction */
     public short opcode;
     /** unedited line of code belonging to this instruction */

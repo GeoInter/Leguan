@@ -7,6 +7,8 @@ package thb.fbi.pipeline_visualizer.pipeline;
 
 import java.io.Serializable;
 
+import thb.fbi.pipeline_visualizer.instruction.Instruction;
+
 public class ControlUnit implements Serializable {
     /** opcode of the instruction */
     public int opcode;

@@ -75,7 +75,7 @@ public class FileManager {
 
     /**
      * opens a predefined example file (packaged in jar) and load file content into text editor
-     * @return boolean indicating if new file was succesful opened or not
+     * @param exampleFile path to the example file within the project folder (path should start with /thb/fbi/examples/)
      */
     public static void openExampleFile(String exampleFile) {
         if(! isSaved) {
@@ -156,7 +156,7 @@ public class FileManager {
             String content = Files.readString(file.toPath());
             editorController.getCodeArea().replaceText(content);
             editorController.getVirtualizedScrollPane().scrollToPixel(0, 0); // scroll to top
-            isSaved = true;
+            isSaved = true; // set isSaved after listener of codeArea has been triggered
             currentFile = file;
         } catch (IOException e) {
             showErrorAlert("Could not read file", "File could not be read. Abort loading.");

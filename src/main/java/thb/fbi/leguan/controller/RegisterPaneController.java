@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.application.Platform;
+import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -13,8 +15,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import thb.fbi.leguan.simulation.FlagRegister;
 import thb.fbi.leguan.simulation.FlagRegisterObserver;
+import thb.fbi.leguan.simulation.RegisterFile;
 import thb.fbi.leguan.simulation.Simulator;
-import thb.fbi.leguan.simulation.SimulatorSingleton;
 
 /**
  * UI Controller for the Register Sidepanel
@@ -23,78 +25,154 @@ public class RegisterPaneController implements FlagRegisterObserver {
 
     @FXML
     VBox RegisterPane;
-    @FXML 
+    @FXML
     HBox flagRegisterPane;
 
     @FXML
-    RegisterTitleBarController pcController;
+    VBox argumentRegisterBox;
     @FXML
-    RegisterTitleBarController r0Controller;
+    VBox temporaryRegisterBox;
     @FXML
-    RegisterTitleBarController r1Controller;
+    VBox savedRegisterBox;
     @FXML
-    RegisterTitleBarController r2Controller;
+    VBox otherRegisterBox;
     @FXML
-    RegisterTitleBarController r3Controller;
-    @FXML
-    RegisterTitleBarController r4Controller;
-    @FXML
-    RegisterTitleBarController r5Controller;
-    @FXML
-    RegisterTitleBarController r6Controller;
-    @FXML
-    RegisterTitleBarController r7Controller;
-    @FXML
-    RegisterTitleBarController r8Controller;
+    VBox floatingPointRegisterBox;
 
     @FXML
-    RegisterTitleBarController r9Controller;
+    IntegerRegisterController pcController;
     @FXML
-    RegisterTitleBarController r10Controller;
+    IntegerRegisterController r0Controller;
     @FXML
-    RegisterTitleBarController r11Controller;
+    IntegerRegisterController r1Controller;
     @FXML
-    RegisterTitleBarController r12Controller;
+    IntegerRegisterController r2Controller;
     @FXML
-    RegisterTitleBarController r13Controller;
+    IntegerRegisterController r3Controller;
     @FXML
-    RegisterTitleBarController r14Controller;
+    IntegerRegisterController r4Controller;
     @FXML
-    RegisterTitleBarController r15Controller;
+    IntegerRegisterController r5Controller;
     @FXML
-    RegisterTitleBarController r16Controller;
+    IntegerRegisterController r6Controller;
     @FXML
-    RegisterTitleBarController r17Controller;
+    IntegerRegisterController r7Controller;
     @FXML
-    RegisterTitleBarController r18Controller;
+    IntegerRegisterController r8Controller;
 
     @FXML
-    RegisterTitleBarController r19Controller;
+    IntegerRegisterController r9Controller;
     @FXML
-    RegisterTitleBarController r20Controller;
+    IntegerRegisterController r10Controller;
     @FXML
-    RegisterTitleBarController r21Controller;
+    IntegerRegisterController r11Controller;
     @FXML
-    RegisterTitleBarController r22Controller;
+    IntegerRegisterController r12Controller;
     @FXML
-    RegisterTitleBarController r23Controller;
+    IntegerRegisterController r13Controller;
     @FXML
-    RegisterTitleBarController r24Controller;
+    IntegerRegisterController r14Controller;
     @FXML
-    RegisterTitleBarController r25Controller;
+    IntegerRegisterController r15Controller;
     @FXML
-    RegisterTitleBarController r26Controller;
+    IntegerRegisterController r16Controller;
     @FXML
-    RegisterTitleBarController r27Controller;
+    IntegerRegisterController r17Controller;
+    @FXML
+    IntegerRegisterController r18Controller;
 
     @FXML
-    RegisterTitleBarController r28Controller;
+    IntegerRegisterController r19Controller;
     @FXML
-    RegisterTitleBarController r29Controller;
+    IntegerRegisterController r20Controller;
     @FXML
-    RegisterTitleBarController r30Controller;
+    IntegerRegisterController r21Controller;
     @FXML
-    RegisterTitleBarController r31Controller;
+    IntegerRegisterController r22Controller;
+    @FXML
+    IntegerRegisterController r23Controller;
+    @FXML
+    IntegerRegisterController r24Controller;
+    @FXML
+    IntegerRegisterController r25Controller;
+    @FXML
+    IntegerRegisterController r26Controller;
+    @FXML
+    IntegerRegisterController r27Controller;
+
+    @FXML
+    IntegerRegisterController r28Controller;
+    @FXML
+    IntegerRegisterController r29Controller;
+    @FXML
+    IntegerRegisterController r30Controller;
+    @FXML
+    IntegerRegisterController r31Controller;
+
+    @FXML
+    FPRegisterController fp0Controller;
+    @FXML
+    FPRegisterController fp1Controller;
+    @FXML
+    FPRegisterController fp2Controller;
+    @FXML
+    FPRegisterController fp3Controller;
+    @FXML
+    FPRegisterController fp4Controller;
+    @FXML
+    FPRegisterController fp5Controller;
+    @FXML
+    FPRegisterController fp6Controller;
+    @FXML
+    FPRegisterController fp7Controller;
+    @FXML
+    FPRegisterController fp8Controller;
+    @FXML
+    FPRegisterController fp9Controller;
+    @FXML
+    FPRegisterController fp10Controller;
+    @FXML
+    FPRegisterController fp11Controller;
+    @FXML
+    FPRegisterController fp12Controller;
+    @FXML
+    FPRegisterController fp13Controller;
+    @FXML
+    FPRegisterController fp14Controller;
+    @FXML
+    FPRegisterController fp15Controller;
+    @FXML
+    FPRegisterController fp16Controller;
+    @FXML
+    FPRegisterController fp17Controller;
+    @FXML
+    FPRegisterController fp18Controller;
+    @FXML
+    FPRegisterController fp19Controller;
+    @FXML
+    FPRegisterController fp20Controller;
+    @FXML
+    FPRegisterController fp21Controller;
+    @FXML
+    FPRegisterController fp22Controller;
+    @FXML
+    FPRegisterController fp23Controller;
+    @FXML
+    FPRegisterController fp24Controller;
+    @FXML
+    FPRegisterController fp25Controller;
+    @FXML
+    FPRegisterController fp26Controller;
+    @FXML
+    FPRegisterController fp27Controller;
+    @FXML
+    FPRegisterController fp28Controller;
+    @FXML
+    FPRegisterController fp29Controller;
+    @FXML
+    FPRegisterController fp30Controller;
+    @FXML
+    FPRegisterController fp31Controller;
 
     @FXML
     ToggleButton NFlagValue;
@@ -118,8 +196,15 @@ public class RegisterPaneController implements FlagRegisterObserver {
     @FXML
     CheckBox displayUnsignedCheckBox;
 
-    private Simulator simulator = SimulatorSingleton.getSimulator();
-    private List<RegisterTitleBarController> registerControllerList = new ArrayList<RegisterTitleBarController>();
+    private List<RegisterController<?>> registerControllerList = new ArrayList<RegisterController<?>>();
+
+    /**
+     * id of the last register that was highlighted in UI 
+     * (value was changed or accessed)
+     */ 
+    private int lastHighlightedRegisterId = 0;
+
+    private BooleanProperty showAllRegisters;
 
     /**
      * initializes all UI components and binds values of the register side pane
@@ -127,45 +212,10 @@ public class RegisterPaneController implements FlagRegisterObserver {
     @FXML
     public void initialize() {
 
-        BooleanProperty showAllRegisters = showUnusedRegisterCheckBox.selectedProperty();
+        showAllRegisters = showUnusedRegisterCheckBox.selectedProperty();
         BooleanProperty displayUnsigned = displayUnsignedCheckBox.selectedProperty();
 
-        pcController.setProperties(simulator.getPC(), displayUnsigned);
-        r0Controller.setProperties(simulator.getRegisters()[0], showAllRegisters, displayUnsigned);
-        r1Controller.setProperties(simulator.getRegisters()[1], showAllRegisters, displayUnsigned);
-        r2Controller.setProperties(simulator.getRegisters()[2], showAllRegisters, displayUnsigned);
-        r3Controller.setProperties(simulator.getRegisters()[3], showAllRegisters, displayUnsigned);
-        r4Controller.setProperties(simulator.getRegisters()[4], showAllRegisters, displayUnsigned);
-        r5Controller.setProperties(simulator.getRegisters()[5], showAllRegisters, displayUnsigned);
-        r6Controller.setProperties(simulator.getRegisters()[6], showAllRegisters, displayUnsigned);
-        r7Controller.setProperties(simulator.getRegisters()[7], showAllRegisters, displayUnsigned);
-        r8Controller.setProperties(simulator.getRegisters()[8], showAllRegisters, displayUnsigned);
-
-        r9Controller.setProperties(simulator.getRegisters()[9], showAllRegisters, displayUnsigned);
-        r10Controller.setProperties(simulator.getRegisters()[10], showAllRegisters, displayUnsigned);
-        r11Controller.setProperties(simulator.getRegisters()[11], showAllRegisters, displayUnsigned);
-        r12Controller.setProperties(simulator.getRegisters()[12], showAllRegisters, displayUnsigned);
-        r13Controller.setProperties(simulator.getRegisters()[13], showAllRegisters, displayUnsigned);
-        r14Controller.setProperties(simulator.getRegisters()[14], showAllRegisters, displayUnsigned);
-        r15Controller.setProperties(simulator.getRegisters()[15], showAllRegisters, displayUnsigned);
-        r16Controller.setProperties(simulator.getRegisters()[16], showAllRegisters, displayUnsigned);
-        r17Controller.setProperties(simulator.getRegisters()[17], showAllRegisters, displayUnsigned);
-        r18Controller.setProperties(simulator.getRegisters()[18], showAllRegisters, displayUnsigned);
-
-        r19Controller.setProperties(simulator.getRegisters()[19], showAllRegisters, displayUnsigned);
-        r20Controller.setProperties(simulator.getRegisters()[20], showAllRegisters, displayUnsigned);
-        r21Controller.setProperties(simulator.getRegisters()[21], showAllRegisters, displayUnsigned);
-        r22Controller.setProperties(simulator.getRegisters()[22], showAllRegisters, displayUnsigned);
-        r23Controller.setProperties(simulator.getRegisters()[23], showAllRegisters, displayUnsigned);
-        r24Controller.setProperties(simulator.getRegisters()[24], showAllRegisters, displayUnsigned);
-        r25Controller.setProperties(simulator.getRegisters()[25], showAllRegisters, displayUnsigned);
-        r26Controller.setProperties(simulator.getRegisters()[26], showAllRegisters, displayUnsigned);
-        r27Controller.setProperties(simulator.getRegisters()[27], showAllRegisters, displayUnsigned);
-
-        r28Controller.setProperties(simulator.getRegisters()[28], showAllRegisters, displayUnsigned);
-        r29Controller.setProperties(simulator.getRegisters()[29], showAllRegisters, displayUnsigned);
-        r30Controller.setProperties(simulator.getRegisters()[30], showAllRegisters, displayUnsigned);
-        r31Controller.setProperties(simulator.getRegisters()[31], showAllRegisters, displayUnsigned);
+        pcController.setProperties(RegisterFile.getPC(), displayUnsigned);
 
         registerControllerList.add(r0Controller);
         registerControllerList.add(r1Controller);
@@ -200,6 +250,64 @@ public class RegisterPaneController implements FlagRegisterObserver {
         registerControllerList.add(r30Controller);
         registerControllerList.add(r31Controller);
 
+        registerControllerList.add(fp0Controller);
+        registerControllerList.add(fp1Controller);
+        registerControllerList.add(fp2Controller);
+        registerControllerList.add(fp3Controller);
+        registerControllerList.add(fp4Controller);
+        registerControllerList.add(fp5Controller);
+        registerControllerList.add(fp6Controller);
+        registerControllerList.add(fp7Controller);
+        registerControllerList.add(fp8Controller);
+        registerControllerList.add(fp9Controller);
+        registerControllerList.add(fp10Controller);
+        registerControllerList.add(fp11Controller);
+        registerControllerList.add(fp12Controller);
+        registerControllerList.add(fp13Controller);
+        registerControllerList.add(fp14Controller);
+        registerControllerList.add(fp15Controller);
+        registerControllerList.add(fp16Controller);
+        registerControllerList.add(fp17Controller);
+        registerControllerList.add(fp18Controller);
+        registerControllerList.add(fp19Controller);
+        registerControllerList.add(fp20Controller);
+        registerControllerList.add(fp21Controller);
+        registerControllerList.add(fp22Controller);
+        registerControllerList.add(fp23Controller);
+        registerControllerList.add(fp24Controller);
+        registerControllerList.add(fp25Controller);
+        registerControllerList.add(fp26Controller);
+        registerControllerList.add(fp27Controller);
+        registerControllerList.add(fp28Controller);
+        registerControllerList.add(fp29Controller);
+        registerControllerList.add(fp30Controller);
+        registerControllerList.add(fp31Controller);
+
+        for(int i = 0; i < 64; i++) {
+            RegisterController<?> controller = registerControllerList.get(i);
+            if (i < RegisterFile.FP_START_INDEX) {
+                IntegerRegisterController integerRegisterController = (IntegerRegisterController) controller;
+                integerRegisterController.setProperties(RegisterFile.getIntegerRegister(i), showAllRegisters, displayUnsigned);
+            } else {
+                FPRegisterController fpRegisterController = (FPRegisterController) controller;
+                fpRegisterController.setProperties(RegisterFile.getFPRegister(i - RegisterFile.FP_START_INDEX), showAllRegisters, displayUnsigned);
+            }
+            
+        }
+
+        
+        initFlagRegister();
+        initRegisterBoxBindings();
+        
+
+        Simulator.setRegisterPaneController(this);
+        FlagRegister.setObserver(this);
+    }
+
+    /**
+     * Sets up flagRegisterController and adds ChangeListener
+     */
+    private void initFlagRegister() {
         CFlagValue.setText("0");
         NFlagValue.setText("0");
         VFlagValue.setText("0");
@@ -207,7 +315,7 @@ public class RegisterPaneController implements FlagRegisterObserver {
 
         CFlagValue.selectedProperty().addListener((observable, oldValue, newValue) -> {
             FlagRegister.setCFlag(newValue);
-            if(newValue) {
+            if (newValue) {
                 CFlagValue.setText("1");
             } else {
                 CFlagValue.setText("0");
@@ -215,7 +323,7 @@ public class RegisterPaneController implements FlagRegisterObserver {
         });
         NFlagValue.selectedProperty().addListener((observable, oldValue, newValue) -> {
             FlagRegister.setNFlag(newValue);
-            if(newValue) {
+            if (newValue) {
                 NFlagValue.setText("1");
             } else {
                 NFlagValue.setText("0");
@@ -223,7 +331,7 @@ public class RegisterPaneController implements FlagRegisterObserver {
         });
         VFlagValue.selectedProperty().addListener((observable, oldValue, newValue) -> {
             FlagRegister.setVFlag(newValue);
-            if(newValue) {
+            if (newValue) {
                 VFlagValue.setText("1");
             } else {
                 VFlagValue.setText("0");
@@ -231,15 +339,72 @@ public class RegisterPaneController implements FlagRegisterObserver {
         });
         ZFlagValue.selectedProperty().addListener((observable, oldValue, newValue) -> {
             FlagRegister.setZFlag(newValue);
-            if(newValue) {
+            if (newValue) {
                 ZFlagValue.setText("1");
             } else {
                 ZFlagValue.setText("0");
             }
         });
+    }
 
-        Simulator.setRegisterPaneController(this);
-        FlagRegister.setObserver(this);
+    /**
+     * Sets up the bindings for all register boxes.
+     * Binds visible and managed property for all VBoxes.
+     */
+    private void initRegisterBoxBindings() {
+        BooleanBinding argumentIsVisible = getBindings(0, 8);
+
+        argumentRegisterBox.visibleProperty()
+                .bind(argumentIsVisible);
+        argumentRegisterBox.managedProperty()
+                .bind(argumentIsVisible);
+
+
+        BooleanBinding temporaryIsVisible = getBindings(9, 18);
+
+        temporaryRegisterBox.visibleProperty()
+                .bind(temporaryIsVisible);
+        temporaryRegisterBox.managedProperty()
+                .bind(temporaryIsVisible);
+
+
+        BooleanBinding savedIsVisible = getBindings(19, 27);
+
+        savedRegisterBox.visibleProperty()
+                .bind(savedIsVisible);
+        savedRegisterBox.managedProperty()
+                .bind(savedIsVisible);
+        
+
+        BooleanBinding otherIsVisible = getBindings(28, 31);
+
+        otherRegisterBox.visibleProperty()
+                .bind(otherIsVisible);
+        otherRegisterBox.managedProperty()
+                .bind(otherIsVisible);
+
+
+        BooleanBinding floatingPointIsVisible = getBindings(32, 63);
+
+        floatingPointRegisterBox.visibleProperty()
+                .bind(floatingPointIsVisible);
+        floatingPointRegisterBox.managedProperty()
+                .bind(floatingPointIsVisible);
+    }
+
+    /**
+     * Generate Bindings based on visibe/ managed property of register controller.
+     * @param start start index
+     * @param end last index (inclusive)
+     * @return binding containing the properties of all registers in the given range
+     */
+    private BooleanBinding getBindings(int start, int end) {
+        BooleanBinding binding = new SimpleBooleanProperty(true).not();
+        binding = binding.or(showAllRegisters);
+        for (int i = start; i < end; i++) {
+            binding = binding.or(registerControllerList.get(i).getIsVisible());
+        }
+        return binding;
     }
 
     @Override
@@ -290,12 +455,10 @@ public class RegisterPaneController implements FlagRegisterObserver {
      */
     public void updateRegisterHighlighting(int index) {
         Platform.runLater(() -> {
-            for (int i = 0; i < registerControllerList.size(); i++) {
-                if (i == index) {
-                    registerControllerList.get(i).registerValue.setId("highlight-value");
-                } else {
-                    registerControllerList.get(i).registerValue.setId(null);
-                }
+            registerControllerList.get(lastHighlightedRegisterId).clearHighlighting();
+            if (index >= 0) {
+                lastHighlightedRegisterId = index;
+                registerControllerList.get(index).setHighlighting();
             }
         });
     }
@@ -304,13 +467,11 @@ public class RegisterPaneController implements FlagRegisterObserver {
      * undo highlighting for all registers
      */
     public void clearRegisterHighlighting() {
-        for (RegisterTitleBarController controller : registerControllerList) {
-            controller.clearHighlighting();
-        }
-    }
-
-    public Simulator getSimulator() {
-        return simulator;
+        Platform.runLater(() -> {
+            for (RegisterController<?> controller : registerControllerList) {
+                controller.clearHighlighting();
+            }
+        });
     }
 
 }

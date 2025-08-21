@@ -20,62 +20,76 @@ dataSegmentValue: num | ascii;
 
 // code segment
 line : jumpLabelDeclaration? (arithmeticInstruction arithmeticParam | 
+                    fp_arithmeticInstruction fp_arithmeticParam |
                     shiftInstruction shiftParam | 
                     immediateInstruction immediateParam | 
                     wideImmediateInstruction wideImmediateParam |
                     datatransferInstruction datatransferParam | 
+                    fp_datatransferInstruction fp_datatransferParam | 
                     exclusiveInstruction exclusiveParam |
                     condBranchInstruction condBranchParam | 
                     b_cond_Instruction b_cond_Param |
                     branchInstruction branchParam |
                     branchByRegisterInstruction branchByRegisterParam |
-                    dataSegmentInstruction dataSegmentParam);
+                    dataSegmentInstruction dataSegmentParam | 
+                    fp_compareInstruction fp_compareParam
+                    );
 
 jumpLabelDeclaration: PointerDeclaration ;
 jumpLabelReference: PointerReference ;
 dataSegmentLabelReference: PointerReference ;
 
 arithmeticInstruction : ArithmeticInstruction;
+fp_arithmeticInstruction: FP_ArithemticInstruction;
 shiftInstruction: ShiftInstruction;
 immediateInstruction : ImmediateInstruction;
 wideImmediateInstruction : WideImmediateInstrcution;
 datatransferInstruction : DatatransferInstruction;
+fp_datatransferInstruction : FP_DatatransferInstruction;
 exclusiveInstruction : ExclusiveInstruction;
 condBranchInstruction : CondBranchInstruction;
 b_cond_Instruction : B_cond_Instruction;
 branchInstruction : BranchInstruction;
 branchByRegisterInstruction : BranchByRegisterInstruction;
 dataSegmentInstruction: DataSegmentInstruction;
+fp_compareInstruction : FP_CompareInstruction;
 
-arithmeticParam : register COMMA register COMMA register ;
-shiftParam : register COMMA register COMMA num ; // separated from arithemtic
-immediateParam : register COMMA register COMMA num ;
-wideImmediateParam : register COMMA num COMMA ShiftInstruction num ;
-datatransferParam : register COMMA SQUARE_BRACKET_LEFT register COMMA num SQUARE_BRACKET_RIGHT ;
-exclusiveParam : register COMMA register SQUARE_BRACKET_LEFT register SQUARE_BRACKET_RIGHT ;
-condBranchParam : register COMMA jumpLabelReference ;
+arithmeticParam : integer_register COMMA integer_register COMMA integer_register ;
+fp_arithmeticParam: fp_register COMMA fp_register COMMA fp_register ;
+shiftParam : integer_register COMMA integer_register COMMA num ; // separated from arithemtic
+immediateParam : integer_register COMMA integer_register COMMA num ;
+wideImmediateParam : integer_register COMMA num COMMA ShiftInstruction num ;
+datatransferParam : integer_register COMMA SQUARE_BRACKET_LEFT integer_register COMMA num SQUARE_BRACKET_RIGHT ;
+fp_datatransferParam : fp_register COMMA SQUARE_BRACKET_LEFT integer_register COMMA num SQUARE_BRACKET_RIGHT ;
+exclusiveParam : integer_register COMMA integer_register SQUARE_BRACKET_LEFT integer_register SQUARE_BRACKET_RIGHT ;
+condBranchParam : integer_register COMMA jumpLabelReference ;
 b_cond_Param: jumpLabelReference ;
 branchParam : jumpLabelReference ;
-branchByRegisterParam : register ;
-dataSegmentParam : register COMMA EQUALS_SIGN dataSegmentLabelReference ;
+branchByRegisterParam : integer_register ;
+dataSegmentParam : integer_register COMMA EQUALS_SIGN dataSegmentLabelReference ;
+fp_compareParam : fp_register COMMA fp_register ;
 
 num: NUMBER ;
-register : REGISTER ;
+integer_register: INTEGER_REGISTER ;
+fp_register : FP_REGISTER ;
 ascii: ASCII_String ;
 
 
 // ** Tokens **
 ArithmeticInstruction: 'ADD' | 'ADDS' | 'AND' | 'ANDS' | 'EOR' | 'ORR' | 'MUL' | 'SDIV' | 'SMULH' | 'SUB' | 'SUBS' | 'UDIV' | 'UMULH';
+FP_ArithemticInstruction: 'FADDS' | 'FADDD' | 'FDIVS' | 'FDIVD' | 'FMULS' | 'FMULD' | 'FSUBS' | 'FSUBD';
 ShiftInstruction: 'LSL' | 'LSR' ;
 ImmediateInstruction : 'ADDI' | 'ADDIS' | 'ANDI' | 'ANDIS' | 'EORI' | 'ORRI' | 'SUBI' | 'SUBIS';
 WideImmediateInstrcution : 'MOVK' | 'MOVZ';
 DatatransferInstruction : 'LDUR' | 'LDURB' | 'LDURH' | 'LDURSW' | 'LDXR' | 'STUR' | 'STURB' | 'STURH' | 'STURW';
+FP_DatatransferInstruction: 'LDURS' | 'LDURD' | 'STURS' | 'STURD' ;
 ExclusiveInstruction : 'STXR';
 CondBranchInstruction : 'CBNZ' | 'CBZ' ;
 B_cond_Instruction: 'B.EQ' | 'B.NE' | 'B.LT' | 'B.LE' | 'B.GT' | 'B.GE' | 'B.MI' | 'B.PL' | 'B.VS' | 'B.VC';
 BranchInstruction : 'B' | 'BL' ;
 BranchByRegisterInstruction : 'BR';
 DataSegmentInstruction : 'LDR' ;
+FP_CompareInstruction : 'FCMPS' | 'FCMPD' ;
 
 
 // skipped Tokens
@@ -91,7 +105,8 @@ SQUARE_BRACKET_LEFT : '[';
 SQUARE_BRACKET_RIGHT: ']';
 
 // Token for regsiter and number parameter
-REGISTER : SP | FP | LR | XZR | 'X0' | 'X'[1-9][0-9]? ; // manual check required for range
+INTEGER_REGISTER : SP | FP | LR | XZR | 'X0' | 'X'[1-9][0-9]? ; // manual check required for range
+FP_REGISTER : 'S0' | 'D0' | 'S'[1-9][0-9]? | 'D'[1-9][0-9]? ; // manual check required for range
 NUMBER : '0' | '-'? [1-9][0-9]* | '0x' [1-9a-fA-F][0-9a-fA-F]*;
 
 SP: 'SP' ;

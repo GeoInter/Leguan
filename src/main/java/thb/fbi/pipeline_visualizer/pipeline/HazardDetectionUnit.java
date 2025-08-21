@@ -27,7 +27,7 @@ public class HazardDetectionUnit implements Serializable {
     /** indictaes wheter instruction can branch to an address */
     public boolean branch;
     /** address to branch to */
-    public int branchAddress;
+    public long branchAddress;
 
     HazardDetectionUnit() {
         idExRegWrite = false;
