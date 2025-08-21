@@ -247,6 +247,11 @@ public class Simulator {
         return isCodeChanged;
     }
 
+    public void removeArmProgram() {
+        this.program = new ARMProgram();
+        this.isCodeParsed.set(false);
+    }
+
     public static void setRegisterPaneController(RegisterPaneController registerPaneController) {
         Simulator.registerPaneController = registerPaneController;
     }

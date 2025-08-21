@@ -245,9 +245,6 @@ public class SimulatorController {
         editorController.setLineNumber(position);
     }
 
-    // run clear line
-    // get instr, check for null, return lineNumber
-
     @FXML
     private void stepBackward() {
         System.out.println("step backward");
@@ -261,6 +258,8 @@ public class SimulatorController {
     @FXML
     private void openFile() {
         if (FileManager.openFile()) {
+            stepForwardButton.setDisable(true);
+            simulator.removeArmProgram();
             reset();
         }
     }

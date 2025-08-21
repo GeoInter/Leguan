@@ -156,7 +156,7 @@ public class FileManager {
             String content = Files.readString(file.toPath());
             editorController.getCodeArea().replaceText(content);
             editorController.getVirtualizedScrollPane().scrollToPixel(0, 0); // scroll to top
-            isSaved = true;
+            isSaved = true; // set isSaved after listener of codeArea has been triggered
             currentFile = file;
         } catch (IOException e) {
             showErrorAlert("Could not read file", "File could not be read. Abort loading.");
