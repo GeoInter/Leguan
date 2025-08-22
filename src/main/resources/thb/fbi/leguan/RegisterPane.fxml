@@ -81,13 +81,13 @@
       </HBox>
    </bottom>
    <center>
-      <ScrollPane id="register-scrollpane" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" pannable="true" vbarPolicy="ALWAYS" BorderPane.alignment="CENTER">
+      <ScrollPane id="register-scrollpane" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" pannable="true" BorderPane.alignment="CENTER">
          <content>
             <VBox id="register-vbox" spacing="12.0">
                <children>
                   <VBox prefWidth="100.0" styleClass="register-container">
                      <children>
-                        <fx:include fx:id="pc" source="RegisterTitleBar.fxml" />
+                        <fx:include fx:id="pc" source="IntegerRegister.fxml" />
                      </children>
                      <VBox.margin>
                         <Insets />
@@ -109,15 +109,15 @@
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <fx:include fx:id="r0" source="RegisterTitleBar.fxml" />
-                        <fx:include fx:id="r1" source="RegisterTitleBar.fxml" />
-                        <fx:include fx:id="r2" source="RegisterTitleBar.fxml" />
-                        <fx:include fx:id="r3" source="RegisterTitleBar.fxml" />
-                        <fx:include fx:id="r4" source="RegisterTitleBar.fxml" />
-                        <fx:include fx:id="r5" source="RegisterTitleBar.fxml" />
-                        <fx:include fx:id="r6" source="RegisterTitleBar.fxml" />
-                        <fx:include fx:id="r7" source="RegisterTitleBar.fxml" />
-                        <fx:include fx:id="r8" source="RegisterTitleBar.fxml" />
+                        <fx:include fx:id="r0" source="IntegerRegister.fxml" />
+                        <fx:include fx:id="r1" source="IntegerRegister.fxml" />
+                        <fx:include fx:id="r2" source="IntegerRegister.fxml" />
+                        <fx:include fx:id="r3" source="IntegerRegister.fxml" />
+                        <fx:include fx:id="r4" source="IntegerRegister.fxml" />
+                        <fx:include fx:id="r5" source="IntegerRegister.fxml" />
+                        <fx:include fx:id="r6" source="IntegerRegister.fxml" />
+                        <fx:include fx:id="r7" source="IntegerRegister.fxml" />
+                        <fx:include fx:id="r8" source="IntegerRegister.fxml" />
                      </children>
                      <VBox.margin>
                         <Insets />
@@ -139,16 +139,16 @@
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <fx:include fx:id="r9" source="RegisterTitleBar.fxml" />
-                        <fx:include fx:id="r10" source="RegisterTitleBar.fxml" />
-                        <fx:include fx:id="r11" source="RegisterTitleBar.fxml" />
-                        <fx:include fx:id="r12" source="RegisterTitleBar.fxml" />
-                        <fx:include fx:id="r13" source="RegisterTitleBar.fxml" />
-                        <fx:include fx:id="r14" source="RegisterTitleBar.fxml" />
-                        <fx:include fx:id="r15" source="RegisterTitleBar.fxml" />
-                        <fx:include fx:id="r16" source="RegisterTitleBar.fxml" />
-                        <fx:include fx:id="r17" source="RegisterTitleBar.fxml" />
-                        <fx:include fx:id="r18" source="RegisterTitleBar.fxml" />
+                        <fx:include fx:id="r9" source="IntegerRegister.fxml" />
+                        <fx:include fx:id="r10" source="IntegerRegister.fxml" />
+                        <fx:include fx:id="r11" source="IntegerRegister.fxml" />
+                        <fx:include fx:id="r12" source="IntegerRegister.fxml" />
+                        <fx:include fx:id="r13" source="IntegerRegister.fxml" />
+                        <fx:include fx:id="r14" source="IntegerRegister.fxml" />
+                        <fx:include fx:id="r15" source="IntegerRegister.fxml" />
+                        <fx:include fx:id="r16" source="IntegerRegister.fxml" />
+                        <fx:include fx:id="r17" source="IntegerRegister.fxml" />
+                        <fx:include fx:id="r18" source="IntegerRegister.fxml" />
                      </children>
                      <VBox.margin>
                         <Insets />
@@ -170,15 +170,15 @@
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <fx:include fx:id="r19" source="RegisterTitleBar.fxml" />
-                        <fx:include fx:id="r20" source="RegisterTitleBar.fxml" />
-                        <fx:include fx:id="r21" source="RegisterTitleBar.fxml" />
-                        <fx:include fx:id="r22" source="RegisterTitleBar.fxml" />
-                        <fx:include fx:id="r23" source="RegisterTitleBar.fxml" />
-                        <fx:include fx:id="r24" source="RegisterTitleBar.fxml" />
-                        <fx:include fx:id="r25" source="RegisterTitleBar.fxml" />
-                        <fx:include fx:id="r26" source="RegisterTitleBar.fxml" />
-                        <fx:include fx:id="r27" source="RegisterTitleBar.fxml" />
+                        <fx:include fx:id="r19" source="IntegerRegister.fxml" />
+                        <fx:include fx:id="r20" source="IntegerRegister.fxml" />
+                        <fx:include fx:id="r21" source="IntegerRegister.fxml" />
+                        <fx:include fx:id="r22" source="IntegerRegister.fxml" />
+                        <fx:include fx:id="r23" source="IntegerRegister.fxml" />
+                        <fx:include fx:id="r24" source="IntegerRegister.fxml" />
+                        <fx:include fx:id="r25" source="IntegerRegister.fxml" />
+                        <fx:include fx:id="r26" source="IntegerRegister.fxml" />
+                        <fx:include fx:id="r27" source="IntegerRegister.fxml" />
                      </children>
                      <VBox.margin>
                         <Insets />
@@ -200,10 +200,10 @@
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <fx:include fx:id="r28" source="RegisterTitleBar.fxml" />
-                        <fx:include fx:id="r29" source="RegisterTitleBar.fxml" />
-                        <fx:include fx:id="r30" source="RegisterTitleBar.fxml" />
-                        <fx:include fx:id="r31" source="RegisterTitleBar.fxml" />
+                        <fx:include fx:id="r28" source="IntegerRegister.fxml" />
+                        <fx:include fx:id="r29" source="IntegerRegister.fxml" />
+                        <fx:include fx:id="r30" source="IntegerRegister.fxml" />
+                        <fx:include fx:id="r31" source="IntegerRegister.fxml" />
                      </children>
                      <VBox.margin>
                         <Insets />
